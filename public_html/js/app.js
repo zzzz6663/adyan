@@ -2060,7 +2060,99 @@ module.exports = {
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
+window.onload = function () {
+  if (window.jQuery) {
+    var element = document.getElementById("avatarinp");
+
+    if (element) {
+      element.onchange = function (evt) {
+        var _element$files = _slicedToArray(element.files, 1),
+            file = _element$files[0];
+
+        if (file) {
+          // $('#avatar').css("background-image", "url('')") = URL.createObjectURL(file)
+          var url = URL.createObjectURL(file);
+          console.log(url);
+          $('#avatar').css("background-image", 'url(' + url + ')');
+        }
+      };
+    }
+
+    if ($('.select2').length) {
+      $('.select2').select2();
+    }
+
+    $('body').on('click', '.show', function () {
+      $(this).closest('.par').find('.inp').removeClass('hide');
+      $(this).hide(400);
+    });
+    $('body').on('change', '#ostad', function () {
+      var el = $(this);
+
+      if (el.val() == 9999999999) {
+        $('#ostad_port').show(400);
+        console.log(0);
+      } else {
+        $('#ostad_port').hide(400);
+        console.log(2);
+      }
+    });
+    $('body').on('click', '#add_ex', function () {
+      var val = $('#ex_p').val();
+      val = val.replace(/\s/g, '');
+
+      if (val.length < 3) {
+        noty('حداقل سه کاراکتر وارد نمایید');
+        return;
+      }
+
+      var el = "\n            <span type=\"button\" class=\"btn self btn-outline-success mr-2\">\n            ".concat(val, "\n            <input type=\"text\" name=\"expert[]\" hidden=\"\" value=\"").concat(val, "\">\n             </span>\n            ");
+      $('#tags').append(el);
+      $('#ex_p').val('');
+    });
+    ;
+    $('body').on('click', '#add_ex1', function () {
+      var val = $('#ex_p').val();
+      val = val.replace(/\s/g, '');
+
+      if (val.length < 3) {
+        noty('حداقل سه کاراکتر وارد نمایید');
+        return;
+      }
+
+      var el = "\n            <span type=\"button\" class=\"btn self btn-outline-success mr-2\">\n            ".concat(val, "\n            <input type=\"text\" name=\"tags[]\" hidden=\"\" value=\"").concat(val, "\">\n             </span>\n            ");
+      $('#tags').append(el);
+      $('#ex_p').val('');
+    });
+    ;
+    $('body').on('click', '.self', function () {
+      var ele = $(this);
+      ele.hide(400);
+      ele.remove();
+    });
+    ;
+  } else {
+    // jQuery is not loaded
+    alert("Doesn't Work");
+  }
+}; // $(document).ready(function(){
+//     if (jQuery) {
+//     }
+//   });
 
 /***/ }),
 
@@ -19649,7 +19741,7 @@ module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBun
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
-/******/ 			"scss/app": 0
+/******/ 			"css/app": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
@@ -19699,8 +19791,8 @@ module.exports = JSON.parse('{"_from":"axios@^0.21","_id":"axios@0.21.4","_inBun
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["scss/app"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["scss/app"], () => (__webpack_require__("./resources/scss/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/scss/app.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

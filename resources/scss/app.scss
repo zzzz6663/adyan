@@ -1,3 +1,30 @@
-.s{
-    color: red;
+div.er{
+    padding: 14px;
+    box-sizing: border-box;
+    width: 400px;
+    margin: 0 auto;
+    background: rgb(255, 205, 205);
+    *{
+        color: red;
+        font-size: 14px;
+
+    }
+}
+.hide{
+    display: none;
+}
+.select2-selection__rendered{
+    padding: 0!important;
+    line-height: 12px!important;
+}
+table.datatable-table{
+    display: table!important;
+    tbody,thead{
+        display: table-row-group!important;;
+    }
+
+
+    tr{
+        display: table-row!important;
+    }
 }
