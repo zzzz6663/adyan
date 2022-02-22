@@ -56,7 +56,7 @@
         <link href="/assets/plugins/global/plugins.bundle.rtl.css?v=7.0.6" rel="stylesheet" type="text/css"/>
         <link href="/assets/plugins/custom/prismjs/prismjs.bundle.rtl.css?v=7.0.6" rel="stylesheet" type="text/css"/>
 
-
+        <link rel="stylesheet" href="/css/persian-datepicker.css">
 
         <link rel="shortcut icon" href="/assets/media/logos/favicon.ico"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
@@ -217,7 +217,7 @@
 <script src="/assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.6"></script>
 <script src="/assets/js/scripts.bundle.js?v=7.0.6"></script>
 <!--end::Global تم Bundle-->
-
+<script src="/assets/js/pages/custom/login/login-general.js?v=7.0.6"></script>
 {{--  <!--begin::Page Vendors(used by this page)-->
 <script src="/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js?v=7.0.6"></script>
 <!--end::Page Vendors-->  --}}
@@ -229,11 +229,17 @@
 
 {{--  <script src="assets/js/pages/custom/login/login-general.js?v=7.0.6"></script>  --}}
 {{--  <scridpt type="text/javascript" src="/js/jquery-2.2.0.min.js"></scridpt>  --}}
+
+
+<script type="text/javascript" src="/js/persian-date.min.js"></script>
+<script type="text/javascript" src="/js/persian-datepicker.min.js"></script>
 <script type="text/javascript" src="/js/select2.full.min.js"></script>
 <script type="text/javascript" src="/js/iziToast.min.js"></script>
 <script type="text/javascript" src="/js/croppie.js"></script>
 <script type="text/javascript" src="/js/fun.js"></script>
 <script type="text/javascript" src="/js/app.js"></script>
+
+
 <script type="text/javascript" src="/home/js/jquery-2.2.0.min.js"></script>
 <script type="text/javascript" src="/home/js/persianDatepicker.min.js"></script>
 <script type="text/javascript" src="/home/js/persian-date.min.js"></script>

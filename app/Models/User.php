@@ -47,6 +47,9 @@ class User extends Authenticatable
         'complete',// کامل شدن ثبت نام
     ];
 
+    // register ثبت نام
+    // verify تایید حساب
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -71,6 +74,12 @@ class User extends Authenticatable
     }
     public function curt(){
         return $this->hasOne(Curt::class)->whereType('primary')->get();
+    }
+    public function operator_curts(){
+        return $this->hasMany(Curt::class,'operator_id');
+    }
+    public function curts(){
+        return $this->hasMany(Curt::class);
     }
     public function groups()
     {
@@ -104,6 +113,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Duty::class,'operator_id');
     }
+    public function session()
+    {
+        return $this->hasOne(Session::class);
+    }
+    public function sessions()
+    {
+        return $this->belongsToMany(Sessions::class);
+    }
 
     public function  avatar(){
         if($this->avatar){
@@ -116,31 +133,48 @@ class User extends Authenticatable
 
 
 //ثبت لاگ برای بعضی از کاربران
-    public function save_duty($type,$levels ,$add=false ,$operator=null)
+    public function save_duty($type,$levels ,$add=false ,$operator=null ,$curt=null)
     {
         $users_for_duty=User::whereIn('level',$levels)->get()->pluck('id')->toArray();
         $duty= Duty::create([
              'user_id'=> $this->id,
              'type'=> $type,
-             'operator'=> $operator,
+             'operator_id'=> $operator,
+             'curt_id'=> $curt,
         ]);
         if($add){
             $users_for_duty[]=$this->id;
            }
+
+           if(in_array('group',$levels)){
+            $curt= Curt::find($curt);
+
+            $admin_group=$curt->group->admin();
+             $users_for_duty[]= $admin_group->id;
+            }
         $duty->users()->attach($users_for_duty);
     }
     //ثبت وظیفه برای بعضی از کاربران
-    public function  save_log($type,$levels ,$add=false,$operator=null)
+    public function  save_log($type,$levels ,$add=false,$operator=null,$curt=null)
     {
+        // if(in_array('group',$levels)){
+        //     dd(  $user->curt()->master());
+        //    }
         $users_for_log=User::whereIn('level',$levels)->get()->pluck('id')->toArray();
         $log= Log::create([
             'user_id'=> $this->id,
             'type'=> $type,
-            'operator'=> $operator,
+            'operator_id'=> $operator,
+            'curt_id'=> $curt,
        ]);
 
        if($add){
         $users_for_log[]=$this->id;
+       }
+       if(in_array('group',$levels)){
+       $curt= Curt::find($curt);
+       $admin_group=$curt->group->admin();
+        $users_for_log[]= $admin_group->id;
        }
 
        $log->users()->attach($users_for_log);

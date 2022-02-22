@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Curt;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CurtController extends Controller
@@ -30,6 +31,12 @@ class CurtController extends Controller
      */
     public function create()
     {
+        $user=auth()->user();
+        if($user->curt()->count()>0){
+            alert()->error('شما قبلا طرح اجمالی  خود را تعریف کرده اید ');
+            return back();
+        }
+
         return view('curt.create');
     }
 
@@ -50,16 +57,23 @@ class CurtController extends Controller
             'necessity' => 'required',
             'innovation' => 'required',
             'ostad_id' => 'nullable',
-            // 'ostad' => 'required_if:ostad_id,=,0',
+            // 'ostad' => 'required_if:ostad_id,=,new',
+            // 'ostad' => 'required_if:ostad_id,=,new',
+            // 'resume' => 'required_if:ostad_id,=,new',
             'ostad' => 'nullable',
-            'resume' => 'nullable',
+            // 'resume' => 'required_if:ostad,!=,null',
+            'resume' => 'required_with:ostad',
+            // 'resume' => 'required_without:ostad|nullable'
 
         ]);
+
         $user=auth()->user();
 
         $data['tags']=implode('_',$data['tags']);
-        $data['ostad_id']=implode('_',$data['ostad_id']);
-        $data['status']='progress';
+        if( isset($data['ostad_id'])){
+            $data['ostad_id']=implode('_',$data['ostad_id']);
+        }
+        $data['status']='review_curt_by_expert';
         $data['user_id']=$user->id;
         $data['type']='primary';
         $data['side']='0';
@@ -79,6 +93,16 @@ class CurtController extends Controller
         ]);
 
 
+        // ثبت لاگ
+        $duty=$user->duties()->whereType('submit_curt')->first();
+        if($duty){
+            $duty->update([
+                'time'=>Carbon::now(),
+                'operator_id'=> $user->id
+            ]);
+        }
+        $user->save_log('submit_curt', ['expert'], true ,auth()->user()->id,$curt->id);
+        $user->save_duty('verify_curt', ['expert'],false,null,$curt->id);
 
 
         alert()->success('طرح با موفقیت ثبت شد ');
@@ -104,8 +128,16 @@ class CurtController extends Controller
      */
     public function edit(Curt $curt)
     {
-
-        return view('curt.edit' ,compact(['curt']));
+        if($curt->status=='accept'){
+            alert()->success('طرح شما قبلا تایید شده است ');
+            return back();
+        }
+        if(!$curt->group_id){
+            alert()->error('هنوز مدیر گروه انتخاب نشده است ');
+            return back();
+        }
+        $all_curts=$curt->user->curts()->whereType('secondary')->latest()->get();
+        return view('curt.edit' ,compact(['curt','all_curts']));
     }
 
     /**
@@ -115,9 +147,49 @@ class CurtController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Curt $curt)
     {
-        //
+        $user=auth()->user();
+
+
+       if(!$curt->side){
+           alert()->error('طرح شما در دست بررسی می باشد ');
+           return back();
+       }
+
+        $data = $request->validate([
+            'title' => 'required',
+            'tags' => 'required',
+            'problem' => 'required',
+            'question' => 'required',
+            'necessity' => 'required',
+            'innovation' => 'required',
+        ]);
+
+        $data['tags']=implode('_',$data['tags']);
+
+        $data['status']='review_curt_by_master';
+        $data['user_id']=$user->id;
+        $data['type']='primary';
+        $data['side']='0';
+        $curt ->update($data);
+
+
+        // ثبت لاگ
+        $duty=$user->duties()->whereType('edit_curt_by_student')->latest()->first();
+        if($duty){
+            $duty->update([
+                'time'=>Carbon::now(),
+            ]);
+        }
+
+        $user->save_log('review_curt_by_master', ['group','expert','admin'], true ,auth()->user()->id,$curt->id);
+        $user->save_duty('review_curt_by_master', ['group'],false,null,$curt->id);
+
+
+
+        alert()->success('اطلاعات با موفقیت ثبت شد ');
+        return redirect()->route('user.note');
     }
 
     /**

@@ -260,8 +260,7 @@
                                             href="{{route('agent.edit',$user->id)}}">ویرایش</a>
                                         @endif
                                         @if ($user->level=='student' &&$user->verify==0)
-                                        <a class="btn btn-outline-success"
-                                            href="{{route('admin.verify.student',$user->id)}}">اکتیو</a>
+                                        {{-- <a class="btn btn-outline-success" href="{{route('admin.verify.student',$user->id)}}">اکتیو</a> --}}
                                         @endif
                                     </td>
                                 </tr>

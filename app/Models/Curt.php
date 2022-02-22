@@ -12,7 +12,8 @@ class Curt extends Model
       // طرح اجمالی
     protected $fillable=[
         'user_id', // کلید دانشجو
-        'editor_id', //  کسی ویرایش بر روی طرح میزند
+        'operator_id', //  کسی ویرایش بر روی طرح میزند
+        'group_id', //  کسی ویرایش بر روی طرح میزند
         'master_id', // کلید  استاد که تویط مدیر گروه  انتخاب میشود
         'ostad_id', //کلید استاد که دانشجو از لیست انتخاب میکند
         'type', //نوع طرح که اصلی و فرعی است   اصلی برای دانشجو که ثبت میکند و فرعی برای استاد که تغغیر در خواست میکند
@@ -31,9 +32,35 @@ class Curt extends Model
     {
         return $this->belongsTo(User::class);
     }
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
+    }
     public function master()
     {
-        return $this->belongsTo(User::class,'master_id');
+        return $this->belongsTo(User::class,'master_id')->first();
+    }
+    public function operator_curts()
+    {
+        return $this->belongsTo(User::class,'operator_id')->first();
     }
 
+    public function duties()
+    {
+        return $this->hasMany(Curt::class);
+    }
+    public function sessions()
+    {
+        return $this->belongsToMany(Session::class);
+    }
+    public function ostad()
+    {
+        return $this->belongsTo(User::class,'ostad_id')->first();
+    }
+    public function  resume(){
+        if($this->resume){
+            return  asset('/media/curt/'.$this->resume);
+        }
+        return false;
+    }
 }

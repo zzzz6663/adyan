@@ -14,7 +14,7 @@
                         data-wizard-clickable="false">
 
                         @include('sections.error')
-                 
+
 
                         <form class="form" action="{{route('curt.store')}}" id="kt_form"
                             method="post" enctype="multipart/form-data">
@@ -98,14 +98,15 @@
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>استاد پیشنهادی
 
-
+                                                        <span id="new_ostad" class="btn btn-info font-weight-bolder font-size-sm mr-3">استاد جدید</span>
                                                 </label>
                                                 <select name="ostad_id[]"  id="ostad" multiple class="form-control  select2">
                                                     <option value="">یک مورد  را  انتخاب کنید </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{in_array($master->id ,old('ostad_id',[]))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
-                                                    <option {{in_array(9999999999 ,old('ostad_id',[]))?'selected':''}} value="9999999999">استاد جدید</option>
+                                                    {{--  <option {{in_array('new' ,old('ostad_id',[]))?'selected':''}} value="new">استاد جدید</option>  --}}
+
                                                 </select>
 
                                                 <div class="fv-plugins-message-container"></div>
@@ -114,7 +115,7 @@
 
 
                                     </div>
-                                    <div class="row {{(in_array('9999999999',old('ostad_id',[]))&& sizeof(old('ostad_id',[]))==1)?'':'hide'}}"  id="ostad_port"  >
+                                    <div class="row {{(old('ostad'))?'':'hide'}}"  id="ostad_port"  >
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">

@@ -15,6 +15,7 @@ class Duty extends Model
         'info',//اطلاعات اضافه
         'down_id',//ای دی انجام دهنده
         'time',//زمان انجام
+        'curt_id',//  ای دی طرح اجمالی
     ];
 
     public function users()
@@ -23,10 +24,18 @@ class Duty extends Model
     }
     public function student()
     {
-        return $this->belongsTo(User::class,'user_id');
+        return $this->belongsTo(User::class,'user_id')->first();
+    }
+    public function down()
+    {
+        return $this->belongsTo(User::class,'down_id')->first();
     }
     public function operator()
     {
-        return $this->belongsTo(User::class,'operator_id');
+        return $this->belongsTo(User::class,'operator_id')->first();
+    }
+    public function curt()
+    {
+        return $this->belongsTo(Curt::class);
     }
 }

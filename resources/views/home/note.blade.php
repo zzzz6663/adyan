@@ -11,9 +11,15 @@
                 <div class="row">
                     <div class="col-xl-6">
                         <!--begin::Card-->
+
+
                         <div class="card card-custom card-stretch" id="kt_todo_list">
 
-
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h3 class="card-label"> اخرین تسک ها </h3>
+                                </div>
+                            </div>
                             <!--begin::Body-->
                             <div class="card-body p-0">
                                 <!--begin::Responsive container-->
@@ -27,13 +33,99 @@
                                             <div class="flex-grow-1 mt-1 mr-2" data-toggle="view">
                                                 <!--begin::Title-->
                                                 <div class="font-weight-bolder mr-2">
-                                                        @switch( $duty->type)
-                                                            @case('register')
-                                                            دانشجو
-                                                                @break
-                                                            @default
+                                                    @switch( $duty->type)
 
-                                                        @endswitch
+                                                    @case('register')
+                                                    @role('expert')
+                                                    تایید ثبت نام دانشجو
+                                                    {{$duty->student()->name}}
+                                                    {{$duty->student()->family}}
+                                                    @endrole
+                                                    @break
+
+                                                    @case('submit_curt')
+                                                    @role('student')
+                                                    ثبت  طرح اجمالی اجمالی
+
+                                                    @endrole
+                                                    @break
+
+                                                    @case('verify_curt')
+                                                    @role('expert|master')
+                                                    بررسی  طرح اجمالی اجمالی
+                                                    دانشجو
+                                                    {{$duty->curt->user->name}}
+                                                    {{$duty->curt->user->family}}
+
+                                                    @endrole
+                                                    @break
+
+
+
+
+                                                    @case('edit_curt_by_student')
+                                                    @role('student')
+                                                ویرایش  طرح اجمالی اجمالی  به خواسته
+                                                کارشناس
+                                                {{$duty->operator()->name}}
+                                                {{$duty->operator()->family}}
+                                                    @endrole
+                                                    @break
+
+
+                                                    @case('save_curt_group_by_expert')
+                                                    @role('master')
+                                                    کارشناس
+                                                    {{$duty->operator()->name}}
+                                                    {{$duty->operator()->family}}
+                                                     طرح اجمالی را به گروه
+                                                {{$duty->curt->group->name}}
+                                                ارجاع داد
+                                                    @endrole
+                                                    @break
+
+
+
+                                                    {{-- @case('save_curt_group_by_expert')
+                                                    @role('master')
+                                                    کارشناس
+                                                    {{$duty->operator()->name}}
+                                                    {{$duty->operator()->family}}
+                                                     طرح اجمالی را به گروه
+                                                {{$duty->curt->group->name}}
+                                                ارجاع داد
+                                                    @endrole
+                                                    @break --}}
+
+
+
+                                                    @case('review_curt_by_master')
+                                                    @role('master')
+                                                  اصلاح  طرح اجمالی توسط دانشجو
+                                                  {{$duty->student()->name}}
+                                                  {{$duty->student()->family}}
+                                                    @endrole
+                                                    @break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                                    @default
+
+
+                                                    @endswitch
 
 
                                                 </div>
@@ -45,8 +137,118 @@
                                             <div class="d-flex align-items-center justify-content-end flex-wrap"
                                                 data-toggle="view">
                                                 <!--begin::تاریخtime-->
-                                                <div class="font-weight-bolder" data-toggle="view">
-                                                    روز قبل
+                                                <div class="font-weight-bolder alert {{$duty->down_id?'alert-success':'alert-danger'}}"
+                                                    data-toggle="view">
+
+
+
+                                                    @switch( $duty->type)
+
+                                                    @case('register')
+                                                    @role('expert')
+                                                    @if ($duty->operator_id)
+                                                    انجام شده توسط
+                                                    کارشناس
+                                                    {{$duty->operator()->name}}
+                                                    {{$duty->operator()->family}}
+                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
+                                                    @else
+                                                    درخواست شده
+                                                    {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}}
+                                                    <a class="btn btn-primary"
+                                                        href="{{route('admin.verify.student',[$duty->student()->id,$duty->id])}}">تایید
+                                                        حساب</a>
+                                                    @endif
+                                                    @endrole
+                                                    @break
+
+
+                                                    @case('submit_curt')
+                                                    @role('student')
+                                                    @if ($duty->time)
+                                                    <span class="alert alert-info">
+                                                     انجام شده در
+                                                     {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
+                                                    </span>
+                                                    @else
+                                                    <a class="btn btn-primary" href="{{route('curt.create')}}">تبت  طرح اجمالی
+                                                        اجمالی
+                                                        حساب</a>
+                                                    @endif
+                                                    @endrole
+                                                    @break
+
+
+                                                    @case('verify_curt')
+                                                    @role('master|expert')
+                                                    @if ($duty->time)
+                                                    <span class="alert alert-info">
+                                                     انجام شده در
+                                                     {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
+                                                    </span>
+                                                    @else
+                                                    <a class="btn btn-primary" href="{{route('admin.show.curt',$duty->curt->id)}}">
+                                                        بررسی  طرح اجمالی اجمالی
+                                                        {{$duty->curt->title}}
+                                            </a>
+                                                    @endif
+
+                                                    @endrole
+                                                    @break
+
+
+
+                                                    @case('edit_curt_by_student')
+                                                    @role('student')
+                                                    @if ($duty->time)
+                                                    ویرایش شده در
+                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
+                                                    @else
+                                                    <a class="btn btn-primary" href="{{route('curt.edit',$duty->curt->id)}}">
+                                                        ویرایش
+                                                    </a>
+                                                    @endif
+                                                    @endrole
+                                                    @break
+
+
+
+                                                    @case('save_curt_group_by_expert')
+                                                    @role('master')
+                                                    <a class="btn btn-primary" href="{{route('curt.edit',$duty->curt->id)}}">
+                                                        ویرایش
+                                                    </a>
+                                                    @endrole
+                                                    @break
+
+
+
+
+                                                    @case('review_curt_by_master')
+                                                    @role('master')
+
+
+                                                    @if ($duty->time)
+                                                    ویرایش شده در
+                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
+                                                    @else
+                                                    <a class="btn btn-primary" href="{{route('session.create')}}">
+                                                        تعین جلسه
+                                                    </a>
+
+                                                    @endif
+                                                    @endrole
+                                                    @break
+
+
+
+
+
+
+                                                    @default
+
+                                                    @endswitch
+
                                                 </div>
                                                 <!--end::تاریخtime-->
 
@@ -105,7 +307,7 @@
                         <div class="card card-custom gutter-b">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <h3 class="card-label">  اخرین گزارشات </h3>
+                                    <h3 class="card-label"> اخرین گزارشات </h3>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -119,14 +321,39 @@
                                                 <div class="timeline-item">
                                                     <div class="timeline-media">
                                                         @switch($log->type)
-                                                            @case('register')
+                                                        @case('register')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
 
-                                                            <img alt="Pic" src="{{$log->student()->avatar()}}">
-                                                                @break
+                                                        @case('verify')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
 
-                                                            @default
+                                                        @case('submit_curt')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+
+                                                        @case('edit_curt_by_student')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
+
+                                                        @case('save_curt_group_by_expert')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
+                                                        @case('review_curt_by_master')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
+                                                        @case('select_curt_master')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
+                                                        @case('accept_curt')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
+
+                                                        @default
 
                                                         @endswitch
+
 
                                                     </div>
                                                     <div class="timeline-content">
@@ -135,34 +362,185 @@
                                                             <div class="mr-2">
                                                                 @switch($log->type)
                                                                 @case('register')
-                                                                <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">
+                                                                <span class="">
                                                                     ثبت نام
-                                                                </a>
-                                                                    @break
+                                                                </span>
+                                                                @break
+
+                                                                @case('verify')
+                                                                <span class="">
+                                                                      بررسی ثبت نام
+                                                                </span>
+                                                                @break
+                                                                @case('submit_curt')
+                                                                <span class="">
+                                                                          ثبت  طرح اجمالی توسط دانشجو
+                                                                </span>
+                                                                @break
+
+                                                                @case('edit_curt_by_student')
+                                                                <span class="">
+                                                               بررسی  طرح اجمالی توسط دانشجو
+                                                                </span>
+                                                                @break
+
+                                                                @case('save_curt_group_by_expert')
+                                                                <span class="">
+                                                                     ارجاع  طرح اجمالی  به گروه
+                                                                </span>
+                                                                @break
+
+
+
+                                                                @case('review_curt_by_master')
+                                                                <span class="">
+                                                                     ارجاع مجدد  طرح اجمالی  به گروه
+                                                                </span>
+                                                                @break
+
+                                                                @case('select_curt_master')
+                                                                <span class="">
+                                                                   انتخاب استاد راهنما
+                                                                </span>
+                                                                @break
+
+                                                                @case('accept_curt')
+                                                                <span class="">
+                                                                تایید طرح اجمالی
+                                                                </span>
+                                                                @break
 
                                                                 @default
 
-                                                            @endswitch
+                                                                @endswitch
 
                                                                 <span class="text-muted ml-2">
-                                                                    {{  Morilog\Jalali\Jalalian::forge($log->created_at)->format('d-m-Y')}}
+                                                                    {{
+                                                                    Morilog\Jalali\Jalalian::forge($log->created_at)->format('d-m-Y')}}
                                                                 </span>
-                                                                {{--  <span class="label label-light-success font-weight-bolder label-inline ml-2">جدید</span>  --}}
+                                                                {{-- <span
+                                                                    class="label label-light-success font-weight-bolder label-inline ml-2">جدید</span>
+                                                                --}}
+
                                                             </div>
 
                                                         </div>
                                                         <p class="p-0">
-                                                         @switch($log->type)
-                                                             @case('register')
-                                                             دانشجو
-                                                             {{$log->student()->name}}
-                                                             {{$log->student()->family}}
-                                                             ثبت نام کردند
-                                                                 @break
+                                                            @switch($log->type)
+                                                            @case('register')
+                                                            <span class="alert alert-success">
+                                                                دانشجو
+                                                                {{$log->student()->name}}
+                                                                {{$log->student()->family}}
+                                                                ثبت نام کردند
+                                                            </span>
+                                                            @break
 
-                                                             @default
+                                                            @case('verify')
+                                                            <span class="alert alert-success">
+                                                                حساب
+                                                                دانشجو
+                                                                {{$log->student()->name}}
+                                                                {{$log->student()->family}}
+                                                                توسط متخصص
+                                                                {{$log->operator()->name}}
+                                                                {{$log->operator()->family}}
+                                                                تایید شد
+                                                            </span>
+                                                            @break
+                                                            @case('submit_curt')
+                                                            <span class="alert alert-success">
+                                                                     طرح اجمالی   اجمالی توسط دانشجو
 
-                                                         @endswitch
+                                                                {{$log->student()->name}}
+                                                                {{$log->student()->family}}
+                                                                ثبت شد
+                                                            </span>
+                                                            @break
+
+
+
+                                                            @case('edit_curt_by_student')
+                                                            <span class="alert alert-success">
+                                                                کارشناس
+                                                                {{$log->operator()->name}}
+                                                                {{$log->operator()->family}}
+                                                                 درخواست اصلاح در  طرح اجمالی اجمالی  را داشته است
+
+                                                            </span>
+                                                            @break
+
+                                                            @case('save_curt_group_by_expert')
+                                                            <span class="alert alert-success">
+                                                                کارشناس
+                                                                {{$log->operator()->name}}
+                                                                {{$log->operator()->family}}
+                                                                 طرح اجمالی را به گروه
+
+                                                            {{$log->curt->group->name}}
+                                                            ارجاع داد
+
+                                                            </span>
+                                                            @break
+
+
+
+                                                            @case('review_curt_by_master')
+                                                            <span class="alert alert-success">
+                                                                دانشجو
+
+                                                                {{$log->student()->name}}
+                                                                {{$log->student()->family}}
+                                                                طرح اجمالی را برای بررسی بیشتر به گروه
+
+                                                            {{$log->curt->group->name}}
+                                                            ارجاع داد
+
+                                                            </span>
+                                                            @break
+
+
+
+                                                            @case('select_curt_master')
+                                                            <span class="alert alert-success">
+                                                                 استاد
+                                                                 {{$log->curt->master()->name}}
+                                                                 {{$log->curt->master()->family}}
+                                                                 به عنوان
+                                                                 استاد راهنمای  طرح اجمالی
+
+
+                                                            {{$log->curt->group->name}}
+                                                          انتخاب  شد
+
+                                                            </span>
+                                                            @break
+
+                                                            @case('accept_curt')
+                                                            <span class="alert alert-success">
+                                                             گروه
+                                                            {{$log->curt->group->name}}
+                                                            طرح اجمالی دانشجو
+
+                                                            {{$log->student()->name}}
+                                                            {{$log->student()->family}}
+                                                            را تایید کردند
+                                                            </span>
+                                                            @break
+
+
+
+
+
+
+
+
+
+
+
+                                                            @default
+
+                                                            @endswitch
                                                         </p>
                                                     </div>
                                                 </div>

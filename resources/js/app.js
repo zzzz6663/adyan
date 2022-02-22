@@ -18,6 +18,21 @@ window.onload = function() {
               }
 
         }
+        if ($('.persian').length){
+            $(".persian").persianDatepicker({
+                initialValue: true,
+                persianDigit : false,
+                format: 'YYYY-MM-DD',
+                autoClose: true,
+                initialValueType:'gregorian',
+                calendar:{
+                    persian: {
+                        local: 'fa'
+                    }
+                }
+
+            });
+        }
         if($('.select2').length){
             $('.select2').select2();
         }
@@ -26,17 +41,20 @@ window.onload = function() {
           $(this).closest('.par').find('.inp').removeClass('hide');
           $(this).hide(400)
         })
-        $('body').on('change', '#ostad', function() {
-            let el =$(this)
-
-            if(el.val()==9999999999){
-                $('#ostad_port').show(400)
-                console.log(0)
-            }else{
-                $('#ostad_port').hide(400)
-                console.log(2)
-            }
+        $('body').on('click', '#new_ostad', function() {
+            $('#ostad_port').show(400)
         })
+        // $('body').on('change', '#ostad', function() {
+        //     let el =$(this)
+
+        //     if(el.val()=='9999999999'){
+        //         $('#ostad_port').show(400)
+        //         console.log(0)
+        //     }else{
+        //         $('#ostad_port').hide(400)
+        //         console.log(2)
+        //     }
+        // })
         $('body').on('click', '#add_ex', function() {
             let val =$('#ex_p').val();
             val = val.replace(/\s/g, '');

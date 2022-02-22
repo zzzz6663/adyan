@@ -16,6 +16,10 @@ class Group extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function curts()
+    {
+        return $this->hasMany(Curt::class);
+    }
     public function admin()
     {
         return User::find($this->user_id);

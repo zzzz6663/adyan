@@ -1,4 +1,3 @@
-
 @extends('master.main')
 {{-- @php($side=true) --}}
 @section('main')
@@ -15,7 +14,7 @@
                         <!--begin: Pic-->
                         <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
                             <div class="symbol symbol-50 symbol-lg-120">
-                                <img alt="Pic" src="{{$curt->user->avatar()}}">
+                                <img alt="Pic" src="{{$main_curt->user->avatar()}}">
                             </div>
 
                             <div class="symbol symbol-50 symbol-lg-120 symbol-primary d-none">
@@ -32,8 +31,8 @@
                                     <!--begin::نام-->
                                     <a href="#"
                                         class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
-                                        {{$curt->user->name}}
-                                        {{$curt->user->family}}
+                                        {{$main_curt->user->name}}
+                                        {{$main_curt->user->family}}
                                         <i class="flaticon2-correct text-success icon-md ml-2"></i>
                                     </a>
                                     <!--end::نام-->
@@ -57,7 +56,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span>   {{$curt->user->email}}
+                                            </span> {{$main_curt->user->email}}
                                         </a>
                                         <a href="#"
                                             class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
@@ -77,7 +76,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span>    {{__('arr.'.$curt->user->semat_job)}}
+                                            </span> {{__('arr.'.$main_curt->user->semat_job)}}
                                         </a>
                                         <a href="#" class="text-muted text-hover-primary font-weight-bold">
                                             <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
@@ -93,7 +92,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span> {{$curt->user->province}}
+                                            </span> {{$main_curt->user->province}}
                                         </a>
                                     </div>
                                     <!--end::مخاطب-->
@@ -108,18 +107,17 @@
                             <!--end: Title-->
 
                             <!--begin: Content-->
-                            <h3>{{$curt->title}}</h3>
+                            <h3>{{$main_curt->title}}</h3>
                             <div class="d-flex align-items-center flex-wrap justify-content-between">
 
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
-                                    {{$curt->problem}}
+                                    {{$main_curt->problem}}
                                 </div>
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
-                                    @foreach (explode('_',$curt->tags) as $tag )
-                                    <span
-                                    class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
-                                    {{ $tag}}
-                                </span>
+                                    @foreach (explode('_',$main_curt->tags) as $tag )
+                                    <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
+                                        {{ $tag}}
+                                    </span>
                                     @endforeach
                                 </div>
 
@@ -129,20 +127,24 @@
                                             <div class="font-weight-bold mb-2">تاریخ شروع</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">
-                                                {{ Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($curt->created_at)->addDays(0))->format('Y-m-d') }}
+                                                {{
+                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at)->addDays(0))->format('Y-m-d')
+                                                }}
                                             </span>
                                         </div>
                                         <div class="">
                                             <div class="font-weight-bold mb-2">موعد مقرر</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
-                                                {{ Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($curt->created_at)->addDays(10))->format('Y-m-d') }}
+                                                {{
+                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at)->addDays(10))->format('Y-m-d')
+                                                }}
                                             </span>
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 flex-shrink-0 w-150px w-xl-300px mt-4 mt-sm-0">
                                         <span class="font-weight-bold">وضعیت
-                                            {{ __('arr.'.$curt->status)}}
+                                            {{ __('arr.'.$main_curt->status)}}
 
                                         </span>
                                         <div class="progress progress-xs mt-2 mb-2">
@@ -160,6 +162,7 @@
 
                     <div class="separator separator-solid my-7"></div>
 
+                    {{--
                     <!--begin: Items-->
                     <div class="d-flex align-items-center flex-wrap">
                         <!--begin: Item-->
@@ -258,7 +261,7 @@
                         </div>
                         <!--end: Item-->
                     </div>
-                    <!--begin: Items-->
+                    <!--begin: Items--> --}}
                 </div>
             </div>
 
@@ -268,9 +271,9 @@
 
 
 
+            @role('expert|admin|master')
 
-
-              <div class="card card-custom">
+            <div class="card card-custom">
                 <div class="card-body p-0">
                     <!--begin::ویزارد-->
                     <div class="wizard wizard-1" id="kt_wizard_v1" data-wizard-state="step-first"
@@ -279,112 +282,269 @@
                         @include('sections.error')
 
 
-                        <form class="form" action="{{route('admin.curt.submit' ,$curt->id)}}" id="kt_form"
-                            method="post" >
+                        <form class="form" action="{{route('admin.curt.submit' ,$main_curt->id)}}" id="kt_form"
+                            method="post">
                             @csrf
                             @method('post')
                             <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
-                                        <h1>
-                                            فرم     مشاهده طرح
-                                            {{$curt->title}}
-                                        </h1>
-                                            <br>
-                                            <br>
+                                    <h1>
+                                        فرم مشاهده طرح
+                                        {{$main_curt->title}}
+                                    </h1>
+                                    <br>
+                                    <br>
                                     <!--begin::ویزارد گام 1-->
                                     <div class="row">
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                     عنوان
+                                                    عنوان
 
-                                                    </label>
-                                                    <h2>
-                                                        {{$curt->title}}
-                                                    </h2>
-                                                    <textarea name="title"  class="form-control hide inp"  id="title" cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">درج توضیحات</span>
+                                                </label>
+                                                <h2>
+                                                    {{$main_curt->title}}
+                                                </h2>
+                                                <textarea name="title" class="form-control hide inp" id="title"
+                                                    cols="30" rows="6"></textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
+                                                    توضیحات</span>
+                                                   <ul>
+                                                       @foreach ($all_curts as  $curt)
+                                                          @if ( $curt->title)
+                                                          <li>
+
+                                                            ({{$curt->operator_curts()->name}}
+                                                            {{$curt->operator_curts()->family}})
+                                                            ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                            <br>
+                                                            {{$curt->title}}
+                                                            </li>
+                                                       @endif
+
+
+                                                       @endforeach
+                                                   </ul>
                                             </div>
                                         </div>
 
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                     کلمات کلیدی
+                                                    کلمات کلیدی
 
-                                                    </label>
-                                                    <h2>
-                                                        @foreach (explode('_',$curt->tags) as $tag )
-                                                            {{$tag }} -
-                                                        @endforeach
-                                                    </h2>
-                                                    <textarea name="tags"  class="form-control hide inp"  id="title" cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">درج توضیحات</span>
+                                                </label>
+                                                <h2>
+                                                    @foreach (explode('_',$main_curt->tags) as $tag )
+                                                    {{$tag }} -
+                                                    @endforeach
+                                                </h2>
+                                                <textarea name="tags" class="form-control hide inp" id="title" cols="30"
+                                                    rows="6"></textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
+                                                    توضیحات</span>
+                                                     <ul>
+                                                       @foreach ($all_curts as  $curt)
+                                                          @if ( $curt->tags)
+                                                          <li>
+                                                            ({{$curt->operator_curts()->name}}
+                                                            {{$curt->operator_curts()->family}})
+                                                            ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                            <br>
+                                                            {{$curt->tags}}
+                                                            </li>
+                                                       @endif
+
+                                                       @endforeach
+                                                   </ul>
                                             </div>
                                         </div>
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     بیان مساله
-                                                   </label>
-                                                   <h2>
-                                                       {{$curt->problem}}
-                                                   </h2>
-                                                    <textarea name="problem"  class="form-control hide inp"  id="title" cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">درج توضیحات</span>
+                                                </label>
+                                                <h2>
+                                                    {{$main_curt->problem}}
+                                                </h2>
+                                                <textarea name="problem" class="form-control hide inp" id="title"
+                                                    cols="30" rows="6"></textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
+                                                    توضیحات</span>
+                                                    <ul>
+                                                        @foreach ($all_curts as  $curt)
+                                                           @if ( $curt->problem)
+                                                           <li>
+                                                            ({{$curt->operator_curts()->name}}
+                                                            {{$curt->operator_curts()->family}})
+                                                            ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                            <br>
+                                                            {{$curt->problem}}
+                                                            </li>
+                                                       @endif
+
+                                                        @endforeach
+                                                    </ul>
                                             </div>
                                         </div>
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     سوال اصلی
-                                                   </label>
-                                                   <h2>
-                                                       {{$curt->question}}
-                                                   </h2>
-                                                    <textarea name="question"  class="form-control hide inp"  id="title" cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">درج توضیحات</span>
+                                                </label>
+                                                <h2>
+                                                    {{$main_curt->question}}
+                                                </h2>
+                                                <textarea name="question" class="form-control hide inp" id="title"
+                                                    cols="30" rows="6"></textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
+                                                    توضیحات</span>
+                                                    @foreach ($all_curts as  $curt)
+                                                       @if ( $curt->question)
+                                                       <li>
+                                                        ({{$curt->operator_curts()->name}}
+                                                        {{$curt->operator_curts()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$curt->question}}
+                                                        </li>
+                                                       @endif
+
+                                                   @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     ضرورت
-                                                   </label>
-                                                   <h2>
-                                                       {{$curt->question}}
-                                                   </h2>
-                                                    <textarea name="necessity"  class="form-control hide inp"  id="title" cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">درج توضیحات</span>
+                                                </label>
+                                                <h2>
+                                                    {{$main_curt->necessity}}
+                                                </h2>
+                                                <textarea name="necessity" class="form-control hide inp" id="title"
+                                                    cols="30" rows="6"></textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
+                                                    توضیحات</span>
+                                                    @foreach ($all_curts as  $curt)
+                                                       @if ( $curt->necessity)
+                                                       <li>
+                                                        ({{$curt->operator_curts()->name}}
+                                                        {{$curt->operator_curts()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$curt->necessity}}
+                                                        </li>
+                                                       @endif
+
+                                                   @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     جنبه نوآوری
-                                                   </label>
-                                                   <h2>
-                                                       {{$curt->question}}
-                                                   </h2>
-                                                    <textarea name="innovation"  class="form-control hide inp"  id="title" cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">درج توضیحات</span>
+                                                </label>
+                                                <h2>
+                                                    {{$main_curt->innovation}}
+                                                </h2>
+
+                                                <textarea name="innovation" class="form-control hide inp" id="title"
+                                                    cols="30" rows="6"></textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
+                                                    توضیحات</span>
+                                                    @foreach ($all_curts as  $curt)
+                                                       @if ( $curt->innovation)
+                                                       <li>
+                                                        ({{$curt->operator_curts()->name}}
+                                                        {{$curt->operator_curts()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$curt->innovation}}
+                                                        </li>
+                                                       @endif
+
+                                                   @endforeach
+                                                   @if ($session)
+                                                   <input type="text" hidden value="{{$session->id}}" name="session">
+                                               @endif
                                             </div>
                                         </div>
+                                        @if (!$main_curt->master_id)
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                      نتیجه نهایی
-                                                   </label>
-                                                   <select class="form-control" name="status" id="">
-                                                       <option value="">یک مورد  را نتخاب  کنید</option>
-                                                       <option {{old('status')=='reject'?'selected':''}} value="reject">طرح باید ویرایش شود</option>
-                                                       <option {{old('status')=='accept'?'selected':''}} value="accept">طرح مورد قبول است </option>
-                                                       <option {{old('status')=='faild'?'selected':''}} value="faild">طرح رد شده است </option>
-                                                   </select>
+                                                    @if ($main_curt->ostad())
+                                                    استاد پیشنهادی از لیست:
+                                                    {{$main_curt->ostad()->name}}
+                                                    {{$main_curt->ostad()->family}}
+
+                                                    @endif
+                                                    <br>
+                                                    @if ($main_curt->ostad)
+                                                    استاد پیشنهادی خارج از لیست
+                                                    :
+                                                        {{$main_curt->ostad}}
+
+                                                        <a target="_blank" href="{{$main_curt->resume()}}" class="btn btn-danger">دانلود رزومه</a>
+
+                                                    @endif
+
+
+                                                </label>
 
                                             </div>
                                         </div>
+                                            @if (!$main_curt->master_id)
+
+                                            <div class="col-xl-12">
+                                                <div class="form-group fv-plugins-icon-container">
+                                                    <label>
+                                                        انتخاب استاد نهایی
+                                                        :
+
+
+
+                                                    </label>
+                                                    <select name="master_id" id="ostad" class="form-control  select2">
+                                                        <option value="">یک مورد را انتخاب کنید </option>
+                                                        @foreach (App\Models\User::where('level','master')->get() as $master
+                                                        )
+                                                        <option value="{{$master->id}}">{{$master->name}}
+                                                            {{$master->family}}</option>
+                                                        @endforeach
+                                                    </select>
+
+
+                                                </div>
+                                            </div>
+                                            @endif
+                                        @endif
+
+                                        <div class="col-xl-12 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    نتیجه نهایی
+                                                </label>
+                                                <select class="form-control" name="status" id="">
+                                                    <option value="">یک مورد را نتخاب کنید</option>
+                                                    <option {{old('status')=='reject' ?'selected':''}} value="reject">
+                                                        طرح باید ویرایش شود</option>
+
+                                                    <option {{old('status')=='faild' ?'selected':''}} value="faild">طرح
+                                                        رد شده است </option>
+
+                                                        @role('master')
+                                                        <option {{old('status')=='accept' ?'selected':''}} value="accept">
+                                                            طرح مورد قبول است </option>
+                                                            @endrole
+                                                </select>
+
+                                            </div>
+                                        </div>
+
+
+
 
 
 
@@ -394,17 +554,30 @@
 
                                     <!--begin::ویزارد اقدامات-->
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
-                                        {{--  <div>
+                                        {{-- <div>
                                             <button type="button"
                                                 class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4"
                                                 data-wizard-type="action-prev">
                                                 تایید
                                             </button>
-                                        </div>  --}}
+                                        </div> --}}
                                         <div>
-                                            <input type="submit" value="  دخیره   "
-                                                class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('admin.curt')}}">برکشت</a>
+                                            @role('expert')
+                                            @if ($main_curt->group_id)
+                                            <p>
+                                                شما دراین مرحله نمیتوانید نظرتان اعمال کنید
+                                            </p>
+                                            @else
+                                            <input type="submit" value="  دخیره   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
+
+                                            @endif
+                                            @endrole
+
+                                            @role('master')
+                                            <input type="submit" value="  دخیره   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
+                                            @endrole
+                                            {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
+                                                href="{{route('admin.curt')}}">برکشت</a> --}}
 
 
                                         </div>
@@ -421,11 +594,17 @@
                 </div>
                 <!--end::ویزارد Body-->
             </div>
-                <br>
-                <br>
-                <br>
-                @if(!$curt->master_id)
-               <div class="card card-custom">
+            @endrole
+            <br>
+            <br>
+            <br>
+
+            <br>
+            <br>
+            <br>
+            @if(!$main_curt->group_id)
+            @role('expert')
+            <div class="card card-custom">
                 <div class="card-body p-0">
                     <!--begin::ویزارد-->
                     <div class="wizard wizard-1" id="kt_wizard_v1" data-wizard-state="step-first"
@@ -434,33 +613,20 @@
                         @include('sections.error')
 
 
-                        <form class="form" action="{{route('admin.save.curt.master',$curt->id)}}" id="kt_form"
-                            method="post" >
+                        <form class="form" action="{{route('admin.save.curt.group',$main_curt->id)}}" id="kt_form"
+                            method="post">
                             @csrf
                             @method('post')
                             <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
-                                        <h1>
-                                            فرم      اختصاص
-                                            استاد راهنما
-                                        </h1>
-                                            <br>
-                                            <br>
-                                    <!--begin::ویزارد گام 1-->
-                                    @if ($curt->ostad_id&& $curt->ostad_id!=9999999999)
-                                    <h3>
-                                        استاد پیشنهادی از لیست دانشجو
-                                        :
-                                    </h3>
-                                    @endif
-                                    @if ($curt->ostad)
-                                    <h3>
-                                        استاد پیشنهادی خارج از لیست دانشجو
-                                         :
-                                        {{$curt->ostad}}
-                                    </h3>
-                                    @endif
+                                    <h1>
+                                        فرم اختصاص
+                                           گروه
+                                    </h1>
+                                    <br>
+                                    <br>
+
 
                                     <div class="row">
 
@@ -469,16 +635,24 @@
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    انتخاب استاد نهایی
+                                                    انتخاب گروه نهایی
                                                     :
 
 
 
                                                 </label>
-                                                <select name="master_id"  id="ostad"  class="form-control  select2">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
-                                                    @foreach (App\Models\User::where('level','master')->get() as $master )
-                                                   <option  value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
+                                                <select name="group_id" id="ostad" class="form-control  ">
+                                                    <option value="">یک مورد را انتخاب کنید </option>
+                                                    @foreach (App\Models\group::all() as $group
+                                                    )
+                                                    <option value="{{$group->id}}">
+                                                        {{$group->name}}
+                                                      (
+                                                          مدیر:
+                                                          {{$group->admin()->name}}
+                                                          {{$group->admin()->family}}
+                                                      )
+                                                    </option>
                                                     @endforeach
                                                 </select>
 
@@ -496,7 +670,8 @@
                                         <div>
                                             <input type="submit" value="  دخیره   "
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('agent.index')}}">برکشت</a>
+                                            {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
+                                                href="{{route('agent.index')}}">برکشت</a> --}}
 
 
                                         </div>
@@ -513,7 +688,8 @@
                 </div>
                 <!--end::ویزارد Body-->
             </div>
-@endif
+            @endrole
+            @endif
 
         </div>
         <!--end::ویزارد-->

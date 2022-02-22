@@ -4,7 +4,7 @@
     <div class="brand flex-column-auto " id="kt_brand">
         <!--begin::Logo-->
         <a href="index.html" class="brand-logo">
-            <img alt="Logo" src="assets/media/logos/logo-light.png" />
+            <img alt="Logo" src="/assets/media/logos/logo-light.png" />
         </a>
         <!--end::Logo-->
 
@@ -24,6 +24,23 @@
     </div>
     <!--end::Brand-->
 
+    <div class="text-center mb-10">
+        <div class="symbol symbol-60 symbol-circle symbol-xl-90">
+            <div class="symbol-label" style="background-image:url('{{auth()->user()->avatar()}}')"></div>
+            <i class="symbol-badge symbol-badge-bottom bg-success"></i>
+        </div>
+
+        <h4 class="font-weight-bold my-2">
+               {{auth()->user()->name}}
+               {{auth()->user()->family}}
+        </h4>
+        <div class="text-muted mb-2">
+            {{__('arr.'.auth()->user()->level)}}
+            {{--  {{__('arr.'.auth()->user()->level)}}  --}}
+        </div>
+        {{--  <span class="label label-light-warning label-inline font-weight-bold label-lg">فعال</span>  --}}
+    </div>
+
     <!--begin::Aside Menu-->
     <div class="aside-menu-wrapper flex-column-fluid" id="kt_aside_menu_wrapper">
 
@@ -31,6 +48,8 @@
         <div id="kt_aside_menu" class="aside-menu my-4 " data-menu-vertical="1" data-menu-scroll="1" data-menu-dropdown-timeout="500">
             <!--begin::Menu Nav-->
             <ul class="menu-nav ">
+
+                @role('student|admin')
                 <li class="menu-item " aria-haspopup="true">
                     <a href="#" class="menu-link ">
                         <span class="svg-icon menu-icon">
@@ -46,6 +65,7 @@
                         <span class="menu-text">داشبورد</span>
                     </a>
                 </li>
+                @endrole
 {{--
                 <li class="menu-item  menu-item-submenu" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('user.register2')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
@@ -61,6 +81,7 @@
                     </a>
 
                 </li>  --}}
+                @role('admin')
                 <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='agent.index'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('agent.index')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -74,6 +95,8 @@
                         </span><span class="menu-text">  کاربران     </span><i class="menu-arrow"></i>
                     </a>
                 </li>
+                @endrole
+                @role('admin')
                 <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='group.index'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('group.index')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -87,6 +110,8 @@
                         </span><span class="menu-text"> کروه ها    </span><i class="menu-arrow"></i>
                     </a>
                 </li>
+                @endrole
+                @role('admin|expert')
                 <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='admin.curt'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('admin.curt')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -100,6 +125,10 @@
                         </span><span class="menu-text">   طرح ها    </span><i class="menu-arrow"></i>
                     </a>
                 </li>
+                @endrole
+                @role('student')
+
+                @if (auth()->user()->level=='student' && auth()->user()->curt()->count()==0)
                 <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='curt.create'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('curt.create')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -113,6 +142,25 @@
                         </span><span class="menu-text"> تعریف طرح اجمالی</span><i class="menu-arrow"></i>
                     </a>
                 </li>
+                @else
+                @if(auth()->user()->curt()->first())
+                <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='curt.create'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="{{route('curt.edit',auth()->user()->curt()->first()->id)}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
+                                    <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3" />
+                                </g>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span><span class="menu-text">  ویرایش  طرح اجمالی</span><i class="menu-arrow"></i>
+                    </a>
+                </li>
+                @endif
+                @endif
+                @endrole
+
                 {{--  <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='student.dashboard'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('student.dashboard')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -126,6 +174,7 @@
                         </span><span class="menu-text">     داشبورد دانشجو</span><i class="menu-arrow"></i>
                     </a>
                 </li>  --}}
+                @role('student|expert|master|')
                 <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='user.note'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('user.note')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
@@ -139,6 +188,55 @@
                         </span><span class="menu-text">       اعلانات و وظایف</span><i class="menu-arrow"></i>
                     </a>
                 </li>
+                @endrole
+                @role('master')
+                <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='master.groups'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="{{route('master.groups')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
+                                    <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3" />
+                                </g>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span><span class="menu-text">      گروه های من    </span><i class="menu-arrow"></i>
+                    </a>
+                </li>
+                @endrole
+                @role('master')
+                <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='session.index'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="{{route('session.index')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
+                                    <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3" />
+                                </g>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span><span class="menu-text">         جلسه های من    </span><i class="menu-arrow"></i>
+                    </a>
+                </li>
+                @endrole
+                {{--  master start  --}}
+                {{-- <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='user.note'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
+                    <a href="{{route('user.note')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
+                            <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+                                <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                    <rect x="0" y="0" width="24" height="24" />
+                                    <rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
+                                    <path d="M5.5,13 L9.5,13 C10.3284271,13 11,13.6715729 11,14.5 L11,18.5 C11,19.3284271 10.3284271,20 9.5,20 L5.5,20 C4.67157288,20 4,19.3284271 4,18.5 L4,14.5 C4,13.6715729 4.67157288,13 5.5,13 Z M14.5,4 L18.5,4 C19.3284271,4 20,4.67157288 20,5.5 L20,9.5 C20,10.3284271 19.3284271,11 18.5,11 L14.5,11 C13.6715729,11 13,10.3284271 13,9.5 L13,5.5 C13,4.67157288 13.6715729,4 14.5,4 Z M14.5,13 L18.5,13 C19.3284271,13 20,13.6715729 20,14.5 L20,18.5 C20,19.3284271 19.3284271,20 18.5,20 L14.5,20 C13.6715729,20 13,19.3284271 13,18.5 L13,14.5 C13,13.6715729 13.6715729,13 14.5,13 Z" fill="#000000" opacity="0.3" />
+                                </g>
+                            </svg>
+                            <!--end::Svg Icon-->
+                        </span><span class="menu-text">             پروفایل استاد</span><i class="menu-arrow"></i>
+                    </a>
+                </li> --}}
+                   {{--  master end  --}}
+
+
+
                 <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='logout'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('logout')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

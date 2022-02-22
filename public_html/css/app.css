@@ -1,3 +1,21 @@
+.history {
+  border-bottom: 2px solid #000;
+}
+.history li {
+  padding: 10px 0;
+  color: #000;
+  font-size: 14px;
+}
+.history li .ti {
+  color: #23ada2;
+  font-weight: bold;
+}
+.history li .cont {
+  color: #181b1b;
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
 div.er {
   padding: 14px;
   box-sizing: border-box;

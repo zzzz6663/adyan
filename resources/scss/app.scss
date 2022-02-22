@@ -1,3 +1,22 @@
+
+.history{
+    border-bottom: 2px solid #000;
+    li{
+        padding: 10px 0;
+        color: #000;
+        font-size: 14px;
+        .ti{
+            color: rgb(35, 173, 162);
+            font-weight: bold;
+        }
+        .cont{
+            color: rgb(24, 27, 27);
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+    }
+
+}
 div.er{
     padding: 14px;
     box-sizing: border-box;

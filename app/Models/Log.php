@@ -9,10 +9,14 @@ class Log extends Model
 {
     use HasFactory;
     protected $fillable=[
+        'group_id',// ای دی گروه
         'user_id',// ای دی دانشجو
         'operator_id',//ای دی استاد یا مدیر گروه یا متخصص
         'type',//نوع عمل انجام شده
         'info',//اطلاعات اضافی
+        'curt_id',//  ای دی طرح اجمالی
+
+
     ]
     ;
 
@@ -27,5 +31,13 @@ class Log extends Model
      public function operator()
      {
          return $this->belongsTo(User::class,'operator_id')->first();
+     }
+     public function master()
+     {
+         return $this->belongsTo(User::class,'master_id')->first();
+     }
+     public function curt()
+     {
+         return $this->belongsTo(Curt::class);
      }
 }

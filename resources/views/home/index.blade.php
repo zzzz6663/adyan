@@ -17,22 +17,21 @@
                                 <div class="d-flex flex-column-auto flex-column pt-lg-40 pt-15">
                                     <!--begin::Aside header-->
                                     <a href="#" class="text-center mb-10">
-                                        <img src="assets/media/logos/logo-letter-1.png" class="max-h-70px" alt="">
+                                        <img src="assets/media/logos/logo-letter-1.png"  alt="">
                                     </a>
                                     <!--end::Aside header-->
 
                                     <!--begin::Aside title-->
                                     <h3 class="font-weight-bolder text-center font-size-h4 font-size-h1-lg" style="color: #986923;">
-                                        کشف مترونیک شگفت انگیز<br>
-                                        با ابزار ساخت عالی
+                                        سامانه جامع
                                     </h3>
                                     <!--end::Aside title-->
                                 </div>
                                 <!--end::Aside Top-->
 
-                                <!--begin::Aside Bottom-->
+                                {{-- <!--begin::Aside Bottom-->
                                 <div class="aside-img d-flex flex-row-fluid bgi-no-repeat bgi-position-y-bottom bgi-position-x-center" style="background-image: url(assets/media/svg/illustrations/login-visual-1.svg)"></div>
-                                <!--end::Aside Bottom-->
+                                <!--end::Aside Bottom--> --}}
                             </div>
                             <!--begin::Aside-->
 
@@ -43,7 +42,7 @@
                                     <!--begin::Signin-->
                                     <div class="login-form login-signin">
                                         <!--begin::Form-->
-                                        <form method="POST" action="{{route('user.signin')}}" class="form fv-plugins-bootstrap fv-plugins-framework" novalidate="novalidate" id="kt_login_signin_form">
+                                        <form method="POST" autocomplete="off" action="{{route('user.signin')}}">
                                             @csrf
                                             @method('post')
                                             <!--begin::Title-->
@@ -58,7 +57,7 @@
                                             <!--begin::Form group-->
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label class="font-size-h6 font-weight-bolder text-dark">پست الکترونیک</label>
-                                                <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" type="text" name="username" autocomplete="off">
+                                                <input autocomplete="off"  class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" type="text" name="username" autocomplete="off">
                                                 <div class="fv-plugins-message-container"></div></div>
                                             <!--end::Form group-->
 
@@ -72,13 +71,14 @@
                                                     </a>
                                                 </div>
 
-                                                <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" type="password" name="password" autocomplete="off">
+                                                <input autocomplete="off"  class="form-control form-control-solid h-auto py-7 px-6 rounded-lg" type="password" name="password" autocomplete="off">
                                                 <div class="fv-plugins-message-container"></div></div>
                                             <!--end::Form group-->
 
                                             <!--begin::اکشن-->
                                             <div class="pb-lg-0 pb-5">
-                                                <button  id="kt_login_signin_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">ورود</button>
+                                                <input type="submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3" value="ورود">
+                                                {{--  <button  id="kt_login_signin_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-3">ورود</button>  --}}
 
                                                 {{--  <button type="button" class="btn btn-light-primary font-weight-bolder px-8 py-4 my-3 font-size-lg">
                             <span class="svg-icon svg-icon-md"><!--begin::Svg Icon | path:assets/media/svg/social-icons/google.svg--><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -153,7 +153,10 @@
                                     <!--begin::Forgot-->
                                     <div class="login-form login-forgot">
                                         <!--begin::Form-->
-                                        <form class="form fv-plugins-bootstrap fv-plugins-framework" novalidate="novalidate" id="kt_login_forgot_form">
+
+                                        <form action="{{route('forget.password')}}" method="post" class="form fv-plugins-bootstrap fv-plugins-framework" novalidate="novalidate" id="kt_login_forgot_form">
+                                            @csrf
+                                            @method('post')
                                             <!--begin::Title-->
                                             <div class="pb-13 pt-lg-0 pt-5">
                                                 <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">کلمه عبور خود را فراموش کرده اید؟</h3>
@@ -169,7 +172,7 @@
 
                                             <!--begin::Form group-->
                                             <div class="form-group d-flex flex-wrap pb-lg-0">
-                                                <button type="button" id="kt_login_forgot_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">ارسال</button>
+                                                <button   id="kt_login_forgot_submit" class="btn btn-primary font-weight-bolder font-size-h6 px-8 py-4 my-3 mr-4">ارسال</button>
                                                 <button type="button" id="kt_login_forgot_cancel" class="btn btn-light-primary font-weight-bolder font-size-h6 px-8 py-4 my-3">لغو</button>
                                             </div>
                                             <!--end::Form group-->
