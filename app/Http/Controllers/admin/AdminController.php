@@ -35,6 +35,7 @@ class AdminController extends Controller
     if($request->session){
         $session=Session::find($request->session);
     }
+
     //  ثبت اپراتور و زمان در وظیفه
     if( $duty){
         $duty->update([
@@ -86,7 +87,8 @@ class AdminController extends Controller
      $curt->user->save_duty('review_curt_by_master', $ar,false,auth()->user()->id,$curt->id);
 
 
-     alert()->success('گروه   با موفقیت انتخاب شد');
+
+     alert()->success(__('alert.a19'));
      return back();
 
  }
@@ -106,9 +108,9 @@ class AdminController extends Controller
 
 // ثبت لاگ
     $user->save_log('verify', ['admin' ,'expert'], true ,auth()->user()->id);
-    $user->save_duty('submit_curt', [],true);
+    $user->save_duty('student_go_quiz', [],true);
 
-     alert()->success('           حساب دانشجو فعال شد');
+     alert()->success(__('alert.a20'));
      return back();
 
  }
@@ -126,13 +128,12 @@ class AdminController extends Controller
         }
     }
    if($user->level=='expert' && $user->operator_curts()->count()>0){
-       alert()->error('
-       شما فقط یک بار میتوانید بر روی طرح ویرایش بزنید
-       ');
+
+       alert()->error(__('alert.a21'));
     return back();
    }
      if($curt->side==1){
-         alert()->error('هنوز دانشجو  تغییرات لازم رو انجام نداده است');
+         alert()->error(__('alert.a22'));
          return back();
      }
      $valid=$request->validate([
@@ -160,34 +161,42 @@ class AdminController extends Controller
      ]);
 
 // ثبت لاگ
- $curt->user->save_log('edit_curt_by_student', ['admin' ,'expert'], true ,auth()->user()->id,$curt->id);
- $curt->user->save_duty('edit_curt_by_student', [],true,auth()->user()->id,$curt->id);
+ if(    $valid['status']!='accept'){
+    $curt->user->save_duty('edit_curt_by_student', [],true,auth()->user()->id,$curt->id);
+    $curt->user->save_log('edit_curt_by_student', ['admin' ,'expert'], true ,auth()->user()->id,$curt->id);
+
+ }else{
+    $curt->user->save_log('accept_curt', ['admin' ,'expert', 'group'], true ,auth()->user()->id,$curt->id);
+ }
+
+
      if(    isset( $valid['master_id'])){
         $curt->update([
             'master_id'=>  $valid['master_id']
         ]);
         $curt->user->save_log('select_curt_master', ['admin' ,'expert', 'group'], true ,auth()->user()->id,$curt->id);
      }
-     if(    $valid['status']=='accept'){
-        $curt->user->save_log('accept_curt', ['admin' ,'expert', 'group'], true ,auth()->user()->id,$curt->id);
-     }
 
 
-     if($request->session){
+
+     if($request->session_id){
         $duty=$user->duties()->where('curt_id',$curt->id)->whereType('review_curt_by_master')->where('time',null)->latest()->first();
         if($user->level=='master' && $duty){
             $duty->update([
                 'time'=>Carbon::now()
             ]);
         }
-        $session=Session::find($request->session);
+        $session=Session::find($request->session_id);
        $next_curt= $session->curts()->whereSide('0')->first();
 
        if($next_curt){
-           alert()->success('طرح فعلی بررسی شد ');
+           alert()->success(__('alert.a23'));
         return redirect()->route('admin.show.curt',[$next_curt->id,'session'=>$session->id]);
        }
-       alert()->success('    جلسه به اتمام رسید    ');
+       $session->update([
+           'status'=>'1'
+       ]);
+       alert()->success(__('alert.a24'));
        return redirect()->route('user.note');
 
     }
@@ -197,7 +206,7 @@ class AdminController extends Controller
 
 
 
-     alert()->success('    با موفقیت ثبت  شد');
+     alert()->success(__('alert.a15'));
      return back();
 
  }

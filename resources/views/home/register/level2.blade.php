@@ -51,7 +51,7 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label>نام</label>
+                                                            <label>       {{ __('sentences.name') }}</label>
                                                             <input class="form-control form-control-lg form-control-solid" name="firstname" type="text" readonly value="{{$user->name}}">
                                                         </div>
                                                         <!--end::ورودی-->
@@ -59,7 +59,7 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> نام خانوادگی</label>
+                                                            <label>     {{ __('sentences.family') }}</label>
                                                             <input class="form-control form-control-lg form-control-solid" readonly name="lastname" type="text" value="{{$user->family}}">
 
                                                         </div>
@@ -71,7 +71,9 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> مجموعه/گروه*</label>
+                                                            <label> *
+                                                                {{ __('sentences.group') }}
+                                                            </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="group" type="text" value="{{old('group',$user->group)}}">
                                                         </div>
                                                         <!--end::ورودی-->
@@ -232,15 +234,16 @@
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                         <div class="mr-2">
                                             <button type="button" class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-prev">
-                                                قبلی
+                                                {{ __('sentences.previous') }}
                                             </button>
                                         </div>
                                         <div>
                                             <button class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
-                                                ارسال
+                                                {{ __('sentences.send') }}
                                             </button>
                                             <button class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">
-                                                بعد
+
+                                                {{ __('sentences.next') }}
                                             </button>
                                         </div>
                                     </div>

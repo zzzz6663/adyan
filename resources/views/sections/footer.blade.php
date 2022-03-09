@@ -10,12 +10,12 @@
 
 		<!--begin::Nav-->
 		<div class="nav nav-dark order-1 order-md-2">
-			<a href="http://keenthemes.com/metronic" target="_blank" class="nav-link pr-3 pl-0">درباره ما</a>
-			<a href="http://keenthemes.com/metronic" target="_blank" class="nav-link px-3">تیم</a>
-			<a href="http://keenthemes.com/metronic" target="_blank" class="nav-link pl-3 pr-0">مخاطب</a>
+			<a href="http://keenthemes.com/metronic" target="_blank" class="nav-link pr-3 pl-0">        {{__('sentences.about_us')}}</a>
+			{{-- <a href="http://keenthemes.com/metronic" target="_blank" class="nav-link px-3">تیم</a>
+			<a href="http://keenthemes.com/metronic" target="_blank" class="nav-link pl-3 pr-0">مخاطب</a> --}}
 		</div>
 		<!--end::Nav-->
 	</div>
 	<!--end::Container-->
 </div>
- 
+

@@ -96,7 +96,7 @@ class AgentController extends Controller
         $user->update([
             'avatar'=>$data['avatar']
         ]);
-        alert()->success('کاربر با موفقیت ساخته شد ');
+        alert()->success(__('alert.a25'));
         return redirect()->route('agent.index');
     }
 
@@ -159,7 +159,7 @@ class AgentController extends Controller
         }
         $user ->update($data);
 
-        alert()->success('کاربر با موفقیت به روز شد ');
+        alert()->success(__('alert.a26'));
         return redirect()->route('agent.index');
     }
 

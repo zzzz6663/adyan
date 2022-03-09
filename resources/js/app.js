@@ -4,6 +4,43 @@ require('./bootstrap');
 
 window.onload = function() {
     if (window.jQuery) {
+
+
+        function progress(timeleft, timetotal, $element) {
+            var progressBarWidth = timeleft * $element.width() / timetotal;
+            $element.find('div').animate({ width: progressBarWidth }, 500).html(Math.floor(timeleft/60) + ":"+ timeleft%60);
+            if(timeleft > 0) {
+                setTimeout(function() {
+                    progress(timeleft - 1, timetotal, $element);
+                }, 1000);
+            }else{
+                console.log('finish')
+                $('#quiz_form').submit()
+            }
+        };
+
+        if ($('#progressBar').length){
+            let time= $('#progressBar').data('time')
+
+        progress(time, time, $('#progressBar'));
+
+        }
+
+        $('body').on('click', '#finish_butt', function() {
+
+            $('.finish_zone').removeClass('hide')
+            $('#finish_butt').addClass('hide')
+        })
+        $('body').on('click', '#cancel_finish_butt', function() {
+
+
+            $('.finish_zone').addClass('hide')
+            $('#finish_butt').removeClass('hide')
+
+        })
+
+
+
         var element = document.getElementById("avatarinp");
         if(element){
             element.onchange = evt => {
@@ -36,6 +73,7 @@ window.onload = function() {
         if($('.select2').length){
             $('.select2').select2();
         }
+
         $('body').on('click', '.show', function() {
 
           $(this).closest('.par').find('.inp').removeClass('hide');

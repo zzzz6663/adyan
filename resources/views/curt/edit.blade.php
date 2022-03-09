@@ -23,7 +23,7 @@
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
                                     <h1>
-                                        فرم تعریف طرح اجمالی
+                                        فرم ویرایش طرح اجمالی
                                     </h1>
                                     <br>
                                     <br>
@@ -31,11 +31,12 @@
                                     <div class="row">
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> عنوان </label>
+                                                <label>  {{__('sentences.title')}}   </label>
                                                 <input type="text" value="{{old('title',$curt->title)}}" class="form-control"
-                                                    name="title" placeholder="  عنوان ">
-                                                <span class="form-text text-muted">لطفا عنوان خود را وارد
-                                                    کنید.</span>
+                                                    name="title" placeholder="   {{__('sentences.title')}}   ">
+                                                    <span class="form-text text-muted">
+                                                        {{__('sentences.enter_title')}}
+                                                    </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
@@ -43,13 +44,13 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> کلمات کلیدی </label>
+                                                <label>       {{__('sentences.tags')}}   </label>
                                                 <div class="input-group">
                                                     <input type="text" id="ex_p" class="form-control"
-                                                        placeholder="جستجو ...">
+                                                        placeholder=""  {{__('sentences.search')}}  ...">
                                                     <div class="input-group-append">
                                                         <button class="btn btn-secondary" id="add_ex1"
-                                                            type="button">اضافه کردن</button>
+                                                            type="button">  {{__('sentences.add')}}</button>
                                                     </div>
                                                 </div>
                                                 <div class="fv-plugins-message-container" id="tags">
@@ -72,28 +73,28 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> بیان مساله </label>
+                                                <label>    {{__('sentences.problem')}}     </label>
                                                 <textarea class="form-control" name="problem"
                                                     rows="3">{{old('problem',$curt->problem)}}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> سوال اصلی </label>
+                                                <label>     {{__('sentences.question')}}  </label>
                                                 <textarea class="form-control" name="question"
                                                     rows="3">{{old('question',$curt->question)}}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> ضرورت </label>
+                                                <label>    {{__('sentences.necessity')}}         </label>
                                                 <textarea class="form-control" name="necessity"
                                                     rows="3">{{old('necessity',$curt->necessity)}}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> جنبه نوآوری </label>
+                                                <label>     {{__('sentences.innovation')}}    </label>
                                                 <textarea class="form-control" name="innovation"
                                                     rows="3">{{old('innovation',$curt->innovation)}}</textarea>
                                             </div>
@@ -109,10 +110,10 @@
                                                 </button>
                                             </div> --}}
                                             <div>
-                                                <input type="submit" value="  دخیره   "
+                                                <input type="submit" value="    {{__('sentences.save')}}   "
                                                     class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
                                                 <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
-                                                    href="{{route('user.note')}}">برکشت</a>
+                                                    href="{{route('user.note')}}">{{__('sentences.back')}}  </a>
 
 
                                             </div>
@@ -129,7 +130,7 @@
                                                         Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
                                                         <br>
                                                         <span class="ti">
-                                                            عنوان:
+                                                            {{__('sentences.title')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$curt->title}}
@@ -138,7 +139,7 @@
 
 
                                                         <span class="ti">
-                                                            کلمات کلیدی:
+                                                            {{__('sentences.tags')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$curt->tags}}
@@ -147,7 +148,7 @@
 
 
                                                         <span class="ti">
-                                                            بیان مساله :
+                                                            {{__('sentences.title')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$curt->problem}}
@@ -156,7 +157,7 @@
 
 
                                                         <span class="ti">
-                                                            سوال اصلی :
+                                                            {{__('sentences.question')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$curt->question}}
@@ -165,7 +166,7 @@
 
 
                                                         <span class="ti">
-                                                            ضروریات:
+                                                            {{__('sentences.necessity')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$curt->necessity}}
@@ -175,7 +176,7 @@
 
 
                                                         <span class="ti">
-                                                            جنبه نوآوری:
+                                                            {{__('sentences.innovation')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$curt->innovation}}

@@ -30,24 +30,27 @@
                                     <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                         <h1 class="mb-10 font-weight-bold text-dark">
 
-                                            تایید کد دانشجویی
+                                            {{ __('sentences.confirm_student_code') }}
 
                                         </h1>
                                         <h3>
                                             <br>
                                             @php(     $code=  App\Models\Code::whereCode(request('code'))->first())
-                                            کد دانشجویی وارد شده
+                                            {{-- کد دانشجویی وارد شده
                                             ({{$code->code}})
                                             مربوط  به
 
                                             {{$code->name}}
-                                            {{$code->family}} می باشد
+                                            {{$code->family}} می باشد --}}
+                                            {{ __('sentences.code_alert1',['code'=>$code->code,'student'=>$code->name.' '.$code->family]) }}
                                             <br>
-                                            آیا کد وارد شده     متعلق به شما می باشد؟
+                                            {{ __('sentences.code_question') }}
+
+
 
                                         </h3>
                                         <h3 style="text-align: center; color:red">
-                                            درصورت اشتباه مسئولیت مستقیم به عهده شماست
+                                            {{ __('sentences.code_alert2') }}
                                         </h3>
                                             <input type="text" hidden value="{{$code->code}}" name="code">
 
@@ -62,12 +65,13 @@
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                         <div class="mr-2">
                                             <button type="button" class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-prev">
-                                                قبلی
+
+                                                {{ __('sentences.previous') }}
                                             </button>
                                         </div>
                                         <div>
-                                            <input type="submit" value="  تایید  میکنم" name="yes" class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                            <a href="{{route('user.register1')}}" class="btn btn-danger font-weight-bold text-uppercase px-9 py-4">رد میکنم</a>
+                                            <input type="submit" value="  {{ __('sentences.i_confirm') }}" name="yes" class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
+                                            <a href="{{route('user.register1')}}" class="btn btn-danger font-weight-bold text-uppercase px-9 py-4">   {{ __('sentences.i_reject') }}  </a>
 
                                         </div>
                                     </div>
@@ -87,15 +91,15 @@
                                     <!--begin::ویزارد گام 1-->
                                     <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
                                         <h3 class="mb-10 font-weight-bold text-dark">
-
-                                            استعلام کد دانشجویی
+                                            {{ __('sentences.inquiry_code') }}
                                         </h3>
                                         <!--begin::ورودی-->
                                         <div class="form-group">
                                             <label> کد</label>
                                             <input type="text" class="form-control form-control-solid form-control-lg" name="code" value="{{old('code')}}" />
-                                            <span class="form-text text-muted">لطفا کد دانشجویی خود را وارد
-                                                کنید</span>
+                                            <span class="form-text text-muted">
+                                                {{ __('sentences.enter_code') }}
+                                            </span>
                                         </div>
                                         <!--end::ورودی-->
 
@@ -104,15 +108,16 @@
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                         <div class="mr-2">
                                             <button type="button" class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-prev">
-                                                قبلی
+                                                {{ __('sentences.previous') }}
                                             </button>
                                         </div>
                                         <div>
                                             <button class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
-                                                ارسال
+                                                {{ __('sentences.send') }}
                                             </button>
                                             <button class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">
-                                                بعد
+
+                                                {{ __('sentences.next') }}
                                             </button>
                                         </div>
                                     </div>

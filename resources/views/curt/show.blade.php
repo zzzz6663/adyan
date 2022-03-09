@@ -97,12 +97,12 @@
                                     </div>
                                     <!--end::مخاطب-->
                                 </div>
-                                <div class="my-lg-0 my-1">
+                                {{-- <div class="my-lg-0 my-1">
                                     <a href="#"
                                         class="btn btn-sm btn-light-success font-weight-bolder text-uppercase mr-3">گزارشات</a>
                                     <a href="#" class="btn btn-sm btn-info font-weight-bolder text-uppercase">وظیفه
                                         جدید</a>
-                                </div>
+                                </div> --}}
                             </div>
                             <!--end: Title-->
 
@@ -124,7 +124,7 @@
                                 <div class="d-flex flex-wrap align-items-center py-2">
                                     <div class="d-flex align-items-center mr-10">
                                         <div class="mr-6">
-                                            <div class="font-weight-bold mb-2">تاریخ شروع</div>
+                                            <div class="font-weight-bold mb-2">          {{__('sentences.created_at')}}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">
                                                 {{
@@ -133,7 +133,7 @@
                                             </span>
                                         </div>
                                         <div class="">
-                                            <div class="font-weight-bold mb-2">موعد مقرر</div>
+                                            <div class="font-weight-bold mb-2">     {{__('sentences.deliver_at')}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
                                                 {{
@@ -143,7 +143,7 @@
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 flex-shrink-0 w-150px w-xl-300px mt-4 mt-sm-0">
-                                        <span class="font-weight-bold">وضعیت
+                                        <span class="font-weight-bold"> {{__('sentences.status')}
                                             {{ __('arr.'.$main_curt->status)}}
 
                                         </span>
@@ -290,17 +290,21 @@
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
                                     <h1>
-                                        فرم مشاهده طرح
+                                        {{__('sentences.show_curt')}
+
                                         {{$main_curt->title}}
                                     </h1>
                                     <br>
+                                    @if ($session)
+                                            <input type="text" hidden value="{{$session->id}}" name="session_id">
+                                    @endif
                                     <br>
                                     <!--begin::ویزارد گام 1-->
                                     <div class="row">
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    عنوان
+                                                    {{__('sentences.title')}
 
                                                 </label>
                                                 <h2>
@@ -308,8 +312,10 @@
                                                 </h2>
                                                 <textarea name="title" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+
+                                                    {{__('sentences.add_info')}
+                                                    </span>
                                                    <ul>
                                                        @foreach ($all_curts as  $curt)
                                                           @if ( $curt->title)
@@ -332,7 +338,7 @@
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    کلمات کلیدی
+                                                    {{__('sentences.tags')}
 
                                                 </label>
                                                 <h2>
@@ -342,8 +348,9 @@
                                                 </h2>
                                                 <textarea name="tags" class="form-control hide inp" id="title" cols="30"
                                                     rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                    {{__('sentences.add_info')}
+                                                    </span>
                                                      <ul>
                                                        @foreach ($all_curts as  $curt)
                                                           @if ( $curt->tags)
@@ -363,15 +370,16 @@
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    بیان مساله
+                                                    {{__('sentences.problem')}
                                                 </label>
                                                 <h2>
                                                     {{$main_curt->problem}}
                                                 </h2>
                                                 <textarea name="problem" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                    {{__('sentences.add_info')}
+                                                    </span>
                                                     <ul>
                                                         @foreach ($all_curts as  $curt)
                                                            @if ( $curt->problem)
@@ -391,7 +399,7 @@
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    سوال اصلی
+                                                    {{__('sentences.question')}
                                                 </label>
                                                 <h2>
                                                     {{$main_curt->question}}
@@ -417,7 +425,7 @@
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    ضرورت
+                                                    {{__('sentences.necessity')}
                                                 </label>
                                                 <h2>
                                                     {{$main_curt->necessity}}
@@ -443,7 +451,7 @@
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    جنبه نوآوری
+                                                    {{__('sentences.innovation')}
                                                 </label>
                                                 <h2>
                                                     {{$main_curt->innovation}}
@@ -465,9 +473,6 @@
                                                        @endif
 
                                                    @endforeach
-                                                   @if ($session)
-                                                   <input type="text" hidden value="{{$session->id}}" name="session">
-                                               @endif
                                             </div>
                                         </div>
                                         @if (!$main_curt->master_id)
@@ -475,18 +480,18 @@
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     @if ($main_curt->ostad())
-                                                    استاد پیشنهادی از لیست:
+
+                                                    {{__('sentences.suggested_master_list')}
                                                     {{$main_curt->ostad()->name}}
                                                     {{$main_curt->ostad()->family}}
 
                                                     @endif
                                                     <br>
                                                     @if ($main_curt->ostad)
-                                                    استاد پیشنهادی خارج از لیست
-                                                    :
+                                                    {{__('sentences.suggested_master_out_list')}
                                                         {{$main_curt->ostad}}
 
-                                                        <a target="_blank" href="{{$main_curt->resume()}}" class="btn btn-danger">دانلود رزومه</a>
+                                                        <a target="_blank" href="{{$main_curt->resume()}}" class="btn btn-danger">   {{__('sentences.download_resume')}  </a>
 
                                                     @endif
 
@@ -496,14 +501,12 @@
                                             </div>
                                         </div>
                                             @if (!$main_curt->master_id)
-
+                                            @role('master')
                                             <div class="col-xl-12">
                                                 <div class="form-group fv-plugins-icon-container">
                                                     <label>
-                                                        انتخاب استاد نهایی
-                                                        :
 
-
+                                                        {{__('sentences.select_final_master')}
 
                                                     </label>
                                                     <select name="master_id" id="ostad" class="form-control  select2">
@@ -518,25 +521,31 @@
 
                                                 </div>
                                             </div>
+                                            @endrole
                                             @endif
                                         @endif
 
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    نتیجه نهایی
+
+                                                    {{__('sentences.final_result')}
                                                 </label>
                                                 <select class="form-control" name="status" id="">
-                                                    <option value="">یک مورد را نتخاب کنید</option>
+                                                    <option value="">   {{__('sentences.select_one')}</option>
                                                     <option {{old('status')=='reject' ?'selected':''}} value="reject">
-                                                        طرح باید ویرایش شود</option>
 
-                                                    <option {{old('status')=='faild' ?'selected':''}} value="faild">طرح
-                                                        رد شده است </option>
+                                                        {{__('sentences.should_edit_cuert')}
+                                                        </option>
+
+                                                    <option {{old('status')=='faild' ?'selected':''}} value="faild">
+                                                        {{__('sentences.reject_curt')}
+                                                      </option>
 
                                                         @role('master')
                                                         <option {{old('status')=='accept' ?'selected':''}} value="accept">
-                                                            طرح مورد قبول است </option>
+                                                            {{__('sentences.accept_curt')}
+                                                         </option>
                                                             @endrole
                                                 </select>
 
@@ -558,23 +567,25 @@
                                             <button type="button"
                                                 class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4"
                                                 data-wizard-type="action-prev">
-                                                تایید
+
+                                                {{__('sentences.confirm')}
                                             </button>
                                         </div> --}}
                                         <div>
                                             @role('expert')
                                             @if ($main_curt->group_id)
                                             <p>
-                                                شما دراین مرحله نمیتوانید نظرتان اعمال کنید
+                                                {{__('sentences.cant_comment')}}
+
                                             </p>
                                             @else
-                                            <input type="submit" value="  دخیره   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
+                                            <input type="submit" value="       {{__('sentences.save')}}   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
 
                                             @endif
                                             @endrole
 
                                             @role('master')
-                                            <input type="submit" value="  دخیره   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
+                                            <input type="submit" value="       {{__('sentences.save')}}   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
                                             @endrole
                                             {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
                                                 href="{{route('admin.curt')}}">برکشت</a> --}}
@@ -621,8 +632,8 @@
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
                                     <h1>
-                                        فرم اختصاص
-                                           گروه
+
+                                           {{__('sentences.form_select_geoup')}}
                                     </h1>
                                     <br>
                                     <br>
@@ -635,20 +646,20 @@
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    انتخاب گروه نهایی
-                                                    :
+
+                                                    {{__('sentences.select_final_group')}}
 
 
 
                                                 </label>
                                                 <select name="group_id" id="ostad" class="form-control  ">
-                                                    <option value="">یک مورد را انتخاب کنید </option>
-                                                    @foreach (App\Models\group::all() as $group
+                                                    <option value="">           {{__('sentences.select_one')}} </option>
+                                                    @foreach (App\Models\Group::all() as $group
                                                     )
                                                     <option value="{{$group->id}}">
                                                         {{$group->name}}
                                                       (
-                                                          مدیر:
+                                                        {{__('sentences.manger')}}:
                                                           {{$group->admin()->name}}
                                                           {{$group->admin()->family}}
                                                       )
@@ -668,10 +679,10 @@
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
 
                                         <div>
-                                            <input type="submit" value="  دخیره   "
+                                            <input type="submit" value="          {{__('sentences.save')}}:   "
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
                                             {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
-                                                href="{{route('agent.index')}}">برکشت</a> --}}
+                                                href="{{route('agent.index')}}"> {{__('sentences.back')}}</a> --}}
 
 
                                         </div>

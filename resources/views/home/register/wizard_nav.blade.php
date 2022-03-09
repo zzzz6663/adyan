@@ -14,7 +14,9 @@
                         <!--end::Svg Icon--></span>
                     <h3 class="wizard-title">
 
-                        1 .کد دانشجویی
+                        1 .
+
+                        {{ __('sentences.student_code') }}
 
                     </h3>
                 </div>
@@ -43,7 +45,9 @@
                         <!--end::Svg Icon--></span>
                     <h3 class="wizard-title">
 
-                        2 .اطلاعات دانشجویی
+                        2 .
+
+                        {{ __('sentences.student_info') }}
 
                     </h3>
                 </div>
@@ -70,7 +74,10 @@
                             </g>
                         </svg>
                         <!--end::Svg Icon--></span>
-                    <h3 class="wizard-title">3. اطلاعات تماس  </h3>
+                    <h3 class="wizard-title">3.
+
+                         {{ __('sentences.student_call') }}
+                         </h3>
                 </div>
 
                 <span class="svg-icon svg-icon-xl wizard-arrow">
@@ -94,7 +101,10 @@
                             </g>
                         </svg>
                         <!--end::Svg Icon--></span>
-                    <h3 class="wizard-title">4. اطلاعات  محلی و شغلی  </h3>
+                    <h3 class="wizard-title">4.
+
+                        {{ __('sentences.job_info') }}
+                     </h3>
                 </div>
 
                 <span class="svg-icon svg-icon-xl wizard-arrow">
@@ -118,7 +128,10 @@
                             </g>
                         </svg>
                         <!--end::Svg Icon--></span>
-                    <h3 class="wizard-title">5.    رمز عبور     </h3>
+                    <h3 class="wizard-title">5.
+
+                         {{ __('sentences.password') }}
+                            </h3>
                 </div>
 
 

@@ -24,7 +24,8 @@
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
                                         <h1>
-                                            فرم تعریف  جلسه جدید
+                                            {{ __('sentences.session_new_form') }}
+
                                         </h1>
                                             <br>
                                             <br>
@@ -32,21 +33,26 @@
                                     <div class="row">
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> نام جلسه   </label>
+                                                <label>    {{ __('sentences.name') }}   </label>
                                                 <input type="text" value="{{old('name')}}" class="form-control" name="name"
-                                                    placeholder="  عنوان " >
-                                                <span class="form-text text-muted">لطفا   عنوان  خود را وارد
-                                                    کنید.</span>
+                                                    placeholder="   {{ __('sentences.name') }} " >
+                                                <span class="form-text text-muted">
+                                                    {{ __('sentences.enter_session_name') }}
+                                                </span>
+                                                <span class="form-text text-muted">
+                                                    {{ __('sentences.session_date') }}
+                                                </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>   تاریخ جلسه   </label>
+                                                <label>      {{ __('sentences.session_date') }}   </label>
                                                 <input type="text" value="{{old('time')}}" class="form-control persian" name="time"
-                                                    placeholder="  عنوان " >
-                                                <span class="form-text text-muted">لطفا   عنوان  خود را وارد
-                                                    کنید.</span>
+                                                    placeholder="    {{ __('sentences.session_date') }}  " >
+                                                    <span class="form-text text-muted">
+                                                        {{ __('sentences.session_date') }}
+                                                    </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
@@ -56,10 +62,11 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>انتخاب استاتید
+                                                <label>
+                                                    {{ __('sentences.select_master') }}
                                                 </label>
                                                 <select name="users[]"   multiple class="form-control  select2">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
+                                                    <option value="">           {{ __('sentences.select_one') }} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{in_array($master->id ,old('masters',[]))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
@@ -70,10 +77,11 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>انتخاب طرح ها
+                                                <label>
+                                                    {{ __('sentences.select_curt') }}
                                                 </label>
                                                 <select name="curts[]"   multiple class="form-control  select2">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
+                                                    <option value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($curts as $curt )
                                                    <option {{in_array($curt->id ,old('curts',[]))?'selected':''}} value="{{$curt->id}}">
                                                     {{$curt->title}}
@@ -104,9 +112,9 @@
                                             </button>
                                         </div>  --}}
                                         <div>
-                                            <input type="submit" value="  دخیره   "
+                                            <input type="submit" value="    {{ __('sentences.save') }}   "
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('session.index')}}">برکشت</a>
+                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('session.index')}}">  {{ __('sentences.back') }}</a>
 
 
                                         </div>

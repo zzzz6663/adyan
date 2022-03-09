@@ -19,22 +19,22 @@
 
                             <div class="col-xl-12 col-xxl-7 ">
                               <h1 >
-                                اطلاعات شما برای کارشناس ارسال شد. پس از بررسی و
-                                تایید اطلاعات، ایمیل اطلاع رسانی برای شما ارسال خواهد شد و
-                                می توانید پس از آن، وارد سایت شوید.
+
+                                {{ __('sentences.alert1') }}
                               </h1>
 
                               <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                 <div>
                                     <a href="{{route('user.register5')}}" class="btn btn-light-danger font-weight-bold text-uppercase px-9 py-4" >
-                                        قبلی
+                                        {{ __('sentences.previous') }}
                                     </a>
                                 </div>
                                 <div class="mr-2">
                                     <a
                                      href="{{route('student.dashboard')}}"
                                     type="button" class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4" >
-                                        متوجه شدم
+
+                                        {{ __('sentences.i_see') }}
                                     </a>
 
                                 </div>

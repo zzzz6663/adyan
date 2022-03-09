@@ -17,7 +17,7 @@
                         <!--begin::Header-->
                         <div class="card-header border-0 pt-5">
                             <h3 class="card-title align-items-start flex-column">
-                                <span class="card-label font-weight-bolder text-dark"> گروه های من </span>
+                                <span class="card-label font-weight-bolder text-dark"> {{ __('sentences.my_group') }}  </span>
                                 <span class="text-muted mt-3 font-weight-bold font-size-sm"> </span>
                             </h3>
 
@@ -37,22 +37,22 @@
 
                                                 <th class="datatable-cell datatable-cell-sort text-center">
                                                     <span>
-                                                        ID
+                                                        {{ __('sentences.id') }}
                                                     </span>
                                                 </th>
                                                 <th class="datatable-cell datatable-cell-sort text-center">
                                                     <span>
-                                                        نام
+                                                        {{ __('sentences.name') }}
                                                     </span>
                                                 </th>
                                                 <th class="datatable-cell datatable-cell-sort text-center">
                                                     <span>
-                                                      اعضا
+                                                        {{ __('sentences.members') }}
                                                     </span>
                                                 </th>
                                                 <th class="datatable-cell datatable-cell-sort text-center">
                                                     <span>
-                                                    تاریخ
+                                                        {{ __('sentences.created_at') }}
                                                     </span>
                                                 </th>
 

@@ -24,7 +24,8 @@
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
                                         <h1>
-                                            فرم تعریف  طرح اجمالی
+                                            {{__('sentences.cuet_new_form')}}
+
                                         </h1>
                                             <br>
                                             <br>
@@ -32,22 +33,23 @@
                                     <div class="row">
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> عنوان  </label>
+                                                <label>    {{__('sentences.title')}}  </label>
                                                 <input type="text" value="{{old('title')}}" class="form-control" name="title"
-                                                    placeholder="  عنوان " >
-                                                <span class="form-text text-muted">لطفا   عنوان  خود را وارد
-                                                    کنید.</span>
+                                                    placeholder="     {{__('sentences.title')}} " >
+                                                <span class="form-text text-muted">
+                                                    {{__('sentences.enter_title')}}
+                                                </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> کلمات کلیدی    </label>
+                                                <label>       {{__('sentences.tags')}}    </label>
                                                 <div class="input-group">
-                                                    <input type="text" id="ex_p" class="form-control" placeholder="جستجو ...">
+                                                    <input type="text" id="ex_p" class="form-control" placeholder="  {{__('sentences.search')}}  ...">
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-secondary" id="add_ex1" type="button">اضافه کردن</button>
+                                                        <button class="btn btn-secondary" id="add_ex1" type="button">  {{__('sentences.add')}}   </button>
                                                     </div>
                                                 </div>
                                                 <div class="fv-plugins-message-container" id="tags">
@@ -69,25 +71,25 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>    بیان مساله  </label>
+                                                <label>    {{__('sentences.problem')}}     </label>
                                                 <textarea class="form-control"  name="problem" rows="3">{{old('problem')}}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>      سوال اصلی  </label>
+                                                <label>     {{__('sentences.question')}}  </label>
                                                 <textarea class="form-control"  name="question" rows="3">{{old('question')}}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>        ضرورت  </label>
+                                                <label>    {{__('sentences.necessity')}}         </label>
                                                 <textarea class="form-control"  name="necessity" rows="3">{{old('necessity')}}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>        جنبه نوآوری  </label>
+                                                <label>     {{__('sentences.innovation')}}    </label>
                                                 <textarea class="form-control" name="innovation" rows="3">{{old('innovation')}}</textarea>
                                             </div>
                                         </div>
@@ -96,12 +98,12 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>استاد پیشنهادی
-
+                                                <label>
+                                                    {{__('sentences.suggested_master')}}
                                                         <span id="new_ostad" class="btn btn-info font-weight-bolder font-size-sm mr-3">استاد جدید</span>
                                                 </label>
                                                 <select name="ostad_id[]"  id="ostad" multiple class="form-control  select2">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
+                                                    <option value="">  {{__('sentences.select_one')}} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{in_array($master->id ,old('ostad_id',[]))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
@@ -119,11 +121,15 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> نام استاد پیشنهادی  </label>
+                                                <label>
+
+                                                    {{__('sentences.suggested_master_name')}}
+                                                </label>
                                                 <input type="text" value="{{old('ostad')}}" class="form-control" name="ostad"
-                                                    placeholder="  عنوان " >
+                                                    placeholder="     {{__('sentences.suggested_master_name')}} " >
                                                 <span class="form-text text-muted">
-                                                    نام استاد پیشنهادی خود را وارد  کنید
+
+                                                    {{__('sentences.enter_suggested_master_name')}}
                                                 </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
@@ -131,11 +137,13 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> رزومه  </label>
+                                                <label>    {{__('sentences.resume')}}
+                                                </label>
                                                 <input type="file"  class="form-control" name="resume"
-                                                    placeholder="  عنوان " >
+                                                    placeholder="   {{__('sentences.title')}} " >
                                                 <span class="form-text text-muted">
-                                                    لطفا فایل رزومه استاد خود را انتخاب کنید
+
+                                                    {{__('sentences.send_resume_file')}}
                                                 </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
@@ -153,9 +161,9 @@
                                             </button>
                                         </div>  --}}
                                         <div>
-                                            <input type="submit" value="  دخیره   "
+                                            <input type="submit" value="    {{__('sentences.save')}}    "
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('agent.index')}}">برکشت</a>
+                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('agent.index')}}">  {{__('sentences.back')}} </a>
 
 
                                         </div>

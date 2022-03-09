@@ -37,7 +37,10 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> رمز عبور * </label>
+                                                            <label>
+                                                                *
+                                                                {{ __('sentences.password') }}
+                                                            </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="password" type="text" value="{{old('password',$user->password)}}">
 
                                                         </div>
@@ -46,7 +49,10 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> تکرار رمز عبور * </label>
+                                                            <label>
+                                                                *
+                                                                {{ __('sentences.password') }}
+                                                            </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="password_confirmation" type="text" value="{{old('password_confirmation',$user->password)}}">
 
                                                         </div>
@@ -63,15 +69,15 @@
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                         <div class="mr-2">
                                             <a href="{{route('user.register4')}}" class="btn btn-light-danger font-weight-bold text-uppercase px-9 py-4" >
-                                                قبلی
+                                                {{ __('sentences.previous') }}
                                             </a>
                                         </div>
                                         <div>
                                             <button class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
-                                                ارسال
+                                                {{ __('sentences.send') }}
                                             </button>
                                             <button class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">
-                                                بعد
+                                                {{ __('sentences.next') }}
                                             </button>
                                         </div>
                                     </div>

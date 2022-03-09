@@ -14,9 +14,10 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            جدول       جلسه  ها
+                            {{ __('sentences.session_table') }}
+                            {{ __('sentences.session_list') }}
                              <span class="text-muted pt-2 font-size-sm d-block">
-                               در  این جا جلسه به همراه اعضا و طرح  ها ساخته می شود
+
                             </span>
                         </h3>
                     </div>
@@ -55,29 +56,38 @@
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            ID
+                                            {{ __('sentences.id') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            نام
-                                            جلسه
+                                             
+                                            {{ __('sentences.session_name') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            نام  مدیر جلسه
+
+                                            {{ __('sentences.session_admin') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                          اعضای جلسه
+
+                                          {{ __('sentences.session_member') }}
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+
+                                          {{ __('sentences.created_at') }}
                                         </span>
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            اقدام
+
+                                            {{ __('sentences.action') }}
                                         </span>
                                     </th>
 

@@ -17,7 +17,10 @@
 
                             <div class="card-header">
                                 <div class="card-title">
-                                    <h3 class="card-label"> اخرین تسک ها </h3>
+                                    <h3 class="card-label">
+                                        {{__('sentences.last_duty')}}
+
+                                         </h3>
                                 </div>
                             </div>
                             <!--begin::Body-->
@@ -37,23 +40,31 @@
 
                                                     @case('register')
                                                     @role('expert')
-                                                    تایید ثبت نام دانشجو
+
+                                                    {{__('sentences.confirm_student_confirm')}}
                                                     {{$duty->student()->name}}
                                                     {{$duty->student()->family}}
                                                     @endrole
                                                     @break
 
+                                                    @case('student_go_quiz')
+                                                    @role('student')
+                                                      {{__('sentences.participating_in_a_test')}}
+
+                                                    @endrole
+                                                    @break
+
                                                     @case('submit_curt')
                                                     @role('student')
-                                                    ثبت  طرح اجمالی اجمالی
+                                                    {{__('sentences.submit_curt')}}
+
 
                                                     @endrole
                                                     @break
 
                                                     @case('verify_curt')
                                                     @role('expert|master')
-                                                    بررسی  طرح اجمالی اجمالی
-                                                    دانشجو
+                                                    {{__('sentences.vrify_curt')}}
                                                     {{$duty->curt->user->name}}
                                                     {{$duty->curt->user->family}}
 
@@ -65,8 +76,8 @@
 
                                                     @case('edit_curt_by_student')
                                                     @role('student')
-                                                ویرایش  طرح اجمالی اجمالی  به خواسته
-                                                کارشناس
+
+                                                {{__('sentences.request_vrify_curt')}}
                                                 {{$duty->operator()->name}}
                                                 {{$duty->operator()->family}}
                                                     @endrole
@@ -75,33 +86,26 @@
 
                                                     @case('save_curt_group_by_expert')
                                                     @role('master')
-                                                    کارشناس
-                                                    {{$duty->operator()->name}}
+                                                    {{-- کارشناس --}}
+                                                    {{__('sentences.pass_curt_to_group',['expert'=>$duty->operator()->name.' '.$duty->operator()->family,'group'=>$duty->curt->group->name])}}
+                                                    {{-- {{$duty->operator()->name}}
                                                     {{$duty->operator()->family}}
                                                      طرح اجمالی را به گروه
                                                 {{$duty->curt->group->name}}
-                                                ارجاع داد
+                                                ارجاع داد --}}
                                                     @endrole
                                                     @break
 
 
 
-                                                    {{-- @case('save_curt_group_by_expert')
-                                                    @role('master')
-                                                    کارشناس
-                                                    {{$duty->operator()->name}}
-                                                    {{$duty->operator()->family}}
-                                                     طرح اجمالی را به گروه
-                                                {{$duty->curt->group->name}}
-                                                ارجاع داد
-                                                    @endrole
-                                                    @break --}}
+
 
 
 
                                                     @case('review_curt_by_master')
                                                     @role('master')
-                                                  اصلاح  طرح اجمالی توسط دانشجو
+
+                                                  {{__('sentences.review_curt_by_master')}}
                                                   {{$duty->student()->name}}
                                                   {{$duty->student()->family}}
                                                     @endrole
@@ -147,48 +151,61 @@
                                                     @case('register')
                                                     @role('expert')
                                                     @if ($duty->operator_id)
-                                                    انجام شده توسط
+                                                    {{-- انجام شده توسط
                                                     کارشناس
                                                     {{$duty->operator()->name}}
                                                     {{$duty->operator()->family}}
-                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
+                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}} --}}
                                                     @else
-                                                    درخواست شده
+                                                    {{-- درخواست شده --}}
                                                     {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}}
                                                     <a class="btn btn-primary"
-                                                        href="{{route('admin.verify.student',[$duty->student()->id,$duty->id])}}">تایید
-                                                        حساب</a>
+                                                        href="{{route('admin.verify.student',[$duty->student()->id,$duty->id])}}">
+                                                        {{__('sentences.confirm_account')}}
+                                                    </a>
                                                     @endif
                                                     @endrole
                                                     @break
 
 
+                                                    @case('student_go_quiz')
+                                                    @role('student')
+
+                                                    <a class="btn btn-primary" href="{{route('student.per.quiz')}}">
+                                                        {{__('sentences.participating_in_a_test')}}
+                                                         </a>
+                                                    @endrole
+                                                    @break
+
                                                     @case('submit_curt')
                                                     @role('student')
                                                     @if ($duty->time)
-                                                    <span class="alert alert-info">
+                                                    {{-- <span class="alert alert-info">
                                                      انجام شده در
                                                      {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
-                                                    </span>
+                                                    </span> --}}
                                                     @else
-                                                    <a class="btn btn-primary" href="{{route('curt.create')}}">تبت  طرح اجمالی
-                                                        اجمالی
-                                                        حساب</a>
+                                                    <a class="btn btn-primary" href="{{route('curt.create')}}">
+                                                        {{__('sentences.create_curt')}}
+
+
+                                                    </a>
                                                     @endif
                                                     @endrole
                                                     @break
 
 
                                                     @case('verify_curt')
-                                                    @role('master|expert')
+                                                    @role('expert')
                                                     @if ($duty->time)
-                                                    <span class="alert alert-info">
+                                                    {{-- <span class="alert alert-info">
                                                      انجام شده در
                                                      {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
-                                                    </span>
+                                                    </span> --}}
                                                     @else
                                                     <a class="btn btn-primary" href="{{route('admin.show.curt',$duty->curt->id)}}">
-                                                        بررسی  طرح اجمالی اجمالی
+                                                        {{__('sentences.verify_curt')}}
+
                                                         {{$duty->curt->title}}
                                             </a>
                                                     @endif
@@ -201,11 +218,12 @@
                                                     @case('edit_curt_by_student')
                                                     @role('student')
                                                     @if ($duty->time)
-                                                    ویرایش شده در
-                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
+                                                    {{-- ویرایش شده در
+                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}} --}}
                                                     @else
                                                     <a class="btn btn-primary" href="{{route('curt.edit',$duty->curt->id)}}">
-                                                        ویرایش
+
+                                                        {{__('sentences.edit')}}
                                                     </a>
                                                     @endif
                                                     @endrole
@@ -216,7 +234,7 @@
                                                     @case('save_curt_group_by_expert')
                                                     @role('master')
                                                     <a class="btn btn-primary" href="{{route('curt.edit',$duty->curt->id)}}">
-                                                        ویرایش
+                                                        {{__('sentences.edit')}}
                                                     </a>
                                                     @endrole
                                                     @break
@@ -229,11 +247,12 @@
 
 
                                                     @if ($duty->time)
-                                                    ویرایش شده در
-                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
+                                                    {{-- ویرایش شده در
+                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}} --}}
                                                     @else
                                                     <a class="btn btn-primary" href="{{route('session.create')}}">
-                                                        تعین جلسه
+                                                        {{__('sentences.create_session')}}
+
                                                     </a>
 
                                                     @endif
@@ -307,7 +326,9 @@
                         <div class="card card-custom gutter-b">
                             <div class="card-header">
                                 <div class="card-title">
-                                    <h3 class="card-label"> اخرین گزارشات </h3>
+                                    <h3 class="card-label">
+                                        {{__('sentences.last_logs')}}
+                              </h3>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -363,30 +384,34 @@
                                                                 @switch($log->type)
                                                                 @case('register')
                                                                 <span class="">
-                                                                    ثبت نام
+
+                                                                    {{__('sentences.register')}}
                                                                 </span>
                                                                 @break
 
                                                                 @case('verify')
                                                                 <span class="">
-                                                                      بررسی ثبت نام
+                                                                    {{__('sentences.verify_regiter')}}
+
                                                                 </span>
                                                                 @break
                                                                 @case('submit_curt')
                                                                 <span class="">
-                                                                          ثبت  طرح اجمالی توسط دانشجو
+                                                                    {{__('sentences.create_curt')}}
                                                                 </span>
                                                                 @break
 
                                                                 @case('edit_curt_by_student')
                                                                 <span class="">
-                                                               بررسی  طرح اجمالی توسط دانشجو
+                                                                    {{__('sentences.verify_curt_by_student')}}
+
                                                                 </span>
                                                                 @break
 
                                                                 @case('save_curt_group_by_expert')
                                                                 <span class="">
-                                                                     ارجاع  طرح اجمالی  به گروه
+                                                                    {{__('sentences.save_curt_group_by_expert')}}
+
                                                                 </span>
                                                                 @break
 
@@ -394,19 +419,23 @@
 
                                                                 @case('review_curt_by_master')
                                                                 <span class="">
-                                                                     ارجاع مجدد  طرح اجمالی  به گروه
+
+                                                                    {{__('sentences.review_curt_by_master')}}
+
                                                                 </span>
                                                                 @break
 
                                                                 @case('select_curt_master')
                                                                 <span class="">
-                                                                   انتخاب استاد راهنما
+                                                                    {{__('sentences.select_curt_master')}}
+
                                                                 </span>
                                                                 @break
 
                                                                 @case('accept_curt')
                                                                 <span class="">
-                                                                تایید طرح اجمالی
+                                                                    {{__('sentences.accept_curt')}}
+
                                                                 </span>
                                                                 @break
 
@@ -425,36 +454,43 @@
                                                             </div>
 
                                                         </div>
-                                                        <p class="p-0">
+                                                        <p class="p-0" style="line-height: 2.5em">
                                                             @switch($log->type)
                                                             @case('register')
                                                             <span class="alert alert-success">
-                                                                دانشجو
+                                                                {{-- دانشجو
                                                                 {{$log->student()->name}}
                                                                 {{$log->student()->family}}
-                                                                ثبت نام کردند
+                                                                ثبت نام کردند --}}
+
+                                                                {{__('sentences.register_student_logs',['name'=>$log->student()->name.' '.$log->student()->family])}}
                                                             </span>
                                                             @break
 
                                                             @case('verify')
                                                             <span class="alert alert-success">
-                                                                حساب
+
+                                                                {{__('sentences.register_student_logs',['student'=>$log->student()->name.' '.$log->student()->family,'expert'=>$log->operator()->name.' '.$log->operator()->family])}}
+
+                                                                {{-- حساب
                                                                 دانشجو
                                                                 {{$log->student()->name}}
                                                                 {{$log->student()->family}}
                                                                 توسط متخصص
                                                                 {{$log->operator()->name}}
                                                                 {{$log->operator()->family}}
-                                                                تایید شد
+                                                                تایید شد --}}
                                                             </span>
                                                             @break
                                                             @case('submit_curt')
                                                             <span class="alert alert-success">
-                                                                     طرح اجمالی   اجمالی توسط دانشجو
+                                                                {{__('sentences.submit_curt_by_student',['student'=>$log->student()->name.' '.$log->student()->family])}}
+
+                                                                     {{-- طرح اجمالی   اجمالی توسط دانشجو
 
                                                                 {{$log->student()->name}}
                                                                 {{$log->student()->family}}
-                                                                ثبت شد
+                                                                ثبت شد --}}
                                                             </span>
                                                             @break
 
@@ -462,23 +498,28 @@
 
                                                             @case('edit_curt_by_student')
                                                             <span class="alert alert-success">
-                                                                کارشناس
+                                                                {{__('sentences.edit_curt_by_student',['expert'=>$log->operator()->name.' '.$log->operator()->family])}}
+
+                                                                {{-- کارشناس
                                                                 {{$log->operator()->name}}
                                                                 {{$log->operator()->family}}
-                                                                 درخواست اصلاح در  طرح اجمالی اجمالی  را داشته است
+                                                                 درخواست اصلاح در  طرح اجمالی اجمالی  را داشته است --}}
 
                                                             </span>
                                                             @break
 
                                                             @case('save_curt_group_by_expert')
                                                             <span class="alert alert-success">
-                                                                کارشناس
+                                                                {{-- کارشناس
                                                                 {{$log->operator()->name}}
                                                                 {{$log->operator()->family}}
                                                                  طرح اجمالی را به گروه
 
                                                             {{$log->curt->group->name}}
-                                                            ارجاع داد
+                                                            ارجاع داد --}}
+
+                                                            {{__('sentences.edit_curt_by_student',['expert'=>$log->operator()->name.' '.$log->operator()->family,'group'=>$log->curt->group->name])}}
+
 
                                                             </span>
                                                             @break
@@ -487,14 +528,15 @@
 
                                                             @case('review_curt_by_master')
                                                             <span class="alert alert-success">
-                                                                دانشجو
+                                                                {{-- دانشجو
 
                                                                 {{$log->student()->name}}
                                                                 {{$log->student()->family}}
                                                                 طرح اجمالی را برای بررسی بیشتر به گروه
 
                                                             {{$log->curt->group->name}}
-                                                            ارجاع داد
+                                                            ارجاع داد --}}
+                                                            {{__('sentences.review_curt_by_master_by_student',['expert'=>$log->operator()->name.' '.$log->operator()->family,'group'=>$log->curt->group->name])}}
 
                                                             </span>
                                                             @break
@@ -503,7 +545,7 @@
 
                                                             @case('select_curt_master')
                                                             <span class="alert alert-success">
-                                                                 استاد
+                                                                 {{-- استاد
                                                                  {{$log->curt->master()->name}}
                                                                  {{$log->curt->master()->family}}
                                                                  به عنوان
@@ -511,7 +553,9 @@
 
 
                                                             {{$log->curt->group->name}}
-                                                          انتخاب  شد
+                                                          انتخاب  شد --}}
+                                                          {{__('sentences.select_curt_master_for_curt',['master'=>$log->master()->name.' '.$log->master()->family,'group'=>$log->curt->group->name])}}
+
 
                                                             </span>
                                                             @break
@@ -525,6 +569,10 @@
                                                             {{$log->student()->name}}
                                                             {{$log->student()->family}}
                                                             را تایید کردند
+
+
+                                                            {{__('sentences.accept_curt_by_group',['group'=>$log->curt->group->name,'student'=>$log->master()->name.' '.$log->master()->family])}}
+
                                                             </span>
                                                             @break
 

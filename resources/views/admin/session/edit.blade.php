@@ -44,12 +44,13 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>استاد پیشنهادی
-
+                                                <label>
+                                                
+    {{ __('sentences.suggested_master') }}
 
                                                 </label>
                                                 <select name="user_id"  class="form-control  ">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
+                                                    <option value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{old('user_id',$group->user_id)==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
@@ -63,10 +64,10 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>انتخاب استاتید
+                                                <label>    {{ __('sentences.select_master') }}
                                                 </label>
                                                 <select name="masters[]"   multiple class="form-control  select2">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
+                                                    <option value=""> {{ __('sentences.select_one') }} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{in_array($master->id ,old('masters',$group->users()->pluck('id')->toArray()))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
@@ -89,9 +90,9 @@
                                             </button>
                                         </div>  --}}
                                         <div>
-                                            <input type="submit" value="  دخیره   "
+                                            <input type="submit" value="  {{ __('sentences.save') }}   "
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('group.index')}}">برکشت</a>
+                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('group.index')}}">{{ __('sentences.back') }}</a>
 
 
                                         </div>

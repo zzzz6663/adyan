@@ -33,7 +33,7 @@ class CurtController extends Controller
     {
         $user=auth()->user();
         if($user->curt()->count()>0){
-            alert()->error('شما قبلا طرح اجمالی  خود را تعریف کرده اید ');
+            alert()->error(__('alert.a1'));
             return back();
         }
 
@@ -105,7 +105,7 @@ class CurtController extends Controller
         $user->save_duty('verify_curt', ['expert'],false,null,$curt->id);
 
 
-        alert()->success('طرح با موفقیت ثبت شد ');
+        alert()->success(__('alert.a2'));
         return redirect()->route('user.note');
     }
 
@@ -129,11 +129,11 @@ class CurtController extends Controller
     public function edit(Curt $curt)
     {
         if($curt->status=='accept'){
-            alert()->success('طرح شما قبلا تایید شده است ');
+            alert()->success(__('alert.a3'));
             return back();
         }
         if(!$curt->group_id){
-            alert()->error('هنوز مدیر گروه انتخاب نشده است ');
+            alert()->success(__('alert.a4'));
             return back();
         }
         $all_curts=$curt->user->curts()->whereType('secondary')->latest()->get();
@@ -153,7 +153,12 @@ class CurtController extends Controller
 
 
        if(!$curt->side){
-           alert()->error('طرح شما در دست بررسی می باشد ');
+           alert()->error(__('alert.a5'));
+           return back();
+       }
+
+       if($curt->status=='accept'){
+        alert()->success(__('alert.a5'));
            return back();
        }
 
@@ -188,7 +193,7 @@ class CurtController extends Controller
 
 
 
-        alert()->success('اطلاعات با موفقیت ثبت شد ');
+        alert()->success(__('alert.a7'));
         return redirect()->route('user.note');
     }
 

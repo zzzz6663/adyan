@@ -53,7 +53,7 @@ class GroupController extends Controller
                 $data['masters'][] = $data['user_id'];
             }
         $group->users()->attach($data['masters']);
-        alert()->success('گروه با موفقیت ساخته شد ');
+        alert()->success(__('alert.a27'));
         return redirect()->route('group.index');
     }
 
@@ -99,7 +99,7 @@ class GroupController extends Controller
                 $data['masters'][] = $data['user_id'];
             }
         $group->users()->sync($data['masters']);
-        alert()->success('گروه با موفقیت ساخته شد ');
+        alert()->success(__('alert.a28'));
         return redirect()->route('group.index');
     }
 

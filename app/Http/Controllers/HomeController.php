@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Log;
 use App\Models\Code;
-use App\Models\User;
-use Illuminate\View\View;
-use App\Imports\CodesImport;
-use App\Mail\VerifyEmail;
 use App\Models\Curt;
 use App\Models\Duty;
-use App\Models\Log;
+use App\Models\User;
+use App\Mail\VerifyEmail;
+use Illuminate\View\View;
+use App\Imports\CodesImport;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
@@ -24,20 +25,33 @@ class HomeController extends Controller
         Log::where('id', '>', 0)->delete();
         Duty::where('id', '>', 0)->delete();
         Curt::where('id', '>', 0)->delete();
-        alert()->success('تمام جداول با موفقیت پاک شدن');
+        alert()->success(__('alert.a8'));
         return back();
 
 
     }
     public  function  login()
     {
-        return redirect()->route('home.index');
+
+
+        Auth::logout();
+
+        // $duty=$user->duties()->whereType('submit_curt')->first();
+        // dd(  $duty);
+
+
+
+
+
+
+        return view('home.index');
+        // return redirect()->route('home.index');
     }
     public  function  logout()
     {
-        alert()->success('شما با موفقیت از حساب خود خارج شدید');
+        alert()->success(__('alert.a9'));
         Auth::logout();
-        return redirect()->route('home.index');
+        return redirect()->route('login');
     }
     public  function  forget_password(Request $request)
     {
@@ -47,9 +61,9 @@ class HomeController extends Controller
         $user = User::whereEmail($request->email_forget)->first();
         if ($user) {
             Mail::to($user)->send(new VerifyEmail($user));
-            alert()->success('رمز عبور شما با موفقیت ارسال شد ');
+            alert()->success(__('alert.a10'));
         } else {
-            alert()->error('ایمیل وارد صیحی نمی باشد ');
+            alert()->error(__('alert.a11'));
         }
         return back();
     }
@@ -67,30 +81,30 @@ class HomeController extends Controller
 
 
 
-        if( $user){
-            switch ($user->level) {
-                case 'student':
-                    if ($user->verify != 1) {
-                        alert()->error('حساب شما هنوز   تایید   نشده است');
-                        return back();
-                    } else {
-                        return  redirect()->route('user.note');
-                    }
-                    break;
-                case 'admin':
-                    alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
-                    return redirect()->route('agent.index');
-                    break;
-                case 'expert':
-                    alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
-                    return redirect()->route('user.note');
-                    break;
-                case 'master':
-                    alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
-                    return redirect()->route('user.note');
-                    break;
-            }
-        }
+        // if( $user){
+        //     switch ($user->level) {
+        //         case 'student':
+        //             if ($user->verify != 1) {
+        //                 alert()->error('حساب شما هنوز   تایید   نشده است');
+        //                 return back();
+        //             } else {
+        //                 return  redirect()->route('user.note');
+        //             }
+        //             break;
+        //         case 'admin':
+        //             alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
+        //             return redirect()->route('agent.index');
+        //             break;
+        //         case 'expert':
+        //             alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
+        //             return redirect()->route('user.note');
+        //             break;
+        //         case 'master':
+        //             alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
+        //             return redirect()->route('user.note');
+        //             break;
+        //     }
+        // }
 
 
         return view('home.index');
@@ -100,31 +114,36 @@ class HomeController extends Controller
         $user = User::whereEmail($request->username)->first();
         if ($user && $user->password == $request->password) {
             Auth::loginUsingId($user->id, true);
+
             switch ($user->level) {
                 case 'student':
+
                     if ($user->verify != 1) {
-                        alert()->error('حساب شما هنوز   تایید   نشده است');
-                        return back();
+
+                        alert()->error(__('alert.a12'));
+                        return  back();
+
                     } else {
                         return  redirect()->route('user.note');
                     }
                     break;
                 case 'admin':
-                    alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
+                    alert()->success(__('alert.a13'));
                     return redirect()->route('agent.index');
                     break;
                 case 'expert':
-                    alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
+                    alert()->success(__('alert.a13'));
                     return redirect()->route('user.note');
                     break;
                 case 'master':
-                    alert()->success('شما با  موفقیت  وارد حساب  خود شدید');;
+                    alert()->success(__('alert.a13'));
                     return redirect()->route('user.note');
                     break;
             }
-            return  redirect()->route('agent.create');
+            // return  redirect()->route('agent.create');
         } else {
-            alert()->error('اطلاعات وارد شده صحیح نمیباشد');
+
+            alert()->error(__('alert.a16'));
             return back();
         }
     }
@@ -152,8 +171,9 @@ class HomeController extends Controller
                 } else {
                     $user = User::whereCode($request->code)->first();
                     if ($user->complete == 1) {
-                        alert()->error('شما قبلا ثیت نام کرده اید');
-                        return redirect()->route('home.index');
+                        alert()->error(__('alert.a14'));
+
+                        return redirect()->route('login');
                     } else {
                         Auth::loginUsingId($user->id, true);
                     }
@@ -199,7 +219,8 @@ class HomeController extends Controller
                 $data['avatar'] = $name_img;
             }
             $user->update($data);
-            alert()->success('اطلاعات با موفقیت ثبت شد ');
+
+            alert()->success(__('alert.a15'));
             return redirect()->route('user.register3');
         }
         return view('home.register.level2', compact(['user']));
@@ -215,7 +236,8 @@ class HomeController extends Controller
                 'email' => 'required|unique:users,email,' . $user->id,
             ]);
             $user->update($data);
-            alert()->success('اطلاعات با موفقیت ثبت شد ');
+
+            alert()->success(__('alert.a15'));
             return redirect()->route('user.register4');
         }
         return view('home.register.level3', compact(['user']));
@@ -236,7 +258,8 @@ class HomeController extends Controller
                 'master_course' => 'required',
             ]);
             $user->update($data);
-            alert()->success('اطلاعات با موفقیت ثبت شد ');
+
+            alert()->success(__('alert.a15'));
             return redirect()->route('user.register5');
         }
         return view('home.register.level4', compact(['user']));
@@ -251,10 +274,12 @@ class HomeController extends Controller
             if ($user->complete == 0) {
                 $user->save_log('register', ['admin', 'expert'], true);
                 $user->save_duty('register', ['admin', 'expert']);
+
             }
             $data['complete'] = 1;
             $user->update($data);
-            alert()->success('اطلاعات با موفقیت ثبت شد ');
+
+            alert()->success(__('alert.a15'));
             return redirect()->route('user.register6');
         }
         return view('home.register.level5', compact(['user']));
@@ -270,6 +295,8 @@ class HomeController extends Controller
 
     public  function  note(Request $request)
     {
+        session()->put('locale', 'en');
+
         $user = auth()->user();
         $logs = $user->logs()->latest()->get();
         $duties = $user->duties()->latest()->get();
@@ -280,5 +307,10 @@ class HomeController extends Controller
 
         Excel::import(new CodesImport, public_path('/d.xlsx'));
         return view('home.index');
+    }
+    public  function  lang(Request $request)
+    {
+        session()->put('locale', $request->lang);
+        return redirect()->back();
     }
 }

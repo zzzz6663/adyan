@@ -70,7 +70,7 @@
     </head>
     <!--end::Head-->
 
-    <body id="kt_body" style=" " class="{{Route::currentRouteName()=='home.index'?'':'aside-fixed header-fixed '}}  quick-panel-right demo-panel-right offcanvas-right  subheader-enabled" cz-shortcut-listen="true">
+    <body id="kt_body" style=" " class="{{Route::currentRouteName()=='login'?'':'aside-fixed header-fixed '}}  quick-panel-right demo-panel-right offcanvas-right  subheader-enabled" cz-shortcut-listen="true">
         <div class="d-flex flex-column flex-root">
             <div class="d-flex flex-row flex-column-fluid page">
                 @includeWhen( empty($side),'sections.sidebar')
@@ -147,10 +147,11 @@
 <!--end::Global Config-->  --}}
 
 
+
 <script>var HOST_URL  = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
-<!--begin::Global Config(global config for global جی اس scripts)-->
+<!--begin::Global Config(global config for global JS scripts)-->
 <script>
-    var KTAppSettings  = {
+    var KTAppSettings = {
 "breakpoints": {
 "sm": 576,
 "md": 768,
@@ -217,7 +218,7 @@
 <script src="/assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.6"></script>
 <script src="/assets/js/scripts.bundle.js?v=7.0.6"></script>
 <!--end::Global تم Bundle-->
-<script src="/assets/js/pages/custom/login/login-general.js?v=7.0.6"></script>
+{{-- <script src="/assets/js/pages/custom/login/login-general.js?v=7.0.6"></script> --}}
 {{--  <!--begin::Page Vendors(used by this page)-->
 <script src="/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js?v=7.0.6"></script>
 <!--end::Page Vendors-->  --}}

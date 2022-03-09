@@ -14,9 +14,10 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            جدول      گروه ها
+                            {{__('sentences.group_table')}}
                              <span class="text-muted pt-2 font-size-sm d-block">
-                                    در این جا گروه ها به همراه مدیر گروه ساخته میشود
+                                {{__('sentences.group_list')}}
+
                             </span>
                         </h3>
                     </div>
@@ -38,7 +39,7 @@
                                     </g>
                                 </svg>
                                 <!--end::Svg Icon-->
-                            </span>  گروه جدید
+                            </span>    {{__('sentences.new_group')}}
                         </a>
                         <!--end::دکمه-->
                     </div>
@@ -55,29 +56,32 @@
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            ID
+                                            {{__('sentences.id')}}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            نام
-                                            گروه
+                                            {{__('sentences.group_name')}}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            نام  مدیر گروه
+                                            {{__('sentences.group_admin_name')}}
+
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
+
                                         <span>
-                                          اعضای گروه
+                                            {{__('sentences.group_member')}}
+
                                         </span>
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            اقدام
+                                            {{__('sentences.action')}}
+
                                         </span>
                                     </th>
 

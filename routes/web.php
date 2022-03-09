@@ -15,15 +15,20 @@ use Illuminate\Support\Facades\Route;
 */
 //Route::get('/admin_login','HomeController@admin_login')->name('admin.login');
 
+Route::group(['middleware' => ['check_language']], function () {
+    Route::get('/clear','HomeController@clear')->name('home.clear') ;
+    Route::get('/','HomeController@index')->name('login') ;
+    Route::post('/signin','HomeController@signin')->name('user.signin') ;
+    Route::any('/register1','HomeController@register1')->name('user.register1') ;
+    Route::get('/import','HomeController@import') ;
+    Route::get('/login','HomeController@login') ;
+    Route::get('/logout','HomeController@logout')->name('logout') ;
+    Route::post('/forget_password','HomeController@forget_password')->name('forget.password') ;
+    Route::get('/lang','HomeController@lang')->name('lang') ;
 
-Route::get('/clear','HomeController@clear')->name('home.clear') ;
-Route::get('/','HomeController@index')->name('home.index') ;
-Route::post('/signin','HomeController@signin')->name('user.signin') ;
-Route::any('/register1','HomeController@register1')->name('user.register1') ;
-Route::get('/import','HomeController@import') ;
-Route::get('/login','HomeController@login')->name('login') ;
-Route::get('/logout','HomeController@logout')->name('logout') ;
-Route::post('/forget_password','HomeController@forget_password')->name('forget.password') ;
+});
+
+
 
 
 
@@ -32,16 +37,18 @@ Route::group(['middleware' => ['role:super-admin']], function () {
     //
 });
 
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth','check_language'])->group(function(){
     Route::any('/note','HomeController@note')->name('user.note') ;
 });
-Route::middleware(['auth','role:student|admin'])->group(function(){
+Route::middleware(['auth','role:student|admin','check_language'])->group(function(){
     Route::any('/register2','HomeController@register2')->name('user.register2') ;
     Route::any('/register3','HomeController@register3')->name('user.register3') ;
     Route::any('/register4','HomeController@register4')->name('user.register4') ;
     Route::any('/register5','HomeController@register5')->name('user.register5') ;
     Route::any('/register6','HomeController@register6')->name('user.register6') ;
     Route:: get('/dashboard','StudentController@dashboard')->name('student.dashboard') ;
+    Route:: any('/per_quiz','StudentController@per_quiz')->name('student.per.quiz') ;
+    Route:: post('/quiz_result','StudentController@quiz_result')->name('student.quiz.result') ;
     Route::resource('curt', 'CurtController');
 });
 
@@ -70,6 +77,9 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::post('/save_curt_group/{curt}','AdminController@save_curt_group')->middleware(['role:expert'])->name('admin.save.curt.group');
     Route::resource('agent', 'AgentController')->middleware(['role:admin']);
     Route::resource('group', 'GroupController')->middleware(['role:admin']);
+    //
+    Route::resource('quiz', 'QuizController')->middleware(['role:expert']);
+    Route::resource('quiz.question', 'QuestionController')->middleware(['role:expert']);
 });
 
 Route::prefix('master')->namespace('admin')->middleware([ 'auth'])->group(function(){

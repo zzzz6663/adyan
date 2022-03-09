@@ -24,7 +24,8 @@
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
                                         <h1>
-                                            فرم تعریف  گروه جدید
+                                            {{__('sentences.new_group_form')}}
+
                                         </h1>
                                             <br>
                                             <br>
@@ -32,23 +33,24 @@
                                     <div class="row">
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> نام گروه   </label>
+                                                <label>  {{__('sentences.group_name')}}  </label>
                                                 <input type="text" value="{{old('name')}}" class="form-control" name="name"
-                                                    placeholder="  عنوان " >
-                                                <span class="form-text text-muted">لطفا   عنوان  خود را وارد
-                                                    کنید.</span>
+                                                    placeholder="   {{__('sentences.group_name')}} " >
+                                                <span class="form-text text-muted">
+                                                    {{__('sentences.enter_group_name')}}
+                                                </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>استاد پیشنهادی
-
+                                                <label>
+                                                    {{__('sentences.enter_group_name')}}
 
                                                 </label>
                                                 <select name="user_id"  class="form-control  ">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
+                                                    <option value="">   {{__('sentences.select_one')}} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{old('user_id',[])==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
@@ -62,10 +64,12 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>انتخاب استاتید
+                                                <label>
+
+                                                    {{__('sentences.select_master')}}
                                                 </label>
                                                 <select name="masters[]"   multiple class="form-control  select2">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
+                                                    <option value="">          {{__('sentences.select_one')}} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{in_array($master->id ,old('masters',[]))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
@@ -88,9 +92,9 @@
                                             </button>
                                         </div>  --}}
                                         <div>
-                                            <input type="submit" value="  دخیره   "
+                                            <input type="submit" value="            {{__('sentences.save')}}   "
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('group.index')}}">برکشت</a>
+                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('group.index')}}">          {{__('sentences.back')}}</a>
 
 
                                         </div>

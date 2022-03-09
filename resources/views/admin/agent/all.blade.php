@@ -14,9 +14,9 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            جدول کاربران
+                            {{ __('sentences.users_table') }}
                              <span class="text-muted pt-2 font-size-sm d-block">
-                               لیست اساتید  و دانشجویان و متخصصان و مدیران گروه
+                                {{ __('sentences.users_list') }}
                             </span>
                         </h3>
                     </div>
@@ -103,7 +103,8 @@
                                     </g>
                                 </svg>
                                 <!--end::Svg Icon-->
-                            </span> جدید رکورد
+                            </span>
+                            {{ __('sentences.new_user') }}
                         </a>
                         <!--end::دکمه-->
                     </div>
@@ -205,37 +206,37 @@
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            ID
+                                            {{__('sentences.id')}}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            نام
+                                            {{ __('sentences.name') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            نام خانوادگی
+                                            {{ __('sentences.family') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            همراه
+                                            {{ __('sentences.mobile') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            سطح
+                                            {{ __('sentences.level') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            تاریخ عضویت
+                                            {{ __('sentences.created_at') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            اقدام
+                                            {{ __('sentences.action') }}
                                         </span>
                                     </th>
 
@@ -257,7 +258,7 @@
                                     <td class="datatable-cell text-center">
                                         @if ($user->level !='student')
                                         <a class="btn btn-outline-primary"
-                                            href="{{route('agent.edit',$user->id)}}">ویرایش</a>
+                                            href="{{route('agent.edit',$user->id)}}">{{__('sentences.edit')}} </a>
                                         @endif
                                         @if ($user->level=='student' &&$user->verify==0)
                                         {{-- <a class="btn btn-outline-success" href="{{route('admin.verify.student',$user->id)}}">اکتیو</a> --}}

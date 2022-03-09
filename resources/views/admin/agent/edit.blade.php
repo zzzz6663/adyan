@@ -24,18 +24,18 @@
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
                                         <h1>
-                                            فرم ویراش
+                                            {{__('sentences.edit_form')}}
                                             {{$user->name}}
                                             {{$user->family}}
 
                                         </h1>
                                         <div class="form-group row">
-                                            <label class="col-xl-3 col-lg-3 col-form-label">آواتار</label>
+                                            <label class="col-xl-3 col-lg-3 col-form-label">   {{__('sentences.avatar')}}</label>
                                             <div class="col-lg-9 col-xl-9">
                                                 <div class="image-input image-input-outline" id="kt_مخاطب_add_avatar">
                                                     <div class="image-input-wrapper" id="avatar" style="background-image: url({{$user->avatar()}})"></div>
 
-                                                    <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="تغییر آواتار">
+                                                    <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow" data-action="change" data-toggle="tooltip" title="" data-original-title="تغییر  ">
                                                         <i class="fa fa-pen icon-sm text-muted"></i>
                                                         <input type="file" id="avatarinp" name="avatar" accept=".png, .jpg, .jpeg">
                                                         <input type="hidden" name="profile_avatar_remove">
@@ -52,11 +52,11 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> نام  </label>
+                                                <label>  {{__('sentences.name')}}  </label>
                                                 <input type="text" value="{{old('name',$user->name)}}" class="form-control" name="name"
-                                                    placeholder="  نام " >
-                                                <span class="form-text text-muted">لطفا   نام  خود را وارد
-                                                    کنید.</span>
+                                                    placeholder="   {{__('sentences.name')}} " >
+                                                <span class="form-text text-muted">  {{__('sentences.enter_name')}}
+                                                   </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -64,11 +64,11 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>  نام خانوادگی  </label>
+                                                <label>  {{__('sentences.family')}}   </label>
                                                 <input type="text" value="{{old('family',$user->family)}}" class="form-control" name="family"
-                                                    placeholder="   نام خانوادگی " >
-                                                <span class="form-text text-muted">لطفا    نام خانوادگی  خود را وارد
-                                                    کنید.</span>
+                                                    placeholder="   {{__('sentences.family')}}  " >
+                                                    <span class="form-text text-muted">  {{__('sentences.enter_family')}}
+                                                    </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -76,11 +76,11 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>کد استادی</label>
-                                                <input type="number" class="form-control" name="code" placeholder="کد استادی"
+                                                <label>  {{__('sentences.code')}} </label>
+                                                <input type="number" class="form-control" name="code" placeholder="{{__('sentences.code')}}  "
                                                     value="{{old('code',$user->code)}}">
-                                                    <span class="form-text text-muted">لطفا      کد استادی  خود را وارد
-                                                        کنید.</span>
+                                                    <span class="form-text text-muted">  {{__('sentences.user_code')}}
+                                                    </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -88,11 +88,11 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>همراه  </label>
-                                                <input type="number" class="form-control" name="mobile" placeholder="همراه  "
+                                                <label> {{__('sentences.mobile')}}  </label>
+                                                <input type="number" class="form-control" name="mobile" placeholder=" {{__('sentences.mobile')}}  "
                                                     value="{{old('mobile',$user->mobile)}}">
-                                                    <span class="form-text text-muted">لطفا      همراه    خود را وارد
-                                                        کنید.</span>
+                                                    <span class="form-text text-muted">  {{__('sentences.enter_mobile')}}
+                                                    </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -100,11 +100,12 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>ایمیل  </label>
-                                                <input type="email" class="form-control" name="email" placeholder="ایمیل  "
+                                                <label> {{__('sentences.mobile')}}   </label>
+                                                <input type="email" class="form-control" name="email" placeholder=" {{__('sentences.mobile')}}   "
                                                     value="{{old('email',$user->email)}}">
-                                                    <span class="form-text text-muted">لطفا      ایمیل    خود را وارد
-                                                        کنید.</span>
+                                                    <span class="form-text text-muted">
+                                                        {{__('sentences.enter_email')}}
+                                                    </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -112,11 +113,12 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>رمز عبور  </label>
-                                                <input type="text" class="form-control" name="password" placeholder="رمز عبور  "
+                                                <label>    {{__('sentences.password')}} </label>
+                                                <input type="text" class="form-control" name="password" placeholder="    {{__('sentences.password')}} "
                                                     value="{{old('pasword',$user->password)}}">
-                                                    <span class="form-text text-muted">لطفا      رمز عبور    خود را وارد
-                                                        کنید.</span>
+                                                    <span class="form-text text-muted">
+                                                        {{__('sentences.enter_password')}}
+                                                    </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -125,16 +127,17 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>گروه  </label>
+                                                <label> {{__('sentences.group')}}  </label>
                                                 <select name="group" class="form-control">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
+                                                    <option value="">         {{__('sentences.select_one')}}      </option>
                                                     <option {{old('group',$user->group)=='g1'?'selected':''}} value="g1">گروه یک</option>
                                                     <option {{old('group',$user->group)=='g2'?'selected':''}} value="g2">گروه دو</option>
                                                     <option {{old('group',$user->group)=='g3'?'selected':''}} value="g3">گروه سه</option>
                                                 </select>
 
-                                                    <span class="form-text text-muted">لطفا      گروه    خود را انتخاب
-                                                        کنید.</span>
+                                                <span class="form-text text-muted">
+                                                    {{__('sentences.select_group')}}
+                                                </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -142,11 +145,12 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> رشته علمی  </label>
-                                                <input type="text" class="form-control" name="course" placeholder="رشته علمی  "
+                                                <label>  {{__('sentences.course')}}   </label>
+                                                <input type="text" class="form-control" name="course" placeholder=" {{__('sentences.course')}}   "
                                                     value="{{old('course',$user->course)}}">
-                                                    <span class="form-text text-muted">لطفا      رشته علمی    خود را وارد
-                                                        کنید.</span>
+                                                    <span class="form-text text-muted">
+                                                        {{__('sentences.enter_course')}}
+                                                    </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -154,16 +158,17 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> سطح   </label>
+                                                <label>       {{__('sentences.level')}}   </label>
                                                 <select name="level" class="form-control">
-                                                    <option value="">یک مورد  را  انتخاب کنید </option>
-                                                    <option {{old('level',$user->level)=='master'?'selected':''}} value="master">  استاد</option>
+                                                    <option value="">      {{__('sentences.select_one')}}  </option>
+                                                    <option {{old('level',$user->level)=='master'?'selected':''}} value="master">    {{__('sentences.master')}} </option>
                                                     {{--  <option {{old('level',$user->level)=='manager'?'selected':''}} value="manager">  مدیر گروه</option>  --}}
-                                                    <option {{old('level',$user->level)=='expert'?'selected':''}} value="expert">  متخصص</option>
+                                                    <option {{old('level',$user->level)=='expert'?'selected':''}} value="expert">   {{__('sentences.expert')}}</option>
                                                 </select>
 
-                                                    <span class="form-text text-muted">لطفا      گروه    خود را انتخاب
-                                                        کنید.</span>
+                                                <span class="form-text text-muted">
+                                                    {{__('sentences.select_group')}}
+                                                </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
@@ -171,11 +176,11 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> تخصص    </label>
+                                                <label>          {{__('sentences.specialty')}}    </label>
                                                 <div class="input-group">
-                                                    <input type="text" id="ex_p" class="form-control" placeholder="جستجو ...">
+                                                    <input type="text" id="ex_p" class="form-control" placeholder="   {{__('sentences.search')}} ...">
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-secondary" id="add_ex" type="button">اضافه کردن</button>
+                                                        <button class="btn btn-secondary" id="add_ex" type="button">     {{__('sentences.add')}}</button>
                                                     </div>
                                                 </div>
                                                 <div class="fv-plugins-message-container" id="tags">
@@ -208,9 +213,9 @@
                                             </button>
                                         </div>  --}}
                                         <div>
-                                            <input type="submit" value="  دخیره   "
+                                            <input type="submit" value="     {{__('sentences.save')}}   "
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('agent.index')}}">برکشت</a>
+                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('agent.index')}}">   {{__('sentences.back')}}</a>
 
                                         </div>
                                     </div>

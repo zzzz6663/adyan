@@ -32,7 +32,8 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> شماره تماس ایرانی
+                                                            <label>
+                                                                {{ __('sentences.irani_mobile') }}
                                                             </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="mobile" type="number" value="{{old('mobile',$user->mobile)}}">
                                                         </div>
@@ -41,7 +42,8 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> شماره   واتس اپ
+                                                            <label>
+                                                                {{ __('sentences.whatsapp') }}
                                                             </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="whatsapp" type="number" value="{{old('whatsapp',$user->whatsapp)}}">
                                                         </div>
@@ -50,7 +52,7 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> ایمیل* </label>
+                                                            <label>      {{ __('sentences.email') }}* </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="email" type="email" value="{{old('email',$user->email)}}">
                                                         </div>
                                                         <!--end::ورودی-->
@@ -66,15 +68,15 @@
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                         <div class="mr-2">
                                             <a href="{{route('user.register2')}}" class="btn btn-light-danger font-weight-bold text-uppercase px-9 py-4" >
-                                                قبلی
+                                                {{ __('sentences.previous') }}
                                             </a>
                                         </div>
                                         <div>
                                             <button class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
-                                                ارسال
+                                                {{ __('sentences.send') }}
                                             </button>
                                             <button class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">
-                                                بعد
+                                                {{ __('sentences.next') }}
                                             </button>
                                         </div>
                                     </div>

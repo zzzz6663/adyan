@@ -35,15 +35,18 @@
 
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> نوع شغل*
+                                                            <label>
+
+                                                                {{ __('sentences.job_type') }}
+                                                                *
                                                             </label>
                                                             <select name="type_job" id="type_job" class="form-control form-control-solid form-control-lg">
-                                                                <option value="">لطفا یک مورد را انتخاب کنید </option>
-                                                                <option {{old('type_job',$user->type_job)=='state'?'selected':''}} value="state">شغل دولتی</option>
-                                                                <option {{old('type_job',$user->type_job)=='private'?'selected':''}} value="private">شغل خصوصی</option>
-                                                                <option {{old('type_job',$user->type_job)=='freelance'?'selected':''}} value="freelance">      شاغل آزاد</option>
-                                                                <option {{old('type_job',$user->type_job)=='homemaker'?'selected':''}} value="homemaker">  خانه دار</option>
-                                                                <option {{old('type_job',$user->type_job)=='unemployed'?'selected':''}} value="unemployed">بیکار  </option>
+                                                                <option value="">  {{ __('sentences.select_one') }} </option>
+                                                                <option {{old('type_job',$user->type_job)=='state'?'selected':''}} value="state">    {{ __('sentences.state') }}</option>
+                                                                <option {{old('type_job',$user->type_job)=='private'?'selected':''}} value="private">  {{ __('sentences.private') }}</option>
+                                                                <option {{old('type_job',$user->type_job)=='freelance'?'selected':''}} value="freelance">  {{ __('sentences.freelance') }}    </option>
+                                                                <option {{old('type_job',$user->type_job)=='homemaker'?'selected':''}} value="homemaker"> {{ __('sentences.homemaker') }} </option>
+                                                                <option {{old('type_job',$user->type_job)=='unemployed'?'selected':''}} value="unemployed">{{ __('sentences.unemployed') }}  </option>
                                                             </select>
                                                         </div>
                                                         <!--end::ورودی-->
@@ -51,14 +54,16 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> نوع سمت*
+                                                            <label>
+                                                                {{ __('sentences.semat_job') }}
+                                                                *
                                                             </label>
                                                             <select name="semat_job" id="semat_job" class="form-control form-control-solid form-control-lg">
-                                                                <option value="">لطفا یک مورد را انتخاب کنید </option>
-                                                                <option {{old('semat_job',$user->semat_job)=='admin'?'selected':''}} value="admin">مدیر </option>
-                                                                <option {{old('semat_job',$user->semat_job)=='staff'?'selected':''}} value="staff">کارمند </option>
-                                                                <option {{old('semat_job',$user->semat_job)=='free'?'selected':''}} value="free">آزاد </option>
-                                                                <option {{old('semat_job',$user->semat_job)=='none'?'selected':''}} value="none">هیچکدام </option>
+                                                                <option value="">   {{ __('sentences.select_one') }}</option>
+                                                                <option {{old('semat_job',$user->semat_job)=='admin'?'selected':''}} value="admin">{{ __('sentences.admin') }}  </option>
+                                                                <option {{old('semat_job',$user->semat_job)=='staff'?'selected':''}} value="staff">{{ __('sentences.staff') }}  </option>
+                                                                <option {{old('semat_job',$user->semat_job)=='free'?'selected':''}} value="free">{{ __('sentences.free') }}  </option>
+                                                                <option {{old('semat_job',$user->semat_job)=='none'?'selected':''}} value="none">{{ __('sentences.none') }}  </option>
                                                             </select>
                                                         </div>
                                                         <!--end::ورودی-->
@@ -68,7 +73,9 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> عنوان شغل
+                                                            <label>
+                                                                {{ __('sentences.job') }}
+
                                                             </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="job" type="text" value="{{old('job',$user->job)}}">
 
@@ -78,7 +85,8 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label>   سازمان
+                                                            <label>
+                                                                {{ __('sentences.org') }}
                                                             </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="org" type="text" value="{{old('org',$user->org)}}">
 
@@ -88,7 +96,10 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> کشور سکونت*
+                                                            <label>
+
+                                                                 *
+                                                                 {{ __('sentences.country') }}
                                                             </label>
                                                             <select name="country_id" id="country_id" class="form-control form-control-solid form-control-lg">
                                                                 <option value="">لطفا یک مورد را انتخاب کنید </option>
@@ -104,7 +115,10 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> شهر سکونت * </label>
+                                                            <label>
+                                                                *
+                                                                {{ __('sentences.city') }}
+                                                            </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="city" type="text" value="{{old('city',$user->city)}}">
 
                                                         </div>
@@ -113,7 +127,10 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> استان سکونت * </label>
+                                                            <label>
+                                                                *
+                                                                {{ __('sentences.province') }}
+                                                            </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="province" type="text" value="{{old('province',$user->province)}}">
 
                                                         </div>
@@ -122,8 +139,10 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> رشته کارشناسی
-                                                                * </label>
+                                                            <label>
+                                                                *
+                                                                {{ __('sentences.master_course') }}
+                                                            </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="master_course" type="text" value="{{old('master_course',$user->master_course)}}">
 
                                                         </div>
@@ -132,7 +151,10 @@
                                                     <div class="col-xl-6">
                                                         <!--begin::ورودی-->
                                                         <div class="form-group fv-plugins-icon-container">
-                                                            <label> دانشگاه کارشناسی * </label>
+                                                            <label>
+                                                                *
+                                                                {{ __('sentences.master_univer') }}
+                                                             </label>
                                                             <input class="form-control form-control-lg form-control-solid" name="master_univer" type="text" value="{{old('master_univer',$user->master_univer)}}">
 
                                                         </div>
@@ -151,15 +173,16 @@
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                         <div class="mr-2">
                                             <a href="{{route('user.register3')}}" class="btn btn-light-danger font-weight-bold text-uppercase px-9 py-4" >
-                                                قبلی
+                                                {{ __('sentences.previous') }}
                                             </a>
                                         </div>
                                         <div>
                                             <button class="btn btn-success font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-submit">
-                                                ارسال
+                                                {{ __('sentences.send') }}
+
                                             </button>
                                             <button class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" data-wizard-type="action-next">
-                                                بعد
+                                                {{ __('sentences.next') }}
                                             </button>
                                         </div>
                                     </div>

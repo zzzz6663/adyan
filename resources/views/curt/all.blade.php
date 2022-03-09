@@ -14,9 +14,11 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            جدول طرح ها  اجمالی
+
+                            {{__('sentences.curt_table')}}
                              <span class="text-muted pt-2 font-size-sm d-block">
-                            دانشجویانی که طرح اجمالی رو پر کرده اند
+
+                            {{__('sentences.curt_list')}}
                             </span>
                         </h3>
                     </div>
@@ -70,33 +72,33 @@
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            ID
+                                            {{__('sentences.id')}}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                          عنوان
+                                            {{__('sentences.title')}}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                        دانشجو
+                                            {{__('sentences.student')}}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            استاد
+                                            {{__('sentences.master')}}
                                         </span>
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            تاریخ
+                                            {{__('sentences.created_at')}}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            اقدام
+                                            {{__('sentences.action')}}
                                         </span>
                                     </th>
 

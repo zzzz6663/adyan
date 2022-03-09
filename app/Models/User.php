@@ -121,6 +121,19 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Sessions::class);
     }
+    public function quizzes()
+    {
+        return $this->belongsToMany(Quiz::class)->withPivot(['time','number','result']);
+    }
+    public function expert_quizzes()
+    {
+        return $this->hasMany(Quiz::class,'user_id');
+    }
+    public function questions()
+    {
+        return $this->belongsToMany(Question::class)->withPivot(['quiz_id','number','user_answer','question_answer']);
+    }
+
 
     public function  avatar(){
         if($this->avatar){
@@ -146,7 +159,7 @@ class User extends Authenticatable
             $users_for_duty[]=$this->id;
            }
 
-           if(in_array('group',$levels)){
+           if(in_array('group',$levels) && $curt){
             $curt= Curt::find($curt);
 
             $admin_group=$curt->group->admin();
@@ -171,7 +184,7 @@ class User extends Authenticatable
        if($add){
         $users_for_log[]=$this->id;
        }
-       if(in_array('group',$levels)){
+       if(in_array('group',$levels) && $curt){
        $curt= Curt::find($curt);
        $admin_group=$curt->group->admin();
         $users_for_log[]= $admin_group->id;

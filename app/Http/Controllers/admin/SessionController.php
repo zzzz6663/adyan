@@ -57,10 +57,10 @@ class SessionController extends Controller
         $session = Session::create($data);
         $session->users()->attach($data['users']);
         $session->curts()->attach($data['curts']);
-        alert()->success('جلسه  با موفقیت ثبت شد ');
+
+        alert()->success(__('alert.a33'));
 
 
-        // return redirect()->route('admin.show.curt',['curt_id'=>$data['curts'][0],'session'=>$session->id]);
         return redirect()->route('admin.show.curt',[$data['curts'][0],'session'=>$session->id]);
 
     }
