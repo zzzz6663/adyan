@@ -27,4 +27,8 @@ class Session extends Model
     {
         return $this->belongsToMany(Curt::class);
     }
+    public function subjects()
+    {
+        return $this->belongsToMany(Subject::class);
+    }
 }

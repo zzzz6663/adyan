@@ -15,6 +15,7 @@ class Log extends Model
         'type',//نوع عمل انجام شده
         'info',//اطلاعات اضافی
         'curt_id',//  ای دی طرح اجمالی
+        'subject_id',// کلید موضوغ
 
 
     ]
@@ -39,5 +40,9 @@ class Log extends Model
      public function curt()
      {
          return $this->belongsTo(Curt::class);
+     }
+     public function subject()
+     {
+         return $this->belongsTo(Subject::class);
      }
 }

@@ -274,7 +274,6 @@ class HomeController extends Controller
             if ($user->complete == 0) {
                 $user->save_log('register', ['admin', 'expert'], true);
                 $user->save_duty('register', ['admin', 'expert']);
-
             }
             $data['complete'] = 1;
             $user->update($data);
@@ -299,7 +298,7 @@ class HomeController extends Controller
 
         $user = auth()->user();
         $logs = $user->logs()->latest()->get();
-        $duties = $user->duties()->latest()->get();
+        $duties = $user->duties()->where('time',null)->latest()->get();
         return view('home.note', compact(['user', 'logs', 'duties']));
     }
     public  function  import()

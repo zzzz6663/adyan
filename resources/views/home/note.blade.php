@@ -141,29 +141,20 @@
                                             <div class="d-flex align-items-center justify-content-end flex-wrap"
                                                 data-toggle="view">
                                                 <!--begin::تاریخtime-->
-                                                <div class="font-weight-bolder alert {{$duty->down_id?'alert-success':'alert-danger'}}"
+                                                <div class="font-weight-bolder "
                                                     data-toggle="view">
 
 
-
+                                                        {{$duty->type}}
                                                     @switch( $duty->type)
 
                                                     @case('register')
                                                     @role('expert')
-                                                    @if ($duty->operator_id)
-                                                    {{-- انجام شده توسط
-                                                    کارشناس
-                                                    {{$duty->operator()->name}}
-                                                    {{$duty->operator()->family}}
-                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}} --}}
-                                                    @else
-                                                    {{-- درخواست شده --}}
                                                     {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}}
                                                     <a class="btn btn-primary"
                                                         href="{{route('admin.verify.student',[$duty->student()->id,$duty->id])}}">
                                                         {{__('sentences.confirm_account')}}
                                                     </a>
-                                                    @endif
                                                     @endrole
                                                     @break
 
@@ -173,43 +164,30 @@
 
                                                     <a class="btn btn-primary" href="{{route('student.per.quiz')}}">
                                                         {{__('sentences.participating_in_a_test')}}
+
                                                          </a>
+                                                            @if (!$user->check_quiz_pass() && $user->quizzes()->count()>0)
+
+                                                            {{__('sentences.day_remain_to_quiz', ['time'=> $user->persian_latest_falid_quiz() ])}}
+                                                            @endif
                                                     @endrole
                                                     @break
 
                                                     @case('submit_curt')
                                                     @role('student')
-                                                    @if ($duty->time)
-                                                    {{-- <span class="alert alert-info">
-                                                     انجام شده در
-                                                     {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
-                                                    </span> --}}
-                                                    @else
                                                     <a class="btn btn-primary" href="{{route('curt.create')}}">
                                                         {{__('sentences.create_curt')}}
-
-
                                                     </a>
-                                                    @endif
                                                     @endrole
                                                     @break
 
 
                                                     @case('verify_curt')
                                                     @role('expert')
-                                                    @if ($duty->time)
-                                                    {{-- <span class="alert alert-info">
-                                                     انجام شده در
-                                                     {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}}
-                                                    </span> --}}
-                                                    @else
                                                     <a class="btn btn-primary" href="{{route('admin.show.curt',$duty->curt->id)}}">
                                                         {{__('sentences.verify_curt')}}
-
                                                         {{$duty->curt->title}}
-                                            </a>
-                                                    @endif
-
+                                                     </a>
                                                     @endrole
                                                     @break
 
@@ -217,15 +195,9 @@
 
                                                     @case('edit_curt_by_student')
                                                     @role('student')
-                                                    @if ($duty->time)
-                                                    {{-- ویرایش شده در
-                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}} --}}
-                                                    @else
                                                     <a class="btn btn-primary" href="{{route('curt.edit',$duty->curt->id)}}">
-
                                                         {{__('sentences.edit')}}
                                                     </a>
-                                                    @endif
                                                     @endrole
                                                     @break
 
@@ -244,18 +216,20 @@
 
                                                     @case('review_curt_by_master')
                                                     @role('master')
-
-
-                                                    @if ($duty->time)
-                                                    {{-- ویرایش شده در
-                                                    {{Morilog\Jalali\Jalalian::forge($duty->time)->ago()}} --}}
-                                                    @else
                                                     <a class="btn btn-primary" href="{{route('session.create')}}">
+                                                        (    {{__('sentences.review_curt_by_master_duty')}})
                                                         {{__('sentences.create_session')}}
-
                                                     </a>
+                                                    @endrole
+                                                    @break
 
-                                                    @endif
+
+                                                    @case('verify_subject')
+                                                    @role('master')
+                                                   <a class="btn btn-primary" href="{{route('session.create')}}">
+                                                        (    {{__('sentences.verify_subject')}})
+                                                        {{__('sentences.create_session')}}
+                                                    </a>
                                                     @endrole
                                                     @break
 
@@ -371,6 +345,18 @@
                                                         <img alt="Pic" src="{{$log->operator()->avatar()}}">
                                                         @break
 
+                                                        @case('pass_quiz')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+
+                                                        @case('create_subject')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+
+                                                        @case('subject_result')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+
                                                         @default
 
                                                         @endswitch
@@ -381,6 +367,7 @@
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
                                                             <div class="mr-2">
+                                                                {{$log->type}}
                                                                 @switch($log->type)
                                                                 @case('register')
                                                                 <span class="">
@@ -439,6 +426,41 @@
                                                                 </span>
                                                                 @break
 
+
+                                                                @case('pass_quiz')
+                                                                <span class="">
+                                                                    {{__('sentences.pass_quiz')}}
+                                                                </span>
+                                                                @break
+
+                                                                @case('create_subject')
+                                                                <span class="">
+                                                                    {{__('sentences.create_subject')}}
+                                                                </span>
+                                                                @break
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                                                 @default
 
                                                                 @endswitch
@@ -458,86 +480,40 @@
                                                             @switch($log->type)
                                                             @case('register')
                                                             <span class="alert alert-success">
-                                                                {{-- دانشجو
-                                                                {{$log->student()->name}}
-                                                                {{$log->student()->family}}
-                                                                ثبت نام کردند --}}
-
                                                                 {{__('sentences.register_student_logs',['name'=>$log->student()->name.' '.$log->student()->family])}}
                                                             </span>
                                                             @break
 
                                                             @case('verify')
                                                             <span class="alert alert-success">
-
                                                                 {{__('sentences.register_student_logs',['student'=>$log->student()->name.' '.$log->student()->family,'expert'=>$log->operator()->name.' '.$log->operator()->family])}}
-
-                                                                {{-- حساب
-                                                                دانشجو
-                                                                {{$log->student()->name}}
-                                                                {{$log->student()->family}}
-                                                                توسط متخصص
-                                                                {{$log->operator()->name}}
-                                                                {{$log->operator()->family}}
-                                                                تایید شد --}}
                                                             </span>
                                                             @break
+
+
                                                             @case('submit_curt')
                                                             <span class="alert alert-success">
                                                                 {{__('sentences.submit_curt_by_student',['student'=>$log->student()->name.' '.$log->student()->family])}}
-
-                                                                     {{-- طرح اجمالی   اجمالی توسط دانشجو
-
-                                                                {{$log->student()->name}}
-                                                                {{$log->student()->family}}
-                                                                ثبت شد --}}
                                                             </span>
                                                             @break
-
-
 
                                                             @case('edit_curt_by_student')
                                                             <span class="alert alert-success">
                                                                 {{__('sentences.edit_curt_by_student',['expert'=>$log->operator()->name.' '.$log->operator()->family])}}
-
-                                                                {{-- کارشناس
-                                                                {{$log->operator()->name}}
-                                                                {{$log->operator()->family}}
-                                                                 درخواست اصلاح در  طرح اجمالی اجمالی  را داشته است --}}
-
                                                             </span>
                                                             @break
+
 
                                                             @case('save_curt_group_by_expert')
                                                             <span class="alert alert-success">
-                                                                {{-- کارشناس
-                                                                {{$log->operator()->name}}
-                                                                {{$log->operator()->family}}
-                                                                 طرح اجمالی را به گروه
-
-                                                            {{$log->curt->group->name}}
-                                                            ارجاع داد --}}
-
                                                             {{__('sentences.edit_curt_by_student',['expert'=>$log->operator()->name.' '.$log->operator()->family,'group'=>$log->curt->group->name])}}
-
-
                                                             </span>
                                                             @break
-
 
 
                                                             @case('review_curt_by_master')
                                                             <span class="alert alert-success">
-                                                                {{-- دانشجو
-
-                                                                {{$log->student()->name}}
-                                                                {{$log->student()->family}}
-                                                                طرح اجمالی را برای بررسی بیشتر به گروه
-
-                                                            {{$log->curt->group->name}}
-                                                            ارجاع داد --}}
                                                             {{__('sentences.review_curt_by_master_by_student',['expert'=>$log->operator()->name.' '.$log->operator()->family,'group'=>$log->curt->group->name])}}
-
                                                             </span>
                                                             @break
 
@@ -545,34 +521,26 @@
 
                                                             @case('select_curt_master')
                                                             <span class="alert alert-success">
-                                                                 {{-- استاد
-                                                                 {{$log->curt->master()->name}}
-                                                                 {{$log->curt->master()->family}}
-                                                                 به عنوان
-                                                                 استاد راهنمای  طرح اجمالی
-
-
-                                                            {{$log->curt->group->name}}
-                                                          انتخاب  شد --}}
                                                           {{__('sentences.select_curt_master_for_curt',['master'=>$log->master()->name.' '.$log->master()->family,'group'=>$log->curt->group->name])}}
-
-
                                                             </span>
                                                             @break
 
                                                             @case('accept_curt')
                                                             <span class="alert alert-success">
-                                                             گروه
-                                                            {{$log->curt->group->name}}
-                                                            طرح اجمالی دانشجو
-
-                                                            {{$log->student()->name}}
-                                                            {{$log->student()->family}}
-                                                            را تایید کردند
-
-
                                                             {{__('sentences.accept_curt_by_group',['group'=>$log->curt->group->name,'student'=>$log->master()->name.' '.$log->master()->family])}}
+                                                            </span>
+                                                            @break
 
+
+                                                            @case('pass_quiz')
+                                                            <span class="alert alert-success">
+                                                            {{__('sentences.pass_quiz_student',[ 'student'=>$log->student()->name.' '.$log->student()->family])}}
+                                                            </span>
+                                                            @break
+
+                                                            @case('create_subject')
+                                                            <span class="alert alert-success">
+                                                            {{__('sentences.create_subject_log',[ 'master'=>$log->student()->name.' '.$log->student()->family,'subject'=>$log->subject->title])}}
                                                             </span>
                                                             @break
 

@@ -7,6 +7,7 @@ use App\Models\Session;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Curt;
+use App\Models\Subject;
 
 class SessionController extends Controller
 {
@@ -35,7 +36,9 @@ class SessionController extends Controller
     {
         $user=auth()->user();
         $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
-        return view('admin.session.create',compact(['user','curts']));
+        $subjects=Subject::whereStatus(null)->get();
+
+        return view('admin.session.create',compact(['user','curts','subjects']));
     }
 
     /**
@@ -49,19 +52,25 @@ class SessionController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'users' => 'required',
-            'curts' => 'required',
+            'curts' => 'required_without_all:subjects',
+            'subjects' => 'required_without_all:curts',
             'time' => 'required',
         ]);
         $data['time']=$this->convert_date($data['time']);
         $data['user_id']=auth()->user()->id;
         $session = Session::create($data);
         $session->users()->attach($data['users']);
-        $session->curts()->attach($data['curts']);
+        if(isset($data['curts'])){
+            $session->curts()->attach($data['curts']);
+        }
+        if(isset($data['subjects'])){
+            $session->subjects()->attach($data['subjects']);
+        }
 
         alert()->success(__('alert.a33'));
 
 
-        return redirect()->route('admin.show.curt',[$data['curts'][0],'session'=>$session->id]);
+        return redirect()->route('session.show',$session->id);
 
     }
 
@@ -71,9 +80,11 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request,)
+    public function show(Request $request,Session $session)
     {
-        return view('admin.session.edit' ,compact(['session']));
+        session()->forget('session',$session->id);
+       session()->put('session',$session->id);
+        return view('admin.session.show' ,compact(['session']));
     }
 
     /**

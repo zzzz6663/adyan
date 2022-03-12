@@ -85,6 +85,8 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
 Route::prefix('master')->namespace('admin')->middleware([ 'auth'])->group(function(){
     Route::get('/groups','MasterController@groups')->name('master.groups')->middleware(['role:master']);
     Route::resource('session', 'SessionController')->middleware(['role:master']);
+    Route::resource('subject', 'SubjectController')->middleware(['role:master']);
+
 });
 
 //Route::get('/', function () {

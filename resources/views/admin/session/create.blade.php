@@ -66,7 +66,7 @@
                                                     {{ __('sentences.select_master') }}
                                                 </label>
                                                 <select name="users[]"   multiple class="form-control  select2">
-                                                    <option value="">           {{ __('sentences.select_one') }} </option>
+                                                    <option disabled value="">           {{ __('sentences.select_one') }} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{in_array($master->id ,old('masters',[]))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
@@ -81,13 +81,36 @@
                                                     {{ __('sentences.select_curt') }}
                                                 </label>
                                                 <select name="curts[]"   multiple class="form-control  select2">
-                                                    <option value="">  {{ __('sentences.select_one') }}</option>
+                                                    <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($curts as $curt )
                                                    <option {{in_array($curt->id ,old('curts',[]))?'selected':''}} value="{{$curt->id}}">
                                                     {{$curt->title}}
                                                  (
                                                      {{$curt->user->name}}
                                                      {{$curt->user->family}}
+
+                                                 )
+
+                                                </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{ __('sentences.select_subject') }}
+                                                </label>
+                                                <select name="subjects[]"   multiple class="form-control  select2">
+                                                    <option disabled value="">  {{ __('sentences.select_one') }}</option>
+                                                    @foreach ($subjects as $subject )
+                                                   <option {{in_array($subject->id ,old('subjectss',[]))?'selected':''}} value="{{$subject->id}}">
+                                                    {{$subject->title}}
+                                                 (
+                                                     {{$subject->master->name}}
+                                                     {{$subject->master->family}}
 
                                                  )
 

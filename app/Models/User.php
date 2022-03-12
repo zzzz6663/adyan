@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
+use Morilog\Jalali\Jalalian;
+use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Spatie\Permission\Traits\HasRoles;
-
+use Mockery\Matcher\Subset;
 
 class User extends Authenticatable
 {
@@ -68,6 +70,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    public function subjects()
+    {
+        return $this->hasMany(Subset::class);
+    }
+    public function group_subjects()
+    {
+        return $this->hasMany(Subset::class,'group_id');
+    }
+    public function master_subjects()
+    {
+        return $this->hasMany(Subset::class,'master_id');
+    }
+
     public function country()
     {
         return $this->belongsTo(Country::class);
@@ -146,7 +161,7 @@ class User extends Authenticatable
 
 
 //ثبت لاگ برای بعضی از کاربران
-    public function save_duty($type,$levels ,$add=false ,$operator=null ,$curt=null)
+    public function save_duty($type,$levels ,$add=false ,$operator=null ,$curt=null,$subject=null)
     {
         $users_for_duty=User::whereIn('level',$levels)->get()->pluck('id')->toArray();
         $duty= Duty::create([
@@ -154,6 +169,7 @@ class User extends Authenticatable
              'type'=> $type,
              'operator_id'=> $operator,
              'curt_id'=> $curt,
+             'subject_id'=> $subject,
         ]);
         if($add){
             $users_for_duty[]=$this->id;
@@ -168,7 +184,7 @@ class User extends Authenticatable
         $duty->users()->attach($users_for_duty);
     }
     //ثبت وظیفه برای بعضی از کاربران
-    public function  save_log($type,$levels ,$add=false,$operator=null,$curt=null)
+    public function  save_log($type,$levels ,$add=false,$operator=null,$curt=null,$subject=null)
     {
         // if(in_array('group',$levels)){
         //     dd(  $user->curt()->master());
@@ -179,9 +195,10 @@ class User extends Authenticatable
             'type'=> $type,
             'operator_id'=> $operator,
             'curt_id'=> $curt,
+            'subject_id'=> $subject,
        ]);
 
-       if($add){
+       if($add && !in_array($this->id,$users_for_log)){
         $users_for_log[]=$this->id;
        }
        if(in_array('group',$levels) && $curt){
@@ -191,6 +208,25 @@ class User extends Authenticatable
        }
 
        $log->users()->attach($users_for_log);
+    }
+    public function update_status($status)
+    {
+       $this->update(['status'=>$status]);
+    }
+    public function check_quiz_pass()
+    {
+       return $this->quizzes()->wherePivot('result','1')->first();
+    }
+    public function persian_latest_falid_quiz()
+    {
+       return Jalalian::forge(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time)->addDays(21))->format('d-m-Y');
+    }
+    public function check_go_quiz()
+    {
+        if(! $this->quizzes()->whereResult('0')->latest()->first()){
+            return false;
+        }
+       return  Carbon::now()->diffInDays(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time))>=20??false;
     }
 
 

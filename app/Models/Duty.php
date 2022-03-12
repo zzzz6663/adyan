@@ -16,6 +16,7 @@ class Duty extends Model
         'down_id',//ای دی انجام دهنده
         'time',//زمان انجام
         'curt_id',//  ای دی طرح اجمالی
+        'subject_id',//  ای دی طرح موضوع
     ];
 
     public function users()
@@ -37,5 +38,9 @@ class Duty extends Model
     public function curt()
     {
         return $this->belongsTo(Curt::class);
+    }
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
     }
 }
