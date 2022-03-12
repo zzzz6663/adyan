@@ -17,7 +17,7 @@ class Subject extends Model
         'status', // وضعیت موضوع
         'time', // وقت تایید موضوع
         'info', //توضیحات
-        'reason', //دلیل رد 
+        'reason', //دلیل رد
     ];
    public function user(){
        return $this->belongsTo(User::class);
@@ -31,5 +31,9 @@ class Subject extends Model
    public function sessions()
     {
         return $this->belongsToMany(Session::class);
+    }
+   public function duty()
+    {
+        return $this->hasOne(Duty::class);
     }
 }

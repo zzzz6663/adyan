@@ -57,8 +57,8 @@ class SubjectController extends Controller
         $data['master_id']= $user->id;
         $data['admin_id']= $admin->id;
         $subject = Subject::create($data);
-        $user->save_log('create_subject', ['admin', 'expert','master'], true,false,false,$subject->id);
-        $admin->save_duty('verify_subject', [], true,false,false,$subject->id);
+        $user->save_log('create_subject', ['admin', 'expert','master'], true,false,false,$subject->id,$group->id);
+        $admin->save_duty('verify_subject', [], true,false,false,$subject->id,$group->id);
 
         alert()->success(__('alert.a36'));
         return redirect()->route('subject.index');
@@ -104,6 +104,7 @@ class SubjectController extends Controller
         ]);
         $data['time']=Carbon::now();
         $subject->update($data);
+        $subject->duty->update(['time'=>Carbon::now()]);
 
         $subject->master->save_log('subject_result', ['admin', 'expert'], true,false,false,$subject->id);
         alert()->success(__('alert.a37'));

@@ -11,6 +11,7 @@ class Duty extends Model
     protected $fillable=[
         'user_id',//ای دی دانشجو
         'operator_id',// ای استاد یا کارشناس یا...
+        'group_id',// کلید گروه
         'type',//نوع وظیفه
         'info',//اطلاعات اضافه
         'down_id',//ای دی انجام دهنده
@@ -42,5 +43,9 @@ class Duty extends Model
     public function subject()
     {
         return $this->belongsTo(Subject::class);
+    }
+    public function group()
+    {
+        return $this->belongsTo(Group::class);
     }
 }

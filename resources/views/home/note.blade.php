@@ -226,7 +226,7 @@
 
                                                     @case('verify_subject')
                                                     @role('master')
-                                                   <a class="btn btn-primary" href="{{route('session.create')}}">
+                                                   <a class="btn btn-primary" href="{{route('session.create',['group'=>$duty->group->id])}}">
                                                         (    {{__('sentences.verify_subject')}})
                                                         {{__('sentences.create_session')}}
                                                     </a>
@@ -540,7 +540,7 @@
 
                                                             @case('create_subject')
                                                             <span class="alert alert-success">
-                                                            {{__('sentences.create_subject_log',[ 'master'=>$log->student()->name.' '.$log->student()->family,'subject'=>$log->subject->title])}}
+                                                            {{__('sentences.create_subject_log',[ 'master'=>$log->student()->name.' '.$log->student()->family,'subject'=>$log->subject->title,'group'=>$log->group->name])}}
                                                             </span>
                                                             @break
 

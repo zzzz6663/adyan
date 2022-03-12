@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Curt;
 use App\Models\Subject;
+use Carbon\Carbon;
 
 class SessionController extends Controller
 {
@@ -32,13 +33,14 @@ class SessionController extends Controller
      *
      * @returen \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        $group=$request->group??null;
         $user=auth()->user();
         $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $subjects=Subject::whereStatus(null)->get();
 
-        return view('admin.session.create',compact(['user','curts','subjects']));
+        return view('admin.session.create',compact(['user','curts','subjects','group']));
     }
 
     /**
@@ -55,6 +57,7 @@ class SessionController extends Controller
             'curts' => 'required_without_all:subjects',
             'subjects' => 'required_without_all:curts',
             'time' => 'required',
+            'group_id' => 'nullable',
         ]);
         $data['time']=$this->convert_date($data['time']);
         $data['user_id']=auth()->user()->id;
@@ -105,9 +108,15 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Session $session)
     {
-        //
+       $data=$request->validate(['info'=>'nullable']);
+       $data['time']=Carbon::now();
+       $session->update($data);
+       alert()->success(__('alert.a38'));
+
+        return redirect()->route('user.note');
+
     }
 
     /**

@@ -161,7 +161,7 @@ class User extends Authenticatable
 
 
 //ثبت لاگ برای بعضی از کاربران
-    public function save_duty($type,$levels ,$add=false ,$operator=null ,$curt=null,$subject=null)
+    public function save_duty($type,$levels ,$add=false ,$operator=null ,$curt=null,$subject=null,$group=null)
     {
         $users_for_duty=User::whereIn('level',$levels)->get()->pluck('id')->toArray();
         $duty= Duty::create([
@@ -170,6 +170,7 @@ class User extends Authenticatable
              'operator_id'=> $operator,
              'curt_id'=> $curt,
              'subject_id'=> $subject,
+             'group_id'=> $group,
         ]);
         if($add){
             $users_for_duty[]=$this->id;
@@ -184,7 +185,7 @@ class User extends Authenticatable
         $duty->users()->attach($users_for_duty);
     }
     //ثبت وظیفه برای بعضی از کاربران
-    public function  save_log($type,$levels ,$add=false,$operator=null,$curt=null,$subject=null)
+    public function  save_log($type,$levels ,$add=false,$operator=null,$curt=null,$subject=null,$group=null)
     {
         // if(in_array('group',$levels)){
         //     dd(  $user->curt()->master());
@@ -196,6 +197,7 @@ class User extends Authenticatable
             'operator_id'=> $operator,
             'curt_id'=> $curt,
             'subject_id'=> $subject,
+            'group_id'=> $group,
        ]);
 
        if($add && !in_array($this->id,$users_for_log)){

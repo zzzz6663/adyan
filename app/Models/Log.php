@@ -45,4 +45,8 @@ class Log extends Model
      {
          return $this->belongsTo(Subject::class);
      }
+     public function group()
+     {
+         return $this->belongsTo(Group::class);
+     }
 }

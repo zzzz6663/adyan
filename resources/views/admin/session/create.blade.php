@@ -62,6 +62,9 @@
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
+                                                @if ($group)
+                                                <input type="text" hidden value="{{$group}}" name="group_id">
+                                                @endif
                                                 <label>
                                                     {{ __('sentences.select_master') }}
                                                 </label>
