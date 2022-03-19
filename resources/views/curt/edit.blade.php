@@ -148,7 +148,7 @@
 
 
                                                         <span class="ti">
-                                                            {{__('sentences.title')}}
+                                                            {{__('sentences.problem')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$curt->problem}}

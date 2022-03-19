@@ -27,6 +27,7 @@ class Curt extends Model
         'side', //وضعیت انتظار ، اگر صفر باشه دانشجو باید صبر کند تا طرف مقابل  طرح  به سمت دانشجو بفرستد
         'resume',//رزومه استاد پیشنهادی که جز لیست نبوده
         'status',//وضعیت مرحله پایان نامه
+        'subject_id',//      کلید موضوع مصوب
     ];
     public function user()
     {
@@ -48,6 +49,11 @@ class Curt extends Model
     public function duties()
     {
         return $this->hasMany(Curt::class);
+    }
+
+    public function subject()
+    {
+        return $this->belongsTo(Subject::class);
     }
     public function sessions()
     {

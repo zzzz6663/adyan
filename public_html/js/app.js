@@ -2092,6 +2092,14 @@ window.onload = function () {
       }
     };
 
+    if ($('#quiz_p').length) {
+      window.history.pushState(null, "", window.location.href);
+
+      window.onpopstate = function () {
+        window.history.pushState(null, "", window.location.href);
+      };
+    }
+
     ;
 
     if ($('#progressBar').length) {
@@ -2185,6 +2193,20 @@ window.onload = function () {
       var el = "\n            <span type=\"button\" class=\"btn self btn-outline-success mr-2\">\n            ".concat(val, "\n            <input type=\"text\" name=\"tags[]\" hidden=\"\" value=\"").concat(val, "\">\n             </span>\n            ");
       $('#tags').append(el);
       $('#ex_p').val('');
+    });
+    ;
+    $('body').on('click', '#add_ex2', function () {
+      var val = $('#ex_p2').val();
+      val = val.replace(/\s/g, '');
+
+      if (val.length < 3) {
+        noty('حداقل سه کاراکتر وارد نمایید');
+        return;
+      }
+
+      var el = "\n            <span type=\"button\" class=\"btn self btn-outline-success mr-2\">\n            ".concat(val, "\n            <input type=\"text\" name=\"en_tags[]\" hidden=\"\" value=\"").concat(val, "\">\n             </span>\n            ");
+      $('#en_tags').append(el);
+      $('#ex_p2').val('');
     });
     ;
     $('body').on('click', '.self', function () {

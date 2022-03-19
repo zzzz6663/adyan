@@ -15,6 +15,10 @@ class CurtController extends Controller
      */
     public function index(Request $request)
     {
+        $user = auth()->user();
+
+
+    
         $curts=Curt::query();
         if ($request->search){
             $search=$request->search;
@@ -32,7 +36,8 @@ class CurtController extends Controller
     public function create()
     {
         $user=auth()->user();
-        if($user->curt()->count()>0){
+
+        if($user->curt() && $user->curt()->count()>0){
             alert()->error(__('alert.a1'));
             return back();
         }
@@ -101,8 +106,8 @@ class CurtController extends Controller
                 'operator_id'=> $user->id
             ]);
         }
-        $user->save_log('submit_curt', ['expert'], true ,auth()->user()->id,$curt->id);
-        $user->save_duty('verify_curt', ['expert'],false,null,$curt->id);
+        $user->save_log(['expert','admin'],['type'=>'submit_curt','operator'=>auth()->user()->id,'curt_id',$curt->id] , true );
+        $user->save_duty( ['expert'],['type'=>'verify_curt','curt_id'=>$curt->id],false);
 
 
         alert()->success(__('alert.a2'));
@@ -188,8 +193,15 @@ class CurtController extends Controller
             ]);
         }
 
-        $user->save_log('review_curt_by_master', ['group','expert','admin'], true ,auth()->user()->id,$curt->id);
-        $user->save_duty('review_curt_by_master', ['group'],false,null,$curt->id);
+        $user->save_log( ['group','expert','admin'],[
+            'type'=>'review_curt_by_master',
+            'operator_id'=>auth()->user()->id,
+            'curt_id'=>$curt->id
+        ] ,true );
+        $user->save_duty(['group'],[
+            'type'=>'review_curt_by_master',
+        'curt_id'=>$curt->id
+        ],false);
 
 
 

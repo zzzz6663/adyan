@@ -36,12 +36,12 @@
                                                 <label>    {{ __('sentences.name') }}   </label>
                                                 <input type="text" value="{{old('name')}}" class="form-control" name="name"
                                                     placeholder="   {{ __('sentences.name') }} " >
-                                                <span class="form-text text-muted">
+                                                {{-- <span class="form-text text-muted">
                                                     {{ __('sentences.enter_session_name') }}
-                                                </span>
-                                                <span class="form-text text-muted">
+                                                </span> --}}
+                                                {{-- <span class="form-text text-muted">
                                                     {{ __('sentences.session_date') }}
-                                                </span>
+                                                </span> --}}
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
@@ -50,9 +50,9 @@
                                                 <label>      {{ __('sentences.session_date') }}   </label>
                                                 <input type="text" value="{{old('time')}}" class="form-control persian" name="time"
                                                     placeholder="    {{ __('sentences.session_date') }}  " >
-                                                    <span class="form-text text-muted">
+                                                    {{-- <span class="form-text text-muted">
                                                         {{ __('sentences.session_date') }}
-                                                    </span>
+                                                    </span> --}}
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
@@ -114,6 +114,29 @@
                                                  (
                                                      {{$subject->master->name}}
                                                      {{$subject->master->family}}
+
+                                                 )
+
+                                                </option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{ __('sentences.select_plan') }}
+                                                </label>
+                                                <select name="plans[]"   multiple class="form-control  select2">
+                                                    <option disabled value="">  {{ __('sentences.select_one') }}</option>
+                                                    @foreach ($plans as $plan )
+                                                   <option {{in_array($plan->id ,old('plans',[]))?'selected':''}} value="{{$plan->id}}">
+                                                    {{$plan->title}}
+                                                 (
+                                                     {{$plan->user->name}}
+                                                     {{$plan->user->family}}
 
                                                  )
 

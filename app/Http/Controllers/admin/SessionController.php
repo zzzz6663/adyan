@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\admin;
 
+use Carbon\Carbon;
+use App\Models\Curt;
+use App\Models\Plan;
 use NumberFormatter;
 use App\Models\Session;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Curt;
-use App\Models\Subject;
-use Carbon\Carbon;
 
 class SessionController extends Controller
 {
@@ -36,11 +37,13 @@ class SessionController extends Controller
     public function create(Request $request)
     {
         $group=$request->group??null;
+        $plan=$request->plan??null;
         $user=auth()->user();
         $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $subjects=Subject::whereStatus(null)->get();
+        $plans=Plan::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
 
-        return view('admin.session.create',compact(['user','curts','subjects','group']));
+        return view('admin.session.create',compact(['user','curts','subjects','group','plans']));
     }
 
     /**
@@ -54,8 +57,9 @@ class SessionController extends Controller
         $data = $request->validate([
             'name' => 'required',
             'users' => 'required',
-            'curts' => 'required_without_all:subjects',
-            'subjects' => 'required_without_all:curts',
+            'curts' => 'required_without_all:subjects,plans',
+            'subjects' => 'required_without_all:curts,plans',
+            'plans' => 'required_without_all:curts,subjects',
             'time' => 'required',
             'group_id' => 'nullable',
         ]);
@@ -68,6 +72,9 @@ class SessionController extends Controller
         }
         if(isset($data['subjects'])){
             $session->subjects()->attach($data['subjects']);
+        }
+        if(isset($data['plans'])){
+            $session->plans()->attach($data['plans']);
         }
 
         alert()->success(__('alert.a33'));

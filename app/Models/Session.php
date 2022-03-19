@@ -37,4 +37,8 @@ class Session extends Model
     {
         return $this->belongsToMany(Subject::class);
     }
+    public function plans()
+    {
+        return $this->belongsToMany(Plan::class);
+    }
 }

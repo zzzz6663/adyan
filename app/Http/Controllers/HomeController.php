@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends Controller
 {
@@ -26,6 +27,7 @@ class HomeController extends Controller
         Duty::where('id', '>', 0)->delete();
         Curt::where('id', '>', 0)->delete();
         alert()->success(__('alert.a8'));
+        $exitCode = Artisan::call('optimize');
         return back();
 
 
@@ -272,8 +274,9 @@ class HomeController extends Controller
                 'password' => 'required|confirmed',
             ]);
             if ($user->complete == 0) {
-                $user->save_log('register', ['admin', 'expert'], true);
-                $user->save_duty('register', ['admin', 'expert']);
+
+                $user->save_log(['admin', 'expert'],['type'=>'register'] , true);
+                $user->save_duty(['admin', 'expert'],['type'=>'register'] );
             }
             $data['complete'] = 1;
             $user->update($data);

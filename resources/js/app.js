@@ -4,7 +4,13 @@ require('./bootstrap');
 
 window.onload = function() {
     if (window.jQuery) {
+        if ($('#quiz_p').length){
+            window.history.pushState(null, "", window.location.href);
+            window.onpopstate = function() {
+                window.history.pushState(null, "", window.location.href);
+            };
 
+        }
 
         function progress(timeleft, timetotal, $element) {
             var progressBarWidth = timeleft * $element.width() / timetotal;
@@ -128,6 +134,24 @@ window.onload = function() {
             `
             $('#tags').append(el);
             $('#ex_p').val('');
+        });;
+        $('body').on('click', '#add_ex2', function() {
+            let val =$('#ex_p2').val();
+            val = val.replace(/\s/g, '');
+            if(val.length<3){
+                noty('حداقل سه کاراکتر وارد نمایید')
+                return
+
+            }
+
+            let el =`
+            <span type="button" class="btn self btn-outline-success mr-2">
+            ${val}
+            <input type="text" name="en_tags[]" hidden="" value="${val}">
+             </span>
+            `
+            $('#en_tags').append(el);
+            $('#ex_p2').val('');
         });;
         $('body').on('click', '.self', function() {
           var ele=$(this)

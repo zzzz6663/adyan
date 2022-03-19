@@ -22,6 +22,9 @@ class Subject extends Model
    public function user(){
        return $this->belongsTo(User::class);
    }
+   public function group(){
+       return $this->belongsTo(Group::class);
+   }
    public function admin(){
        return $this->belongsTo(User::class,'admin_id');
    }

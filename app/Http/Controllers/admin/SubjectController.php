@@ -57,8 +57,22 @@ class SubjectController extends Controller
         $data['master_id']= $user->id;
         $data['admin_id']= $admin->id;
         $subject = Subject::create($data);
-        $user->save_log('create_subject', ['admin', 'expert','master'], true,false,false,$subject->id,$group->id);
-        $admin->save_duty('verify_subject', [], true,false,false,$subject->id,$group->id);
+        $user->save_log(['admin', 'expert','master'],
+
+        [
+            'type' => 'create_subject',
+            'subject_id' =>$subject->id,
+            'group_id' =>$group->id,
+        ]
+        , true);
+        $admin->save_duty([],
+        [
+            'type' => 'verify_subject',
+            'subject_id' =>$subject->id,
+            'group_id' =>$group->id,
+        ]
+
+        , true);
 
         alert()->success(__('alert.a36'));
         return redirect()->route('subject.index');
@@ -105,8 +119,13 @@ class SubjectController extends Controller
         $data['time']=Carbon::now();
         $subject->update($data);
         $subject->duty->update(['time'=>Carbon::now()]);
-
-        $subject->master->save_log('subject_result', ['admin', 'expert'], true,false,false,$subject->id);
+        $group=   $subject->group_id;
+        $subject->master->save_log( ['admin', 'expert'] ,
+        [
+            'type' => 'subject_result',
+            'subject' => $subject->id,
+            'group_id' =>$group->id
+        ], true);
         alert()->success(__('alert.a37'));
         if($session){
             $session=Session::find($session);

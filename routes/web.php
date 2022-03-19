@@ -48,8 +48,12 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
     Route::any('/register6','HomeController@register6')->name('user.register6') ;
     Route:: get('/dashboard','StudentController@dashboard')->name('student.dashboard') ;
     Route:: any('/per_quiz','StudentController@per_quiz')->name('student.per.quiz') ;
+    Route:: get('/per_curt','StudentController@per_curt')->name('student.per.curt') ;
+    Route:: post('/select_curt','StudentController@selenotct_curt')->name('student.select.curt') ;
+    Route:: post('/subject_list','StudentController@subject_list')->name('student.subject.list') ;
     Route:: post('/quiz_result','StudentController@quiz_result')->name('student.quiz.result') ;
     Route::resource('curt', 'CurtController');
+    Route::resource('plan', 'PlanController');
 });
 
 // Route::prefix('student')->middleware(['checkStudent','auth'])->namespace('student')->group(function(){
@@ -71,8 +75,11 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
 Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(function(){
     Route::get('/curt','AdminController@curt')->name('admin.curt');
     Route::get('/show_curt/{curt}/{duty?}','AdminController@show_curt')->name('admin.show.curt');
+    Route::get('/show_plan/{plan}/{duty?}','AdminController@show_plan')->name('admin.show.plan');
     Route::get('/verify_student/{user}/{duty}','AdminController@verify_student')->middleware(['role:expert'])->name('admin.verify.student');
     Route::post('/admin_curt_submit/{curt}','AdminController@admin_curt_submit')->middleware(['role:expert|master'])->name('admin.curt.submit');
+    Route::post('/admin_plan_submit/{plan}','AdminController@admin_plan_submit')->middleware(['role:expert|master'])->name('admin.plan.submit');
+    Route::get('/all_quiz','AdminController@all_quiz')->middleware(['role:expert|admin'])->name('admin.all.quiz');
     Route::post('/save_curt_master/{curt}','AdminController@save_curt_master')->middleware(['role:master'])->name('admin.save.curt.master');
     Route::post('/save_curt_group/{curt}','AdminController@save_curt_group')->middleware(['role:expert'])->name('admin.save.curt.group');
     Route::resource('agent', 'AgentController')->middleware(['role:admin']);

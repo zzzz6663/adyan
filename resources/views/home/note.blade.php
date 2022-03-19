@@ -7,6 +7,9 @@
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
         <div class=" container ">
+            @role('student')
+            @include('student.progress',['status'=>auth()->user()->status])
+            @endrole
             <div class="card card-custom">
                 <div class="row">
                     <div class="col-xl-6">
@@ -23,11 +26,25 @@
                                          </h3>
                                 </div>
                             </div>
+                            @role('student')
+                            @if (auth()->user()->curt() && !auth()->user()->curt()->group_id && auth()->user()->status == 'curt')
+
+                            <form action="{{route('student.subject.list')}}" method="post">
+                               @csrf
+                               @method('post')
+                               <input type="submit" class="btn btn-success" value=" {{ __('sentences.select_subject') }} ">
+
+                              </a>
+                           </form>
+                           @endrole
+                           @endif
+
                             <!--begin::Body-->
                             <div class="card-body p-0">
                                 <!--begin::Responsive container-->
                                 <div class="table-responsive">
                                     @foreach ($duties as $duty)
+
                                     <div class="list list-hover min-w-500px" data-inbox="list">
                                         <div class="d-flex align-items-start list-item card-spacer-x py-4"
                                             data-inbox="message">
@@ -57,17 +74,15 @@
                                                     @case('submit_curt')
                                                     @role('student')
                                                     {{__('sentences.submit_curt')}}
-
-
                                                     @endrole
                                                     @break
+
 
                                                     @case('verify_curt')
                                                     @role('expert|master')
                                                     {{__('sentences.vrify_curt')}}
                                                     {{$duty->curt->user->name}}
                                                     {{$duty->curt->user->family}}
-
                                                     @endrole
                                                     @break
 
@@ -108,6 +123,19 @@
                                                   {{__('sentences.review_curt_by_master')}}
                                                   {{$duty->student()->name}}
                                                   {{$duty->student()->family}}
+                                                    @endrole
+                                                    @break
+
+
+                                                    @case('submit_plan')
+                                                    @role('student')
+                                                  {{__('sentences.submit_plan')}}
+                                                    @endrole
+                                                    @break
+
+                                                    @case('edit_plan_by_student')
+                                                    @role('student')
+                                                  {{__('sentences.edit_plan_by_student_duty')}}
                                                     @endrole
                                                     @break
 
@@ -175,8 +203,8 @@
 
                                                     @case('submit_curt')
                                                     @role('student')
-                                                    <a class="btn btn-primary" href="{{route('curt.create')}}">
-                                                        {{__('sentences.create_curt')}}
+                                                    <a class="btn btn-primary" href="{{route('student.per.curt')}}">
+                                                        {{__('sentences.submit_curt')}}
                                                     </a>
                                                     @endrole
                                                     @break
@@ -189,6 +217,7 @@
                                                         {{$duty->curt->title}}
                                                      </a>
                                                     @endrole
+
                                                     @break
 
 
@@ -198,6 +227,9 @@
                                                     <a class="btn btn-primary" href="{{route('curt.edit',$duty->curt->id)}}">
                                                         {{__('sentences.edit')}}
                                                     </a>
+
+
+
                                                     @endrole
                                                     @break
 
@@ -229,6 +261,31 @@
                                                    <a class="btn btn-primary" href="{{route('session.create',['group'=>$duty->group->id])}}">
                                                         (    {{__('sentences.verify_subject')}})
                                                         {{__('sentences.create_session')}}
+                                                    </a>
+                                                    @endrole
+                                                    @break
+
+                                                    @case('submit_plan')
+                                                    @role('student')
+                                                   <a class="btn btn-primary" href="{{route('plan.create')}}">
+                                                        {{__('sentences.submit_plan')}}
+                                                    </a>
+                                                    @endrole
+                                                    @break
+
+                                                    @case('verify_plan')
+                                                    @role('master')
+                                                   <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}">
+                                                        (    {{__('sentences.verify_plan')}})
+                                                        {{__('sentences.create_session')}}
+                                                    </a>
+                                                    @endrole
+                                                    @break
+
+                                                    @case('edit_plan_by_student')
+                                                    @role('student')
+                                                   <a class="btn btn-primary" href="{{route('plan.edit',['plan'=>$duty->plan->id])}}">
+                                                        {{__('sentences.edit_plan_by_student_duty')}}
                                                     </a>
                                                     @endrole
                                                     @break
@@ -345,6 +402,7 @@
                                                         <img alt="Pic" src="{{$log->operator()->avatar()}}">
                                                         @break
 
+
                                                         @case('pass_quiz')
                                                         <img alt="Pic" src="{{$log->student()->avatar()}}">
                                                         @break
@@ -357,6 +415,18 @@
                                                         <img alt="Pic" src="{{$log->student()->avatar()}}">
                                                         @break
 
+                                                        @case('submit_subject')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+                                                        @case('submit_plan')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+                                                        @case('edit_plan_by_student')
+                                                        <img alt="Pic" src="{{$log->group->admin()->avatar()}}">
+                                                        @break
+                                                        @case('accept_plan')
+                                                        <img alt="Pic" src="{{$log->group->admin()->avatar()}}">
+                                                        @break
                                                         @default
 
                                                         @endswitch
@@ -371,7 +441,6 @@
                                                                 @switch($log->type)
                                                                 @case('register')
                                                                 <span class="">
-
                                                                     {{__('sentences.register')}}
                                                                 </span>
                                                                 @break
@@ -439,8 +508,37 @@
                                                                 </span>
                                                                 @break
 
+                                                                @case('subject_result')
+                                                                <span class="">
+                                                                    {{__('sentences.subject_result')}}
+                                                                </span>
+                                                                @break
 
 
+
+                                                                @case('submit_subject')
+                                                                <span class="">
+                                                                    {{__('sentences.submit_subject_student',['subject'=>$log->subject->title,'master'=>$log->subject->master->name.' '.$log->subject->master->family,'student'=>$log->student()->name.' '.$log->student()->family])}}
+                                                                </span>
+                                                                @break
+
+
+                                                                @case('submit_plan')
+                                                                <span class="">
+                                                                    {{__('sentences.submit_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name])}}
+                                                                </span>
+                                                                @break
+
+                                                                @case('edit_plan_by_student')
+                                                                <span class="">
+                                                                    {{__('sentences.edit_plan_by_student',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name ])}}
+                                                                </span>
+                                                                @break
+                                                                @case('accept_plan')
+                                                                <span class="">
+                                                                    {{__('sentences.accept_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name ])}}
+                                                                </span>
+                                                                @break
 
 
 
@@ -486,7 +584,7 @@
 
                                                             @case('verify')
                                                             <span class="alert alert-success">
-                                                                {{__('sentences.register_student_logs',['student'=>$log->student()->name.' '.$log->student()->family,'expert'=>$log->operator()->name.' '.$log->operator()->family])}}
+                                                                {{__('sentences.confirm_student_account_by_exprt',['name'=>$log->student()->name.' '.$log->student()->family,'expert'=>$log->operator()->name.' '.$log->operator()->family])}}
                                                             </span>
                                                             @break
 
@@ -506,14 +604,14 @@
 
                                                             @case('save_curt_group_by_expert')
                                                             <span class="alert alert-success">
-                                                            {{__('sentences.edit_curt_by_student',['expert'=>$log->operator()->name.' '.$log->operator()->family,'group'=>$log->curt->group->name])}}
+                                                            {{__('sentences.save_curt_group_by_expert_log',['expert'=>$log->operator()->name.' '.$log->operator()->family,'group'=>$log->curt->group->name,'student'=>$log->curt->user->name.' '.$log->curt->user->family])}}
                                                             </span>
                                                             @break
 
 
                                                             @case('review_curt_by_master')
                                                             <span class="alert alert-success">
-                                                            {{__('sentences.review_curt_by_master_by_student',['expert'=>$log->operator()->name.' '.$log->operator()->family,'group'=>$log->curt->group->name])}}
+                                                            {{__('sentences.review_curt_by_master_by_student',['student'=>$log->operator()->name.' '.$log->operator()->family,'group'=>$log->curt->group->name])}}
                                                             </span>
                                                             @break
 
@@ -521,13 +619,13 @@
 
                                                             @case('select_curt_master')
                                                             <span class="alert alert-success">
-                                                          {{__('sentences.select_curt_master_for_curt',['master'=>$log->master()->name.' '.$log->master()->family,'group'=>$log->curt->group->name])}}
+                                                          {{__('sentences.select_curt_master_for_curt',['master'=>$log->curt->master()->name.' '.$log->curt->master()->family,'group'=>$log->curt->group->name])}}
                                                             </span>
                                                             @break
 
                                                             @case('accept_curt')
                                                             <span class="alert alert-success">
-                                                            {{__('sentences.accept_curt_by_group',['group'=>$log->curt->group->name,'student'=>$log->master()->name.' '.$log->master()->family])}}
+                                                            {{__('sentences.accept_curt_by_group',['group'=>$log->curt->group->name,'student'=>$log->curt->user->name.' '.$log->curt->user->family])}}
                                                             </span>
                                                             @break
 
@@ -541,6 +639,13 @@
                                                             @case('create_subject')
                                                             <span class="alert alert-success">
                                                             {{__('sentences.create_subject_log',[ 'master'=>$log->student()->name.' '.$log->student()->family,'subject'=>$log->subject->title,'group'=>$log->group->name])}}
+                                                            </span>
+                                                            @break
+
+
+                                                            @case('subject_result')
+                                                            <span class="alert alert-success">
+                                                            {{__('sentences.subject_result_log',[ 'master'=>$log->student()->name.' '.$log->student()->family,'subject'=>$log->subject->title,'group'=>$log->group->name])}}
                                                             </span>
                                                             @break
 

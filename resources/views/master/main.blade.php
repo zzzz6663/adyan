@@ -68,7 +68,7 @@
 
         @yield('css')
     </head>
-    <!--end::Head-->
+    <!--end::Head--> 
 
     <body id="kt_body" style=" " class="{{Route::currentRouteName()=='login'?'':'aside-fixed header-fixed '}}  quick-panel-right demo-panel-right offcanvas-right  subheader-enabled" cz-shortcut-listen="true">
         <div class="d-flex flex-column flex-root">

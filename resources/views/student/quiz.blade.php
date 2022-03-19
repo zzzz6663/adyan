@@ -14,7 +14,7 @@
                         <div class="card card-custom card-stretch gutter-b">
                             <!--begin::Header-->
                             <div class="card-header border-0">
-                                <h3 class="card-title font-weight-bolder text-dark">  زمان </h3>
+                                <h3 id="quiz_p" class="card-title font-weight-bolder text-dark">  زمان </h3>
                                 <div id="progressBar" data-time="{{$questions->count()*5}}">
                                     <div class="bar"></div>
                                   </div>
@@ -34,7 +34,10 @@
                                                 <div class="form-group   border-primary p-5">
                                                     <label class="mb-5">
                                                             {{$loop->iteration}}-
-                                                        {{ $question->question }}  </label>
+                                                        {{ $question->question }}
+
+                                                    {{$question->answer}}
+                                                    </label>
                                                     <div class="radio-">
                                                         <input type="text" hidden name="quiz_id" value="{{$quiz->id}}">
                                                         <input type="text" hidden name="number" value="{{$number}}">

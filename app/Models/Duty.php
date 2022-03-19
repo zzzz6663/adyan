@@ -12,6 +12,7 @@ class Duty extends Model
         'user_id',//ای دی دانشجو
         'operator_id',// ای استاد یا کارشناس یا...
         'group_id',// کلید گروه
+        'plan_id',// کلید طرح تفضیلی
         'type',//نوع وظیفه
         'info',//اطلاعات اضافه
         'down_id',//ای دی انجام دهنده
@@ -47,5 +48,9 @@ class Duty extends Model
     public function group()
     {
         return $this->belongsTo(Group::class);
+    }
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
     }
 }

@@ -16,7 +16,7 @@ class Log extends Model
         'info',//اطلاعات اضافی
         'curt_id',//  ای دی طرح اجمالی
         'subject_id',// کلید موضوغ
-
+        'plan_id',// کلید طرح تفضیلی
 
     ]
     ;
@@ -48,5 +48,9 @@ class Log extends Model
      public function group()
      {
          return $this->belongsTo(Group::class);
+     }
+     public function plan()
+     {
+         return $this->belongsTo(Plan::class);
      }
 }

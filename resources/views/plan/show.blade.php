@@ -1,6 +1,7 @@
 @extends('master.main')
 {{-- @php($side=true) --}}
 @section('main')
+
 <!--begin::Content-->
 <div class="content  d-flex flex-column flex-column-fluid" id="kt_content">
     <!--begin::Entry-->
@@ -14,11 +15,11 @@
                         <!--begin: Pic-->
                         <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
                             <div class="symbol symbol-50 symbol-lg-120">
-                                <img alt="Pic" src="{{$main_curt->user->avatar()}}">
+                                <img alt="Pic" src="{{$main_plan->user->avatar()}}">
                             </div>
 
                             <div class="symbol symbol-50 symbol-lg-120 symbol-primary d-none">
-                                <span class="font-size-h3 symbol-label font-weight-boldest">JMddddddddddd</span>
+                                <span class="font-size-h3 symbol-label font-weight-boldest"></span>
                             </div>
                         </div>
                         <!--end: Pic-->
@@ -31,8 +32,8 @@
                                     <!--begin::نام-->
                                     <a href="#"
                                         class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
-                                        {{$main_curt->user->name}}
-                                        {{$main_curt->user->family}}
+                                        {{$main_plan->user->name}}
+                                        {{$main_plan->user->family}}
                                         <i class="flaticon2-correct text-success icon-md ml-2"></i>
                                     </a>
                                     <!--end::نام-->
@@ -56,7 +57,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span> {{$main_curt->user->email}}
+                                            </span> {{$main_plan->user->email}}
                                         </a>
                                         <a href="#"
                                             class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
@@ -76,7 +77,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span> {{__('arr.'.$main_curt->user->semat_job)}}
+                                            </span> {{__('arr.'.$main_plan->user->semat_job)}}
                                         </a>
                                         <a href="#" class="text-muted text-hover-primary font-weight-bold">
                                             <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
@@ -92,7 +93,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span> {{$main_curt->user->province}}
+                                            </span> {{$main_plan->user->province}}
                                         </a>
                                     </div>
                                     <!--end::مخاطب-->
@@ -107,14 +108,14 @@
                             <!--end: Title-->
 
                             <!--begin: Content-->
-                            <h3>{{$main_curt->title}}</h3>
+                            <h3>{{$main_plan->title}}</h3>
                             <div class="d-flex align-items-center flex-wrap justify-content-between">
 
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
-                                    {{$main_curt->problem}}
+                                    {{$main_plan->problem}}
                                 </div>
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
-                                    @foreach (explode('_',$main_curt->tags) as $tag )
+                                    @foreach (explode('_',$main_plan->tags) as $tag )
                                     <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
                                         {{ $tag}}
                                     </span>
@@ -128,7 +129,7 @@
                                             <span
                                                 class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">
                                                 {{
-                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at)->addDays(0))->format('Y-m-d')
+                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_plan->created_at)->addDays(0))->format('Y-m-d')
                                                 }}
                                             </span>
                                         </div>
@@ -137,14 +138,14 @@
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
                                                 {{
-                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at)->addDays(10))->format('Y-m-d')
+                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_plan->created_at)->addDays(10))->format('Y-m-d')
                                                 }}
                                             </span>
                                         </div>
                                     </div>
                                     <div class="flex-grow-1 flex-shrink-0 w-150px w-xl-300px mt-4 mt-sm-0">
                                         <span class="font-weight-bold"> {{__('sentences.status')}}
-                                            {{ __('arr.'.$main_curt->status)}}
+                                            {{ __('arr.'.$main_plan->status)}}
 
                                         </span>
                                         <div class="progress progress-xs mt-2 mb-2">
@@ -282,17 +283,17 @@
                         @include('sections.error')
 
 
-                        <form class="form" action="{{route('admin.curt.submit' ,$main_curt->id)}}" id="kt_form"
+                        <form class="form" action="{{route('admin.plan.submit' ,$main_plan->id)}}" id="kt_form"
                             method="post">
                             @csrf
                             @method('post')
                             <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
-                                <div class="col-xl-12 col-xxl-7">
+                                <div class="col-xl-12 col-xxl-12">
                                     <!--begin::ویزارد Form-->
                                     <h1>
-                                        {{__('sentences.show_curt')}}
+                                        {{__('sentences.show_plan')}}
 
-                                        {{$main_curt->title}}
+                                        {{$main_plan->title}}
                                     </h1>
                                     <br>
                                     @if ($session)
@@ -301,31 +302,64 @@
                                     <br>
                                     <!--begin::ویزارد گام 1-->
                                     <div class="row">
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.title')}}
 
                                                 </label>
                                                 <h2>
-                                                    {{$main_curt->title}}
+                                                    {{$main_plan->title}}
                                                 </h2>
-                                                <textarea name="title" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
+                                                <textarea name="title" class="form-control {{old('title')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6"> {{old('title')}}</textarea>
                                                 <span class="show btn btn-success font-weight-bolder font-size-sm">
 
                                                     {{__('sentences.add_info')}}
                                                     </span>
                                                    <ul>
-                                                       @foreach ($all_curts as  $curt)
-                                                          @if ( $curt->title)
+                                                       @foreach ($all_plans as  $plan)
+                                                          @if ( $plan->title)
                                                           <li>
 
-                                                            ({{$curt->operator_curts()->name}}
-                                                            {{$curt->operator_curts()->family}})
-                                                            ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                            ({{$plan->group->admin()->name}}
+                                                            {{$plan->group->admin()->family}})
+                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
                                                             <br>
-                                                            {{$curt->title}}
+                                                            {{$plan->title}}
+                                                            </li>
+                                                       @endif
+
+
+                                                       @endforeach
+                                                   </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.en_title')}}
+
+                                                </label>
+                                                <h2>
+                                                    {{$main_plan->en_title}}
+                                                </h2>
+                                                <textarea name="en_title" class="form-control  {{old('en_tags')?'':'hide'}} inp" id="en_title"
+                                                    cols="30" rows="6">{{old('en_title')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+
+                                                    {{__('sentences.add_info')}}
+                                                    </span>
+                                                   <ul>
+                                                       @foreach ($all_plans as  $plan)
+                                                          @if ( $plan->en_title)
+                                                          <li>
+
+                                                            ({{$plan->group->admin()->name}}
+                                                            {{$plan->group->admin()->family}})
+                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                            <br>
+                                                            {{$plan->en_title}}
                                                             </li>
                                                        @endif
 
@@ -335,31 +369,31 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.tags')}}
 
                                                 </label>
                                                 <h2>
-                                                    @foreach (explode('_',$main_curt->tags) as $tag )
+                                                    @foreach (explode('_',$main_plan->tags) as $tag )
                                                     {{$tag }} -
                                                     @endforeach
                                                 </h2>
-                                                <textarea name="tags" class="form-control hide inp" id="title" cols="30"
-                                                    rows="6"></textarea>
+                                                <textarea name="tags" class="form-control {{old('tags')?'':'hide'}} inp" id="title" cols="30"
+                                                    rows="6">{{old('tags')}}</textarea>
                                                 <span class="show btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
                                                     </span>
                                                      <ul>
-                                                       @foreach ($all_curts as  $curt)
-                                                          @if ( $curt->tags)
+                                                       @foreach ($all_plans as  $plan)
+                                                          @if ( $plan->tags)
                                                           <li>
-                                                            ({{$curt->operator_curts()->name}}
-                                                            {{$curt->operator_curts()->family}})
-                                                            ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                            ({{$plan->group->admin()->name}}
+                                                            {{$plan->group->admin()->family}})
+                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
                                                             <br>
-                                                            {{$curt->tags}}
+                                                            {{$plan->tags}}
                                                             </li>
                                                        @endif
 
@@ -367,28 +401,60 @@
                                                    </ul>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.en_tags')}}
+
+                                                </label>
+                                                <h2>
+                                                    @foreach (explode('_',$main_plan->en_tags) as $tag )
+                                                    {{$tag }} -
+                                                    @endforeach
+                                                </h2>
+                                                <textarea name="en_tags" class="form-control  {{old('en_tags')?'':'hide'}} inp" id="title" cols="30"
+                                                    rows="6">{{old('en_tags')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                    {{__('sentences.add_info')}}
+                                                    </span>
+                                                     <ul>
+                                                       @foreach ($all_plans as  $plan)
+                                                          @if ( $plan->en_tags)
+                                                          <li>
+                                                            ({{$plan->group->admin()->name}}
+                                                            {{$plan->group->admin()->family}})
+                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                            <br>
+                                                            {{$plan->en_tags}}
+                                                            </li>
+                                                       @endif
+
+                                                       @endforeach
+                                                   </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.problem')}}
                                                 </label>
                                                 <h2>
-                                                    {{$main_curt->problem}}
+                                                    {{$main_plan->problem}}
                                                 </h2>
-                                                <textarea name="problem" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
+                                                <textarea name="problem" class="form-control {{old('problem')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('problem')}}</textarea>
                                                 <span class="show btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
                                                     </span>
                                                     <ul>
-                                                        @foreach ($all_curts as  $curt)
-                                                           @if ( $curt->problem)
+                                                        @foreach ($all_plans as  $plan)
+                                                           @if ( $plan->problem)
                                                            <li>
-                                                            ({{$curt->operator_curts()->name}}
-                                                            {{$curt->operator_curts()->family}})
-                                                            ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                            ({{$plan->group->admin()->name}}
+                                                            {{$plan->group->admin()->family}})
+                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
                                                             <br>
-                                                            {{$curt->problem}}
+                                                            {{$plan->problem}}
                                                             </li>
                                                        @endif
 
@@ -396,136 +462,214 @@
                                                     </ul>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.question')}}
                                                 </label>
                                                 <h2>
-                                                    {{$main_curt->question}}
+                                                    {{$main_plan->question}}
                                                 </h2>
-                                                <textarea name="question" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
-                                                    @foreach ($all_curts as  $curt)
-                                                       @if ( $curt->question)
+                                                <textarea name="question" class="form-control {{old('question')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('question')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as  $plan)
+                                                       @if ( $plan->question)
                                                        <li>
-                                                        ({{$curt->operator_curts()->name}}
-                                                        {{$curt->operator_curts()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
                                                         <br>
-                                                        {{$curt->question}}
+                                                        {{$plan->question}}
                                                         </li>
                                                        @endif
 
                                                    @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.necessity')}}
                                                 </label>
                                                 <h2>
-                                                    {{$main_curt->necessity}}
+                                                    {{$main_plan->necessity}}
                                                 </h2>
-                                                <textarea name="necessity" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
-                                                    @foreach ($all_curts as  $curt)
-                                                       @if ( $curt->necessity)
+                                                <textarea name="necessity" class="form-control {{old('necessity')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('necessity')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as  $plan)
+                                                       @if ( $plan->necessity)
                                                        <li>
-                                                        ({{$curt->operator_curts()->name}}
-                                                        {{$curt->operator_curts()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
                                                         <br>
-                                                        {{$curt->necessity}}
+                                                        {{$plan->necessity}}
                                                         </li>
                                                        @endif
 
                                                    @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    {{__('sentences.innovation')}}
+                                                    {{__('sentences.sub_question')}}
                                                 </label>
                                                 <h2>
-                                                    {{$main_curt->innovation}}
+                                                    {{$main_plan->sub_question}}
                                                 </h2>
 
-                                                <textarea name="innovation" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
-                                                    @foreach ($all_curts as  $curt)
-                                                       @if ( $curt->innovation)
+                                                <textarea name="sub_question" class="form-control {{old('sub_question')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('sub_question')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as  $plan)
+                                                       @if ( $plan->sub_question)
                                                        <li>
-                                                        ({{$curt->operator_curts()->name}}
-                                                        {{$curt->operator_curts()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
                                                         <br>
-                                                        {{$curt->innovation}}
+                                                        {{$plan->sub_question}}
                                                         </li>
                                                        @endif
 
                                                    @endforeach
                                             </div>
                                         </div>
-                                        @if (!$main_curt->master_id)
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    @if ($main_curt->ostad())
-
-                                                    {{__('sentences.suggested_master_list')}}
-                                                    {{$main_curt->ostad()->name}}
-                                                    {{$main_curt->ostad()->family}}
-
-                                                    @endif
-                                                    <br>
-                                                    @if ($main_curt->ostad)
-                                                    {{__('sentences.suggested_master_out_list')}}
-                                                        {{$main_curt->ostad}}
-
-                                                        <a target="_blank" href="{{$main_curt->resume()}}" class="btn btn-danger">   {{__('sentences.download_resume')}}  </a>
-
-                                                    @endif
-
-
+                                                    {{__('sentences.hypo')}}
                                                 </label>
+                                                <h2>
+                                                    {{$main_plan->hypo}}
+                                                </h2>
 
+                                                <textarea name="hypo" class="form-control {{old('hypo')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('hypo')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as  $plan)
+                                                       @if ( $plan->hypo)
+                                                       <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->hypo}}
+                                                        </li>
+                                                       @endif
+
+                                                   @endforeach
                                             </div>
                                         </div>
-                                            @if (!$main_curt->master_id)
-                                            @role('master')
-                                            <div class="col-xl-12">
-                                                <div class="form-group fv-plugins-icon-container">
-                                                    <label>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.theory')}}
+                                                </label>
+                                                <h2>
+                                                    {{$main_plan->theory}}
+                                                </h2>
 
-                                                        {{__('sentences.select_final_master')}}
+                                                <textarea name="theory" class="form-control {{old('theory')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('theory')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as  $plan)
+                                                       @if ( $plan->theory)
+                                                       <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->theory}}
+                                                        </li>
+                                                       @endif
 
-                                                    </label>
-                                                    <select name="master_id" id="ostad" class="form-control  select2">
-                                                        <option value="">یک مورد را انتخاب کنید </option>
-                                                        @foreach (App\Models\User::where('level','master')->get() as $master
-                                                        )
-                                                        <option value="{{$master->id}}">{{$master->name}}
-                                                            {{$master->family}}</option>
-                                                        @endforeach
-                                                    </select>
-
-
-                                                </div>
+                                                   @endforeach
                                             </div>
-                                            @endrole
-                                            @endif
-                                        @endif
+                                        </div>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.structure')}}
+                                                </label>
+                                                <h2>
+                                                    {{$main_plan->structure}}
+                                                </h2>
 
-                                        <div class="col-xl-12 par">
+                                                <textarea name="structure" class="form-control {{old('structure')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('structure')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as  $plan)
+                                                       @if ( $plan->structure)
+                                                       <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->structure}}
+                                                        </li>
+                                                       @endif
+
+                                                   @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.method')}}
+                                                </label>
+                                                <h2>
+                                                    {{$main_plan->method}}
+                                                </h2>
+
+                                                <textarea name="method" class="form-control {{old('method')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('method')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as  $plan)
+                                                       @if ( $plan->method)
+                                                       <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->method}}
+                                                        </li>
+                                                       @endif
+
+                                                   @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.source')}}
+                                                </label>
+                                                <h2>
+                                                    {{$main_plan->source}}
+                                                </h2>
+
+                                                <textarea name="source" class="form-control {{old('source')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('source')}}</textarea>
+                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as  $plan)
+                                                       @if ( $plan->source)
+                                                       <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->source}}
+                                                        </li>
+                                                       @endif
+
+                                                   @endforeach
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
 
@@ -539,12 +683,12 @@
                                                         </option>
 
                                                     <option {{old('status')=='faild' ?'selected':''}} value="faild">
-                                                        {{__('sentences.reject_curt')}}
+                                                        {{__('sentences.reject_plan')}}
                                                       </option>
 
                                                         @role('master')
                                                         <option {{old('status')=='accept' ?'selected':''}} value="accept">
-                                                            {{__('sentences.accept_curt')}}
+                                                            {{__('sentences.accept_plan')}}
                                                          </option>
                                                             @endrole
                                                 </select>
@@ -573,7 +717,7 @@
                                         </div> --}}
                                         <div>
                                             @role('expert')
-                                            @if ($main_curt->group_id)
+                                            @if ($main_plan->group_id)
                                             <p>
                                                 {{__('sentences.cant_comment')}}
 
@@ -588,7 +732,7 @@
                                             <input type="submit" value="       {{__('sentences.save')}}   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
                                             @endrole
                                             {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
-                                                href="{{route('admin.curt')}}">برکشت</a> --}}
+                                                href="{{route('admin.plan')}}">برکشت</a> --}}
 
 
                                         </div>
@@ -613,7 +757,7 @@
             <br>
             <br>
             <br>
-            @if(!$main_curt->group_id)
+            @if(!$main_plan->group_id)
             @role('expert')
             <div class="card card-custom">
                 <div class="card-body p-0">
@@ -624,7 +768,7 @@
                         @include('sections.error')
 
 
-                        <form class="form" action="{{route('admin.save.curt.group',$main_curt->id)}}" id="kt_form"
+                        <form class="form" action="{{route('admin.save.plan.group',$main_plan->id)}}" id="kt_form"
                             method="post">
                             @csrf
                             @method('post')
@@ -657,10 +801,9 @@
                                                     @foreach (App\Models\Group::all() as $group
                                                     )
                                                     <option value="{{$group->id}}">
-                                                        {{__('sentences.group')}}
                                                         {{$group->name}}
                                                       (
-                                                        {{__('sentences.manager')}}:
+                                                        {{__('sentences.manger')}}:
                                                           {{$group->admin()->name}}
                                                           {{$group->admin()->family}}
                                                       )
@@ -707,5 +850,4 @@
         <!--end::ویزارد-->
     </div>
 </div>
-
 @endsection

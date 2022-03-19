@@ -47,6 +47,7 @@ class User extends Authenticatable
         'expert',// مهارت های استاد
         'course',// رشته تدریس استاد
         'complete',// کامل شدن ثبت نام
+        'last_select_object_time',//زمان اخرین بازدید لیست موضوعات مصوب
     ];
 
     // register ثبت نام
@@ -70,6 +71,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function plan()
+    {
+        return $this->hasOne(plan::class);
+    }
+    public function plans()
+    {
+        return $this->hasMany(plan::class);
+    }
+    public function admin_plan()
+    {
+        return $this->hasOne(plan::class,'group_id');
+    }
+    public function master_plan()
+    {
+        return $this->hasOne(plan::class,'master_id');
+    }
+
     public function subjects()
     {
         return $this->hasMany(Subset::class);
@@ -88,7 +107,10 @@ class User extends Authenticatable
         return $this->belongsTo(Country::class);
     }
     public function curt(){
-        return $this->hasOne(Curt::class)->whereType('primary')->get();
+        return $this->hasOne(Curt::class)->whereType('primary')->first();
+    }
+    public function duty(){
+        return $this->hasOne(Duty::class);
     }
     public function operator_curts(){
         return $this->hasMany(Curt::class,'operator_id');
@@ -105,9 +127,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Log::class);
     }
 
-    public function student_log()
+    public function log()
     {
-        return $this->hasMany(Log::class,'user_id');
+        return $this->hasMany(Log::class);
     }
     public function operator_log()
     {
@@ -160,56 +182,78 @@ class User extends Authenticatable
 
 
 
-//ثبت لاگ برای بعضی از کاربران
-    public function save_duty($type,$levels ,$add=false ,$operator=null ,$curt=null,$subject=null,$group=null)
+//ثبت  وظیفه برای بعضی از کاربران
+    public function save_duty($levels ,$options,$add=false )
     {
         $users_for_duty=User::whereIn('level',$levels)->get()->pluck('id')->toArray();
-        $duty= Duty::create([
-             'user_id'=> $this->id,
-             'type'=> $type,
-             'operator_id'=> $operator,
-             'curt_id'=> $curt,
-             'subject_id'=> $subject,
-             'group_id'=> $group,
-        ]);
+        // $duty= Duty::create([
+        //      'user_id'=> $this->id,
+        //      'type'=> $type,
+        //      'operator_id'=> $operator,
+        //      'curt_id'=> $curt,
+        //      'subject_id'=> $subject,
+        //      'group_id'=> $group,
+        // ]);
+        $list=null;
+        if(array_key_exists('list',$levels)){
+         $list=$levels['list'];
+         unset($levels['list']);
+        }
+        $options['user_id']=$this->id;
+        $duty=   $this->duty()->create($options);
+
         if($add){
             $users_for_duty[]=$this->id;
            }
 
-           if(in_array('group',$levels) && $curt){
-            $curt= Curt::find($curt);
-
+           if(in_array('group',$levels) && $options['curt_id']){
+            $curt= Curt::find( $options['curt_id']);
             $admin_group=$curt->group->admin();
              $users_for_duty[]= $admin_group->id;
             }
-        $duty->users()->attach($users_for_duty);
+            if($list){
+                $users_for_duty=array_unique(array_merge($users_for_duty,$list), SORT_REGULAR) ;
+               }
+
+        $duty->users()->syncWithoutDetaching($users_for_duty);
     }
-    //ثبت وظیفه برای بعضی از کاربران
-    public function  save_log($type,$levels ,$add=false,$operator=null,$curt=null,$subject=null,$group=null)
+
+    //ثبت لاگ  برای بعضی از کاربران
+    public function  save_log($levels ,$options,$add=false )
     {
         // if(in_array('group',$levels)){
         //     dd(  $user->curt()->master());
         //    }
+       $list=null;
+       if(array_key_exists('list',$levels)){
+        $list=$levels['list'];
+        unset($levels['list']);
+       }
         $users_for_log=User::whereIn('level',$levels)->get()->pluck('id')->toArray();
-        $log= Log::create([
-            'user_id'=> $this->id,
-            'type'=> $type,
-            'operator_id'=> $operator,
-            'curt_id'=> $curt,
-            'subject_id'=> $subject,
-            'group_id'=> $group,
-       ]);
+        $options['user_id']=$this->id;
+        $log=   $this->log()->create($options);
+    //     $log= Log::create([
+    //         'user_id'=> $this->id,
+    //         'type'=> $type,
+    //         'operator_id'=> $operator,
+    //         'curt_id'=> $curt,
+    //         'subject_id'=> $subject,
+    //         'group_id'=> $group,
+    //    ]);
 
        if($add && !in_array($this->id,$users_for_log)){
         $users_for_log[]=$this->id;
        }
-       if(in_array('group',$levels) && $curt){
-       $curt= Curt::find($curt);
+       if(in_array('group',$levels) && $options['curt_id']){
+       $curt= Curt::find($options['curt_id']);
        $admin_group=$curt->group->admin();
         $users_for_log[]= $admin_group->id;
        }
+       if($list){
+        $users_for_log=array_unique(array_merge($users_for_log,$list), SORT_REGULAR) ;
+       }
 
-       $log->users()->attach($users_for_log);
+       $log->users()->syncWithoutDetaching($users_for_log);
     }
     public function update_status($status)
     {
@@ -225,7 +269,10 @@ class User extends Authenticatable
     }
     public function check_go_quiz()
     {
-        if(! $this->quizzes()->whereResult('0')->latest()->first()){
+        if( $this->quizzes()->whereResult('0')->count()==0){
+            return true;
+        }
+        if(! $this->quizzes()->whereResult('0')->latest()->first() ){
             return false;
         }
        return  Carbon::now()->diffInDays(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time))>=20??false;

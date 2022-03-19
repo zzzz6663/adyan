@@ -231,6 +231,11 @@
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
+                                            {{ __('sentences.email') }}
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
                                             {{ __('sentences.created_at') }}
                                         </span>
                                     </th>
@@ -251,6 +256,7 @@
                                     <td class="datatable-cell text-center"><span>{{$user->mobile}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{__('arr.'.$user->level)}} </span>
                                     </td>
+                                    <td class="datatable-cell text-center"><span>{{$user->email}} </span></td>
                                     <td class="datatable-cell text-center">
                                         <span>{{Morilog\Jalali\Jalalian::forge($user->created_at)->format('Y-m-d')}}
                                         </span>
