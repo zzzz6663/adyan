@@ -73,6 +73,7 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
 
 
 Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(function(){
+    Route::get('/similar_tags','AdminController@similar_tags')->name('admin.similar.tags');
     Route::get('/curt','AdminController@curt')->name('admin.curt');
     Route::get('/show_curt/{curt}/{duty?}','AdminController@show_curt')->name('admin.show.curt');
     Route::get('/show_plan/{plan}/{duty?}','AdminController@show_plan')->name('admin.show.plan');

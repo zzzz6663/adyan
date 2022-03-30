@@ -9,6 +9,7 @@ use App\Models\Plan;
 use App\Models\User;
 use App\Models\Group;
 use App\Models\Session;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -19,6 +20,33 @@ class AdminController extends Controller
     {
         return redirect()->route('agent.all');
         return view('admin.index');
+    }
+    public function similar(Request $request)
+    {
+        $tags= [ ];
+
+        $similar_subjects = Subject::whereStatus('1')->whereHas('tags',function($query)  use($tags){
+            $query->where('id',$tags[0]);
+            if(sizeof($tags)>1){
+                for($i=1;$i<sizeof($tags);$i++){
+                    $query->orWhere('id',$tags[$i]);
+
+                }
+            }
+        })->get();
+        $similar_curt = Curt::whereHas('tags',function($query)  use($tags){
+            $query->where('id',$tags[0]);
+            if(sizeof($tags)>1){
+                for($i=1;$i<sizeof($tags);$i++){
+                    $query->orWhere('id',$tags[$i]);
+
+                }
+            }
+        })->get();
+
+        return response()->json([
+            'body' => view('curt.similar_tags', compact(['similar_curt' ,'similar_subjects']))->render(),
+        ]);
     }
     public function all_quiz()
     {
@@ -55,7 +83,29 @@ class AdminController extends Controller
         $main_curt = $curt;
         $all_curts = $curt->user->curts()->whereType('secondary')->latest()->get();
 
-        return view('curt.show', compact(['main_curt', 'all_curts', 'session']));
+       $tags= $curt->tags()->pluck('id')->toArray();
+
+        $similar_subjects = Subject::whereStatus('1')->whereHas('tags',function($query)  use($tags){
+            $query->where('id',$tags[0]);
+            if(sizeof($tags)>1){
+                for($i=1;$i<sizeof($tags);$i++){
+                    $query->orWhere('id',$tags[$i]);
+
+                }
+            }
+        })->get();
+        $similar_curt = Curt::whereHas('tags',function($query)  use($tags){
+            $query->where('id',$tags[0]);
+            if(sizeof($tags)>1){
+                for($i=1;$i<sizeof($tags);$i++){
+                    $query->orWhere('id',$tags[$i]);
+
+                }
+            }
+        })->get();
+
+
+        return view('curt.show', compact(['main_curt', 'all_curts', 'session','similar_subjects','similar_curt']));
     }
     public function show_plan(Request $request, Plan $plan)
     {

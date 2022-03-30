@@ -646,10 +646,12 @@
             <br>
             <br>
             <br>
-
+            @include('curt.similar_tags')
 
         </div>
         <!--end::ویزارد-->
+
+
     </div>
 </div>
 

@@ -117,6 +117,14 @@ window.onload = function() {
         //         console.log(2)
         //     }
         // })
+
+        $('#ostan').on('change', function (e) {
+            var ele=$(this)
+
+            var str= {'ostan':ele.val()}
+           var res= lara_ajax('/admin/similar_tags/'+ele.val(),str)
+           $('#similar_list').html(res.body)
+        });
         $('body').on('click', '#add_ex', function() {
             let val =$('#ex_p').val();
             val = val.replace(/\s/g, '');
