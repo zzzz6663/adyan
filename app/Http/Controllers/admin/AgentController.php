@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\admin;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
+use NumberFormatter;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AgentController extends Controller
 {
@@ -15,6 +16,7 @@ class AgentController extends Controller
      */
     public function index(Request $request)
     {
+        $user=auth()->user();
         $users=user::query();
         if ($request->search){
         //  $users->whereHas('colores',function ($query) use ($request){
@@ -36,11 +38,40 @@ class AgentController extends Controller
         //         ->OrWhere('family','LIKE',"%{$search}%");
         //     });
             $search=$request->search;
-            $users->where('name','LIKE',"%{$search}%");
+            $users->orWhere('name','LIKE',"%{$search}%")
+            ->orWhere('family','LIKE',"%{$search}%")
+            ->orWhere('mobile','LIKE',"%{$search}%");
         //  $users->where(function($query) use ($request){
         //     $search=$request->search;
         //            $query->where('code','LIKE',"%{$search}%");
         //    });
+        }
+        if($request->from){
+            $from=$user->convert_date($request->from);
+            $users->where('created_at','>=',$from);
+        }
+        if($request->to){
+            $to=$user->convert_date($request->to);
+            $users->where('created_at','<=',$to);
+        }
+        if($request->status){
+            $users->whereStatus($request->status);
+        }
+        if($request->level){
+            if($request->level=='guide_master'){
+
+                // $users->whereHas('curts',function($query) use ($users){
+                //     $query->where('master_id','!=',null);
+                // });
+                // $user->with('master_curts');
+            }elseif($request->level=='guide_master'){
+
+            }else{
+                $users->whereLevel($request->level);
+            }
+        }
+        if($request->verify){
+            $users->whereVerify($request->verify);
         }
 
 
@@ -106,9 +137,15 @@ class AgentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $agent)
     {
-        //
+        $user=$agent;
+        $logs=$user->logs()->latest()->get();
+        $main_curt = $user->curt();
+        $all_curts = $user->curts()->whereType('secondary')->latest()->get();
+        $main_plan = $user->plan()->whereType('primary')->first();
+        $all_plans = $user->plans()->whereType('secondary')->latest()->get();
+        return view('admin.agent.show',compact(['user','logs','main_curt','all_curts','main_plan','all_plans']));
     }
 
     /**
@@ -173,4 +210,5 @@ class AgentController extends Controller
     {
         //
     }
+
 }

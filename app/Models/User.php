@@ -1,8 +1,10 @@
 <?php
 
 namespace App\Models;
-
 use Carbon\Carbon;
+use App\Models\Plan;
+use NumberFormatter;
+use App\Models\Subject;
 use Morilog\Jalali\Jalalian;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
@@ -10,7 +12,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Mockery\Matcher\Subset;
 
 class User extends Authenticatable
 {
@@ -74,7 +75,7 @@ class User extends Authenticatable
 
     public function plan()
     {
-        return $this->hasOne(plan::class);
+        return $this->hasOne(plan::class) ;;
     }
     public function plans()
     {
@@ -91,15 +92,15 @@ class User extends Authenticatable
 
     public function subjects()
     {
-        return $this->hasMany(Subset::class);
+        return $this->hasMany(Subject::class);
     }
     public function group_subjects()
     {
-        return $this->hasMany(Subset::class,'group_id');
+        return $this->hasMany(Subject::class,'group_id');
     }
     public function master_subjects()
     {
-        return $this->hasMany(Subset::class,'master_id');
+        return $this->hasMany(Subject::class,'master_id');
     }
 
     public function country()
@@ -112,11 +113,17 @@ class User extends Authenticatable
     public function duty(){
         return $this->hasOne(Duty::class);
     }
+    public function tags(){
+        return $this->hasMany(Tag::class);
+    }
     public function operator_curts(){
         return $this->hasMany(Curt::class,'operator_id');
     }
     public function curts(){
         return $this->hasMany(Curt::class);
+    }
+    public function master_curts(){
+        return $this->hasMany(Curt::class,'master_id');
     }
     public function groups()
     {
@@ -156,7 +163,7 @@ class User extends Authenticatable
     }
     public function sessions()
     {
-        return $this->belongsToMany(Sessions::class);
+        return $this->belongsToMany(Session::class);
     }
     public function quizzes()
     {
@@ -170,6 +177,15 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Question::class)->withPivot(['quiz_id','number','user_answer','question_answer']);
     }
+    public function survey()
+    {
+        return $this->hasMany(Survey::class);
+    }
+    public function surveys()
+    {
+        return $this->belongsToMany(Survey::class)->withPivot(['time','info']);
+    }
+
 
 
     public function  avatar(){
@@ -185,6 +201,11 @@ class User extends Authenticatable
 //ثبت  وظیفه برای بعضی از کاربران
     public function save_duty($levels ,$options,$add=false )
     {
+        $list=null;
+        if(array_key_exists('list',$levels)){
+         $list=$levels['list'];
+         unset($levels['list']);
+        }
         $users_for_duty=User::whereIn('level',$levels)->get()->pluck('id')->toArray();
         // $duty= Duty::create([
         //      'user_id'=> $this->id,
@@ -194,13 +215,8 @@ class User extends Authenticatable
         //      'subject_id'=> $subject,
         //      'group_id'=> $group,
         // ]);
-        $list=null;
-        if(array_key_exists('list',$levels)){
-         $list=$levels['list'];
-         unset($levels['list']);
-        }
+
         $options['user_id']=$this->id;
-        $duty=   $this->duty()->create($options);
 
         if($add){
             $users_for_duty[]=$this->id;
@@ -214,6 +230,7 @@ class User extends Authenticatable
             if($list){
                 $users_for_duty=array_unique(array_merge($users_for_duty,$list), SORT_REGULAR) ;
                }
+               $duty=   $this->duty()->create($options);
 
         $duty->users()->syncWithoutDetaching($users_for_duty);
     }
@@ -276,6 +293,19 @@ class User extends Authenticatable
             return false;
         }
        return  Carbon::now()->diffInDays(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time))>=20??false;
+    }
+
+
+
+
+    public function convert_date( $from){
+        $date=explode('-',$from);
+        $fmt = numfmt_create('fa', NumberFormatter::DECIMAL);
+        $year= numfmt_parse($fmt, $date[0])  ;
+        $month= numfmt_parse($fmt, $date[1])  ;
+        $day= numfmt_parse($fmt, $date[2])  ;
+        $from=  \Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $day);
+        return   $from=$from[0].'-'.$from[1].'-'.$from[2].' 00:00:00';
     }
 
 

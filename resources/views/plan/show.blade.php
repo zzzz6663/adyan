@@ -386,6 +386,7 @@
                                                     {{__('sentences.add_info')}}
                                                     </span>
                                                      <ul>
+
                                                        @foreach ($all_plans as  $plan)
                                                           @if ( $plan->tags)
                                                           <li>
@@ -669,6 +670,11 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <a class="btn btn-danger " href="{{$main_plan->report()}}">{{__('sentences.download_report')}}</a>
+                                            </div>
+                                        </div>
                                         <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>

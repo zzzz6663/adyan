@@ -46,24 +46,31 @@
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>       {{__('sentences.tags')}}    </label>
-                                                <div class="input-group">
+                                                {{-- <div class="input-group">
                                                     <input type="text" id="ex_p" class="form-control" placeholder="  {{__('sentences.search')}}  ...">
                                                     <div class="input-group-append">
                                                         <button class="btn btn-secondary" id="add_ex1" type="button">  {{__('sentences.add')}}   </button>
                                                     </div>
                                                 </div>
-                                                <div class="fv-plugins-message-container" id="tags">
+                                                <div class="fv-plugins-message-container" id="tags"> --}}
                                                     {{--  <span type="button" class="btn self btn-outline-success mr-2">
                                                         ssss
                                                         <input type="text" name="expert[]" hidden>
                                                     </span>  --}}
-                                                    @foreach (old('tags',[]) as $tag )
+                                                    {{-- @foreach (old('tags',[]) as $tag )
                                                     <span type="button" class="btn self btn-outline-success mr-2">
                                                         {{$tag}}
                                                         <input type="text" name="tags[]" hidden="" value="{{$tag}}">
                                                          </span>
+                                                    @endforeach --}}
+                                                {{-- </div> --}}
+                                                <select name="tags[]" id="" class="form-control select2" multiple="multiple">
+                                                    <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
+                                                    @foreach (App\Models\Tag::all() as $tag)
+                                                    <option {{in_array($tag->id ,old('tags',[]))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>
+
                                                     @endforeach
-                                                </div>
+                                                </select>
                                             </div>
                                             <!--end::ورودی-->
                                         </div>

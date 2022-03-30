@@ -39,4 +39,8 @@ class Subject extends Model
     {
         return $this->hasOne(Duty::class);
     }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

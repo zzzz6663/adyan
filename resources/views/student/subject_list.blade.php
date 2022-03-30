@@ -102,6 +102,11 @@
                                                              {{ $subject->info }}
                                                          </span>
                                                      </td>
+                                                     <td class="datatable-cell text-center">
+                                                         <span>
+                                                             {{ implode(', ', $subject->tags()->pluck('tag')->toArray()) }}
+                                                         </span>
+                                                     </td>
 
                                                      <td class="datatable-cell text-center">
 

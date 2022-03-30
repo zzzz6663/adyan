@@ -13,6 +13,7 @@ class Quiz extends Model
         'title',// نام
         'duration',// زمان هر سوال به ثانیه
         'active',//  نمایش به کاربر
+        'def',//    آزمون پیش فرض
     ];
     public function user()
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+
 use App\Models\Plan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -32,11 +33,15 @@ class PlanController extends Controller
      */
     public function create()
     {
+
         $user=auth()->user();
         if($user->plan()->whereType('primary')->count()>0){
+
+
             alert()->error(__('alert.a1'));
             return back();
         }
+
         return view('plan.create',compact(['user']));
     }
 
@@ -64,15 +69,19 @@ class PlanController extends Controller
             'structure' => 'required',
             'method' => 'required',
             'source' => 'required',
+            'report' => 'required|max:2048',
         ]);
 
         $user=auth()->user();
-        if($user->curt()->subject){
+
+        if($user->curt() && $user->curt()->subject){
            // اگر موضوع طرح اجمالی انتخابی بود
            $data['group_id']=$user->curt()->subject->group->id;
            $data['master_id']=$user->curt()->subject->master_id;
+        }else{
+            $data['group_id']=$user->curt()->group_id;
+            $data['master_id']=$user->curt()->master_id;
         }
-
 
         $data['tags']=implode('_',$data['tags']);
         $data['en_tags']=implode('_',$data['en_tags']);
@@ -81,8 +90,17 @@ class PlanController extends Controller
         $data['user_id']=$user->id;
         $data['type']='primary';
         $data['side']='0';
-        $plan = Plan::create($data);
 
+        $plan = Plan::create($data);
+        if ($request->hasFile('report')) {
+            $image = $request->file('report');
+            $name_img = 'report_' . $plan->id . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('/media/plan/'), $name_img);
+            $data['report'] = $name_img;
+            $plan->update([
+                'report'=>$data['report']
+            ]);
+        }
         $user->update([
             'status'=>'plan'
         ]);
@@ -97,7 +115,7 @@ class PlanController extends Controller
             ]);
         }
 
-        if($user->curt()->subject){
+        if($user->curt() && $user->curt()->subject){
                // ارسال گزارش برای استاد راهنما و ادمین گروه
         $user->save_log(['expert','admin','list'=>[$user->curt()->subject->group->admin()->id,   $data['master_id']]],
             [
@@ -105,6 +123,14 @@ class PlanController extends Controller
                 'plan_id'=>$plan->id,
             ],true);
         $user->curt()->subject->group->admin()->save_duty( ['list'=>[$user->curt()->subject->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
+        }else{
+            $user->save_log(['expert','admin','list'=>[$user->curt()->group->admin()->id,   $user->curt()->master_id]],
+            [
+                'type'=>'submit_plan',
+                'plan_id'=>$plan->id,
+            ],true);
+        $user->curt()->group->admin()->save_duty( ['list'=>[$user->curt()->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
+
         }
 
 
@@ -190,6 +216,14 @@ class PlanController extends Controller
                 'plan_id'=>$plan->id,
             ],true);
         $user->curt()->subject->group->admin()->save_duty( ['list'=>[$user->curt()->subject->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
+        }else{
+            $user->save_log(['expert','admin','list'=>[$user->curt()->group->admin()->id,   $user->curt()->master_id]],
+            [
+                'type'=>'submit_plan',
+                'plan_id'=>$plan->id,
+            ],true);
+        $user->curt()->group->admin()->save_duty( ['list'=>[$user->curt()->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
+        
         }
 
 

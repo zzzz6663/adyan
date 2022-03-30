@@ -61,9 +61,8 @@ class AdminController extends Controller
     {
 
         $session= session()->get('session');
-
         $main_plan = $plan;
-        $all_plans = $plan->user->curts()->whereType('secondary')->latest()->get();
+        $all_plans = $plan->user->plan()->whereType('secondary')->latest()->get();
 
         return view('plan.show', compact(['main_plan', 'all_plans', 'session']));
     }
@@ -132,6 +131,7 @@ class AdminController extends Controller
         $user->update([
             'verify' => '1'
         ]);
+        $user->update_status('quiz');
         // ثبت اپراتور و زمان
         $duty->update([
             'operator_id' => auth()->user()->id,
@@ -198,6 +198,7 @@ class AdminController extends Controller
                 'plan_id' =>$plan->id
             ]
             , true);
+            $plan->user->update_status('booklet');
         } else {
             $plan->user->save_log(['admin', 'expert', 'list'=>[$plan->master_id,$plan->group_id]],
             [
@@ -234,34 +235,30 @@ class AdminController extends Controller
     {
         $user = auth()->user();
         // ثبت پایان وظیفه
-        if ($user->level == 'expert') {
-            $duty = Duty::whereType('verify_curt')->where('curt_id', $curt->id)->first();
-            if ($duty) {
-                $duty->update([
-                    'operator_id' => auth()->user()->id,
-                    'time' => Carbon::now()
-                ]);
-            }
-        }
+
         if ($user->level == 'expert' && $user->operator_curts()->where('user_id',$curt->user->id)->count() > 0) {
 
             alert()->error(__('alert.a21'));
             return back();
+
         }
         if ($curt->side == 1) {
             alert()->error(__('alert.a22'));
             return back();
         }
+
         $valid = $request->validate([
             'title' => 'nullable',
-            'tags' => 'nullable',
+            'tag' => 'nullable',
             'problem' => 'nullable',
             'question' => 'nullable',
             'necessity' => 'nullable',
             'innovation' => 'nullable',
             'master_id' => 'nullable|exists:users,id',
-            'status' => 'required'
+            'status' => 'required',
         ]);
+
+
         //  $valid['status']='progress';
         $valid['user_id'] = $curt->user_id;
         $valid['type'] = 'secondary';
@@ -275,6 +272,50 @@ class AdminController extends Controller
             'side' => '1',
 
         ]);
+
+        if($user->level == 'expert' && !$curt->group_id){
+            $data = $request->validate([
+                'group_id' => 'required|exists:groups,id'
+            ]);
+            $curt->update(['group_id'=>$data['group_id']]);
+            $group = Group::find($data['group_id']);
+
+            $admin = $group->admin();
+            $curt->user->save_log( ['admin', 'expert', 'group'],
+            [
+                'type'=>'save_curt_group_by_expert',
+                'operator_id'=> $user->id,
+                'curt_id' =>$curt->id,
+                'group_id' =>$group ->id
+            ], true);
+            $ar = array();
+            // //اگر طرح در سمت دانشجو نبود یعنی تسکی باید برای مدیر گروه تعریف شود
+            if (!$curt->side) {
+                $ar = ['list'=>[$admin->id]];
+            }
+            $curt->user->save_duty($ar,
+            [
+                'type'=>'review_curt_by_master',
+                'operator_id'=>auth()->user()->id,
+                'curt_id' =>$curt->id
+            ]
+            , false);
+
+        }
+
+
+
+
+
+        if ($user->level == 'expert') {
+            $duty = Duty::whereType('verify_curt')->where('curt_id', $curt->id)->first();
+            if ($duty) {
+                $duty->update([
+                    'operator_id' => auth()->user()->id,
+                    'time' => Carbon::now()
+                ]);
+            }
+        }
 
         // ثبت لاگ
         if ($valid['status'] != 'accept') {
@@ -291,6 +332,7 @@ class AdminController extends Controller
                 'curt_id' =>$curt->id
             ]
             , true);
+
         } else {
             $curt->user->save_log(['admin', 'expert', 'group'],
             [
@@ -301,8 +343,8 @@ class AdminController extends Controller
             ]
             ,true );
 
-            $user->save_duty( [],['type'=>'submit_plan'], true);
-            $user->update_status('plan');
+            $curt->user->save_duty( [],['type'=>'submit_plan'], true);
+            $curt->user->update_status('plan');
         }
 
 

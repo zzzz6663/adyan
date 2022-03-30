@@ -34,7 +34,7 @@
                 <!--end::ویزارد گام 1 Nav-->
 
                 <!--begin::ویزارد گام 2 Nav-->
-                <div class="wizard-step" data-wizard-type="step" data-wizard-state="{{in_array($status,['curt','plan','quiz'])?'current':'pending'}}">
+                <div class="wizard-step" data-wizard-type="step" data-wizard-state="{{in_array($status,['curt','plan'])?'current':'pending'}}">
                     <div class="wizard-label">
                         <i class="wizard-icon flaticon-list"></i>
                         <h3 class="wizard-title">2.
@@ -63,7 +63,7 @@
                 </div>
                 <!--end::ویزارد گام 2 Nav-->
                 <!--begin::ویزارد گام 3 Nav-->
-                <div class="wizard-step" data-wizard-type="step" data-wizard-state="{{in_array($status,['curt','quiz'])?'current':'pending'}}">
+                <div class="wizard-step" data-wizard-type="step" data-wizard-state="{{in_array($status,['plan','booklet' ])?'current':'pending'}}">
                     <div class="wizard-label">
                         <i class="wizard-icon flaticon-responsive"></i>
                         <h3 class="wizard-title">3.
@@ -95,7 +95,7 @@
                 <!--end::ویزارد گام 3 Nav-->
 
                 <!--begin::ویزارد گام 4 Nav-->
-                <div class="wizard-step" data-wizard-type="step" data-wizard-state="pending">
+                <div class="wizard-step" data-wizard-type="step" data-wizard-state="{{in_array($status,['booklet' ])?'current':'pending'}}">
                     <div class="wizard-label">
                         <i class="wizard-icon flaticon-truck"></i>
                         <h3 class="wizard-title">4.

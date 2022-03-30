@@ -84,6 +84,11 @@
                                                 {{ __('sentences.info') }}
                                             </span>
                                         </th>
+                                        <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
+                                                {{ __('sentences.tags') }}
+                                            </span>
+                                        </th>
 
                                         <th class="datatable-cell datatable-cell-sort text-center">
                                             <span>
@@ -110,7 +115,7 @@
                                             <td class="datatable-cell text-center">
                                                 <span>
 
-                                                    @if ($subject->user_id)
+                                                    @if ($subject->user)
                                                         {{ $subject->user->name }}
                                                         {{ $subject->user->family }}
                                                     @endif
@@ -136,6 +141,11 @@
                                             <td class="datatable-cell text-center">
                                                 <span>
                                                     {{$subject->info}}
+                                                </span>
+                                            </td>
+                                            <td class="datatable-cell text-center">
+                                                <span>
+                                                    {{implode(', ', $subject->tags()->pluck('tag')->toArray())}}
                                                 </span>
                                             </td>
                                             <td class="datatable-cell text-center">

@@ -114,9 +114,11 @@
                                     {{$main_curt->problem}}
                                 </div>
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
-                                    @foreach (explode('_',$main_curt->tags) as $tag )
+
+
+                                    @foreach ($main_curt->tags as $tag )
                                     <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
-                                        {{ $tag}}
+                                        {{$tag->tag }}
                                     </span>
                                     @endforeach
                                 </div>
@@ -342,24 +344,24 @@
 
                                                 </label>
                                                 <h2>
-                                                    @foreach (explode('_',$main_curt->tags) as $tag )
-                                                    {{$tag }} -
+                                                    @foreach ($main_curt->tags as $tag )
+                                                    {{$tag->tag }} -
                                                     @endforeach
                                                 </h2>
-                                                <textarea name="tags" class="form-control hide inp" id="title" cols="30"
+                                                <textarea name="tag" class="form-control hide inp" id="title" cols="30"
                                                     rows="6"></textarea>
                                                 <span class="show btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
                                                     </span>
                                                      <ul>
                                                        @foreach ($all_curts as  $curt)
-                                                          @if ( $curt->tags)
+                                                          @if ( $curt->tag)
                                                           <li>
                                                             ({{$curt->operator_curts()->name}}
                                                             {{$curt->operator_curts()->family}})
                                                             ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
                                                             <br>
-                                                            {{$curt->tags}}
+                                                            {{$curt->tag}}
                                                             </li>
                                                        @endif
 
@@ -524,6 +526,38 @@
                                             @endrole
                                             @endif
                                         @endif
+                                        @if(!$main_curt->group_id)
+                                        @role('expert')
+                                        <div class="col-xl-12">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+
+                                                    {{__('sentences.select_final_group')}}
+
+
+
+                                                </label>
+                                                <select name="group_id" id="ostad" class="form-control  ">
+                                                    <option value="">           {{__('sentences.select_one')}} </option>
+                                                    @foreach (App\Models\Group::all() as $group
+                                                    )
+                                                    <option {{old('group_id')==$group->id?'selected':''}} value="{{$group->id}}">
+                                                        {{__('sentences.group')}}
+                                                        {{$group->name}}
+                                                      (
+                                                        {{__('sentences.manager')}}:
+                                                          {{$group->admin()->name}}
+                                                          {{$group->admin()->family}}
+                                                      )
+                                                    </option>
+                                                    @endforeach
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        @endrole
+                                        @endif
+
 
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
@@ -580,7 +614,6 @@
                                             </p>
                                             @else
                                             <input type="submit" value="       {{__('sentences.save')}}   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-
                                             @endif
                                             @endrole
 
@@ -613,95 +646,7 @@
             <br>
             <br>
             <br>
-            @if(!$main_curt->group_id)
-            @role('expert')
-            <div class="card card-custom">
-                <div class="card-body p-0">
-                    <!--begin::ویزارد-->
-                    <div class="wizard wizard-1" id="kt_wizard_v1" data-wizard-state="step-first"
-                        data-wizard-clickable="false">
 
-                        @include('sections.error')
-
-
-                        <form class="form" action="{{route('admin.save.curt.group',$main_curt->id)}}" id="kt_form"
-                            method="post">
-                            @csrf
-                            @method('post')
-                            <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
-                                <div class="col-xl-12 col-xxl-7">
-                                    <!--begin::ویزارد Form-->
-                                    <h1>
-
-                                           {{__('sentences.form_select_geoup')}}
-                                    </h1>
-                                    <br>
-                                    <br>
-
-
-                                    <div class="row">
-
-
-
-                                        <div class="col-xl-6">
-                                            <div class="form-group fv-plugins-icon-container">
-                                                <label>
-
-                                                    {{__('sentences.select_final_group')}}
-
-
-
-                                                </label>
-                                                <select name="group_id" id="ostad" class="form-control  ">
-                                                    <option value="">           {{__('sentences.select_one')}} </option>
-                                                    @foreach (App\Models\Group::all() as $group
-                                                    )
-                                                    <option value="{{$group->id}}">
-                                                        {{__('sentences.group')}}
-                                                        {{$group->name}}
-                                                      (
-                                                        {{__('sentences.manager')}}:
-                                                          {{$group->admin()->name}}
-                                                          {{$group->admin()->family}}
-                                                      )
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-
-                                    </div>
-
-                                    <!--end::ویزارد گام 1-->
-
-                                    <!--begin::ویزارد اقدامات-->
-                                    <div class="d-flex justify-content-between border-top mt-5 pt-10">
-
-                                        <div>
-                                            <input type="submit" value="          {{__('sentences.save')}}:   "
-                                                class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                            {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
-                                                href="{{route('agent.index')}}"> {{__('sentences.back')}}</a> --}}
-
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!--end::ویزارد اقدامات-->
-                        </form>
-
-
-                        <!--end::ویزارد Form-->
-                    </div>
-                </div>
-                <!--end::ویزارد Body-->
-            </div>
-            @endrole
-            @endif
 
         </div>
         <!--end::ویزارد-->

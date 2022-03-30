@@ -49,7 +49,7 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
     Route:: get('/dashboard','StudentController@dashboard')->name('student.dashboard') ;
     Route:: any('/per_quiz','StudentController@per_quiz')->name('student.per.quiz') ;
     Route:: get('/per_curt','StudentController@per_curt')->name('student.per.curt') ;
-    Route:: post('/select_curt','StudentController@selenotct_curt')->name('student.select.curt') ;
+    Route:: post('/select_curt','StudentController@select_curt')->name('student.select.curt') ;
     Route:: post('/subject_list','StudentController@subject_list')->name('student.subject.list') ;
     Route:: post('/quiz_result','StudentController@quiz_result')->name('student.quiz.result') ;
     Route::resource('curt', 'CurtController');
@@ -85,8 +85,12 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::resource('agent', 'AgentController')->middleware(['role:admin']);
     Route::resource('group', 'GroupController')->middleware(['role:admin']);
     //
-    Route::resource('quiz', 'QuizController')->middleware(['role:expert']);
-    Route::resource('quiz.question', 'QuestionController')->middleware(['role:expert']);
+    Route::post('default_quiz', 'QuizController@default_quiz')->middleware(['role:admin'])->name('admin.default.quiz');
+    Route::resource('quiz', 'QuizController')->middleware(['role:expert|admin']);
+    Route::resource('quiz.question', 'QuestionController')->middleware(['role:expert|admin']);
+    Route::resource('survey', 'SurveyController')->middleware(['role:master|admin']);
+    Route::get('session/result/{session}', 'SessionController@result')->middleware(['role:admin'])->name('admin.session.result');
+    Route::resource('tag', 'TagController')->middleware(['role:expert|admin']);
 });
 
 Route::prefix('master')->namespace('admin')->middleware([ 'auth'])->group(function(){

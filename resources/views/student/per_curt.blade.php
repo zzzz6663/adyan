@@ -24,6 +24,7 @@
                             <!--end::Header-->
 
                             <!--begin::Body-->
+
                             <div class="card-body pt-0">
                                 <ul>
                                     <li>
@@ -35,19 +36,48 @@
                                     <li>   {{ __('sentences.note10') }} </li>
                                 </ul>
 
-                                <form action="{{route('student.subject.list')}}" method="post">
-                                    @csrf
-                                    @method('post')
-                                    <input type="submit" class="btn btn-success" value=" {{ __('sentences.select_curt') }} ">
-
                                 <a class="btn  btn-primary" href="{{route('curt.create')}}">{{ __('sentences.create_curt') }}</a>
+                                <span class="btn  btn-success"  id="show_tags">{{ __('sentences.select_curt') }}</span>
 
-                                </form>
+
 
                                 {{-- <a class="btn " href="{{route('student.subject.list')}}">{{ __('sentences.select_curt') }}</a> --}}
 
 
                             </div>
+                            @include('sections.error')
+                            <div id="tags_section" class="card-body pt-0  {{$errors->any()?'':'hide'}}" >
+                                <ul>
+                                  <li>  {{ __('sentences.note12') }} </li>
+                                  <li>  {{ __('sentences.note13') }}  </li>
+                                  <li>   {{ __('sentences.note14') }} </li>
+                                  <li>   {{ __('sentences.note15') }} </li>
+                                </ul>
+
+
+
+                                <form class="form" action="{{route('student.subject.list')}}" method="post">
+                                  @csrf
+                                  @method('post')
+                                  <div class="row">
+                                    <div class="col-lg-6">
+                                        <!--begin::ورودی-->
+                                        <div class="form-group fv-plugins-icon-container">
+                                            <label>       {{__('sentences.tags')}}    </label>
+                                            <select style="width:500px" name="tags[]" id="" class="form-control select2" multiple="multiple">
+                                                <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
+                                                @foreach (App\Models\Tag::all() as $tag)
+                                                <option {{in_array($tag->id ,old('tags',[]))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>
+
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <!--end::ورودی-->
+                                    </div>
+                                  </div>
+                                  <input type="submit" class="btn btn-success" value=" {{ __('sentences.select_tags') }} ">
+                              </form>
+                              </div>
                             <!--end::Body-->
                         </div>
                     </div>

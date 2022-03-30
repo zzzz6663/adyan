@@ -18,7 +18,7 @@ class CurtController extends Controller
         $user = auth()->user();
 
 
-    
+
         $curts=Curt::query();
         if ($request->search){
             $search=$request->search;
@@ -55,7 +55,7 @@ class CurtController extends Controller
     {
         $data = $request->validate([
             'title' => 'required',
-            'tags' => 'required',
+            'tags' => 'required|array|between:1,4',
 
             'problem' => 'required',
             'question' => 'required',
@@ -74,15 +74,16 @@ class CurtController extends Controller
 
         $user=auth()->user();
 
-        $data['tags']=implode('_',$data['tags']);
-        if( isset($data['ostad_id'])){
-            $data['ostad_id']=implode('_',$data['ostad_id']);
-        }
+        // $data['tags']=implode('_',$data['tags']);
+        // if( isset($data['ostad_id'])){
+        //     $data['ostad_id']=implode('_',$data['ostad_id']);
+        // }
         $data['status']='review_curt_by_expert';
         $data['user_id']=$user->id;
         $data['type']='primary';
         $data['side']='0';
         $curt = Curt::create($data);
+        $curt->tags()->attach($data['tags']);
 
         if ($request->hasFile('resume')) {
             $image = $request->file('resume');

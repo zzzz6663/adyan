@@ -57,8 +57,9 @@ class StudentController extends Controller
         $user->update_status('plan');
         return redirect()->route('user.note');
     }
-    public function subject_list()
+    public function subject_list(Request $request)
     {
+        $data= $request->validate([  'tags' => 'required|array|between:1,5',]);
         $user = auth()->user();
         if (!$user->last_select_object_time) {
             $user->update(['last_select_object_time' => Carbon::now()]);
@@ -78,7 +79,36 @@ class StudentController extends Controller
                 return back();
             }
         }
-        $subjects = Subject::whereStatus('1')->where('user_id', null)->inRandomOrder()->limit(5)->get();
+        // dd($data['tags']);
+        // $subjects = Subject::withCount('tags')->whereStatus('1')->where('user_id', null)->orderBy('tags_count', 'asc')->limit(5)->get();
+        $subjects = Subject::whereStatus('1')->whereHas('tags',function($query)  use($data){
+            $query->where('id',$data['tags'][0]);
+            if(sizeof($data['tags'])>1){
+                for($i=1;$i<sizeof($data['tags']);$i++){
+                    $query->orWhere('id',$data['tags'][$i]);
+
+                }
+            }
+
+        //     $b=0;
+        //    while(sizeof($data['tags'])){
+        //     for($i=0;$i<sizeof($data['tags']);$i++){
+        //         $query->orWhere('id',$data['tags'][$i]);
+
+        //     }
+
+        //     unset($data['tags'][$b]);
+        //     if(sizeof($data['tags'])){
+        //         break;
+        //     }
+        //     $b++;
+        //    }
+        })->where('user_id', null)->limit(5)->get();
+        // foreach($subjects as $subject){
+        //     dump($subject->id);
+        //     dump($subject->tags()->pluck('tag')->toArray(),'_');
+        // }
+        // dd($subjects);
         return view('student.subject_list', compact(['subjects', 'user']));
     }
     public function dashboard()
@@ -104,21 +134,21 @@ class StudentController extends Controller
     {
 
         $user = auth()->user();
-        if ($user->status != null) {
-            alert()->error(__('alert.a39'));
-            return back();
-        }
-        if ($user->check_quiz_pass()) {
-            alert()->error(__('alert.a34'));
-            return back();
-        }
+        // if ($user->status != null) {
+        //     alert()->error(__('alert.a39'));
+        //     return back();
+        // }
+        // if ($user->check_quiz_pass()) {
+        //     alert()->error(__('alert.a34'));
+        //     return back();
+        // }
         // if(!$user->check_go_quiz()){
         //     alert()->error(__('alert.a35'));
         //     return back();
         // }
         if ($request->isMethod('post')) {
             $user = auth()->user();
-            $quiz = Quiz::has('questions', '>=', 10)->where('active', '1')->inRandomOrder()->first();
+            $quiz = Quiz::where('def','1')->first();
             // ایجاد کلید واحد  برای هر آزمون
             $number = $user->quizzes()->count() + 1;
             $user->quizzes()->attach(array($quiz->id => ['time' => Carbon::now(), 'number' => $number]));

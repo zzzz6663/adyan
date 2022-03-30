@@ -26,6 +26,7 @@ class Plan extends Model
         'method',//روش اجرای پژوهش
         'source',//منابع مورد استفاده
         'status',//وضعیت تکمیل
+        'report',//  فایل مشابه ایران داک
         'time',//زمان برررسی
         'type',//  نوع که به اصلی و غیر اصلی
         'side',//اگر یک باشد یعنی دانشجو میتوانید ویرایش بزند و اگر یک باشد
@@ -51,5 +52,11 @@ class Plan extends Model
     public function sessions()
     {
         return $this->belongsToMany(Session::class);
+    }
+    public function  report(){
+        if($this->report){
+            return  asset('/media/plan/'.$this->report);
+        }
+        return false;
     }
 }

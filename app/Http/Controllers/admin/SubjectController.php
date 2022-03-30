@@ -50,6 +50,7 @@ class SubjectController extends Controller
             'title' => 'required|max:256',
             'group_id' => 'required',
             'info' => 'required',
+            'tags' => 'required|array|between:1,6',
         ]);
         $user=auth()->user();
         $group=Group::find($data['group_id']);
@@ -57,6 +58,7 @@ class SubjectController extends Controller
         $data['master_id']= $user->id;
         $data['admin_id']= $admin->id;
         $subject = Subject::create($data);
+        $subject->tags()->attach($data['tags']);
         $user->save_log(['admin', 'expert','master'],
 
         [
@@ -109,7 +111,6 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-
         $session= session()->get('session');
         $data = $request->validate([
             'status' => 'required|max:256',
@@ -118,12 +119,15 @@ class SubjectController extends Controller
         ]);
         $data['time']=Carbon::now();
         $subject->update($data);
-        $subject->duty->update(['time'=>Carbon::now()]);
-        $group=   $subject->group_id;
+        if( $subject->duty){
+            $subject->duty->update(['time'=>Carbon::now()]);
+
+        }
+        $group=   $subject->group;
         $subject->master->save_log( ['admin', 'expert'] ,
         [
             'type' => 'subject_result',
-            'subject' => $subject->id,
+            'subject_id' => $subject->id,
             'group_id' =>$group->id
         ], true);
         alert()->success(__('alert.a37'));

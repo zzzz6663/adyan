@@ -145,4 +145,7 @@ class SessionController extends Controller
         $from=  \Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $day);
         return   $from=$from[0].'-'.$from[1].'-'.$from[2].' 00:00:00';
     }
+    public function result(Request $request ,Session $session){
+        return view('admin.session.result' ,compact(['session']));
+    }
 }

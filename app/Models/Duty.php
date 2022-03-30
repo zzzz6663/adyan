@@ -19,6 +19,7 @@ class Duty extends Model
         'time',//زمان انجام
         'curt_id',//  ای دی طرح اجمالی
         'subject_id',//  ای دی طرح موضوع
+        'survey_id',//  ای دی نظرسنجی
     ];
 
     public function users()
@@ -52,5 +53,9 @@ class Duty extends Model
     public function plan()
     {
         return $this->belongsTo(Plan::class);
+    }
+    public function survey()
+    {
+        return $this->belongsTo(Survey::class);
     }
 }

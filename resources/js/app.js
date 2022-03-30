@@ -76,6 +76,21 @@ window.onload = function() {
 
             });
         }
+        if ($('.persian2').length){
+            $(".persian2").persianDatepicker({
+                initialValue: false,
+                persianDigit : false,
+                format: 'YYYY-MM-DD',
+                autoClose: true,
+                initialValueType:'persian',
+                calendar:{
+                    persian: {
+                        local: 'fa'
+                    }
+                }
+
+            });
+        }
         if($('.select2').length){
             $('.select2').select2();
         }
@@ -87,6 +102,9 @@ window.onload = function() {
         })
         $('body').on('click', '#new_ostad', function() {
             $('#ostad_port').show(400)
+        })
+        $('body').on('click', '#show_tags', function() {
+            $('#tags_section').show(400)
         })
         // $('body').on('change', '#ostad', function() {
         //     let el =$(this)

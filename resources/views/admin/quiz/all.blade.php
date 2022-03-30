@@ -61,6 +61,12 @@
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
+                                            {{ __('sentences.creator') }}
+
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
                                             {{ __('sentences.quiz_name') }}
 
                                         </span>
@@ -102,6 +108,10 @@
                                 @foreach ($quizzes as $quiz)
                                 <tr class="datatable-row" style="left: 0px;">
                                     <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
+                                    <td class="datatable-cell text-center"><span>
+                                        {{$quiz->user->name}}
+                                        {{$quiz->user->family}}
+                                     </span></td>
                                     <td class="datatable-cell text-center"><span>{{$quiz->title}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$quiz->questions()->count()}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$quiz->duration}} </span></td>
@@ -113,10 +123,26 @@
                                         </span>
                                     </td>
                                     <td class="datatable-cell text-center">
-                                        <a class="btn btn-outline-primary"
-                                            href="{{route('quiz.edit',$quiz->id)}}">       {{ __('sentences.edit') }}</a>
-                                            <a class="btn btn-outline-danger"
-                                            href="{{route('quiz.question.index',$quiz->id)}}">       {{ __('sentences.questions') }}</a>
+
+                                            <form method="post" action="{{route('admin.default.quiz')}}">
+                                                @csrf
+                                                @method('post')
+                                                @role('expert')
+                                                <a class="btn btn-outline-primary"
+                                                    href="{{route('quiz.edit',$quiz->id)}}">       {{ __('sentences.edit') }}</a>
+                                                    @endrole
+                                                    <a class="btn btn-outline-danger"
+                                                    href="{{route('quiz.question.index',$quiz->id)}}">       {{ __('sentences.questions') }}</a>
+                                                <input type="text" value="{{$quiz->id}}" name="quiz_id" hidden>
+                                                @role('admin')
+                                                @if ($quiz->def)
+                                                <span class="text text-success">{{__('sentences.used_defalut_quiz')}}</span>
+                                                    @else
+                                                <input type="submit" class="btn btn-primary"value="{{__('sentences.use_defalut_quiz')}}">
+
+                                                @endif
+                                                @endrole
+                                            </form>
                                     </td>
 
                                 </tr>

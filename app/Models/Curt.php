@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Curt extends Model
 {
     use HasFactory;
-
+    // protected $primaryKey = ['user_id', 'operator_id','group_id','ostad_id','master_id'];
       // طرح اجمالی
     protected $fillable=[
         'user_id', // کلید دانشجو
@@ -19,7 +19,7 @@ class Curt extends Model
         'type', //نوع طرح که اصلی و فرعی است   اصلی برای دانشجو که ثبت میکند و فرعی برای استاد که تغغیر در خواست میکند
         'title', //عنوان طرح اجمالی
         'problem', //  فیلد بیان مساله
-        'tags', // کلیمات کلیدی طرح
+        'tag', // کلیمات کلیدی طرح
         'question', // فیلد کلمات کلیدی
         'necessity', // فیلد ضرورت
         'innovation', // فیلد جنبه نوآوری
@@ -62,6 +62,10 @@ class Curt extends Model
     public function ostad()
     {
         return $this->belongsTo(User::class,'ostad_id')->first();
+    }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
     }
     public function  resume(){
         if($this->resume){

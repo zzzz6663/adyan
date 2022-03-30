@@ -140,6 +140,13 @@
                                                     @break
 
 
+                                                    @case('submit_survey')
+                                                    @role('master')
+                                                  {{__('sentences.submit_survey_duty')}}
+                                                    @endrole
+                                                    @break
+
+
 
 
 
@@ -284,13 +291,22 @@
 
                                                     @case('edit_plan_by_student')
                                                     @role('student')
-                                                   <a class="btn btn-primary" href="{{route('plan.edit',['plan'=>$duty->plan->id])}}">
+                                                    <a class="btn btn-primary" href="{{route('plan.edit',['plan'=>$duty->plan->id])}}">
                                                         {{__('sentences.edit_plan_by_student_duty')}}
                                                     </a>
                                                     @endrole
                                                     @break
 
 
+
+
+                                                    @case('submit_survey')
+                                                    @role('master')
+                                                  <a class="btn btn-primary" href="{{route('survey.edit',[$duty->survey->id])}}">
+                                                    {{__('sentences.submit_survey_master')}}
+                                                </a>
+                                                    @endrole
+                                                    @break
 
 
 
@@ -427,6 +443,14 @@
                                                         @case('accept_plan')
                                                         <img alt="Pic" src="{{$log->group->admin()->avatar()}}">
                                                         @break
+                                                        @case('submit_survey')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+                                                        @case('answer_survey')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+
+
                                                         @default
 
                                                         @endswitch
@@ -513,32 +537,31 @@
                                                                     {{__('sentences.subject_result')}}
                                                                 </span>
                                                                 @break
-
-
-
-                                                                @case('submit_subject')
+                                                                @case('submit_survey')
                                                                 <span class="">
-                                                                    {{__('sentences.submit_subject_student',['subject'=>$log->subject->title,'master'=>$log->subject->master->name.' '.$log->subject->master->family,'student'=>$log->student()->name.' '.$log->student()->family])}}
+                                                                    {{__('sentences.submit_survey_log__title')}}
                                                                 </span>
                                                                 @break
 
+                                                                @case('submit_subject')
+                                                                {{__('sentences.submit_subject_student_log')}}
+                                                                 @break
 
                                                                 @case('submit_plan')
-                                                                <span class="">
-                                                                    {{__('sentences.submit_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name])}}
-                                                                </span>
+                                                                {{__('sentences.submit_plan_student_log')}}
                                                                 @break
 
                                                                 @case('edit_plan_by_student')
-                                                                <span class="">
-                                                                    {{__('sentences.edit_plan_by_student',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name ])}}
-                                                                </span>
+                                                                {{__('sentences.edit_plan_by_student_log')}}
                                                                 @break
+
                                                                 @case('accept_plan')
-                                                                <span class="">
-                                                                    {{__('sentences.accept_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name ])}}
-                                                                </span>
+                                                                {{__('sentences.accept_plan_student_log')}}
                                                                 @break
+                                                                @case('answer_survey')
+                                                                {{__('sentences.answer_survey')}}
+                                                                @break
+
 
 
 
@@ -564,8 +587,7 @@
                                                                 @endswitch
 
                                                                 <span class="text-muted ml-2">
-                                                                    {{
-                                                                    Morilog\Jalali\Jalalian::forge($log->created_at)->format('d-m-Y')}}
+                                                                    {{Morilog\Jalali\Jalalian::forge($log->created_at)->format('d-m-Y')}}
                                                                 </span>
                                                                 {{-- <span
                                                                     class="label label-light-success font-weight-bolder label-inline ml-2">جدید</span>
@@ -649,10 +671,47 @@
                                                             </span>
                                                             @break
 
+                                                            @case('submit_survey')
+                                                            <span class="">
+                                                                {{__('sentences.survey_submit_log',[ 'master'=>$log->student()->name.' '.$log->student()->family,'name'=>$log->survey->name,])}}
+
+                                                            </span>
+                                                            @break
 
 
 
 
+
+                                                            @case('submit_subject')
+                                                            <span class="">
+                                                                {{__('sentences.submit_subject_student',['subject'=>$log->subject->title,'master'=>$log->subject->master->name.' '.$log->subject->master->family,'student'=>$log->student()->name.' '.$log->student()->family])}}
+                                                            </span>
+                                                            @break
+
+
+
+
+                                                            @case('submit_plan')
+                                                            <span class="">
+                                                                {{__('sentences.submit_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name])}}
+                                                            </span>
+                                                            @break
+
+                                                            @case('edit_plan_by_student')
+                                                            <span class="">
+                                                                {{__('sentences.edit_plan_by_student',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name ])}}
+                                                            </span>
+                                                            @break
+                                                            @case('accept_plan')
+                                                            <span class="">
+                                                                {{__('sentences.accept_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name ])}}
+                                                            </span>
+                                                            @break
+                                                            @case('answer_survey')
+                                                            <span class="">
+                                                                {{__('sentences.answer_survey_log',['master'=>$log->student()->name.' '.$log->student()->family,'name'=>$log->survey->name ])}}
+                                                            </span>
+                                                            @break
 
 
 

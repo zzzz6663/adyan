@@ -24,7 +24,7 @@
                     </div>
                     <div class="card-toolbar">
 
-
+                        @role('expert')
                         <!--begin::دکمه-->
                         <a href="{{route('quiz.question.create',$quiz->id)}}" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
@@ -44,7 +44,15 @@
                             {{ __('sentences.create_question') }}
 
                         </a>
+                        @endrole
+                        @role('expert')
                         <a href="{{route('quiz.index',$quiz->id)}}" class="btn btn-danger font-weight-bolder">   {{ __('sentences.back') }}</a>
+
+                        @endrole
+                        @role('admin')
+                        <a href="{{url()->previous()}}" class="btn btn-danger font-weight-bolder">   {{ __('sentences.back') }}</a>
+
+                        @endrole
                         <!--end::دکمه-->
                     </div>
                 </div>
@@ -111,8 +119,10 @@
                                         </span>
                                     </td>
                                     <td class="datatable-cell text-center">
+                                        @role('expert')
                                         <a class="btn btn-outline-primary"
                                             href="{{route('quiz.question.edit',[$quiz->id,$question->id])}}"> {{ __('sentences.edit') }}</a>
+                                            @endrole
                                     </td>
 
                                 </tr>

@@ -16,12 +16,16 @@ class QuizController extends Controller
      */
     public function index(Request $request)
     {
-      
+        $user=auth()->user();
         $quizzes=Quiz::query();
         if ($request->search){
             $search=$request->search;
             $quizzes->where('name','LIKE',"%{$search}%");
         }
+        if($user->level=='expert'){
+            $quizzes->where('user_id',$user->id);
+        }
+
         $quizzes=  $quizzes->latest()->paginate(10);
         return view('admin.quiz.all',compact(['quizzes']));
     }
@@ -108,5 +112,24 @@ class QuizController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function default_quiz(Request $request)
+    {
+        $data= $request->validate(['quiz_id' => 'required']);
+        $def=Quiz::where(['def' => 1]);
+        if($def){
+            $def->update(['def' =>0]);
+        }
+        $quiz=Quiz::find($data['quiz_id']);
+        if($quiz){
+            $quiz->update(['def'=>1]);
+
+          alert()->success(__('alert.a46'));
+        }else{
+            alert()->error(__('alert.a47'));
+        }
+
+        return back();
+
     }
 }

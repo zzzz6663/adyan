@@ -35,7 +35,7 @@
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>    {{__('sentences.title')}}  </label>
                                                 <input type="text"
-                                                 value="{{old('title',$user->curt()->subject?$user->curt()->subject->title:'')}}" class="form-control" name="title"
+                                                 value="" class="form-control" name="title"
 
                                                     placeholder="     {{__('sentences.title')}} " >
                                                 <span class="form-text text-muted">
@@ -160,6 +160,12 @@
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.source')}}    </label>
                                                 <textarea class="form-control" name="source" rows="3">{{old('source')}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.report_plan')}}    </label>
+                                                <input type="file"  class="form-control" name="report" id="report_plan">
                                             </div>
                                         </div>
 
