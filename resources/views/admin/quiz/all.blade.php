@@ -109,6 +109,7 @@
                                 <tr class="datatable-row" style="left: 0px;">
                                     <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
                                     <td class="datatable-cell text-center"><span>
+                                        @dd($quiz) 
                                         {{$quiz->user->name}}
                                         {{$quiz->user->family}}
                                      </span></td>
