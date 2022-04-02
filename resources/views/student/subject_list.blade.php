@@ -114,7 +114,7 @@
                                                             @csrf
                                                             @method('post')
                                                             <input type="text" name="subject" hidden value="{{$subject->id}}">
-                                                            <input type="submit" class="btn btn-success" value="{{ __('sentences.select') }}    ddfdfd">
+                                                            <input type="submit" class="btn btn-success" value="{{ __('sentences.select') }}">
                                                         </form>
 
 
