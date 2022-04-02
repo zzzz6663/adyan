@@ -31,7 +31,7 @@
         </div>
 
         <h4 class="font-weight-bold my-2">
-            
+            sssssssssssssssssssss
                {{auth()->user()->name}}
                {{auth()->user()->family}}
         </h4>
