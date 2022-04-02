@@ -47,10 +47,10 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
     Route::any('/register5','HomeController@register5')->name('user.register5') ;
     Route::any('/register6','HomeController@register6')->name('user.register6') ;
     Route:: get('/dashboard','StudentController@dashboard')->name('student.dashboard') ;
-    Route:: any('/per_quiz','StudentController@per_quiz')->name('student.per.quiz') ;
+    Route:: any('/per_quiz','StudentController@per_quiz')->name('student.per.quiz') ; 
     Route:: get('/per_curt','StudentController@per_curt')->name('student.per.curt') ;
     Route:: post('/select_curt','StudentController@select_curt')->name('student.select.curt') ;
-    Route:: post('/subject_list','StudentController@subject_list')->name('student.subject.list') ;
+    Route:: get('/subject_list','StudentController@subject_list')->name('student.subject.list') ;
     Route:: post('/quiz_result','StudentController@quiz_result')->name('student.quiz.result') ;
     Route::resource('curt', 'CurtController');
     Route::resource('plan', 'PlanController');
