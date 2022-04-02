@@ -25,7 +25,7 @@ class StudentController extends Controller
             return back();
         }
 
-        if ($user->status != 'curt') {
+        if ($user->status != 'quiz') {
             alert()->error(__('alert.a39'));
             return back();
         }
