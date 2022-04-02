@@ -84,7 +84,7 @@ class CurtController extends Controller
         $data['side']='0';
         $curt = Curt::create($data);
         $curt->tags()->attach($data['tags']);
-
+        $user->update_status('curt');
         if ($request->hasFile('resume')) {
             $image = $request->file('resume');
             $name_img = 'resume_' . $curt->id . '.' . $image->getClientOriginalExtension();

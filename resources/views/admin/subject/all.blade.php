@@ -66,6 +66,11 @@
                                         </th>
                                         <th class="datatable-cell datatable-cell-sort text-center">
                                             <span>
+                                                {{ __('sentences.master') }}
+                                            </span>
+                                        </th>
+                                        <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
                                                 {{ __('sentences.subject_admin') }}
                                             </span>
                                         </th>
@@ -105,6 +110,12 @@
                                             <td class="datatable-cell text-center"><span>{{ $loop->iteration }} </span>
                                             </td>
                                             <td class="datatable-cell text-center"><span>{{ $subject->title }} </span></td>
+                                            <td class="datatable-cell text-center"><span>
+                                                @if ($subject->master_id)
+                                                {{ $subject->master->name }}
+                                                {{ $subject->master->family }}
+                                            @endif
+                                            </span></td>
                                             <td class="datatable-cell text-center"><span>
                                                     @if ($subject->admin_id)
                                                         {{ $subject->admin->name }}

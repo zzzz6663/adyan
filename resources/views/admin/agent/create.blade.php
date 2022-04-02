@@ -117,7 +117,7 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>  {{__('sentences.password')}}  </label>
+                                                <label>  {{__('sentences.password')}}   </label>
                                                 <input type="text" class="form-control" name="password" placeholder="{{__('sentences.password')}}    "
                                                     value="{{old('password')}}">
                                                     <span class="form-text text-muted">{{__('sentences.enter_password')}}
@@ -127,7 +127,7 @@
                                             <!--end::ورودی-->
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        {{-- <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>{{__('sentences.group')}}   </label>
@@ -143,11 +143,11 @@
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
-                                        </div>
+                                        </div> --}}
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> {{__('sentences.specialty')}} </label>
+                                                <label> {{__('sentences.select_course')}}    </label>
                                                 <input type="text" class="form-control" name="course" placeholder="{{__('sentences.course')}}    "
                                                     value="{{old('course')}}">
                                                     <span class="form-text text-muted">{{__('sentences.enter_course')}}
@@ -167,7 +167,7 @@
                                                     <option {{old('level')=='expert'?'selected':''}} value="expert">  {{__('sentences.expert')}} </option>
                                                 </select>
 
-                                                <span class="form-text text-muted">{{__('sentences.select_course')}}
+                                                <span class="form-text text-muted">{{__('sentences.select_level')}}
                                                 </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
@@ -176,7 +176,8 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label> {{__('sentences.select_course')}}    </label>
+                                                <label> {{__('sentences.specialty')}} </label>
+
                                                 <div class="input-group">
                                                     <input type="text" id="ex_p" class="form-control" placeholder="{{__('sentences.search')}} ...">
                                                     <div class="input-group-append">

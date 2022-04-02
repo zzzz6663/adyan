@@ -103,7 +103,7 @@
                                                             </label>
                                                             <select name="country_id" id="country_id" class="form-control form-control-solid form-control-lg">
                                                                 <option value="">لطفا یک مورد را انتخاب کنید </option>
-                                                                @foreach ( App\Models\Country::all() as $country )
+                                                                @foreach ( App\Models\Country::orderBy('fa_name')->get() as $country )
                                                                 <option {{old('country_id' , $user->country_id) ==$country->id?'selected':""}} value="{{$country->id}}">{{$country->fa_name}}</option>
                                                                 @endforeach
                                                             </select>

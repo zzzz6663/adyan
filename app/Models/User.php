@@ -77,6 +77,10 @@ class User extends Authenticatable
     {
         return $this->hasOne(plan::class) ;;
     }
+    public function primary_plan()
+    {
+        return $this->hasOne(plan::class)->whereType('primary')->first();
+    }
     public function plans()
     {
         return $this->hasMany(plan::class);
@@ -88,6 +92,26 @@ class User extends Authenticatable
     public function master_plan()
     {
         return $this->hasOne(plan::class,'master_id');
+    }
+    public function guid_plan()
+    {
+        return $this->hasOne(plan::class,'guid_id');
+    }
+    public function guid_curt()
+    {
+        return $this->hasOne(Curt::class,'curt_id');
+    }
+    public function guid_plans()
+    {
+        return $this->hasMany(plan::class,'guid_id');
+    }
+    public function guid_curts()
+    {
+        return $this->hasMany(Curt::class,'guid_id');
+    }
+    public function master_plans()
+    {
+        return $this->hasMany(plan::class,'master_id');
     }
 
     public function subjects()
@@ -124,6 +148,18 @@ class User extends Authenticatable
     }
     public function master_curts(){
         return $this->hasMany(Curt::class,'master_id');
+    }
+    public function curt_master_count(){
+        return $this->master_curts()->whereType('primary')->count();
+    }
+    public function plan_master_count(){
+        return $this->master_plans()->whereType('primary')->count();
+    }
+    public function curt_guid_count(){
+        return $this->guid_curts()->whereType('primary')->count();
+    }
+    public function plan_guid_count(){
+        return $this->guid_plans()->whereType('primary')->count();
     }
     public function groups()
     {

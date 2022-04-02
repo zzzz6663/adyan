@@ -112,9 +112,9 @@
                 <div class="card-body">
                     <!--begin: جستجو Form-->
                     <!--begin::جستجو Form-->
-<form action="{{route('agent.index')}}" method="get">
-    @csrf
-    @method('get')
+                    <form action="{{route('agent.index')}}" method="get">
+                        @csrf
+                        @method('get')
                     <div class="mb-12">
                         <div class="row align-items-center">
                             <div class="col-lg-12 col-xl-12">
@@ -216,11 +216,41 @@
                                             {{ __('sentences.mobile') }}
                                         </span>
                                     </th>
+                                    @if (request('status') =='curt' || request('status') =='plan' )
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            {{ __('sentences.title') }}
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            {{ __('sentences.guid_master') }}
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            {{ __('sentences.last_change_student_date') }}
+                                        </span>
+                                    </th>
+                                    @elseif (request('status') =='quiz')
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            {{ __('sentences.status') }}
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            {{ __('sentences.quiz_date') }}
+                                        </span>
+                                    </th>
+                                    @else
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.level') }}
                                         </span>
                                     </th>
+                                    @endif
+
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.email') }}
@@ -246,8 +276,112 @@
                                     <td class="datatable-cell text-center"><span>{{$user->name}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$user->family}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$user->mobile}} </span></td>
+
+
+
+
+
+                                    @switch(request('status'))
+
+
+
+                                    @case('curt')
+
+                                    <td class="datatable-cell text-center">
+                                        <span>
+                                            {{$user->curt()?$user->curt()->title:''}}
+
+                                    </span>
+                                    </td>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            @if ($user->curt() && $user->curt()->master_id)
+                                            {{$user->curt()?$user->curt()->master->name.' '.$user->curt()->master->family:''}}
+                                            @endif
+
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            @if ($last_curt=$user->curts()->latest()->first())
+
+                                                {{Morilog\Jalali\Jalalian::forge($last_curt->created_at)->format('Y-m-d')}}
+                                            @endif
+
+                                        </span>
+                                    </th>
+                                    @break
+
+                                    @case('plan')
+                                    <td class="datatable-cell text-center">
+                                        <span>
+                                            {{$user->primary_plan()?$user->primary_plan()->title:''}}
+
+                                    </span>
+                                    </td>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            @if ($user->primary_plan() && $user->primary_plan()->master_id)
+                                            {{$user->primary_plan()?$user->primary_plan()->master->name.' '.$user->primary_plan()->master->family:''}}
+                                            @endif
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            @if ($last_plan=$user->plans()->latest()->first())
+
+                                                {{Morilog\Jalali\Jalalian::forge($last_plan->created_at)->format('Y-m-d')}}
+                                            @endif
+                                        </span>
+                                    </th>
+                                    @break
+                                    @case('quiz')
+                                    <td class="datatable-cell text-center">
+                                        <span>
+                                            <?php
+                                                $last_quiz=$user->quizzes()->latest()->first();
+
+                                                 ?>
+
+                                            @if ($last_quiz)
+
+                                                {{$last_quiz->pivot->status=='1'?__('sentences.passed'):__('sentences.faild')}}
+                                            @endif
+                                    </span>
+                                    </td>
+                                    <td class="datatable-cell text-center">
+                                        <span>
+                                            <?php
+                                            $last_quiz=$user->quizzes()->latest()->first();
+                                                 ?>
+
+                                         @if ($last_quiz)
+                                         {{Morilog\Jalali\Jalalian::forge($last_quiz->pivot->time)->format('Y-m-d')}}
+                                         @endif
+
+                                            </span>
+                                    </td>
+                                    @break
+                                    @default
                                     <td class="datatable-cell text-center"><span>{{__('arr.'.$user->level)}} </span>
                                     </td>
+
+
+
+
+                                    @endswitch
+
+
+
+
+
+
+
+
+
+
+
+
                                     <td class="datatable-cell text-center"><span>{{$user->email}} </span></td>
                                     <td class="datatable-cell text-center">
                                         <span>{{Morilog\Jalali\Jalalian::forge($user->created_at)->format('Y-m-d')}}

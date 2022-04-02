@@ -14,6 +14,51 @@ class AgentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function masters(Request $request)
+    {
+        $user=auth()->user();
+        $users=user::query();
+        if ($request->search){
+        //  $users->whereHas('colores',function ($query) use ($request){
+        //         $search=$request->search;
+        //         $query->where('name','LIKE',"%{$search}%");
+        //     });
+        //  $users->whereHas('product',function ($query) use ($request){
+        //         $search=$request->search;
+        //         $query->where('name','LIKE',"%{$search}%");
+        //     });
+        //  $users->whereHas('versions',function ($query) use ($request){
+        //         $search=$request->search;
+        //         $query->where('name','LIKE',"%{$search}%");
+        //     });
+
+        //  $users->whereHas('operators',function ($query) use ($request){
+        //         $search=$request->search;
+        //         $query->where('name','LIKE',"%{$search}%")
+        //         ->OrWhere('family','LIKE',"%{$search}%");
+        //     });
+            $search=$request->search;
+            $users->orWhere('name','LIKE',"%{$search}%")
+            ->orWhere('family','LIKE',"%{$search}%")
+            ->orWhere('mobile','LIKE',"%{$search}%");
+        //  $users->where(function($query) use ($request){
+        //     $search=$request->search;
+        //            $query->where('code','LIKE',"%{$search}%");
+        //    });
+        }
+        if($request->from){
+            $from=$user->convert_date($request->from);
+            $users->where('created_at','>=',$from);
+        }
+        if($request->to){
+            $to=$user->convert_date($request->to);
+            $users->where('created_at','<=',$to);
+        }
+        $users->whereLevel('master');
+
+        $users=  $users->latest()->paginate(10);
+        return view('admin.agent.masters',compact(['users']));
+    }
     public function index(Request $request)
     {
         $user=auth()->user();
@@ -108,11 +153,13 @@ class AgentController extends Controller
             'password' => 'required|min:6',
             'group' => 'nullable',
             'course' => 'required',
-            'level' => 'required',
-            'expert' => 'required',
+            'level' => 'nullable',
+            'expert' => 'nullable',
         ]);
 
+       if($request->expert){
         $data['expert'] = implode('_', $data['expert']);
+       }
 
 
 
@@ -179,15 +226,16 @@ class AgentController extends Controller
             'password' => 'required|min:6',
             'group' => 'nullable',
             'course' => 'required',
-            'level' => 'required',
-            'expert' => 'required',
+            'level' => 'nullable',
+            'expert' => 'nullable',
         ]);
         $user= $agent;
+        if($request->expert){
+            $data['expert'] = implode('_', $data['expert']);
+           }
 
-        $data['expert'] = implode('_', $data['expert']);
 
         $user->assignRole($data['level']);
-
         if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
             $name_img = 'avatar_' . $user->id . '.' . $image->getClientOriginalExtension();

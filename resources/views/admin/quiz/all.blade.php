@@ -62,19 +62,16 @@
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.creator') }}
-
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.quiz_name') }}
-
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.question_count') }}
-
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
@@ -91,14 +88,12 @@
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.created_at') }}
-
                                         </span>
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.action') }}
-
                                         </span>
                                     </th>
 
@@ -109,7 +104,6 @@
                                 <tr class="datatable-row" style="left: 0px;">
                                     <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
                                     <td class="datatable-cell text-center"><span>
-                                        @dd($quiz) 
                                         {{$quiz->user->name}}
                                         {{$quiz->user->family}}
                                      </span></td>

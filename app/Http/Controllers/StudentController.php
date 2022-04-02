@@ -124,7 +124,7 @@ class StudentController extends Controller
     public function per_curt(Request $request)
     {
         $user = auth()->user();
-        if ($user->status != 'curt') {
+        if ($user->status != 'quiz') {
             alert()->error(__('alert.a39'));
             return back();
         }
@@ -182,7 +182,7 @@ class StudentController extends Controller
             $duty = $user->duties()->whereType('student_go_quiz')->latest()->first();
             if ($duty) {
                 $duty->update(['time' => Carbon::now()]);
-                $user->update_status('curt');
+
                 $user->save_log(['admin', 'expert'],['type'=>'pass_quiz'] , true);
                 $user->save_duty([],['type'=>'submit_curt'] , true);
             }

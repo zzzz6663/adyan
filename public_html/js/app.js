@@ -2194,8 +2194,7 @@ window.onload = function () {
       $('#similar_list').html(res.body);
     });
     $('body').on('click', '#add_ex', function () {
-      var val = $('#ex_p').val();
-      val = val.replace(/\s/g, '');
+      var val = $('#ex_p').val(); // val = val.replace(/\s/g, '');
 
       if (val.length < 3) {
         noty('حداقل سه کاراکتر وارد نمایید');
@@ -2208,8 +2207,7 @@ window.onload = function () {
     });
     ;
     $('body').on('click', '#add_ex1', function () {
-      var val = $('#ex_p').val();
-      val = val.replace(/\s/g, '');
+      var val = $('#ex_p').val(); // val = val.replace(/\s/g, '');
 
       if (val.length < 3) {
         noty('حداقل سه کاراکتر وارد نمایید');
@@ -2222,8 +2220,7 @@ window.onload = function () {
     });
     ;
     $('body').on('click', '#add_ex2', function () {
-      var val = $('#ex_p2').val();
-      val = val.replace(/\s/g, '');
+      var val = $('#ex_p2').val(); // val = val.replace(/\s/g, '');\
 
       if (val.length < 3) {
         noty('حداقل سه کاراکتر وارد نمایید');

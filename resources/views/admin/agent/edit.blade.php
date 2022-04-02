@@ -124,7 +124,7 @@
                                             <!--end::ورودی-->
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        {{-- <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label> {{__('sentences.group')}}  </label>
@@ -141,7 +141,7 @@
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                             <!--end::ورودی-->
-                                        </div>
+                                        </div> --}}
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
@@ -166,8 +166,7 @@
                                                     <option {{old('level',$user->level)=='expert'?'selected':''}} value="expert">   {{__('sentences.expert')}}</option>
                                                 </select>
 
-                                                <span class="form-text text-muted">
-                                                    {{__('sentences.select_group')}}
+                                                <span class="form-text text-muted">{{__('sentences.select_level')}}
                                                 </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>

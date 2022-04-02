@@ -17,14 +17,21 @@ class QuizController extends Controller
     public function index(Request $request)
     {
         $user=auth()->user();
-        $quizzes=Quiz::query();
+        if( $user->level== 'expert'){
+            $quizzes=  $user->expert_quizzes();
+        }
+        if( $user->level== 'admin'){
+            $quizzes=Quiz::query();
+            // $quizzes=  $user->expert_quizzes();
+        }
+
         if ($request->search){
             $search=$request->search;
             $quizzes->where('name','LIKE',"%{$search}%");
         }
-        if($user->level=='expert'){
-            $quizzes->where('user_id',$user->id);
-        }
+        // if($user->level=='expert'){
+        //     $quizzes->where('user_id',$user->id);
+        // }
 
         $quizzes=  $quizzes->latest()->paginate(10);
         return view('admin.quiz.all',compact(['quizzes']));
@@ -54,7 +61,13 @@ class QuizController extends Controller
             'active' => 'required',
         ]);
         $user=auth()->user();
-        $user->quizzes()->create($data);
+        if( $user->level!= 'expert'){
+alert()->error(__('alert.a50'));
+          return back();
+        }
+        $user=auth()->user();
+
+        $user->expert_quizzes()->create($data);
 
         alert()->success(__('alert.a31'));
         return redirect()->route('quiz.index');
@@ -97,6 +110,10 @@ class QuizController extends Controller
             'active' => 'required',
         ]);
         $user=auth()->user();
+        if( $user->level!= 'expert'){
+            alert()->error(__('alert.a50'));
+                      return back();
+                    }
         $quiz->update($data);
 
         alert()->success(__('alert.a32'));

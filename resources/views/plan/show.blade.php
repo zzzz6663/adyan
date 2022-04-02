@@ -670,6 +670,27 @@
                                             </div>
                                         </div>
 
+                                        @if (!$main_plan->user->primary_plan()->guid_id)
+                                        @role('master')
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.select_guid_master')}}
+                                                </label>
+                                                <select name="guid_id" id="" class="form-control  select2">
+                                                    <option value="">{{__('sentences.select_one')}} </option>
+                                                    @foreach (App\Models\User::where('level','master')->get() as $master
+                                                    )
+                                                    <option {{old('guid_id')==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}}
+                                                        {{$master->family}}</option>
+                                                    @endforeach
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        @endrole
+                                    @endif
+
                                         <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <a class="btn btn-danger " href="{{$main_plan->report()}}">{{__('sentences.download_report')}}</a>

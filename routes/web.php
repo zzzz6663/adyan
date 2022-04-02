@@ -83,6 +83,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::get('/all_quiz','AdminController@all_quiz')->middleware(['role:expert|admin'])->name('admin.all.quiz');
     Route::post('/save_curt_master/{curt}','AdminController@save_curt_master')->middleware(['role:master'])->name('admin.save.curt.master');
     Route::post('/save_curt_group/{curt}','AdminController@save_curt_group')->middleware(['role:expert'])->name('admin.save.curt.group');
+    Route::get('/masters','AgentController@masters')->middleware(['role:admin'])->name('agent.masters');
     Route::resource('agent', 'AgentController')->middleware(['role:admin']);
     Route::resource('group', 'GroupController')->middleware(['role:admin']);
     //
@@ -90,13 +91,14 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::resource('quiz', 'QuizController')->middleware(['role:expert|admin']);
     Route::resource('quiz.question', 'QuestionController')->middleware(['role:expert|admin']);
     Route::resource('survey', 'SurveyController')->middleware(['role:master|admin']);
-    Route::get('session/result/{session}', 'SessionController@result')->middleware(['role:admin'])->name('admin.session.result');
+    Route::get('all_session', 'SessionController@all_session')->middleware(['role:admin|master'])->name('admin.all.session');
+    Route::get('session/result/{session}', 'SessionController@result')->middleware(['role:admin|master'])->name('admin.session.result');
     Route::resource('tag', 'TagController')->middleware(['role:expert|admin']);
 });
 
 Route::prefix('master')->namespace('admin')->middleware([ 'auth'])->group(function(){
     Route::get('/groups','MasterController@groups')->name('master.groups')->middleware(['role:master']);
-    Route::resource('session', 'SessionController')->middleware(['role:master']);
+    Route::resource('session', 'SessionController')->middleware(['role:master|admin']);
     Route::resource('subject', 'SubjectController')->middleware(['role:master']);
 
 });

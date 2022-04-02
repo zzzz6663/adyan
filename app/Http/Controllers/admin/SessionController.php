@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use Carbon\Carbon;
 use App\Models\Curt;
 use App\Models\Plan;
+use App\Models\User;
 use NumberFormatter;
 use App\Models\Session;
 use App\Models\Subject;
@@ -135,6 +136,11 @@ class SessionController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function all_session()
+    {
+        $user= auth()->user();
+    return view('admin.session.all_session',compact(['user']));
     }
     public function convert_date( $from){
         $date=explode('-',$from);

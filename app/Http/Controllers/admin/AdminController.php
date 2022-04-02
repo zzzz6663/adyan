@@ -50,7 +50,13 @@ class AdminController extends Controller
     }
     public function all_quiz()
     {
-       $quizzes= DB::table('quiz_user')->orderBy('time','asc')->paginate(10);
+        // $posts = Post::whereHas('comments', function($query) {
+        //     $query->where('comment', 'like', 'foo%');
+        // });
+        // $top = Top::with(['articles' => function ($q) {
+        //     $q->orderBy('pivot_range', 'asc');
+        //   }])->first(); // or get() or whatever
+       $quizzes= DB::table('quiz_user')->where('number','!=',null)->where('time','!=',null)->orderBy('time','asc')->paginate(10);
         return view('admin.quiz.all_quiz',compact(['quizzes']));
     }
     public function curt(Request $request)
@@ -217,6 +223,7 @@ class AdminController extends Controller
             'method' =>'nullable',
             'source' =>'nullable',
             'status' =>'required',
+            'guid_id' => 'nullable|exists:users,id',
         ]);
 
         $plan->update([
@@ -228,6 +235,17 @@ class AdminController extends Controller
         $data['group_id']=$plan->group_id;
         $data['type']='secondary';
         Plan::create($data);
+        $user=auth()->user();
+        if(isset($data['guid_id'])){
+            $plan->update(['guid_id'=>$data['guid_id']]);
+            $plan->user->save_log( ['admin','list'=>[ $user->id]],
+            [
+                'type'=>'select_plan_guid',
+                'operator_id'=>  $data['guid_id'],
+                'plan_id' =>$plan->id,
+            ]
+            , true);
+        }
 
 
 
@@ -305,6 +323,7 @@ class AdminController extends Controller
             'necessity' => 'nullable',
             'innovation' => 'nullable',
             'master_id' => 'nullable|exists:users,id',
+            'guid_id' => 'nullable|exists:users,id',
             'status' => 'required',
         ]);
 
@@ -402,10 +421,22 @@ class AdminController extends Controller
             $curt->update([
                 'master_id' =>  $valid['master_id']
             ]);
-            $curt->user->save_log( ['admin', 'expert'],
+            $curt->user->save_log( ['admin'],
             [
                 'type'=>'select_curt_master',
                 'operator_id'=> auth()->user()->id,
+                'curt_id' =>$curt->id,
+            ]
+            , true);
+        }
+        if (isset($valid['guid_id'])) {
+            $curt->update([
+                'guid_id' =>  $valid['guid_id']
+            ]);
+            $curt->user->save_log( ['admin'],
+            [
+                'type'=>'select_curt_guid',
+                'operator_id'=>  $valid['guid_id'],
                 'curt_id' =>$curt->id,
             ]
             , true);

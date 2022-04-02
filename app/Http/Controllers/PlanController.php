@@ -104,6 +104,18 @@ class PlanController extends Controller
         $user->update([
             'status'=>'plan'
         ]);
+        if(  $user->curt()->guid_id){
+            $plan ->update([
+                'guid_id'=> $user->curt()->guid_id
+            ]);
+            $user->save_log( ['admin','list'=>[ $user->id]],
+            [
+                'type'=>'select_plan_guid',
+                'operator_id'=>  $user->curt()->guid_id,
+                'plan_id' =>$plan->id,
+            ]
+            , true);
+        }
 
 
         // ثبت لاگ
@@ -223,7 +235,7 @@ class PlanController extends Controller
                 'plan_id'=>$plan->id,
             ],true);
         $user->curt()->group->admin()->save_duty( ['list'=>[$user->curt()->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
-        
+
         }
 
 

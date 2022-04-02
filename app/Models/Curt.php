@@ -14,6 +14,7 @@ class Curt extends Model
         'user_id', // کلید دانشجو
         'operator_id', //  کسی ویرایش بر روی طرح میزند
         'group_id', //  کسی ویرایش بر روی طرح میزند
+        'guid_id', // کلید استاد مشاور
         'master_id', // کلید  استاد که تویط مدیر گروه  انتخاب میشود
         'ostad_id', //کلید استاد که دانشجو از لیست انتخاب میکند
         'type', //نوع طرح که اصلی و فرعی است   اصلی برای دانشجو که ثبت میکند و فرعی برای استاد که تغغیر در خواست میکند
@@ -40,6 +41,10 @@ class Curt extends Model
     public function master()
     {
         return $this->belongsTo(User::class,'master_id')->first();
+    }
+    public function guid()
+    {
+        return $this->belongsTo(User::class,'guid_id');
     }
     public function operator_curts()
     {

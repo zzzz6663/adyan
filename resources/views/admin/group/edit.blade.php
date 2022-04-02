@@ -46,7 +46,7 @@
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    {{__('sentences.enter_group_name')}}
+                                                    {{__('sentences.enter_master_group_name')}}
 
                                                 </label>
                                                 <select name="user_id"  class="form-control  ">

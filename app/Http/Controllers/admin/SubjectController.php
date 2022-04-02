@@ -19,12 +19,18 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
+        $user=auth()->user();
         $subjects=Subject::query();
         if ($request->search){
             $search=$request->search;
             $subjects->where('name','LIKE',"%{$search}%");
         }
+       if($user->level== 'master'){
+        $subjects=  $subjects->where('master_id',$user->id)->latest()->paginate(10);
+       }else{
         $subjects=  $subjects->latest()->paginate(10);
+
+       }
         return view('admin.subject.all',compact(['subjects']));
     }
 
@@ -59,7 +65,7 @@ class SubjectController extends Controller
         $data['admin_id']= $admin->id;
         $subject = Subject::create($data);
         $subject->tags()->attach($data['tags']);
-        $user->save_log(['admin', 'expert','master'],
+        $user->save_log(['admin'],
 
         [
             'type' => 'create_subject',
@@ -113,18 +119,30 @@ class SubjectController extends Controller
     {
         $session= session()->get('session');
         $data = $request->validate([
+            'title' => 'required|max:256',
+            'info' => 'required',
+            'tags' => 'required|array|between:1,6',
             'status' => 'required|max:256',
             'reason' => 'required_if:status,=,0|max:1500',
 
         ]);
+
+
+
+
+
+
+
+
         $data['time']=Carbon::now();
         $subject->update($data);
+        $subject->tags()->sync($data['tags']);
         if( $subject->duty){
             $subject->duty->update(['time'=>Carbon::now()]);
 
         }
         $group=   $subject->group;
-        $subject->master->save_log( ['admin', 'expert'] ,
+        $subject->master->save_log( ['admin'] ,
         [
             'type' => 'subject_result',
             'subject_id' => $subject->id,

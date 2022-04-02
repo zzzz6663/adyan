@@ -127,7 +127,7 @@ window.onload = function() {
         });
         $('body').on('click', '#add_ex', function() {
             let val =$('#ex_p').val();
-            val = val.replace(/\s/g, '');
+            // val = val.replace(/\s/g, '');
             if(val.length<3){
                 noty('حداقل سه کاراکتر وارد نمایید')
                 return
@@ -145,7 +145,7 @@ window.onload = function() {
         });;
         $('body').on('click', '#add_ex1', function() {
             let val =$('#ex_p').val();
-            val = val.replace(/\s/g, '');
+            // val = val.replace(/\s/g, '');
             if(val.length<3){
                 noty('حداقل سه کاراکتر وارد نمایید')
                 return
@@ -163,7 +163,7 @@ window.onload = function() {
         });;
         $('body').on('click', '#add_ex2', function() {
             let val =$('#ex_p2').val();
-            val = val.replace(/\s/g, '');
+            // val = val.replace(/\s/g, '');\
             if(val.length<3){
                 noty('حداقل سه کاراکتر وارد نمایید')
                 return

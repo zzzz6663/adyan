@@ -414,6 +414,12 @@
                                                         @case('select_curt_master')
                                                         <img alt="Pic" src="{{$log->operator()->avatar()}}">
                                                         @break
+                                                        @case('select_plan_guid')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
+                                                        @case('select_curt_guid')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
                                                         @case('accept_curt')
                                                         <img alt="Pic" src="{{$log->operator()->avatar()}}">
                                                         @break
@@ -508,6 +514,19 @@
                                                                 @case('select_curt_master')
                                                                 <span class="">
                                                                     {{__('sentences.select_curt_master')}}
+
+                                                                </span>
+                                                                @break
+                                                                @case('select_plan_guid')
+                                                                <span class="">
+                                                                    {{__('sentences.select_plan_guid')}}
+
+                                                                </span>
+                                                                @break
+
+                                                                @case('select_curt_guid')
+                                                                <span class="">
+                                                                    {{__('sentences.select_curt_guid')}}
 
                                                                 </span>
                                                                 @break
@@ -642,6 +661,17 @@
                                                             @case('select_curt_master')
                                                             <span class="alert alert-success">
                                                           {{__('sentences.select_curt_master_for_curt',['master'=>$log->curt->master()->name.' '.$log->curt->master()->family,'group'=>$log->curt->group->name])}}
+                                                            </span>
+                                                            @break
+                                                            @case('select_plan_guid')
+                                                            <span class="alert alert-success">
+                                                          {{__('sentences.select_plan_guid_for_plan',['master'=>$log->plan->master->name.' '.$log->plan->master->family,'group'=>$log->plan->group->name])}}
+                                                            </span>
+                                                            @break
+
+                                                            @case('select_curt_guid')
+                                                            <span class="alert alert-success">
+                                                          {{__('sentences.select_curt_guid_for_curt',['master'=>$log->curt->master()->name.' '.$log->curt->master()->family,'group'=>$log->curt->group->name])}}
                                                             </span>
                                                             @break
 

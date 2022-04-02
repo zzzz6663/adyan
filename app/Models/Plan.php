@@ -11,6 +11,7 @@ class Plan extends Model
     public $fillable=[
         'user_id',//کلسید دانشجو
         'master_id',// کید استاد راهنما
+        'guid_id', // کلید استاد مشاور
         'group_id',//کلید گروه بررسی طرح تفضیلی
         'title',// عنوان
         'en_title',//عنوان انگلیسی
@@ -36,6 +37,10 @@ class Plan extends Model
     }
     public function user(){
         return $this->belongsTo(User::class);
+    }
+    public function guid()
+    {
+        return $this->belongsTo(User::class,'guid_id');
     }
     public function admin_group(){
         return $this->belongsTo(User::class,'group_id');

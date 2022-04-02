@@ -36,7 +36,7 @@ class SurveyController extends Controller
     public function create()
     {
         $user= auth()->user();
-        return view('admin.survey.create',compact(['user'=>$user]));
+        return view('admin.survey.create',compact(['user']));
     }
 
     /**

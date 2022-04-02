@@ -34,7 +34,7 @@
                 <!--end::ویزارد گام 1 Nav-->
 
                 <!--begin::ویزارد گام 2 Nav-->
-                <div class="wizard-step" data-wizard-type="step" data-wizard-state="{{in_array($status,['curt','plan'])?'current':'pending'}}">
+                <div class="wizard-step" data-wizard-type="step" data-wizard-state="{{in_array($status,['curt','plan','booklet'])?'current':'pending'}}">
                     <div class="wizard-label">
                         <i class="wizard-icon flaticon-list"></i>
                         <h3 class="wizard-title">2.

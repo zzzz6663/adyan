@@ -156,7 +156,7 @@
                                 </div>
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
-                                        {{ __('sentences.expert') }} :</span>
+                                        {{ __('sentences.expert_abi') }} :</span>
                                     <span class="text-muted">
                                         {{ $user->expert }}
                                     </span>
@@ -331,6 +331,58 @@
                                                     </span>
                                                 </a>
                                             </li>
+                                            <li class="nav-item mr-3">
+                                                <a class="nav-link" data-toggle="tab" href="#mycurts">
+                                                    <span class="nav-icon mr-2">
+                                                        <span class="svg-icon mr-3">
+                                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Devices/Display1.svg--><svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none"
+                                                                    fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24"></rect>
+                                                                    <path
+                                                                        d="M11,20 L11,17 C11,16.4477153 11.4477153,16 12,16 C12.5522847,16 13,16.4477153 13,17 L13,20 L15.5,20 C15.7761424,20 16,20.2238576 16,20.5 C16,20.7761424 15.7761424,21 15.5,21 L8.5,21 C8.22385763,21 8,20.7761424 8,20.5 C8,20.2238576 8.22385763,20 8.5,20 L11,20 Z"
+                                                                        fill="#000000" opacity="0.3"></path>
+                                                                    <path
+                                                                        d="M3,5 L21,5 C21.5522847,5 22,5.44771525 22,6 L22,16 C22,16.5522847 21.5522847,17 21,17 L3,17 C2.44771525,17 2,16.5522847 2,16 L2,6 C2,5.44771525 2.44771525,5 3,5 Z M4.5,8 C4.22385763,8 4,8.22385763 4,8.5 C4,8.77614237 4.22385763,9 4.5,9 L13.5,9 C13.7761424,9 14,8.77614237 14,8.5 C14,8.22385763 13.7761424,8 13.5,8 L4.5,8 Z M4.5,10 C4.22385763,10 4,10.2238576 4,10.5 C4,10.7761424 4.22385763,11 4.5,11 L7.5,11 C7.77614237,11 8,10.7761424 8,10.5 C8,10.2238576 7.77614237,10 7.5,10 L4.5,10 Z"
+                                                                        fill="#000000"></path>
+                                                                </g>
+                                                            </svg>
+                                                            <!--end::Svg Icon-->
+                                                        </span> </span>
+                                                    <span class="nav-text">
+                                                        {{ __('sentences.mycurts') }}
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item mr-3">
+                                                <a class="nav-link" data-toggle="tab" href="#myplans">
+                                                    <span class="nav-icon mr-2">
+                                                        <span class="svg-icon mr-3">
+                                                            <!--begin::Svg Icon | path:assets/media/svg/icons/Devices/Display1.svg--><svg
+                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                                height="24px" viewBox="0 0 24 24" version="1.1">
+                                                                <g stroke="none" stroke-width="1" fill="none"
+                                                                    fill-rule="evenodd">
+                                                                    <rect x="0" y="0" width="24" height="24"></rect>
+                                                                    <path
+                                                                        d="M11,20 L11,17 C11,16.4477153 11.4477153,16 12,16 C12.5522847,16 13,16.4477153 13,17 L13,20 L15.5,20 C15.7761424,20 16,20.2238576 16,20.5 C16,20.7761424 15.7761424,21 15.5,21 L8.5,21 C8.22385763,21 8,20.7761424 8,20.5 C8,20.2238576 8.22385763,20 8.5,20 L11,20 Z"
+                                                                        fill="#000000" opacity="0.3"></path>
+                                                                    <path
+                                                                        d="M3,5 L21,5 C21.5522847,5 22,5.44771525 22,6 L22,16 C22,16.5522847 21.5522847,17 21,17 L3,17 C2.44771525,17 2,16.5522847 2,16 L2,6 C2,5.44771525 2.44771525,5 3,5 Z M4.5,8 C4.22385763,8 4,8.22385763 4,8.5 C4,8.77614237 4.22385763,9 4.5,9 L13.5,9 C13.7761424,9 14,8.77614237 14,8.5 C14,8.22385763 13.7761424,8 13.5,8 L4.5,8 Z M4.5,10 C4.22385763,10 4,10.2238576 4,10.5 C4,10.7761424 4.22385763,11 4.5,11 L7.5,11 C7.77614237,11 8,10.7761424 8,10.5 C8,10.2238576 7.77614237,10 7.5,10 L4.5,10 Z"
+                                                                        fill="#000000"></path>
+                                                                </g>
+                                                            </svg>
+                                                            <!--end::Svg Icon-->
+                                                        </span> </span>
+                                                    <span class="nav-text">
+                                                        {{ __('sentences.myplans') }}
+                                                    </span>
+                                                </a>
+                                            </li>
                                             @endif
                                             @if ($user->level == 'expert')
                                             <li class="nav-item mr-3">
@@ -418,6 +470,9 @@
                                                                 @case('select_curt_master')
                                                                 <img alt="Pic" src="{{ $log->operator()->avatar() }}">
                                                                 @break
+                                                                @case('select_curt_guid')
+                                                                <img alt="Pic" src="{{ $log->operator()->avatar() }}">
+                                                                @break
 
                                                                 @case('accept_curt')
                                                                 <img alt="Pic" src="{{ $log->operator()->avatar() }}">
@@ -499,6 +554,9 @@
 
                                                                             @case('select_curt_master')
                                                                             {{ __('sentences.select_curt_master') }}
+                                                                            @break
+                                                                            @case('select_curt_guid')
+                                                                            {{ __('sentences.select_curt_guid') }}
                                                                             @break
 
                                                                             @case('accept_curt')
@@ -616,6 +674,12 @@
 
                                                                     @case('select_curt_master')
                                                                     {{ __('sentences.select_curt_master_for_curt',
+                                                                    ['master' => $log->curt->master()->name . ' ' .
+                                                                    $log->curt->master()->family,'group' =>
+                                                                    $log->curt->group->name]) }}
+                                                                    @break
+                                                                    @case('select_curt_guid')
+                                                                    {{ __('sentences.select_curt_guid_for_curt',
                                                                     ['master' => $log->curt->master()->name . ' ' .
                                                                     $log->curt->master()->family,'group' =>
                                                                     $log->curt->group->name]) }}
@@ -1104,6 +1168,181 @@
                                             </div>
                                             <!--end: جدول داده ها-->
                                         </div>
+
+                                        <div class="tab-pane" id="mycurts" role="tabpanel">
+                                            <!--begin: جدول داده ها-->
+                                            <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
+                                                id="kt_datatable" style="">
+                                                <table class="datatable-table" style="display: block;">
+                                                    <thead class="datatable-head">
+                                                        <tr class="datatable-row" style="left: 0px;">
+
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.id') }}
+                                                                </span>
+                                                            </th>
+
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.title') }}
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.student') }}
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.last_change_student_date') }}
+
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.action') }}
+
+                                                                </span>
+                                                            </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="datatable-body" style="">
+                                                        @foreach ($user->master_curts()->whereType('primary')->get() as $mastercrut)
+                                                        <tr class="datatable-row" style="left: 0px;">
+                                                            <td class="datatable-cell text-center">
+                                                                <span>{{ $loop->iteration }} </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>{{ $mastercrut->title }} </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>
+                                                                    {{ $mastercrut->user->name }}
+                                                                    {{ $mastercrut->user->family }}
+                                                                 </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>
+                                                                    @if ($last_curt=$mastercrut->user->curts()->latest()->first())
+
+                                                                    {{Morilog\Jalali\Jalalian::forge($last_curt->created_at)->format('Y-m-d')}}
+                                                                @endif
+
+                                                                </span>
+                                                            </td>
+
+
+                                                            <td class="datatable-cell text-center">
+                                                                <span>{{
+                                                                    Morilog\Jalali\Jalalian::forge($mastercrut->created_at)->format('Y-m-d')
+                                                                    }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                {{-- <a class="btn btn-outline-primary"
+                                                                    href="{{ route('survey.show', $mastercrut->id) }}">مشاهده</a> --}}
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+
+
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                            <!--end: جدول داده ها-->
+                                        </div>
+                                        <div class="tab-pane" id="myplans" role="tabpanel">
+                                            <!--begin: جدول داده ها-->
+                                            <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
+                                                id="kt_datatable" style="">
+                                                <table class="datatable-table" style="display: block;">
+                                                    <thead class="datatable-head">
+                                                        <tr class="datatable-row" style="left: 0px;">
+
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.id') }}
+                                                                </span>
+                                                            </th>
+
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.title') }}
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.student') }}
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.last_change_student_date') }}
+
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.action') }}
+
+                                                                </span>
+                                                            </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="datatable-body" style="">
+                                                        @foreach ($user->master_plans()->whereType('primary')->get() as $masterplan)
+                                                        <tr class="datatable-row" style="left: 0px;">
+                                                            <td class="datatable-cell text-center">
+                                                                <span>{{ $loop->iteration }} </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>{{ $masterplan->title }} </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>
+                                                                    {{ $masterplan->user->name }}
+                                                                    {{ $masterplan->user->family }}
+                                                                 </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>
+                                                                    @if ($last_plan=$masterplan->user->plans()->latest()->first())
+
+                                                                    {{Morilog\Jalali\Jalalian::forge($last_plan->created_at)->format('Y-m-d')}}
+                                                                @endif
+
+                                                                </span>
+                                                            </td>
+
+
+                                                            <td class="datatable-cell text-center">
+                                                                <span>{{
+                                                                    Morilog\Jalali\Jalalian::forge($masterplan->created_at)->format('Y-m-d')
+                                                                    }}
+                                                                </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                {{-- <a class="btn btn-outline-primary"
+                                                                    href="{{ route('survey.show', $mastercrut->id) }}">مشاهده</a> --}}
+                                                            </td>
+                                                        </tr>
+                                                        @endforeach
+
+
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                            <!--end: جدول داده ها-->
+                                        </div>
                                         @endif
 
                                         @if ($user->level == 'expert')
@@ -1318,6 +1557,7 @@
                     <!--end::پیشرفت Table Widget 8-->
 
 
+                    @if ($main_curt)
 
                     <div class="card card-custom gutter-b">
                         <div class="card-header border-0 py-5">
@@ -1611,6 +1851,7 @@
                         </div>
                         @endif
                     </div>
+                    @endif
 
 
                     @if ($main_plan)

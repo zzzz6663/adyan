@@ -37,7 +37,7 @@
                                                 <input type="text" value="{{old('title')}}" class="form-control" name="title"
                                                     placeholder="   {{__('sentences.title')}} " >
                                                 <span class="form-text text-muted">
-                                                    {{__('sentences.enter_group_name')}}
+                                                    {{__('sentences.enter_title')}}
                                                 </span>
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>

@@ -477,6 +477,26 @@
                                                    @endforeach
                                             </div>
                                         </div>
+                                        @if (!$main_curt->guid_id)
+                                            @role('master')
+                                            <div class="col-xl-12">
+                                                <div class="form-group fv-plugins-icon-container">
+                                                    <label>
+                                                        {{__('sentences.select_guid_master')}}
+                                                    </label>
+                                                    <select name="guid_id" id="" class="form-control  select2">
+                                                        <option value="">{{__('sentences.select_one')}} </option>
+                                                        @foreach (App\Models\User::where('level','master')->get() as $master
+                                                        )
+                                                        <option  {{old('guid_id')==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}}
+                                                            {{$master->family}}</option>
+                                                        @endforeach
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            @endrole
+                                        @endif
                                         @if (!$main_curt->master_id)
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
@@ -512,7 +532,7 @@
 
                                                     </label>
                                                     <select name="master_id" id="ostad" class="form-control  select2">
-                                                        <option value="">یک مورد را انتخاب کنید </option>
+                                                        <option value="">{{__('sentences.select_one')}} </option>
                                                         @foreach (App\Models\User::where('level','master')->get() as $master
                                                         )
                                                         <option value="{{$master->id}}">{{$master->name}}
