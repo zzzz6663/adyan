@@ -187,9 +187,13 @@
                                                     @role('expert')
                                                     {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}}
                                                     <a class="btn btn-primary"
+                                                        href="{{route('admin.see.profile.verify.student',[$duty->student()->id,$duty->id])}}">
+                                                        {{__('sentences.see_profile')}}
+                                                    </a>
+                                                    {{-- <a class="btn btn-primary"
                                                         href="{{route('admin.verify.student',[$duty->student()->id,$duty->id])}}">
                                                         {{__('sentences.confirm_account')}}
-                                                    </a>
+                                                    </a> --}}
                                                     @endrole
                                                     @break
 
@@ -224,7 +228,6 @@
                                                         {{$duty->curt->title}}
                                                      </a>
                                                     @endrole
-
                                                     @break
 
 
@@ -286,6 +289,17 @@
                                                         (    {{__('sentences.verify_plan')}})
                                                         {{__('sentences.create_session')}}
                                                     </a>
+                                                    @endrole
+                                                    @break
+                                                    @case('verify_plan_by_master')
+                                                    @role('master')
+                                                   {{-- <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}">
+                                                        (    {{__('sentences.verify_plan_by_master')}})
+                                                        {{__('sentences.create_session')}}
+                                                    </a> --}}
+                                                    <a class="btn btn-outline-primary"
+                                                    href="{{ route('admin.show.plan',[ $duty->plan->id]) }}">
+                                                    {{ __('sentences.verify') }} </a>
                                                     @endrole
                                                     @break
 
@@ -443,8 +457,17 @@
                                                         @case('submit_plan')
                                                         <img alt="Pic" src="{{$log->student()->avatar()}}">
                                                         @break
+                                                        @case('submit_plan_master')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
                                                         @case('edit_plan_by_student')
                                                         <img alt="Pic" src="{{$log->group->admin()->avatar()}}">
+                                                        @break
+                                                        @case('edit_plan_by_student_from_master')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                                                        @break
+                                                        @case('confirm_plan')
+                                                        <img alt="Pic" src="{{$log->operator()->avatar()}}">
                                                         @break
                                                         @case('accept_plan')
                                                         <img alt="Pic" src="{{$log->group->admin()->avatar()}}">
@@ -569,9 +592,18 @@
                                                                 @case('submit_plan')
                                                                 {{__('sentences.submit_plan_student_log')}}
                                                                 @break
+                                                                @case('submit_plan_master')
+                                                                {{__('sentences.submit_plan_student_log')}}
+                                                                @break
 
                                                                 @case('edit_plan_by_student')
                                                                 {{__('sentences.edit_plan_by_student_log')}}
+                                                                @break
+                                                                @case('edit_plan_by_student_from_master')
+                                                                {{__('sentences.edit_plan_by_student_log')}}
+                                                                @break
+                                                                @case('confirm_plan')
+                                                                {{__('sentences.confirm_plan_title')}}
                                                                 @break
 
                                                                 @case('accept_plan')
@@ -726,10 +758,25 @@
                                                                 {{__('sentences.submit_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name])}}
                                                             </span>
                                                             @break
+                                                            @case('submit_plan_master')
+                                                            <span class="">
+                                                                {{__('sentences.submit_plan_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->operator()->name.' '.$log->operator()->family])}}
+                                                            </span>
+                                                            @break
 
                                                             @case('edit_plan_by_student')
                                                             <span class="">
                                                                 {{__('sentences.edit_plan_by_student',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name ])}}
+                                                            </span>
+                                                            @break
+                                                            @case('edit_plan_by_student_from_master')
+                                                            <span class="">
+                                                                {{__('sentences.edit_plan_by_student_from_master',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->operator()->name.' '.$log->operator()->family ])}}
+                                                            </span>
+                                                            @break
+                                                            @case('confirm_plan')
+                                                            <span class="">
+                                                                {{__('sentences.confirm_plan _log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->operator()->name.' '.$log->operator()->family ])}}
                                                             </span>
                                                             @break
                                                             @case('accept_plan')

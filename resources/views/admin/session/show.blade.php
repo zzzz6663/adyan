@@ -76,10 +76,14 @@
                                         <tr class="datatable-row" style="left: 0px;">
                                             <td class="datatable-cell text-center"><span>{{ $loop->iteration }} </span></td>
                                             <td class="datatable-cell text-center"><span>{{ $curt->title }} </span></td>
-                                            <td class="datatable-cell text-center"><span>
+                                            <td class="datatable-cell text-center">
+                                               <a href="{{route('agent.profile',$curt->user->id)}}">
+                                                <span>
                                                     {{ $curt->user->name }}
                                                     {{ $curt->user->family }}
-                                                </span></td>
+                                                </span>
+                                               </a>
+                                            </td>
 
                                             <td class="datatable-cell text-center"><span>{{ __('arr.' . $curt->level) }}
                                                 </span>
@@ -309,9 +313,13 @@
                                             <td class="datatable-cell text-center">
                                                 <span>
 
+                                                    <a href="{{route('agent.profile',$plan->user->id)}}">
+                                                        <span>
+                                                            {{ $plan->user->name }}
+                                                            {{ $plan->user->family }}
+                                                        </span>
+                                                       </a>
 
-                                                        {{ $plan->user->name }}
-                                                        {{ $plan->user->family }}
 
                                                 </span>
                                             </td>

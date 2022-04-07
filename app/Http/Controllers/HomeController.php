@@ -114,6 +114,9 @@ class HomeController extends Controller
     public function signin(Request $request)
     {
         $user = User::whereEmail($request->username)->first();
+        if(!$user ){
+            $user = User::whereCode($request->username)->first();
+        }
         if ($user && $user->password == $request->password) {
             Auth::loginUsingId($user->id, true);
 

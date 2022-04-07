@@ -125,7 +125,7 @@
                                 <div class="d-flex flex-wrap align-items-center py-2">
                                     <div class="d-flex align-items-center mr-10">
                                         <div class="mr-6">
-                                            <div class="font-weight-bold mb-2">          {{__('sentences.created_at')}}</div>
+                                            <div class="font-weight-bold mb-2"> {{__('sentences.created_at')}}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">
                                                 {{
@@ -134,7 +134,7 @@
                                             </span>
                                         </div>
                                         <div class="">
-                                            <div class="font-weight-bold mb-2">     {{__('sentences.deliver_at')}}</div>
+                                            <div class="font-weight-bold mb-2"> {{__('sentences.deliver_at')}}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
                                                 {{
@@ -282,9 +282,12 @@
 
                         @include('sections.error')
 
+                        @if (($main_plan->master_id==auth()->user()->id))
+                        <form class="form" action="{{route('admin.plan.confirm' ,$main_plan->id)}}" id="kt_form" method="post">
+                        @else
+                        <form class="form" action="{{route('admin.plan.submit' ,$main_plan->id)}}" id="kt_form" method="post">
 
-                        <form class="form" action="{{route('admin.plan.submit' ,$main_plan->id)}}" id="kt_form"
-                            method="post">
+                        @endif
                             @csrf
                             @method('post')
                             <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
@@ -297,7 +300,7 @@
                                     </h1>
                                     <br>
                                     @if ($session)
-                                            <input type="text" hidden value="{{$session}}" name="session_id">
+                                    <input type="text" hidden value="{{$session}}" name="session_id">
                                     @endif
                                     <br>
                                     <!--begin::ویزارد گام 1-->
@@ -311,28 +314,30 @@
                                                 <h2>
                                                     {{$main_plan->title}}
                                                 </h2>
-                                                <textarea name="title" class="form-control {{old('title')?'':'hide'}} inp" id="title"
+                                                <textarea name="title"
+                                                    class="form-control {{old('title')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6"> {{old('title')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
 
                                                     {{__('sentences.add_info')}}
-                                                    </span>
-                                                   <ul>
-                                                       @foreach ($all_plans as  $plan)
-                                                          @if ( $plan->title)
-                                                          <li>
+                                                </span>
+                                                <ul>
+                                                    @foreach ($all_plans as $plan)
+                                                    @if ( $plan->title)
+                                                    <li>
 
-                                                            ({{$plan->group->admin()->name}}
-                                                            {{$plan->group->admin()->family}})
-                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                            <br>
-                                                            {{$plan->title}}
-                                                            </li>
-                                                       @endif
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{
+                                                        Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->title}}
+                                                    </li>
+                                                    @endif
 
 
-                                                       @endforeach
-                                                   </ul>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -344,28 +349,30 @@
                                                 <h2>
                                                     {{$main_plan->en_title}}
                                                 </h2>
-                                                <textarea name="en_title" class="form-control  {{old('en_tags')?'':'hide'}} inp" id="en_title"
+                                                <textarea name="en_title"
+                                                    class="form-control  {{old('en_tags')?'':'hide'}} inp" id="en_title"
                                                     cols="30" rows="6">{{old('en_title')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
 
                                                     {{__('sentences.add_info')}}
-                                                    </span>
-                                                   <ul>
-                                                       @foreach ($all_plans as  $plan)
-                                                          @if ( $plan->en_title)
-                                                          <li>
+                                                </span>
+                                                <ul>
+                                                    @foreach ($all_plans as $plan)
+                                                    @if ( $plan->en_title)
+                                                    <li>
 
-                                                            ({{$plan->group->admin()->name}}
-                                                            {{$plan->group->admin()->family}})
-                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                            <br>
-                                                            {{$plan->en_title}}
-                                                            </li>
-                                                       @endif
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{
+                                                        Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->en_title}}
+                                                    </li>
+                                                    @endif
 
 
-                                                       @endforeach
-                                                   </ul>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         </div>
 
@@ -380,26 +387,27 @@
                                                     {{$tag }} -
                                                     @endforeach
                                                 </h2>
-                                                <textarea name="tags" class="form-control {{old('tags')?'':'hide'}} inp" id="title" cols="30"
-                                                    rows="6">{{old('tags')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                <textarea name="tags" class="form-control {{old('tags')?'':'hide'}} inp"
+                                                    id="title" cols="30" rows="6">{{old('tags')}}</textarea>
+                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
-                                                    </span>
-                                                     <ul>
+                                                </span>
+                                                <ul>
 
-                                                       @foreach ($all_plans as  $plan)
-                                                          @if ( $plan->tags)
-                                                          <li>
-                                                            ({{$plan->group->admin()->name}}
-                                                            {{$plan->group->admin()->family}})
-                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                            <br>
-                                                            {{$plan->tags}}
-                                                            </li>
-                                                       @endif
+                                                    @foreach ($all_plans as $plan)
+                                                    @if ( $plan->tags)
+                                                    <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{
+                                                        Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->tags}}
+                                                    </li>
+                                                    @endif
 
-                                                       @endforeach
-                                                   </ul>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -413,25 +421,27 @@
                                                     {{$tag }} -
                                                     @endforeach
                                                 </h2>
-                                                <textarea name="en_tags" class="form-control  {{old('en_tags')?'':'hide'}} inp" id="title" cols="30"
-                                                    rows="6">{{old('en_tags')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                <textarea name="en_tags"
+                                                    class="form-control  {{old('en_tags')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('en_tags')}}</textarea>
+                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
-                                                    </span>
-                                                     <ul>
-                                                       @foreach ($all_plans as  $plan)
-                                                          @if ( $plan->en_tags)
-                                                          <li>
-                                                            ({{$plan->group->admin()->name}}
-                                                            {{$plan->group->admin()->family}})
-                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                            <br>
-                                                            {{$plan->en_tags}}
-                                                            </li>
-                                                       @endif
+                                                </span>
+                                                <ul>
+                                                    @foreach ($all_plans as $plan)
+                                                    @if ( $plan->en_tags)
+                                                    <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{
+                                                        Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->en_tags}}
+                                                    </li>
+                                                    @endif
 
-                                                       @endforeach
-                                                   </ul>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -442,25 +452,27 @@
                                                 <h2>
                                                     {{$main_plan->problem}}
                                                 </h2>
-                                                <textarea name="problem" class="form-control {{old('problem')?'':'hide'}} inp" id="title"
+                                                <textarea name="problem"
+                                                    class="form-control {{old('problem')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('problem')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
-                                                    </span>
-                                                    <ul>
-                                                        @foreach ($all_plans as  $plan)
-                                                           @if ( $plan->problem)
-                                                           <li>
-                                                            ({{$plan->group->admin()->name}}
-                                                            {{$plan->group->admin()->family}})
-                                                            ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                            <br>
-                                                            {{$plan->problem}}
-                                                            </li>
-                                                       @endif
+                                                </span>
+                                                <ul>
+                                                    @foreach ($all_plans as $plan)
+                                                    @if ( $plan->problem)
+                                                    <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{
+                                                        Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->problem}}
+                                                    </li>
+                                                    @endif
 
-                                                        @endforeach
-                                                    </ul>
+                                                    @endforeach
+                                                </ul>
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -471,21 +483,24 @@
                                                 <h2>
                                                     {{$main_plan->question}}
                                                 </h2>
-                                                <textarea name="question" class="form-control {{old('question')?'':'hide'}} inp" id="title"
+                                                <textarea name="question"
+                                                    class="form-control {{old('question')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('question')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
-                                                    @foreach ($all_plans as  $plan)
-                                                       @if ( $plan->question)
-                                                       <li>
-                                                        ({{$plan->group->admin()->name}}
-                                                        {{$plan->group->admin()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                        <br>
-                                                        {{$plan->question}}
-                                                        </li>
-                                                       @endif
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->question)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->question}}
+                                                </li>
+                                                @endif
 
-                                                   @endforeach
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -496,21 +511,24 @@
                                                 <h2>
                                                     {{$main_plan->necessity}}
                                                 </h2>
-                                                <textarea name="necessity" class="form-control {{old('necessity')?'':'hide'}} inp" id="title"
+                                                <textarea name="necessity"
+                                                    class="form-control {{old('necessity')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('necessity')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
-                                                    @foreach ($all_plans as  $plan)
-                                                       @if ( $plan->necessity)
-                                                       <li>
-                                                        ({{$plan->group->admin()->name}}
-                                                        {{$plan->group->admin()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                        <br>
-                                                        {{$plan->necessity}}
-                                                        </li>
-                                                       @endif
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->necessity)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->necessity}}
+                                                </li>
+                                                @endif
 
-                                                   @endforeach
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -522,21 +540,24 @@
                                                     {{$main_plan->sub_question}}
                                                 </h2>
 
-                                                <textarea name="sub_question" class="form-control {{old('sub_question')?'':'hide'}} inp" id="title"
-                                                    cols="30" rows="6">{{old('sub_question')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
-                                                    @foreach ($all_plans as  $plan)
-                                                       @if ( $plan->sub_question)
-                                                       <li>
-                                                        ({{$plan->group->admin()->name}}
-                                                        {{$plan->group->admin()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                        <br>
-                                                        {{$plan->sub_question}}
-                                                        </li>
-                                                       @endif
+                                                <textarea name="sub_question"
+                                                    class="form-control {{old('sub_question')?'':'hide'}} inp"
+                                                    id="title" cols="30" rows="6">{{old('sub_question')}}</textarea>
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->sub_question)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->sub_question}}
+                                                </li>
+                                                @endif
 
-                                                   @endforeach
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -548,21 +569,23 @@
                                                     {{$main_plan->hypo}}
                                                 </h2>
 
-                                                <textarea name="hypo" class="form-control {{old('hypo')?'':'hide'}} inp" id="title"
-                                                    cols="30" rows="6">{{old('hypo')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
-                                                    @foreach ($all_plans as  $plan)
-                                                       @if ( $plan->hypo)
-                                                       <li>
-                                                        ({{$plan->group->admin()->name}}
-                                                        {{$plan->group->admin()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                        <br>
-                                                        {{$plan->hypo}}
-                                                        </li>
-                                                       @endif
+                                                <textarea name="hypo" class="form-control {{old('hypo')?'':'hide'}} inp"
+                                                    id="title" cols="30" rows="6">{{old('hypo')}}</textarea>
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->hypo)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->hypo}}
+                                                </li>
+                                                @endif
 
-                                                   @endforeach
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -574,21 +597,24 @@
                                                     {{$main_plan->theory}}
                                                 </h2>
 
-                                                <textarea name="theory" class="form-control {{old('theory')?'':'hide'}} inp" id="title"
+                                                <textarea name="theory"
+                                                    class="form-control {{old('theory')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('theory')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
-                                                    @foreach ($all_plans as  $plan)
-                                                       @if ( $plan->theory)
-                                                       <li>
-                                                        ({{$plan->group->admin()->name}}
-                                                        {{$plan->group->admin()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                        <br>
-                                                        {{$plan->theory}}
-                                                        </li>
-                                                       @endif
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->theory)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->theory}}
+                                                </li>
+                                                @endif
 
-                                                   @endforeach
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -600,21 +626,24 @@
                                                     {{$main_plan->structure}}
                                                 </h2>
 
-                                                <textarea name="structure" class="form-control {{old('structure')?'':'hide'}} inp" id="title"
+                                                <textarea name="structure"
+                                                    class="form-control {{old('structure')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('structure')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
-                                                    @foreach ($all_plans as  $plan)
-                                                       @if ( $plan->structure)
-                                                       <li>
-                                                        ({{$plan->group->admin()->name}}
-                                                        {{$plan->group->admin()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                        <br>
-                                                        {{$plan->structure}}
-                                                        </li>
-                                                       @endif
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->structure)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->structure}}
+                                                </li>
+                                                @endif
 
-                                                   @endforeach
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -626,21 +655,24 @@
                                                     {{$main_plan->method}}
                                                 </h2>
 
-                                                <textarea name="method" class="form-control {{old('method')?'':'hide'}} inp" id="title"
+                                                <textarea name="method"
+                                                    class="form-control {{old('method')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('method')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
-                                                    @foreach ($all_plans as  $plan)
-                                                       @if ( $plan->method)
-                                                       <li>
-                                                        ({{$plan->group->admin()->name}}
-                                                        {{$plan->group->admin()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                        <br>
-                                                        {{$plan->method}}
-                                                        </li>
-                                                       @endif
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->method)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->method}}
+                                                </li>
+                                                @endif
 
-                                                   @endforeach
+                                                @endforeach
                                             </div>
                                         </div>
                                         <div class="col-xl-6 par">
@@ -652,21 +684,24 @@
                                                     {{$main_plan->source}}
                                                 </h2>
 
-                                                <textarea name="source" class="form-control {{old('source')?'':'hide'}} inp" id="title"
+                                                <textarea name="source"
+                                                    class="form-control {{old('source')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('source')}}</textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
-                                                    @foreach ($all_plans as  $plan)
-                                                       @if ( $plan->source)
-                                                       <li>
-                                                        ({{$plan->group->admin()->name}}
-                                                        {{$plan->group->admin()->family}})
-                                                        ({{ Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
-                                                        <br>
-                                                        {{$plan->source}}
-                                                        </li>
-                                                       @endif
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->source)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->source}}
+                                                </li>
+                                                @endif
 
-                                                   @endforeach
+                                                @endforeach
                                             </div>
                                         </div>
 
@@ -681,7 +716,8 @@
                                                     <option value="">{{__('sentences.select_one')}} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master
                                                     )
-                                                    <option {{old('guid_id')==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}}
+                                                    <option {{old('guid_id')==$master->id?'selected':''}}
+                                                        value="{{$master->id}}">{{$master->name}}
                                                         {{$master->family}}</option>
                                                     @endforeach
                                                 </select>
@@ -689,13 +725,44 @@
                                             </div>
                                         </div>
                                         @endrole
-                                    @endif
+                                        @endif
 
                                         <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
-                                                <a class="btn btn-danger " href="{{$main_plan->report()}}">{{__('sentences.download_report')}}</a>
+                                                <a class="btn btn-danger "
+                                                    href="{{$main_plan->report()}}">{{__('sentences.download_report')}}</a>
                                             </div>
                                         </div>
+
+
+                                        @if ($main_plan->master_id==auth()->user()->id)
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+
+                                                    {{__('sentences.final_result')}}
+                                                </label>
+                                                <select class="form-control" name="confirm_master" id="">
+                                                    <option value=""> {{__('sentences.select_one')}}</option>
+                                                    <option {{old('confirm_master')=='0' ?'selected':''}} value="0">
+                                                        {{__('sentences.should_edit_cuert')}}
+                                                    </option>
+                                                    <option {{old('confirm_master')=='1' ?'selected':''}} value="1">
+                                                        {{__('sentences.confirm')}}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.info_master')}}
+                                                </label>
+                                                <textarea name="info_master" class="form-control" id="" cols="30" rows="10"></textarea>
+                                            </div>
+                                        </div>
+
+                                        @else
                                         <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
@@ -703,25 +770,24 @@
                                                     {{__('sentences.final_result')}}
                                                 </label>
                                                 <select class="form-control" name="status" id="">
-                                                    <option value="">   {{__('sentences.select_one')}}</option>
+                                                    <option value=""> {{__('sentences.select_one')}}</option>
                                                     <option {{old('status')=='reject' ?'selected':''}} value="reject">
-
                                                         {{__('sentences.should_edit_cuert')}}
-                                                        </option>
-
+                                                    </option>
                                                     <option {{old('status')=='faild' ?'selected':''}} value="faild">
                                                         {{__('sentences.reject_plan')}}
-                                                      </option>
-
-                                                        @role('master')
-                                                        <option {{old('status')=='accept' ?'selected':''}} value="accept">
-                                                            {{__('sentences.accept_plan')}}
-                                                         </option>
-                                                            @endrole
+                                                    </option>
+                                                    @role('master')
+                                                    <option {{old('status')=='accept' ?'selected':''}} value="accept">
+                                                        {{__('sentences.accept_plan')}}
+                                                    </option>
+                                                    @endrole
                                                 </select>
 
                                             </div>
                                         </div>
+                                        @endif
+
 
 
 
@@ -750,13 +816,15 @@
 
                                             </p>
                                             @else
-                                            <input type="submit" value="       {{__('sentences.save')}}   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
+                                            <input type="submit" value="  ddd     {{__('sentences.save')}}   "
+                                                class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
 
                                             @endif
                                             @endrole
 
                                             @role('master')
-                                            <input type="submit" value="       {{__('sentences.save')}}   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
+                                            <input type="submit" value="       {{__('sentences.save')}}   "
+                                                class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
                                             @endrole
                                             {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
                                                 href="{{route('admin.plan')}}">برکشت</a> --}}
@@ -804,7 +872,7 @@
                                     <!--begin::ویزارد Form-->
                                     <h1>
 
-                                           {{__('sentences.form_select_geoup')}}
+                                        {{__('sentences.form_select_geoup')}}
                                     </h1>
                                     <br>
                                     <br>
@@ -824,16 +892,16 @@
 
                                                 </label>
                                                 <select name="group_id" id="ostad" class="form-control  ">
-                                                    <option value="">           {{__('sentences.select_one')}} </option>
+                                                    <option value=""> {{__('sentences.select_one')}} </option>
                                                     @foreach (App\Models\Group::all() as $group
                                                     )
                                                     <option value="{{$group->id}}">
                                                         {{$group->name}}
-                                                      (
+                                                        (
                                                         {{__('sentences.manger')}}:
-                                                          {{$group->admin()->name}}
-                                                          {{$group->admin()->family}}
-                                                      )
+                                                        {{$group->admin()->name}}
+                                                        {{$group->admin()->family}}
+                                                        )
                                                     </option>
                                                     @endforeach
                                                 </select>
@@ -850,7 +918,7 @@
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
 
                                         <div>
-                                            <input type="submit" value="          {{__('sentences.save')}}:   "
+                                            <input type="submit" value="{{__('sentences.save')}}"
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
                                             {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
                                                 href="{{route('agent.index')}}"> {{__('sentences.back')}}</a> --}}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
+use App\Models\Log;
 use App\Models\Curt;
 use App\Models\Duty;
 use App\Models\Plan;
@@ -10,9 +11,11 @@ use App\Models\User;
 use App\Models\Group;
 use App\Models\Session;
 use App\Models\Subject;
+use App\Mail\UserMessage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class AdminController extends Controller
 {
@@ -113,10 +116,12 @@ class AdminController extends Controller
 
         return view('curt.show', compact(['main_curt', 'all_curts', 'session','similar_subjects','similar_curt']));
     }
+
     public function show_plan(Request $request, Plan $plan)
     {
 
         $session= session()->get('session');
+
         $main_plan = $plan;
         $all_plans = $plan->user->plan()->whereType('secondary')->latest()->get();
 
@@ -181,25 +186,117 @@ class AdminController extends Controller
         alert()->success(__('alert.a19'));
         return back();
     }
+    public function see_profile_before_verify_student(Request $request, User $user, Duty $duty)
+    {
+        $logs=$user->logs()->latest()->get();
+        $main_curt = $user->curt();
+        $all_curts = $user->curts()->whereType('secondary')->latest()->get();
+        $main_plan = $user->plan()->whereType('primary')->first();
+        $all_plans = $user->plans()->whereType('secondary')->latest()->get();
+
+        return view('admin.agent.see_profile_before_verify_student',compact(['user','duty','logs','main_curt','all_curts','main_plan','all_plans']));
+    }
     public function verify_student(Request $request, User $user, Duty $duty)
     {
-        //حساب دانسجو فعال شد
-        $user->update([
-            'verify' => '1'
-        ]);
-        $user->update_status('quiz');
-        // ثبت اپراتور و زمان
-        $duty->update([
-            'operator_id' => auth()->user()->id,
-            'time' => Carbon::now()
-        ]);
 
-        // ثبت لاگ
-        $user->save_log( ['admin', 'expert'],['type'=>'verify','operator_id'=>auth()->user()->id], true );
-        $user->save_duty( [],['type'=>'student_go_quiz'], true);
 
-        alert()->success(__('alert.a20'));
-        return back();
+          // ثبت لاگ
+
+
+        if($request->confirm){
+            $user->save_log( ['admin', 'expert'],['type'=>'verify','operator_id'=>auth()->user()->id], true );
+            $user->save_duty( [],['type'=>'student_go_quiz'], true);
+             //حساب دانسجو فعال شد
+            $user->update([
+                'verify' => '1'
+            ]);
+            $user->update_status('quiz');
+            // ثبت اپراتور و زمان
+            $duty->update([
+                'operator_id' => auth()->user()->id,
+                'time' => Carbon::now()
+            ]);
+
+            alert()->success(__('alert.a20'));
+        }
+        if($request->remove){
+            if(!$request->reason){
+                return redirect()->back()->withErrors(['msg' => __('alert.a52')]);
+            }
+          $log=  $user->logs()->where('type','register')->first();
+          Mail::to($user)->send(new UserMessage($request->reason,__('sentences.reason_title')));
+                if($log){
+                    $log->delete();
+                }
+            $user->delete();
+            $duty->delete();
+
+            alert()->success(__('alert.a51'));
+        }
+
+
+
+
+
+        return redirect()->route('user.note');
+    }
+    public function admin_plan_confirm(Plan $plan, Request $request)
+    {
+        $data = $request->validate([
+            'confirm_master' =>'required',
+            'info_master' =>'required_if:confirm_master,=,0',
+        ]);
+        $duty = $plan->master->duties()->where('plan_id', $plan->id)->whereType('verify_plan_by_master')->where('time', null)->latest()->first();
+        if ( $duty) {
+            $duty->update([
+                'time' => Carbon::now()
+            ]);
+        }
+        $data['user_id']=$plan->user_id;
+        $data['master_id']=$plan->master_id;
+        $data['group_id']=$plan->group_id;
+        $data['type']='secondary';
+        Plan::create($data);
+
+
+
+
+            // ثبت لاگ
+            if ($data['confirm_master'] != '1') {
+                $plan->user->save_duty( [],
+                [
+                    'type' =>'edit_plan_by_student',
+                    'group_id'=>$plan->group_id,
+                    'plan_id' =>$plan->id
+                ],true);
+                $plan->user->save_log(['admin'],
+                [
+                    'type'=>'edit_plan_by_student_from_master',
+
+                    'plan_id' =>$plan->id
+                ]
+                , true);
+            } else {
+                $plan->user->save_log(['admin', 'list'=>[$plan->master_id]],
+                [
+                    'type'=>'confirm_plan',
+                    'group_id'=> $plan->group_id,
+                    'operator_id'=> $plan->master_id,
+                    'plan_id' =>$plan->id
+                ]
+                ,true );
+                $plan->group->admin()->save_duty( ['list'=>[ $plan->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
+
+            }
+
+
+
+
+            alert()->success(__('alert.a15'));
+            return redirect()->route('user.note');
+
+
+
     }
     public function admin_plan_submit(Plan $plan, Request $request)
     {
@@ -224,6 +321,7 @@ class AdminController extends Controller
             'source' =>'nullable',
             'status' =>'required',
             'guid_id' => 'nullable|exists:users,id',
+
         ]);
 
         $plan->update([
@@ -266,15 +364,16 @@ class AdminController extends Controller
                 'plan_id' =>$plan->id
             ]
             , true);
-            $plan->user->update_status('booklet');
         } else {
-            $plan->user->save_log(['admin', 'expert', 'list'=>[$plan->master_id,$plan->group_id]],
+            $plan->user->save_log(['admin', 'list'=>[$plan->master_id,$plan->group_id]],
             [
                 'type'=>'accept_plan',
                 'group_id'=> $plan->group_id,
                 'plan_id' =>$plan->id
             ]
             ,true );
+            $plan->user->update_status('booklet');
+
         }
 
 

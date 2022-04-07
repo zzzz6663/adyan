@@ -29,6 +29,7 @@ class Curt extends Model
         'resume',//رزومه استاد پیشنهادی که جز لیست نبوده
         'status',//وضعیت مرحله پایان نامه
         'subject_id',//      کلید موضوع مصوب
+        'fail_reason',//          دلیل رد طرح در موقع ورود اطلاعات اولیه
     ];
     public function user()
     {

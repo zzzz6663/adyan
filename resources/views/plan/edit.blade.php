@@ -309,6 +309,20 @@
                                                             {{$p->source}}
                                                         </span>
                                                     <p>
+                                                        @if ($p->info_master)
+
+                                                    <p>
+                                                        <span class="ti">
+                                                            {{__('sentences.info_master')}}
+                                                            {{$p->master->name}}
+                                                            {{$p->master->family}}
+                                                        </span>
+                                                        <span class="cont">
+                                                            {{$p->info_master}}
+                                                        </span>
+                                                    <p>
+                                                        @endif
+
 
                                                 </li>
                                                 @endforeach

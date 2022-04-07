@@ -7,18 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class VerifyEmail extends Mailable
+class UserMessage extends Mailable
 {
     use Queueable, SerializesModels;
-    public $user;
+    public $payam;
+    public $title;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($user)
+    public function __construct($message,$title)
     {
-        $this->user= $user;
+       $this->payam = $message;
+       $this->title = $title;
     }
 
     /**
@@ -28,7 +30,7 @@ class VerifyEmail extends Mailable
      */
     public function build()
     {
-        $user=$this->user;
-        return $this->view('email.verify' ,compact(['user']))->subject(__('sentences.confirm_account'));
+        $payam=$this->payam;
+        return $this->view('email.message' ,compact(['payam','title']))->subject(__('sentences.message'));
     }
 }

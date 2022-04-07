@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\Curt;
+use App\Models\Plan;
 use App\Models\User;
 use NumberFormatter;
+use App\Mail\UserMessage;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Mail;
 
 class AgentController extends Controller
 {
@@ -17,6 +21,8 @@ class AgentController extends Controller
     public function masters(Request $request)
     {
         $user=auth()->user();
+        // $use=User::Find(65);
+        // Mail::to($use)->send(new UserMessage('دیل رد '));
         $users=user::query();
         if ($request->search){
         //  $users->whereHas('colores',function ($query) use ($request){
@@ -257,6 +263,202 @@ class AgentController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function basic_info1(Request $request )
+    {
+        if ( $request->isMethod('post')) {
+            $data = $request->validate([
+                'name' => 'required',
+                'family' => 'required',
+                'code' => 'required',
+                'title' => 'required',
+                'tags' => 'required|array|between:1,4',
+                'problem' => 'required',
+                'question' => 'required',
+                'necessity' => 'required',
+                'innovation' => 'required',
+                'master_id' => 'required',
+                'guid_id' => 'required',
+                'group_id' => 'required',
+                'status' => 'required',
+                'fail_reason' => 'required_if:status,=,faild|max:1500',
+
+            ]);
+
+            $user=User::whereCode($data['code'])->first();
+            if(!$user) {
+                $user=User::create([
+                    'name' =>$data['name'],
+                    'family' =>$data['family'],
+                    'code' =>$data['code'],
+                    'level' =>'student',
+                    'direct' =>'0',
+                    'password' =>$data['code'],
+                    'verify' =>'1',
+                ]);
+            }
+            $user->assignRole('student');
+            $data['status']='review_curt_by_student';
+            $data['user_id']=$user->id;
+            $data['type']='primary';
+            $data['side']='1';
+            $curt = Curt::create($data);
+            $curt->tags()->attach($data['tags']);
+            $user->update_status('curt');
+
+                // ثبت لاگ
+        if ($data['status'] != 'accept') {
+            $curt->user->save_duty( [],
+            [
+                'type' =>'edit_curt_by_student',
+                'operator_id'=>auth()->user()->id,
+                'curt_id' =>$curt->id
+            ],true);
+            $curt->user->save_log(['admin', 'expert'],
+            [
+                'type'=>'edit_curt_by_student',
+                'operator_id'=> auth()->user()->id,
+                'curt_id' =>$curt->id
+            ]
+            , true);
+            $user->update([
+                'status'=>'curt'
+            ]);
+            alert()->success('کاربر با موفقیت ساخته شد ');
+            return redirect()->route('admin.basic.info');
+
+        } else {
+            $curt->user->save_log(['admin',],
+            [
+                'type'=>'accept_curt',
+                'operator_id'=> auth()->user()->id,
+                'curt_id' =>$curt->id,
+            ]
+            ,true );
+
+
+            $curt->user->update_status('plan');
+            alert()->success('کاربر با موفقیت ساخته شد ');
+        }
+
+
+        }
+        return view('admin.agent.basic_info1');
+    }
+    public function basic_info2(Request $request ,User $user)
+    {
+        if ( $request->isMethod('post')) {
+
+
+            $data = $request->validate([
+                'title' => 'required',
+                'tags' => 'required',
+                'en_title' => 'required',
+                'en_tags' => 'required',
+                'necessity' => 'required',
+                'problem' => 'required',
+                'question' => 'required',
+                'sub_question' => 'required',
+                'hypo' => 'required',
+                'theory' => 'required',
+                'structure' => 'required',
+                'method' => 'required',
+                'source' => 'required',
+                'report' => 'required|max:2048',
+                'state' => 'required',
+            ]);
+
+
+
+            $data['confirm_master']='1';
+            $data['group_id']=$user->curt()->group_id;
+            $data['master_id']=$user->curt()->master_id;
+            $data['tags']=implode('_',$data['tags']);
+            $data['en_tags']=implode('_',$data['en_tags']);
+
+            if(!$data['state']){
+                $data['status']='review_plan_by_student';
+                $data['side']='1';
+            }else{
+                $data['status']='accept';
+                $data['side']='0';
+            }
+            $data['user_id']=$user->id;
+            $data['type']='primary';
+
+
+            $plan = Plan::create($data);
+            if ($request->hasFile('report')) {
+                $image = $request->file('report');
+                $name_img = 'report_' . $plan->id . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('/media/plan/'), $name_img);
+                $data['report'] = $name_img;
+                $plan->update([
+                    'report'=>$data['report']
+                ]);
+            }
+            $user->update([
+                'status'=>'plan'
+            ]);
+            if(  $user->curt()->guid_id){
+                $plan ->update([
+                    'guid_id'=> $user->curt()->guid_id
+                ]);
+                $user->save_log( ['admin','list'=>[ $user->id]],
+                [
+                    'type'=>'select_plan_guid',
+                    'operator_id'=>  $user->curt()->guid_id,
+                    'plan_id' =>$plan->id,
+                ]
+                , true);
+            }
+
+
+
+
+            if ($data['state'] != '1') {
+                $plan->user->save_duty( [],
+                [
+                    'type' =>'edit_plan_by_student',
+                    'group_id'=>$plan->group_id,
+                    'plan_id' =>$plan->id
+                ],true);
+                $plan->user->save_log(['admin', 'expert'],
+                [
+                    'type'=>'edit_plan_by_student',
+                    'group_id'=> $plan->group_id,
+                    'plan_id' =>$plan->id
+                ]
+                , true);
+            } else {
+                $plan->user->save_log(['admin', 'list'=>[$plan->master_id,$plan->group_id]],
+                [
+                    'type'=>'accept_plan',
+                    'group_id'=> $plan->group_id,
+                    'plan_id' =>$plan->id
+                ]
+                ,true );
+                $plan->user->update_status('booklet');
+
+            }
+
+            alert()->success('طرح با موفقیت ثبت  شد ');
+        return redirect()->route('admin.basic.info2');
+
+        }
+
+
+        return view('admin.agent.basic_info2',compact(['user']));
+    }
+    public function profile(Request $request ,User $user)
+    {
+
+        $logs=$user->logs()->latest()->get();
+        $main_curt = $user->curt();
+        $all_curts = $user->curts()->whereType('secondary')->latest()->get();
+        $main_plan = $user->plan()->whereType('primary')->first();
+        $all_plans = $user->plans()->whereType('secondary')->latest()->get();
+        return view('admin.agent.profile',compact(['user','logs','main_curt','all_curts','main_plan','all_plans']));
     }
 
 }
