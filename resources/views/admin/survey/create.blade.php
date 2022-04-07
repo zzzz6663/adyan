@@ -49,14 +49,14 @@
                                                     {{__('sentences.list_curt')}}
 
                                                 </label>
-                                                <select name="curt_id"  class="form-control  select2">
+                                                <select name="curts[]" multiple="multiple"   class="form-control  select2">
                                                     <option value="">   {{__('sentences.none')}} </option>
                                                     @foreach (App\Models\User::where('status','curt')->latest()->get() as $student )
                                                     @if (!$student->curt())
                                                     @continue
                                                    @endif
 
-                                                   <option {{old('curt_id')==$student->id?'selected':''}} value="{{$student->curt()->id}}">{{$student->name}} {{$student->family}}
+                                                   <option {{in_array($student->id,old('curts',[]))?'selected':''}}  value="{{$student->curt()->id}}">{{$student->name}} {{$student->family}}
 
                                                    ({{$student->curt()->title}})
                                                  <span class="text txat-" dir="rtl">
@@ -78,19 +78,16 @@
                                                     {{__('sentences.list_plan')}}
 
                                                 </label>
-                                                <select name="plan_id"  class="form-control  select2">
-                                                    <option value="">   {{__('sentences.none')}} </option>
+                                                <select name="plans[]" multiple="multiple"  class="form-control  select2">
+                                                    <option disabled>   {{__('sentences.none')}} </option>
                                                     @foreach (App\Models\User::where('status','plan')->latest()->get() as $student )
                                                     @if (!$student->plan()->whereType('primary')->first())
                                                     @continue
                                                     @endif
-
-                                                   <option {{old('plan_id')==$student->id?'selected':''}} value="{{$student->plan->id}}">{{$student->name}} {{$student->family}}
-
+                                                   <option {{in_array($student->id,old('plans',[]))?'selected':''}} value="{{$student->plan->id}}">{{$student->name}} {{$student->family}}
                                                    ({{$student->plan->title}})
                                                    <span class="text txat-" dir="rtl">
                                                     ({{Morilog\Jalali\Jalalian::forge($student->plan->created_at)->format('Y-m-d')}})
-
                                                    </span>
                                                 </option>
                                                     @endforeach
@@ -109,7 +106,7 @@
                                                     {{__('sentences.select_master')}}
                                                 </label>
                                                 <select name="masters[]"   multiple class="form-control  select2">
-                                                    <option value="">          {{__('sentences.select_one')}} </option>
+                                                    <option disabled>          {{__('sentences.select_one')}} </option>
                                                     @foreach (App\Models\User::where('level','master')->latest()->get() as $master )
                                                    <option {{in_array($master->id ,old('masters',[]))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach

@@ -3,7 +3,7 @@
     <!--begin::Brand-->
     <div class="brand flex-column-auto " id="kt_brand">
         <!--begin::Logo-->
-        <a href="index.html" class="brand-logo">
+        <a href="" class="brand-logo">
             <img alt="Logo" src="/assets/media/logos/logo-light.png" />
         </a>
         <!--end::Logo-->
@@ -26,14 +26,21 @@
 
     <div class="text-center mb-10">
         <div class="symbol symbol-60 symbol-circle symbol-xl-90">
-            <div class="symbol-label" style="background-image:url('{{auth()->user()->avatar()}}')"></div>
+            <a href="{{route('agent.profile',auth()->user()->id)}}">
+                <div class="symbol-label" style="background-image:url('{{auth()->user()->avatar()}}')"></div>
+
+            </a>
             <i class="symbol-badge symbol-badge-bottom bg-success"></i>
         </div>
 
         <h4 class="font-weight-bold my-2">
+            <a href="{{route('agent.profile',auth()->user()->id)}}">
+                <span>
+                    {{auth()->user()->name}}
+                    {{auth()->user()->family}}
+                </span>
+               </a>
 
-               {{auth()->user()->name}}
-               {{auth()->user()->family}}
         </h4>
         <div class="text-muted mb-2">
             {{__('arr.'.auth()->user()->level)}}
@@ -97,7 +104,7 @@
                     </a>
                 </li>
                 @endrole
-                @role('admin')
+                @role('admin|student')
                 <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='agent.masters'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('agent.masters')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

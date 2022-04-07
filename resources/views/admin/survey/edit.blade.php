@@ -60,34 +60,107 @@
 
 
                                         </div>
-                                        @if ($survey->curt)
-                                            <div class="row">
-                                                <div class="col-lg-4">
-                                                    <span class="title"> {{ __('sentences.title') }}:</span>
-                                                    <span class="content">{{ $survey->curt->title }}</span>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <span class="title"> {{ __('sentences.problem') }}:</span>
-                                                    <span class="content">{{ $survey->curt->problem }}</span>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <span class="title"> {{ __('sentences.question') }}:</span>
-                                                    <span class="content">{{ $survey->curt->question }}</span>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <span class="title"> {{ __('sentences.necessity') }}:</span>
-                                                    <span class="content">{{ $survey->curt->necessity }}</span>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <span class="title"> {{ __('sentences.innovation') }}:</span>
-                                                    <span class="content">{{ $survey->curt->innovation }}</span>
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <span class="title"> {{ __('sentences.tags') }}:</span>
-                                                    <span class="content">{{ $survey->curt->tags }}</span>
-                                                </div>
+                                        @foreach ($survey->curts as $curt )
+                                        <h1>{{$loop->iteration}}-
+                                            {{ $curt->title }}</h1>
+                                        <div class="row">
+                                            {{-- <div class="col-lg-4">
+                                                <span class="title"> {{ __('sentences.title') }}:</span>
+                                                <span class="content">{{ $curt->title }}</span>
+                                            </div> --}}
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.problem') }}:</span>
+                                                <span class="content">{{ $curt->problem }}</span>
                                             </div>
-                                        @endif
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.question') }}:</span>
+                                                <span class="content">{{ $curt->question }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.necessity') }}:</span>
+                                                <span class="content">{{ $curt->necessity }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.innovation') }}:</span>
+                                                <span class="content">{{ $curt->innovation }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.tags') }}:</span>
+                                                <span class="content">{{ implode(' ',$curt->tags()->pluck('tag')->toArray()) }}</span>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        @endforeach
+
+
+                                        @foreach ($survey->plans as $plan )
+                                        <h1>{{$loop->iteration}}-
+                                            {{ $plan->title }}</h1>
+                                        <div class="row">
+                                            {{-- <div class="col-lg-4">
+                                                <span class="title"> {{ __('sentences.title') }}:</span>
+                                                <span class="content">{{ $curt->title }}</span>
+                                            </div> --}}
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.en_title') }}:</span>
+                                                <span class="content">{{ $plan->en_title }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.en_tags') }}:</span>
+                                                <span class="content">
+                                                    {{implode(explode('_',$plan->en_tags)) }}
+                                                </span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.tags') }}:</span>
+                                                <span class="content">{{implode(explode('_',$plan->tags)) }}</span>
+                                            </div>
+
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.problem') }}:</span>
+                                                <span class="content">{{ $plan->problem }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.necessity') }}:</span>
+                                                <span class="content">{{ $plan->necessity }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.question') }}:</span>
+                                                <span class="content">{{ $plan->question }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.sub_question') }}:</span>
+                                                <span class="content">{{ $plan->sub_question }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.hypo') }}:</span>
+                                                <span class="content">{{ $plan->hypo }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.theory') }}:</span>
+                                                <span class="content">{{ $plan->theory }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.structure') }}:</span>
+                                                <span class="content">{{ $plan->structure }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.method') }}:</span>
+                                                <span class="content">{{ $plan->method }}</span>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.source') }}:</span>
+                                                <span class="content">{{ $plan->source }}</span>
+                                            </div>
+
+                                            {{-- <div class="col-lg-3">
+                                                <span class="title"> {{ __('sentences.tags') }}:</span>
+                                                <span class="content">{{ implode(' ',$plan->tags()->pluck('tag')->toArray()) }}</span>
+                                            </div> --}}
+                                        </div>
+                                        <br>
+                                        @endforeach
+
 
                                         <!--begin::ویزارد اقدامات-->
                                         <div class="d-flex justify-content-between border-top mt-5 pt-10">

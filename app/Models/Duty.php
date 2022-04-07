@@ -17,6 +17,7 @@ class Duty extends Model
         'info',//اطلاعات اضافه
         'down_id',//ای دی انجام دهنده
         'time',//زمان انجام
+        'session_id',//  ای دی جلسه
         'curt_id',//  ای دی طرح اجمالی
         'subject_id',//  ای دی طرح موضوع
         'survey_id',//  ای دی نظرسنجی
@@ -41,6 +42,10 @@ class Duty extends Model
     public function curt()
     {
         return $this->belongsTo(Curt::class);
+    }
+    public function session()
+    {
+        return $this->belongsTo(Session::class);
     }
     public function subject()
     {

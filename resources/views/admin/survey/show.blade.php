@@ -39,8 +39,22 @@
                                                     {{ __('sentences.by') }}:
                                                     {{ $survey->user->name }}
                                                     {{ $survey->user->family }}
-
-
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group fv-plugins-icon-container">
+                                                    @foreach ($survey->curts as $curt )
+                                                    <span>
+                                                        {{ $curt->title }}</span> ------
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                            <div class="col-xl-6">
+                                                <div class="form-group fv-plugins-icon-container">
+                                                    @foreach ($survey->plans as $plan )
+                                                    <span>
+                                                        {{ $plan->title }}</span> ------
+                                                    @endforeach
                                                 </div>
                                             </div>
 

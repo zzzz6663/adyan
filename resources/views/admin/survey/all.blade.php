@@ -71,10 +71,18 @@
                                     </th>
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
-
                                         <span>
                                             {{__('sentences.survey_member')}}
-
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            {{__('sentences.curts')}}
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            {{__('sentences.plans')}}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
@@ -109,6 +117,24 @@
                                         {{$user->name}}
                                         {{$user->family}}
                                         -
+                                        @endforeach
+
+                                    </span></td>
+                                    <td class="datatable-cell text-center"><span>
+                                        @foreach ($survey->curts as $curt )
+                                        {{$curt->user->name}}
+                                        {{$curt->user->family}}
+                                        {{$curt->title}}
+                                        ------
+                                        @endforeach
+
+                                    </span></td>
+                                    <td class="datatable-cell text-center"><span>
+                                        @foreach ($survey->plans as $plan )
+                                        {{$plan->user->name}}
+                                        {{$plan->user->family}}
+                                        -
+                                        {{$plan->title}}
                                         @endforeach
 
                                     </span></td>

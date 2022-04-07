@@ -88,7 +88,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::post('/save_curt_group/{curt}','AdminController@save_curt_group')->middleware(['role:expert'])->name('admin.save.curt.group');
     Route::any('/basic_info1','AgentController@basic_info1')->middleware(['role:admin'])->name('admin.basic.info1');
     Route::any('/basic_info2/{user?}','AgentController@basic_info2')->middleware(['role:admin'])->name('admin.basic.info2');
-    Route::get('/masters','AgentController@masters')->middleware(['role:admin'])->name('agent.masters');
+    Route::get('/masters','AgentController@masters')->middleware(['role:admin|student'])->name('agent.masters');
     Route::get('/profile/{user}','AgentController@profile')->name('agent.profile');
     Route::resource('agent', 'AgentController')->middleware(['role:admin']);
     Route::resource('group', 'GroupController')->middleware(['role:admin']);
@@ -97,6 +97,8 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::resource('quiz', 'QuizController')->middleware(['role:expert|admin']);
     Route::resource('quiz.question', 'QuestionController')->middleware(['role:expert|admin']);
     Route::resource('survey', 'SurveyController')->middleware(['role:master|admin']);
+    Route::get('session_confirm_show/{session}', 'SessionController@session_confirm_show')->middleware(['role:master'])->name('session.confirm.show');
+    Route::post('session_confirm/{session}', 'SessionController@session_confirm')->middleware(['role:master'])->name('session.confirm');
     Route::get('all_session', 'SessionController@all_session')->middleware(['role:admin|master'])->name('admin.all.session');
     Route::get('session/result/{session}', 'SessionController@result')->middleware(['role:admin|master'])->name('admin.session.result');
     Route::resource('tag', 'TagController')->middleware(['role:expert|admin']);

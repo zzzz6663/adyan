@@ -24,11 +24,11 @@ class Survey extends Model
     public function users(){
         return $this->belongsToMany(User::class)->withPivot(['time','info']);
     }
-    public function plan(){
-        return $this->belongsTo(Plan::class);
+    public function plans(){
+        return $this->belongsToMany(Plan::class);
     }
-    public function curt(){
-        return $this->belongsTo(Curt::class);
+    public function curts(){
+        return $this->belongsToMany(Curt::class);
     }
     public function subject(){
         return $this->belongsTo(Subject::class);

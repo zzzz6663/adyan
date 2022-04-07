@@ -66,7 +66,12 @@
                                         </th>
                                         <th class="datatable-cell datatable-cell-sort text-center">
                                             <span>
-                                                {{ __('sentences.master') }}
+                                                {{ __('sentences.final_master') }}
+                                            </span>
+                                        </th>
+                                        <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
+                                                {{ __('sentences.first_master') }}
                                             </span>
                                         </th>
                                         <th class="datatable-cell datatable-cell-sort text-center">
@@ -114,6 +119,12 @@
                                                 @if ($subject->master_id)
                                                 {{ $subject->master->name }}
                                                 {{ $subject->master->family }}
+                                            @endif
+                                            </span></td>
+                                            <td class="datatable-cell text-center"><span>
+                                                @if ($subject->old_master_id)
+                                                {{ $subject->old_master->name }}
+                                                {{ $subject->old_master->family }}
                                             @endif
                                             </span></td>
                                             <td class="datatable-cell text-center"><span>

@@ -66,4 +66,8 @@ class Plan extends Model
         }
         return false;
     }
+    public function surveys()
+    {
+        return $this->belongsToMany(Survey::class);
+    }
 }

@@ -200,7 +200,7 @@ class User extends Authenticatable
     }
     public function sessions()
     {
-        return $this->belongsToMany(Session::class);
+        return $this->belongsToMany(Session::class)->withPivot(['time','confirm','info']);
     }
     public function quizzes()
     {

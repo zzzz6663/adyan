@@ -276,7 +276,7 @@ class HomeController extends Controller
             $data = $request->validate([
                 'password' => 'required|confirmed',
             ]);
-            if ($user->complete == 0) {
+            if ($user->complete == 0 && $user->direct=='0' ) {
 
                 $user->save_log(['admin', 'expert'],['type'=>'register'] , true);
                 $user->save_duty(['admin', 'expert'],['type'=>'register'] );
@@ -285,7 +285,11 @@ class HomeController extends Controller
             $user->update($data);
 
             alert()->success(__('alert.a15'));
-            return redirect()->route('user.register6');
+            if($user->direct=='1' ){
+                return redirect()->route('user.register6');
+            }else{
+                return redirect()->route('user.note');
+            }
         }
         return view('home.register.level5', compact(['user']));
     }
@@ -303,6 +307,10 @@ class HomeController extends Controller
         session()->put('locale', 'en');
 
         $user = auth()->user();
+        if($user ->level =='student' && $user->complete ==0 ){
+            alert()->success(__('alert.a53'));
+            return redirect()->route('user.register2');
+        }
         $logs = $user->logs()->latest()->get();
         $duties = $user->duties()->where('time',null)->latest()->get();
         return view('home.note', compact(['user', 'logs', 'duties']));

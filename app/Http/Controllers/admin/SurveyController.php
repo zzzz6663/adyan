@@ -47,31 +47,36 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->plan_id && $request->curt_id){
+        if($request->plans && $request->curts){
             return back()->withErrors(['message'=>__('sentences.same_curt_plan')]);
         }
 
         $data = $request->validate([
             'name' => 'required',
             'masters' => 'required',
-            'plan_id' => 'required_if:curt_id,!=,null',
-            'curt_id' => 'required_if:plan_id,!=,null',
+            'plans' => 'required_without:curts',
+            // 'curts' => 'required_if:plans,!=,null',
+            'curts' => 'required_without:plans',
             // 'curt_id' => 'required_without:plan_id',
         ]);
 
         $user= auth()->user();
-        // $survey=Survey::find(2);
         $survey = $user->survey()->create($data);
         foreach ($data['masters'] as $key => $val){
             $survey->users()->syncWithoutDetaching((int)$val);
             $data['masters'][$key]=(int)$val;
             $master=User::find($val);
-            $master->save_duty( [],['type'=>'submit_survey','curt_id'=>$request->curt_id,'plan_id'=>$request->plan_id,'survey_id'=>$survey->id],true);
-
+            // $master->save_duty( [],['type'=>'submit_survey','curt_id'=>$request->curt_id,'plan_id'=>$request->plan_id,'survey_id'=>$survey->id],true);
+            $master->save_duty( [],['type'=>'submit_survey','survey_id'=>$survey->id],true);
         }
 
         $user->save_log(['admin','list'=>$data['masters']],['type'=>'submit_survey','operator'=>auth()->user()->id,'curt_id'=>$request->curt_id,'plan_id'=>$request->plan_id,'survey_id'=>$survey->id ], true );
-
+        if(isset($data['plans'])){
+            $survey->plans()->attach($data['plans']);
+        }
+        if(isset($data['curts'])){
+            $survey->curts()->attach($data['curts']);
+        }
 
         alert()->success(__('alert.a44'));
         return redirect()->route('survey.index');

@@ -26,7 +26,7 @@ class SubjectController extends Controller
             $subjects->where('name','LIKE',"%{$search}%");
         }
        if($user->level== 'master'){
-        $subjects=  $subjects->where('master_id',$user->id)->latest()->paginate(10);
+        $subjects=  $subjects->where('master_id',$user->id)->orWhere('old_master_id',$user->id)->latest()->paginate(10);
        }else{
         $subjects=  $subjects->latest()->paginate(10);
 
@@ -62,6 +62,7 @@ class SubjectController extends Controller
         $group=Group::find($data['group_id']);
         $admin=$group->admin();
         $data['master_id']= $user->id;
+        $data['old_master_id']= $user->id;
         $data['admin_id']= $admin->id;
         $subject = Subject::create($data);
         $subject->tags()->attach($data['tags']);
@@ -120,6 +121,7 @@ class SubjectController extends Controller
         $session= session()->get('session');
         $data = $request->validate([
             'title' => 'required|max:256',
+            'master_id' => 'required',
             'info' => 'required',
             'tags' => 'required|array|between:1,6',
             'status' => 'required|max:256',

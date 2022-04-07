@@ -14,6 +14,7 @@ class Log extends Model
         'operator_id',//ای دی استاد یا مدیر گروه یا متخصص
         'type',//نوع عمل انجام شده
         'info',//اطلاعات اضافی
+        'session_id',//  ای دی جلسه
         'curt_id',//  ای دی طرح اجمالی
         'subject_id',// کلید موضوغ
         'plan_id',// کلید طرح تفضیلی
@@ -57,5 +58,9 @@ class Log extends Model
      public function survey()
      {
          return $this->belongsTo(Survey::class);
+     }
+     public function session()
+     {
+         return $this->belongsTo(Session::class);
      }
 }

@@ -64,10 +64,13 @@ class SessionController extends Controller
             'time' => 'required',
             'group_id' => 'nullable',
         ]);
+
         $data['time']=$this->convert_date($data['time']);
         $data['user_id']=auth()->user()->id;
         $session = Session::create($data);
-        $session->users()->attach($data['users']);
+        if(isset($data['users'])){
+            $session->users()->attach($data['users']);
+        }
         if(isset($data['curts'])){
             $session->curts()->attach($data['curts']);
         }
@@ -76,6 +79,11 @@ class SessionController extends Controller
         }
         if(isset($data['plans'])){
             $session->plans()->attach($data['plans']);
+        }
+
+        foreach ($data['users'] as $key => $val){
+            $master=User::find($val);
+            $master->save_duty( [],['type'=>'confirm_session','session_id'=>$session->id],true);
         }
 
         alert()->success(__('alert.a33'));
@@ -141,6 +149,27 @@ class SessionController extends Controller
     {
         $user= auth()->user();
     return view('admin.session.all_session',compact(['user']));
+    }
+    public function session_confirm(Request $request,Session $session)
+    {
+        $user= auth()->user();
+        $duty= $user->duties()->whereType('confirm_session')->first();
+        $duty->update([
+            'time'=>Carbon::now()
+        ]);
+        $confirm=0;
+        if($request->confirm){
+            $confirm=1;
+        }
+        $user->sessions()->updateExistingPivot($session->id, array('time' => Carbon::now(),'confirm'=>$confirm,'info'=>$request->info), false);
+        alert()->success(__('alert.a54'));
+      return redirect()->route('user.note');
+
+    }
+    public function session_confirm_show(Session $session)
+    {
+        $user= auth()->user();
+    return view('admin.session.confirm_show',compact(['user','session']));
     }
     public function convert_date( $from){
         $date=explode('-',$from);

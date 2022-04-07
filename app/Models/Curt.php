@@ -73,6 +73,10 @@ class Curt extends Model
     {
         return $this->belongsToMany(Tag::class);
     }
+    public function surveys()
+    {
+        return $this->belongsToMany(Survey::class);
+    }
     public function  resume(){
         if($this->resume){
             return  asset('/media/curt/'.$this->resume);

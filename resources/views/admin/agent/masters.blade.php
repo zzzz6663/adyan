@@ -21,7 +21,7 @@
                         </h3>
                     </div>
                     <div class="card-toolbar">
-
+                        @role('admin')
                         <!--begin::دکمه-->
                         <a href="{{route('agent.create')}}" class="btn btn-primary font-weight-bolder">
                             <span class="svg-icon svg-icon-md">
@@ -41,6 +41,7 @@
                             {{ __('sentences.new_user') }}
                         </a>
                         <!--end::دکمه-->
+                        @endrole
                     </div>
                 </div>
                 <div class="card-body">
@@ -60,7 +61,7 @@
                                             <span><i class="flaticon2-search-1 text-muted"></i></span>
                                         </div>
                                     </div>
-
+                                    @role('admin')
                                     <div class="col-md-3 my-2 my-md-0">
                                         <div class="d-flex align-items-center">
                                             <label class="mr-3 mb-4 d-none d-md-block">{{__('sentences.from_date')}}:</label>
@@ -73,6 +74,7 @@
                                             <input type="text" name="to"  value="{{request('to')}}"  class="form-control persian2" placeholder=" {{__('sentences.to_date')}} " >
                                         </div>
                                     </div>
+                                    @endrole
                                 </div>
                             </div>
 
@@ -172,7 +174,7 @@
 
 
 
- 
+
 
 
                                     <td class="datatable-cell text-center">
@@ -180,6 +182,8 @@
                                         </span>
                                     </td>
                                     <td class="datatable-cell text-center">
+                                        @role('admin')
+
                                         @if ($user->level !='student')
                                         <a class="btn btn-outline-primary"
                                             href="{{route('agent.edit',$user->id)}}">{{__('sentences.edit')}} </a>
@@ -187,6 +191,7 @@
                                         @if ($user->level=='student' &&$user->verify==0)
                                         {{-- <a class="btn btn-outline-success" href="{{route('admin.verify.student',$user->id)}}">اکتیو</a> --}}
                                         @endif
+                                        @endrole
                                         <a class="btn btn-success"
                                         href="{{route('agent.show',$user->id)}}">{{__('sentences.more')}} </a>
                                     </td>

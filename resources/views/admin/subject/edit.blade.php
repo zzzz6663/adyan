@@ -50,13 +50,26 @@
                                                     <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
                                                     @foreach (App\Models\Tag::all() as $tag)
                                                     <option {{in_array($tag->id ,old('tags',$subject->tags()->pluck('id')->toArray()))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>
-
                                                     @endforeach
                                                 </select>
                                             </div>
                                             <!--end::ورودی-->
                                         </div>
 
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{ __('sentences.select_master') }}
+                                                </label>
+                                                <select name="master_id"   multiple class="form-control  select2">
+                                                    <option disabled value="">           {{ __('sentences.select_one') }} </option>
+                                                    @foreach (App\Models\User::where('level','master')->get() as $master )
+                                                   <option {{old('master_id',$subject->master_id)==$master->id ?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
+                                                    @endforeach
+                                                </select>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                        </div>
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>  {{__('sentences.info')}}  </label>

@@ -145,6 +145,11 @@
                                                   {{__('sentences.submit_survey_duty')}}
                                                     @endrole
                                                     @break
+                                                    @case('confirm_session')
+                                                    @role('master')
+                                                  {{__('sentences.confirm_session_duty')}}
+                                                    @endrole
+                                                    @break
 
 
 
@@ -319,6 +324,14 @@
                                                   <a class="btn btn-primary" href="{{route('survey.edit',[$duty->survey->id])}}">
                                                     {{__('sentences.submit_survey_master')}}
                                                 </a>
+                                                    @endrole
+                                                    @break
+
+                                                    @case('confirm_session')
+                                                    @role('master')
+                                                     <a class="btn btn-primary" href="{{route('session.confirm.show',[$duty->session->id])}}">
+                                                        {{__('sentences.confirm_session')}}
+                                                    </a>
                                                     @endrole
                                                     @break
 
@@ -736,7 +749,6 @@
                                                             @case('submit_survey')
                                                             <span class="">
                                                                 {{__('sentences.survey_submit_log',[ 'master'=>$log->student()->name.' '.$log->student()->family,'name'=>$log->survey->name,])}}
-
                                                             </span>
                                                             @break
 

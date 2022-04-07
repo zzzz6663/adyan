@@ -9,7 +9,8 @@ class Subject extends Model
 {
     use HasFactory;
     protected $fillable=[
-        'master_id', // کلید استاد سازنده موضوع
+        'master_id', // کلید استاد سازنده موضوغ یا استاد راهنما جدید
+        'old_master_id', // کلید استاد سازنده موضوع
         'group_id', // کلید گروه تایید کننیده موضوع
         'user_id', // کلید دانشجو انتخاب کننیده موضوع
         'admin_id', // گروه تایید کنتده موضوع
@@ -30,6 +31,9 @@ class Subject extends Model
    }
    public function master(){
        return $this->belongsTo(User::class,'master_id');
+   }
+   public function old_master(){
+       return $this->belongsTo(User::class,'old_master_id');
    }
    public function sessions()
     {

@@ -98,6 +98,17 @@
                                                     @foreach ($usersession->users as $users)
                                                     {{ $users->name }}
                                                     {{ $users->family }}
+                                                    @if ($users->pivot->time)
+                                                    {{
+                                                        Morilog\Jalali\Jalalian::forge($users->pivot->time)->format('d-m-Y')
+                                                        }} -
+                                                        <span class="text-{{$users->pivot->confirm?'success':'danger'}} pt-2 font-size-sm">
+                                                            {{$users->pivot->confirm?__('sentences.passed'):__('sentences.unpassed')}}
+                                                        </span>
+                                                        -
+                                                    @endif
+                                                  {{$users->pivot->info}}
+                                                    <br>
                                                     -
                                                     @endforeach
 
@@ -132,7 +143,7 @@
 
 
 
- 
+
                 </div>
                 <!--end::Card-->
             </div>

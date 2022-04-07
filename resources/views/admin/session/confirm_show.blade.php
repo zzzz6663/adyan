@@ -26,7 +26,7 @@
 
                         </div>
                     </div>
-                    @include('admin.session.tables')
+                    @include('admin.session.tables',['show_actions' => false])
                             <br>
                             <br>
                             <br>
@@ -41,14 +41,14 @@
 
                                 </div>
                                 <!--begin::Form-->
-                                <form action="{{route('session.update',['session'=>$session->id])}}" method="POST">
+                                <form action="{{route('session.confirm',['session'=>$session->id])}}" method="POST">
                                     @csrf
-                                    @method('patch')
+                                    @method('post')
                                     <div class="card-body">
 
                                         <div class="form-group">
                                             <label>
-                                                {{ __('sentences.session_result') }}
+                                                {{ __('sentences.session_point') }}
 
 
                                             </label>
@@ -58,9 +58,10 @@
 
 
                                     </div>
+
                                     <div class="card-footer">
-                                        <input type="submit" value=" {{ __('sentences.save') }} " class="btn btn-primary mr-2">
-                                        <input type="submit" value="{{ __('sentences.back') }}" class="btn btn-secondary mr-2">
+                                        <input type="submit" name="confirm" value=" {{ __('sentences.confirm') }} " class="btn btn-primary mr-2">
+                                        <input type="submit" name="reject" value=" {{ __('sentences.reject') }} " class="btn btn-danger mr-2">
                                     </div>
                                 </form>
                                 <!--end::Form-->

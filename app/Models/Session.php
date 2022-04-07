@@ -27,7 +27,7 @@ class Session extends Model
     }
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot(['time','confirm','info']);;
     }
     public function curts()
     {
@@ -40,5 +40,13 @@ class Session extends Model
     public function plans()
     {
         return $this->belongsToMany(Plan::class);
+    }
+    public function duties()
+    {
+        return $this->hasMany(Duty::class);
+    }
+    public function logs()
+    {
+        return $this->hasMany(logs::class);
     }
 }
