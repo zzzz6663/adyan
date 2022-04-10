@@ -491,6 +491,12 @@
                                                         @case('answer_survey')
                                                         <img alt="Pic" src="{{$log->student()->avatar()}}">
                                                         @break
+                                                        @case('verify_curt_by_expert')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+                                                        @case('accept_without_guid')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
 
 
                                                         @default
@@ -625,6 +631,12 @@
                                                                 @case('answer_survey')
                                                                 {{__('sentences.answer_survey')}}
                                                                 @break
+                                                                @case('verify_curt_by_expert')
+                                                                {{__('sentences.verify_curt_by_expert_log_title')}}
+                                                                @break
+                                                                @case('accept_without_guid')
+                                                                {{__('sentences.accept_without_guid_title')}}
+                                                                @break
 
 
 
@@ -721,9 +733,10 @@
                                                             @break
 
                                                             @case('accept_curt')
-                                                            <span class="alert alert-success">
+                                                            {{-- <span class="alert alert-success">
+                                                                @dd($log->curt)
                                                             {{__('sentences.accept_curt_by_group',['group'=>$log->curt->group->name,'student'=>$log->curt->user->name.' '.$log->curt->user->family])}}
-                                                            </span>
+                                                            </span> --}}
                                                             @break
 
 
@@ -799,6 +812,11 @@
                                                             @case('answer_survey')
                                                             <span class="">
                                                                 {{__('sentences.answer_survey_log',['master'=>$log->student()->name.' '.$log->student()->family,'name'=>$log->survey->name ])}}
+                                                            </span>
+                                                            @break
+                                                            @case('accept_without_guid')
+                                                            <span class="">
+                                                                {{__('sentences.accept_without_guid_title_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->curt->group->name])}}
                                                             </span>
                                                             @break
 

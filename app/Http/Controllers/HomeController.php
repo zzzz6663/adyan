@@ -11,6 +11,7 @@ use App\Mail\VerifyEmail;
 use Illuminate\View\View;
 use App\Imports\CodesImport;
 use Illuminate\Http\Request;
+use App\Imports\MastersImport;
 use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\App;
@@ -276,8 +277,7 @@ class HomeController extends Controller
             $data = $request->validate([
                 'password' => 'required|confirmed',
             ]);
-            if ($user->complete == 0 && $user->direct=='0' ) {
-
+            if ($user->complete == 0 && $user->direct=='1' ) {
                 $user->save_log(['admin', 'expert'],['type'=>'register'] , true);
                 $user->save_duty(['admin', 'expert'],['type'=>'register'] );
             }
@@ -318,7 +318,7 @@ class HomeController extends Controller
     public  function  import()
     {
 
-        Excel::import(new CodesImport, public_path('/d.xlsx'));
+        Excel::import(new MastersImport, public_path('/masters1.xlsx'));
         return view('home.index');
     }
     public  function  lang(Request $request)

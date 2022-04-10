@@ -94,6 +94,11 @@ window.onload = function() {
         if($('.select2').length){
             $('.select2').select2();
         }
+        if($('.select2_tag').length){
+            $('.select2_tag').select2({
+                tags: true
+            });
+        }
 
         $('body').on('click', '.show', function() {
 

@@ -85,7 +85,23 @@
                                                     rows="3">{{old('innovation',$curt->innovation)}}</textarea>
                                             </div>
                                         </div>
+                                        @if ($curt->history)
 
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.history')}}    </label>
+                                                {{$curt->history}}
+                                            </div>
+                                        </div>
+                                        @endif
+                                        @if ($curt->history)
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.fail_reason')}}    </label>
+                                                {{$curt->fail_reason}}
+                                            </div>
+                                        </div>
+                                        @endif
                                         <!--begin::ویزارد اقدامات-->
                                         <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                             {{-- <div>
@@ -166,6 +182,22 @@
                                                         </span>
                                                         <span class="cont">
                                                             {{$curt->innovation}}
+                                                        </span>
+
+                                                        <br>
+                                                        <span class="ti">
+                                                            {{__('sentences.history')}}
+                                                        </span>
+                                                        <span class="cont">
+                                                            {{$curt->history}}
+                                                        </span>
+
+                                                        <br>
+                                                        <span class="ti">
+                                                            {{__('sentences.history')}}
+                                                        </span>
+                                                        <span class="cont">
+                                                            {{$curt->history}}
                                                         </span>
 
                                                         <br>

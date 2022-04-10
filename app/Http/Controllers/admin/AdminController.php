@@ -413,6 +413,10 @@ class AdminController extends Controller
             alert()->error(__('alert.a22'));
             return back();
         }
+         if($user->level == 'expert' && !$request->group_id){
+            alert()->error(__('alert.a55'));
+            return back();
+        }
 
         $valid = $request->validate([
             'title' => 'nullable',

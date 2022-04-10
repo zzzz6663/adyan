@@ -30,6 +30,7 @@ class Curt extends Model
         'status',//وضعیت مرحله پایان نامه
         'subject_id',//      کلید موضوع مصوب
         'fail_reason',//          دلیل رد طرح در موقع ورود اطلاعات اولیه
+       'history'//ااطلاعات گذشته
     ];
     public function user()
     {

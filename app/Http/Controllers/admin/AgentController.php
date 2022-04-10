@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use App\Models\Tag;
 use App\Models\Curt;
 use App\Models\Plan;
 use App\Models\User;
@@ -61,8 +62,13 @@ class AgentController extends Controller
             $users->where('created_at','<=',$to);
         }
         $users->whereLevel('master');
+        // $users->where('id','>',758);
 
         $users=  $users->latest()->paginate(10);
+        // foreach($users as $user){
+        //     $user->update(['level'=>'master']);
+        //     $user->assignRole('master');
+        // }
         return view('admin.agent.masters',compact(['users']));
     }
     public function index(Request $request)
@@ -150,7 +156,7 @@ class AgentController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'avatar' => 'required',
+            'avatar' => 'nullable',
             'name' => 'required',
             'family' => 'required',
             'code' => 'required|unique:users,code',
@@ -177,9 +183,12 @@ class AgentController extends Controller
             $image->move(public_path('/media/avatar/'), $name_img);
             $data['avatar'] = $name_img;
         }
-        $user->update([
-            'avatar'=>$data['avatar']
-        ]);
+        if($data['avatar']){
+            $user->update([
+                'avatar'=>$data['avatar']
+            ]);
+        }
+
         alert()->success(__('alert.a25'));
         return redirect()->route('agent.index');
     }
@@ -267,6 +276,8 @@ class AgentController extends Controller
     public function basic_info1(Request $request )
     {
         if ( $request->isMethod('post')) {
+            // dd($request->tags);
+
             $data = $request->validate([
                 'name' => 'required',
                 'family' => 'required',
@@ -274,14 +285,16 @@ class AgentController extends Controller
                 'title' => 'required',
                 'tags' => 'required|array|between:1,4',
                 'problem' => 'required',
-                'question' => 'required',
-                'necessity' => 'required',
-                'innovation' => 'required',
-                'master_id' => 'required',
-                'guid_id' => 'required',
-                'group_id' => 'required',
+                'question' => 'nullable',
+                'necessity' => 'nullable',
+                'innovation' => 'nullable',
+                'master_id' => 'nullable',
+                'guid_id' => 'nullable',
+                'group_id' => 'required_if:status,in:firn,accept_with_guid_without_plan,accept_with_guid_with_plan,verify_by_group,accept_without_guid,faild',
                 'status' => 'required',
-                'fail_reason' => 'required_if:status,=,faild|max:1500',
+                // 'fail_reason' => 'required_if:status,=,faild|max:1500',
+                'fail_reason' => 'nullable|max:1500',
+                'history' => 'nullable|max:3500',
 
             ]);
 
@@ -298,48 +311,124 @@ class AgentController extends Controller
                 ]);
             }
             $user->assignRole('student');
-            $data['status']='review_curt_by_student';
+            // $data['status']='review_curt_by_student';
             $data['user_id']=$user->id;
             $data['type']='primary';
             $data['side']='1';
             $curt = Curt::create($data);
+
+            foreach($data['tags'] as $key=>$val) {
+                        $tag=Tag::find($val);
+                        if( !$tag){
+                            $user= auth()->user();
+                           $ta= $user->tags()->create(['tag'=>$val]);
+                           $data['tags'][$key]=$ta->id;
+                        }
+                    }
+
+
+
             $curt->tags()->attach($data['tags']);
-            $user->update_status('curt');
+            $curt->user->update_status('plan');
 
                 // ثبت لاگ
-        if ($data['status'] != 'accept') {
-            $curt->user->save_duty( [],
-            [
-                'type' =>'edit_curt_by_student',
-                'operator_id'=>auth()->user()->id,
-                'curt_id' =>$curt->id
-            ],true);
-            $curt->user->save_log(['admin', 'expert'],
-            [
-                'type'=>'edit_curt_by_student',
-                'operator_id'=> auth()->user()->id,
-                'curt_id' =>$curt->id
-            ]
-            , true);
-            $user->update([
-                'status'=>'curt'
-            ]);
-            alert()->success('کاربر با موفقیت ساخته شد ');
-            return redirect()->route('admin.basic.info');
-
-        } else {
-            $curt->user->save_log(['admin',],
-            [
-                'type'=>'accept_curt',
-                'operator_id'=> auth()->user()->id,
-                'curt_id' =>$curt->id,
-            ]
-            ,true );
+                switch($data['status']){
+                    case 'faild':
+                        $curt->user->save_duty( [],
+                        [
+                            // 'type' =>'save_curt_group_by_expert',
+                            'type' =>'edit_curt_by_student',
+                            'operator_id'=>auth()->user()->id,
+                            'curt_id' =>$curt->id
+                        ],true);
+                        $curt->user->save_log(['admin', 'expert'],
+                        [
+                            'type'=>'edit_curt_by_student',
+                            'operator_id'=> auth()->user()->id,
+                            'curt_id' =>$curt->id,
+                            'group_id' =>$data['group_id']
+                        ]
+                        , true);
+                        alert()->success('کاربر با موفقیت ساخته شد ');
+                        return redirect()->route('admin.basic.info1');
+                    break;
 
 
-            $curt->user->update_status('plan');
-            alert()->success('کاربر با موفقیت ساخته شد ');
-        }
+                    case 'no_verifyed':
+                        $curt->update([
+                            'side' =>0
+                        ]);
+
+                        $curt->user->save_log(['expert'],
+                        [
+                            'type'=>'verify_curt_by_expert',
+                            'curt_id' =>$curt->id,
+                        ]
+                        , true);
+                        $user->save_duty( ['expert'],['type'=>'verify_curt','curt_id'=>$curt->id],false);
+                        alert()->success('کاربر با موفقیت ساخته شد ');
+                        return redirect()->route('admin.basic.info1');
+                    break;
+
+                    case 'verify_by_group':
+                        $curt->update([
+                            'side' =>0
+                        ]);
+                        $curt->user->save_log([''],
+                        [
+                            'type'=>'pass_curt_to_group',
+                            'curt_id' =>$curt->id,
+                        ]
+                        , true);
+                        $user->save_duty(['group'],[
+                            'type'=>'review_curt_by_master',
+                        'curt_id'=>$curt->id,
+                        'group_id' =>$data['group_id']
+                        ],false);
+
+                        alert()->success('کاربر با موفقیت ساخته شد ');
+                        return redirect()->route('admin.basic.info1');
+                    break;
+
+                    case 'accept_with_guid_without_plan':
+                        $curt->user->save_log(['admin'],
+                        [
+                            'type'=>'accept_curt',
+                            'operator_id'=> auth()->user()->id,
+                            'curt_id' =>$curt->id,
+
+                        ]
+                        ,true );
+                        $curt->user->save_duty( [],['type'=>'submit_plan'], true);
+                        $curt->user->update_status('plan');
+                        alert()->success('کاربر با موفقیت ساخته شد ');
+                        return redirect()->route('admin.basic.info1');
+                    break;
+
+                    case 'accept_with_guid_with_plan':
+                        alert()->success('کاربر با موفقیت ساخته شد ');
+                        $curt->user->update_status('plan');
+                        return redirect()->route('admin.basic.info2');
+                    break;
+
+
+
+                    case 'accept_without_guid':
+                        $curt->user->save_log(['admin',],
+                        [
+                            'type'=>'accept_without_guid',
+                            'operator_id'=> auth()->user()->id,
+                            'curt_id' =>$curt->id,
+                            'group_id' =>$data['group_id']
+                        ]
+                        ,true );
+                        $curt->group->admin()->save_duty( [],['type'=>'define_guid'], true);
+                        alert()->success('کاربر با موفقیت ساخته شد ');
+                        return redirect()->route('admin.basic.info1');
+                    break;
+
+
+                }
 
 
         }

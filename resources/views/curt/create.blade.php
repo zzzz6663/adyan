@@ -68,7 +68,6 @@
                                                     <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
                                                     @foreach (App\Models\Tag::all() as $tag)
                                                     <option {{in_array($tag->id ,old('tags',[]))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>
-
                                                     @endforeach
                                                 </select>
                                             </div>
