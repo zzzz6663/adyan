@@ -195,9 +195,9 @@
                                                     <option {{old('status')=='no_verifyed'?'selected':''}} value="no_verifyed">       بررسی نشده  </option>
                                                     <option {{old('status')=='verify_by_group'?'selected':''}} value="verify_by_group">         طرح اجمالی اصلاح شده  </option>
                                                     <option {{old('status')=='faild'?'selected':''}} value="faild">     رد شده  </option>
-                                                    <option {{old('status')=='accept_with_guid_without_plan'?'selected':''}} value="accept_with_guid_without_plan">      تایید شده با استاد راهنما با تفصیلی
+                                                    <option {{old('status')=='accept_with_guid_with_plan'?'selected':''}} value="accept_with_guid_with_plan">      تایید شده با استاد راهنما با تفصیلی
                                                       </option>
-                                                    <option {{old('status')=='accept_with_guid_with_plan'?'selected':''}} value="accept_with_guid_with_plan">      تایید شده با استاد راهنما بدون  تفصیلی    </option>
+                                                    <option {{old('status')=='accept_with_guid_without_plan'?'selected':''}} value="accept_with_guid_without_plan">      تایید شده با استاد راهنما بدون  تفصیلی    </option>
                                                     <option {{old('status')=='accept_without_guid'?'selected':''}} value="accept_without_guid">     تایید شده بدون استاد راهنما    </option>
                                                 </select>
 

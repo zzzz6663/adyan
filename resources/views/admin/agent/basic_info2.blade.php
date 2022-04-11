@@ -15,7 +15,7 @@
                         @include('sections.error')
 
 
-                        <form class="form" action="{{route('admin.basic.info2',$user->id)}}" id="kt_form"
+                        <form class="form" action="{{route('admin.basic.info2',$curt->id)}}" id="kt_form"
                             method="post" enctype="multipart/form-data">
                             @csrf
                             @method('post')
@@ -176,8 +176,9 @@
                                                 </label>
                                                 <select name="state"  class="form-control select2 ">
                                                     <option value="">   {{__('sentences.select_one')}} </option>
-                                                    <option value="faild">     رد شده  </option>
-                                                    <option value="accept">     تایید    </option>
+                                                    <option {{old('status')=='faild_plan_confirm_guid'?'selected':''}} value="faild_plan_confirm_guid">        بررسی نشده بدون استاد راهنما  </option>
+                                                    <option {{old('status')=='faild'?'selected':''}} value="faild">     رد شده  </option>
+                                                    <option {{old('status')=='accept'?'selected':''}} value="accept">     تایید    </option>
 
                                                 </select>
 

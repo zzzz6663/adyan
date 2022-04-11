@@ -288,8 +288,8 @@ class AgentController extends Controller
                 'question' => 'nullable',
                 'necessity' => 'nullable',
                 'innovation' => 'nullable',
-                'master_id' => 'nullable',
-                'guid_id' => 'nullable',
+                'master_id' =>'required_if:status,in:firn,accept_with_guid_with_plan',
+                'guid_id' =>'required_if:status,in:firn,accept_with_guid_with_plan',
                 'group_id' => 'required_if:status,in:firn,accept_with_guid_without_plan,accept_with_guid_with_plan,verify_by_group,accept_without_guid,faild',
                 'status' => 'required',
                 // 'fail_reason' => 'required_if:status,=,faild|max:1500',
@@ -408,7 +408,7 @@ class AgentController extends Controller
                     case 'accept_with_guid_with_plan':
                         alert()->success('کاربر با موفقیت ساخته شد ');
                         $curt->user->update_status('plan');
-                        return redirect()->route('admin.basic.info2');
+                        return redirect()->route('admin.basic.info2', [$curt->id]);
                     break;
 
 
@@ -422,7 +422,11 @@ class AgentController extends Controller
                             'group_id' =>$data['group_id']
                         ]
                         ,true );
-                        $curt->group->admin()->save_duty( [],['type'=>'define_guid'], true);
+                        $curt->group->admin()->save_duty( [],[
+                            'type'=>'define_guid',
+                            'curt_id' =>$curt->id,
+                            ]
+                        , true);
                         alert()->success('کاربر با موفقیت ساخته شد ');
                         return redirect()->route('admin.basic.info1');
                     break;
@@ -434,10 +438,9 @@ class AgentController extends Controller
         }
         return view('admin.agent.basic_info1');
     }
-    public function basic_info2(Request $request ,User $user)
+    public function basic_info2(Request $request ,Curt $curt)
     {
         if ( $request->isMethod('post')) {
-
 
             $data = $request->validate([
                 'title' => 'required',
@@ -458,10 +461,9 @@ class AgentController extends Controller
             ]);
 
 
-
             $data['confirm_master']='1';
-            $data['group_id']=$user->curt()->group_id;
-            $data['master_id']=$user->curt()->master_id;
+            $data['group_id']=$curt->group_id;
+            $data['master_id']=$curt->master_id;
             $data['tags']=implode('_',$data['tags']);
             $data['en_tags']=implode('_',$data['en_tags']);
 
@@ -472,7 +474,7 @@ class AgentController extends Controller
                 $data['status']='accept';
                 $data['side']='0';
             }
-            $data['user_id']=$user->id;
+            $data['user_id']=$curt->user->id;
             $data['type']='primary';
 
 
@@ -486,58 +488,79 @@ class AgentController extends Controller
                     'report'=>$data['report']
                 ]);
             }
-            $user->update([
+            $curt->user->update([
                 'status'=>'plan'
             ]);
-            if(  $user->curt()->guid_id){
-                $plan ->update([
-                    'guid_id'=> $user->curt()->guid_id
-                ]);
-                $user->save_log( ['admin','list'=>[ $user->id]],
-                [
-                    'type'=>'select_plan_guid',
-                    'operator_id'=>  $user->curt()->guid_id,
-                    'plan_id' =>$plan->id,
-                ]
-                , true);
+            // if(  $curt->guid_id){
+            //     $plan ->update([
+            //         'guid_id'=> $curt->guid_id
+            //     ]);
+            //     $curt->user->save_log( ['admin','list'=>[ $curt->user->id]],
+            //     [
+            //         'type'=>'select_plan_guid',
+            //         'operator_id'=>  $curt->guid_id,
+            //         'plan_id' =>$plan->id,
+            //     ]
+            //     , true);
+            // }
+
+
+            // faild_without_guid
+            switch($data['state']){
+                case 'faild':
+                    $plan->user->save_duty( [],
+                    [
+                        'type' =>'edit_plan_by_student',
+                        'group_id'=>$plan->group_id,
+                        'plan_id' =>$plan->id
+                    ],true);
+                    $plan->user->save_log(['admin', 'expert'],
+                    [
+                        'type'=>'edit_plan_by_student',
+                        'group_id'=> $plan->group_id,
+                        'plan_id' =>$plan->id
+                    ]
+                    , true);
+                    alert()->success('طرح با موفقیت ساخته شد ');
+                    return redirect()->route('admin.basic.info1');
+                    break;
+                case 'accept':
+                    $plan->user->save_log(['admin', 'list'=>[$plan->master_id,$plan->group_id]],
+                    [
+                        'type'=>'accept_plan',
+                        'group_id'=> $plan->group_id,
+                        'plan_id' =>$plan->id
+                    ]
+                    ,true );
+                    $plan->user->update_status('booklet');
+                    alert()->success('طرح با موفقیت ساخته شد ');
+                    return redirect()->route('admin.basic.info1');
+                    break;
+                case 'faild_plan_confirm_guid':
+                    $plan->user->save_log(['admin',],
+                    [
+                        'type'=>'faild_plan_confirm_guid',
+                        'operator_id'=> auth()->user()->id,
+                        'plan_id' =>$plan->id,
+                        'group_id' =>$data['group_id']
+                    ]
+                    ,true );
+                    $plan->user->save_duty( ['list'=>[ $plan->master->id]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
+
+                    alert()->success('طرح با موفقیت ساخته شد ');
+                    return redirect()->route('admin.basic.info1');
+                    break;
+
             }
 
-
-
-
-            if ($data['state'] != '1') {
-                $plan->user->save_duty( [],
-                [
-                    'type' =>'edit_plan_by_student',
-                    'group_id'=>$plan->group_id,
-                    'plan_id' =>$plan->id
-                ],true);
-                $plan->user->save_log(['admin', 'expert'],
-                [
-                    'type'=>'edit_plan_by_student',
-                    'group_id'=> $plan->group_id,
-                    'plan_id' =>$plan->id
-                ]
-                , true);
-            } else {
-                $plan->user->save_log(['admin', 'list'=>[$plan->master_id,$plan->group_id]],
-                [
-                    'type'=>'accept_plan',
-                    'group_id'=> $plan->group_id,
-                    'plan_id' =>$plan->id
-                ]
-                ,true );
-                $plan->user->update_status('booklet');
-
-            }
 
             alert()->success('طرح با موفقیت ثبت  شد ');
-        return redirect()->route('admin.basic.info2');
+        return redirect()->route('admin.basic.info2',compact(['curt']));
 
         }
 
 
-        return view('admin.agent.basic_info2',compact(['user']));
+        return view('admin.agent.basic_info2',compact(['curt']));
     }
     public function profile(Request $request ,User $user)
     {

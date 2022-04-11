@@ -26,7 +26,7 @@
 
                         </div>
                     </div>
-                    @include('admin.session.tables',['show_actions' => false])
+                    @include('admin.session.tables',['show_actions' => true])
                             <br>
                             <br>
                             <br>

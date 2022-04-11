@@ -568,4 +568,19 @@ class AdminController extends Controller
 
            return redirect()->route('user.note');
     }
+    public function define_guid(Request $request, Curt $curt){
+
+        if ( $request->isMethod('post')) {
+            $duty=Duty::where('curt_id', $curt->id)->whereType('define_guid')->latest()->first();
+            $duty->update([
+                'time' =>Carbon::now()
+            ]);
+            $data=$request->validate([
+                'guid_id'=>'required'
+            ]);
+            $curt->update($data);
+            return redirect()->route('user.note');
+        }
+        return view('curt.define_guid' ,compact(['curt']));
+    }
 }

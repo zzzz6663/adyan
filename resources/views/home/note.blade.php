@@ -151,6 +151,12 @@
                                                     @endrole
                                                     @break
 
+                                                    @case('define_guid')
+                                                    @role('master')
+                                                  {{__('sentences.define_guid_title')}}
+                                                    @endrole
+                                                    @break
+
 
 
 
@@ -331,6 +337,15 @@
                                                     @role('master')
                                                      <a class="btn btn-primary" href="{{route('session.confirm.show',[$duty->session->id])}}">
                                                         {{__('sentences.confirm_session')}}
+                                                    </a>
+                                                    @endrole
+                                                    @break
+
+                                                    @case('define_guid')
+                                                    @role('master')
+                                                    {{-- @dd($duty->curt->id) --}}
+                                                     <a class="btn btn-primary" href="{{route('admin.define.guid',$duty->curt->id)}}">
+                                                        {{__('sentences.select')}}
                                                     </a>
                                                     @endrole
                                                     @break
@@ -638,6 +653,10 @@
                                                                 {{__('sentences.accept_without_guid_title')}}
                                                                 @break
 
+                                                                @case('pass_curt_to_group')
+                                                                {{__('sentences.pass_curt_to_group_title')}}
+                                                                @break
+
 
 
 
@@ -817,6 +836,11 @@
                                                             @case('accept_without_guid')
                                                             <span class="">
                                                                 {{__('sentences.accept_without_guid_title_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->curt->group->name])}}
+                                                            </span>
+                                                            @break
+                                                            @case('pass_curt_to_group')
+                                                            <span class="">
+                                                                {{__('sentences.pass_curt_to_group_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->curt->group->name])}}
                                                             </span>
                                                             @break
 

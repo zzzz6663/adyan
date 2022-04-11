@@ -86,8 +86,9 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::get('/all_quiz','AdminController@all_quiz')->middleware(['role:expert|admin'])->name('admin.all.quiz');
     Route::post('/save_curt_master/{curt}','AdminController@save_curt_master')->middleware(['role:master'])->name('admin.save.curt.master');
     Route::post('/save_curt_group/{curt}','AdminController@save_curt_group')->middleware(['role:expert'])->name('admin.save.curt.group');
+    Route::any('/define_guid/{curt}','AdminController@define_guid')->middleware(['role:master'])->name('admin.define.guid');
     Route::any('/basic_info1','AgentController@basic_info1')->middleware(['role:admin'])->name('admin.basic.info1');
-    Route::any('/basic_info2/{user?}','AgentController@basic_info2')->middleware(['role:admin'])->name('admin.basic.info2');
+    Route::any('/basic_info2/{curt?}','AgentController@basic_info2')->middleware(['role:admin'])->name('admin.basic.info2');
     Route::get('/masters','AgentController@masters')->middleware(['role:admin|student'])->name('agent.masters');
     Route::get('/profile/{user}','AgentController@profile')->name('agent.profile');
     Route::resource('agent', 'AgentController')->middleware(['role:admin']);
