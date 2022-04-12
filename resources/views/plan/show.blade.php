@@ -734,7 +734,31 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-xl-12 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.snote')}}
+                                                </label>
 
+                                                <textarea name="note" class="form-control hide inp" id="title"
+                                                    cols="30" rows="6">{{old('note')}}</textarea>
+
+                                                  <span
+                                                  class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    @foreach ($all_plans as $plan)
+                                                    @if ( $plan->note)
+                                                    <li>
+                                                        ({{$plan->group->admin()->name}}
+                                                        {{$plan->group->admin()->family}})
+                                                        ({{
+                                                        Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                        <br>
+                                                        {{$plan->note}}
+                                                    </li>
+                                                    @endif
+                                                    @endforeach
+                                            </div>
+                                        </div>
                                         @if ($main_plan->master_id==auth()->user()->id)
                                         <div class="col-xl-6 par">
                                             <div class="form-group fv-plugins-icon-container">

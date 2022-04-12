@@ -55,7 +55,7 @@ class CurtController extends Controller
     {
         $data = $request->validate([
             'title' => 'required',
-            'tags' => 'required|array|between:1,4',
+            // 'tags' => 'required|array|between:1,4',
 
             'problem' => 'required',
             'question' => 'required',
@@ -83,7 +83,7 @@ class CurtController extends Controller
         $data['type']='primary';
         $data['side']='0';
         $curt = Curt::create($data);
-        $curt->tags()->attach($data['tags']);
+        // $curt->tags()->attach($data['tags']);
         $user->update_status('curt');
         if ($request->hasFile('resume')) {
             $image = $request->file('resume');
@@ -170,14 +170,14 @@ class CurtController extends Controller
 
         $data = $request->validate([
             'title' => 'required',
-            'tags' => 'required',
+            // 'tags' => 'required',
             'problem' => 'required',
             'question' => 'required',
             'necessity' => 'required',
             'innovation' => 'required',
         ]);
 
-        $data['tags']=implode('_',$data['tags']);
+        // $data['tags']=implode('_',$data['tags']);
 
         $data['status']='review_curt_by_master';
         $data['user_id']=$user->id;

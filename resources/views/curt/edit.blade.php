@@ -44,14 +44,16 @@
                                         <div class="col-xl-6">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
-                                                <label>       {{__('sentences.tags')}}   </label>
-                                                <select name="tags[]" id="" class="form-control select2" multiple="multiple">
+                                                <label>       {{__('sentences.tags')}}  : </label>
+                                                {{-- <select readonly="readonly" name="tags[]" id="" class="form-control select2" multiple="multiple">
                                                     <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
                                                     @foreach (App\Models\Tag::all() as $tag)
                                                     <option {{in_array($tag->id ,old('tags',$curt->tags()->pluck('id')->toArray()))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>
 
                                                     @endforeach
-                                                </select>
+                                                </select> --}}
+                                                <span class="content">{{ implode(' ,',$curt->tags()->pluck('tag')->toArray()) }}</span>
+
                                             </div>
                                             <!--end::ورودی-->
                                         </div>
@@ -194,10 +196,10 @@
 
                                                         <br>
                                                         <span class="ti">
-                                                            {{__('sentences.history')}}
+                                                            {{__('sentences.fail_reason')}}
                                                         </span>
                                                         <span class="cont">
-                                                            {{$curt->history}}
+                                                            {{$curt->fail_reason}}
                                                         </span>
 
                                                         <br>

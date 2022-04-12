@@ -2248,6 +2248,39 @@ window.onload = function () {
     // jQuery is not loaded
     alert("Doesn't Work");
   }
+
+  $('#tags').on('change', function (e) {
+    var ele = $(this);
+    console.log(ele.val());
+    var str = {
+      'tags': ele.val()
+    };
+    var res = lara_ajax('/admin/similar_curt/', str); // $('#similar_tags').html(res.body);
+  });
+
+  function lara_ajax(url, str) {
+    var jqXHR = $.ajax(url, {
+      type: 'post',
+      data: str,
+      headers: {
+        'X-CSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content // 'Content-Type':'application/json,charset=utf-8'
+
+      },
+      datatype: 'json',
+      // async:false,
+      // cache:false,
+      // contentType: false,
+      // processData: false,
+      success: function success(data) {
+        console.log(data);
+        $('#similar_tags').html(data.body);
+      },
+      error: function error(request, status, _error) {}
+    });
+    var res = JSON.parse(jqXHR.responseText);
+    var all = Object.keys(res);
+    return res;
+  }
 }; // $(document).ready(function(){
 //     if (jQuery) {
 //     }

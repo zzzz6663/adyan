@@ -314,10 +314,9 @@
                                                 </h2>
                                                 <textarea name="title" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
-
-                                                    {{__('sentences.add_info')}}
-                                                    </span>
+                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                        {{__('sentences.insert_note')}}
+                                                        </span>
                                                    <ul>
                                                        @foreach ($all_curts as  $curt)
                                                           @if ( $curt->title)
@@ -350,9 +349,9 @@
                                                 </h2>
                                                 <textarea name="tag" class="form-control hide inp" id="title" cols="30"
                                                     rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                    {{__('sentences.add_info')}}
-                                                    </span>
+                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                        {{__('sentences.insert_note')}}
+                                                        </span>
                                                      <ul>
                                                        @foreach ($all_curts as  $curt)
                                                           @if ( $curt->tag)
@@ -379,9 +378,9 @@
                                                 </h2>
                                                 <textarea name="problem" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                    {{__('sentences.add_info')}}
-                                                    </span>
+                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                        {{__('sentences.insert_note')}}
+                                                        </span>
                                                     <ul>
                                                         @foreach ($all_curts as  $curt)
                                                            @if ( $curt->problem)
@@ -408,8 +407,9 @@
                                                 </h2>
                                                 <textarea name="question" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
+                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                        {{__('sentences.insert_note')}}
+                                                        </span>
                                                     @foreach ($all_curts as  $curt)
                                                        @if ( $curt->question)
                                                        <li>
@@ -434,8 +434,9 @@
                                                 </h2>
                                                 <textarea name="necessity" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
+                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                        {{__('sentences.insert_note')}}
+                                                        </span>
                                                     @foreach ($all_curts as  $curt)
                                                        @if ( $curt->necessity)
                                                        <li>
@@ -461,8 +462,9 @@
 
                                                 <textarea name="innovation" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
-                                                <span class="show btn btn-success font-weight-bolder font-size-sm">درج
-                                                    توضیحات</span>
+                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                        {{__('sentences.insert_note')}}
+                                                        </span>
                                                     @foreach ($all_curts as  $curt)
                                                        @if ( $curt->innovation)
                                                        <li>
@@ -475,6 +477,32 @@
                                                        @endif
 
                                                    @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.snote')}}
+                                                </label>
+
+                                                <textarea name="note" class="form-control hide inp" id="title"
+                                                    cols="30" rows="6"></textarea>
+                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
+                                                        {{__('sentences.insert_note')}}
+                                                        </span>
+                                                  <ul>
+                                                    @foreach ($all_curts as  $curt)
+                                                    @if ( $curt->note)
+                                                    <li>
+                                                     ({{$curt->operator_curts()->name}}
+                                                     {{$curt->operator_curts()->family}})
+                                                     ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                     <br>
+                                                     {{$curt->note}}
+                                                     </li>
+                                                    @endif
+                                                @endforeach
+                                                  </ul>
                                             </div>
                                         </div>
                                         @if (!$main_curt->guid_id)
@@ -546,7 +574,35 @@
                                             @endrole
                                             @endif
                                         @endif
+
+
+                                        <div class="col-xl-12
+                                        @hasrole('expert')
+                                        @else
+                                        height0
+
+                                        @endhasrole
+                                        ">
+                                            <!--begin::ورودی-->
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>       {{__('sentences.tags')}}    </label>
+                                                <select name="tags[]" id="tags" class="form-control select2" multiple="multiple">
+                                                    <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
+                                                    @foreach (App\Models\Tag::all() as $tag)
+                                                    <option {{in_array($tag->id ,old('tags',$main_curt->tags()->pluck('id')->toArray()))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <!--end::ورودی-->
+                                        </div>
+                                        <div class="co-xl-12">
+                                            <div id="similar_tags"></div>
+                                        </div>
+
+
+
                                         @if(!$main_curt->group_id)
+
                                         @role('expert')
                                         <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
@@ -666,7 +722,7 @@
             <br>
             <br>
             <br>
-            @include('curt.similar_tags')
+
 
         </div>
         <!--end::ویزارد-->

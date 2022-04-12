@@ -92,31 +92,42 @@ class AdminController extends Controller
         $main_curt = $curt;
         $all_curts = $curt->user->curts()->whereType('secondary')->latest()->get();
 
-       $tags= $curt->tags()->pluck('id')->toArray();
-
-        $similar_subjects = Subject::whereStatus('1')->whereHas('tags',function($query)  use($tags){
-            $query->where('id',$tags[0]);
-            if(sizeof($tags)>1){
-                for($i=1;$i<sizeof($tags);$i++){
-                    $query->orWhere('id',$tags[$i]);
-
-                }
-            }
-        })->get();
-        $similar_curt = Curt::whereHas('tags',function($query)  use($tags){
-            $query->where('id',$tags[0]);
-            if(sizeof($tags)>1){
-                for($i=1;$i<sizeof($tags);$i++){
-                    $query->orWhere('id',$tags[$i]);
-
-                }
-            }
-        })->get();
 
 
-        return view('curt.show', compact(['main_curt', 'all_curts', 'session','similar_subjects','similar_curt']));
+        return view('curt.show', compact(['main_curt', 'all_curts', 'session']));
     }
 
+    public function similar_curt(Request $request )
+    {
+
+        $tags=$request->tags;
+
+
+        $similar_subjects = Subject::whereStatus('1')->whereHas('tags',function($query)  use($tags){
+            $query->whereIn('id', $tags);
+            // $query->where('id',$tags[0]);
+            // if(sizeof($tags)>1){
+            //     for($i=1;$i<sizeof($tags);$i++){
+            //         $query->orWhere('id',$tags[$i]);
+
+            //     }
+            // }
+        })->take(10)->get();
+        $similar_curt = Curt::whereHas('tags',function($query)  use($tags){
+            // $query->where('id',$tags[0]);
+            $query->whereIn('id', $tags);
+            // if(sizeof($tags)>1){
+            //     for($i=1;$i<sizeof($tags);$i++){
+            //         $query->orWhere('id',$tags[$i]);
+
+            //     }
+            // }
+        })->take(10)->get();
+        return response()->json([
+            'body' => view('curt.similar_tags', compact(['similar_subjects','similar_curt' ]))->render(),
+        ]);
+
+    }
     public function show_plan(Request $request, Plan $plan)
     {
 
@@ -320,6 +331,7 @@ class AdminController extends Controller
             'method' =>'nullable',
             'source' =>'nullable',
             'status' =>'required',
+            'note' => 'nullable|max:3500',
             'guid_id' => 'nullable|exists:users,id',
 
         ]);
@@ -420,17 +432,17 @@ class AdminController extends Controller
 
         $valid = $request->validate([
             'title' => 'nullable',
-            'tag' => 'nullable',
+      'tags' => 'required|array|between:1,4',
             'problem' => 'nullable',
             'question' => 'nullable',
             'necessity' => 'nullable',
             'innovation' => 'nullable',
             'master_id' => 'nullable|exists:users,id',
             'guid_id' => 'nullable|exists:users,id',
+            'note' => 'nullable|max:3500',
             'status' => 'required',
         ]);
-
-
+        $curt->tags()->sync($valid['tags']);
         //  $valid['status']='progress';
         $valid['user_id'] = $curt->user_id;
         $valid['type'] = 'secondary';

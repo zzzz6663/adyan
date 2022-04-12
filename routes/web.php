@@ -80,6 +80,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::get('/show_plan/{plan}/{duty?}','AdminController@show_plan')->name('admin.show.plan');
     Route::get('/see_profile_before_verify_student/{user}/{duty}','AdminController@see_profile_before_verify_student')->middleware(['role:expert'])->name('admin.see.profile.verify.student');
     Route::post('/verify_student/{user}/{duty}','AdminController@verify_student')->middleware(['role:expert'])->name('admin.verify.student');
+    Route::any('/similar_curt','AdminController@similar_curt')->middleware(['role:master|expert'])->name('admin.similar.curt');
     Route::post('/admin_curt_submit/{curt}','AdminController@admin_curt_submit')->middleware(['role:expert|master'])->name('admin.curt.submit');
     Route::post('/admin_plan_submit/{plan}','AdminController@admin_plan_submit')->middleware(['role:expert|master'])->name('admin.plan.submit');
     Route::post('/admin_plan_confirm/{plan}','AdminController@admin_plan_confirm')->middleware(['role:master'])->name('admin.plan.confirm');

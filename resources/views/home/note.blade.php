@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                             @role('student')
-                            @if (auth()->user()->curt() && !auth()->user()->curt()->group_id && auth()->user()->status == 'curt')
+                            @if (auth()->user()->curt() && !auth()->user()->curt()->group_id && auth()->user()->status == 'curt' && auth()->user()->direct)
 
                             <form action="{{route('student.subject.list')}}" method="post">
                                @csrf

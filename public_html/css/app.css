@@ -56,6 +56,10 @@ div.er * {
   display: none;
 }
 
+.height0 {
+  height: 0 !important;
+}
+
 .select2-selection__rendered {
   padding: 0 !important;
   line-height: 12px !important;

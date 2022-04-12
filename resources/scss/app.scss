@@ -23,7 +23,7 @@ z-index: 99999;
     text-align: center;
     color: red;
   }
- 
+
 
 .history{
     border-bottom: 2px solid #000;
@@ -57,6 +57,9 @@ div.er{
 }
 .hide{
     display: none;
+}
+.height0{
+    height: 0!important;
 }
 .select2-selection__rendered{
     padding: 0!important;
