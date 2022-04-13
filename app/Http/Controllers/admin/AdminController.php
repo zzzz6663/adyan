@@ -283,7 +283,6 @@ class AdminController extends Controller
                 $plan->user->save_log(['admin'],
                 [
                     'type'=>'edit_plan_by_student_from_master',
-
                     'plan_id' =>$plan->id
                 ]
                 , true);
@@ -330,6 +329,9 @@ class AdminController extends Controller
             'structure' =>'nullable',
             'method' =>'nullable',
             'source' =>'nullable',
+            'concepts' =>'nullable|max:1500',
+            'goals' =>'nullable|max:1500',
+            'history' =>'nullable|max:1500',
             'status' =>'required',
             'note' => 'nullable|max:3500',
             'guid_id' => 'nullable|exists:users,id',
@@ -348,7 +350,7 @@ class AdminController extends Controller
         $user=auth()->user();
         if(isset($data['guid_id'])){
             $plan->update(['guid_id'=>$data['guid_id']]);
-            $plan->user->save_log( ['admin','list'=>[ $user->id]],
+            $plan->user->save_log( ['admin','list'=>[ $user->id ,$data['guid_id'] ]],
             [
                 'type'=>'select_plan_guid',
                 'operator_id'=>  $data['guid_id'],
@@ -369,7 +371,7 @@ class AdminController extends Controller
                 'group_id'=>$plan->group_id,
                 'plan_id' =>$plan->id
             ],true);
-            $plan->user->save_log(['admin', 'expert'],
+            $plan->user->save_log(['admin'],
             [
                 'type'=>'edit_plan_by_student',
                 'group_id'=> $plan->group_id,
@@ -536,7 +538,7 @@ class AdminController extends Controller
             $curt->update([
                 'master_id' =>  $valid['master_id']
             ]);
-            $curt->user->save_log( ['admin'],
+            $curt->user->save_log( ['admin','list'=>[ $valid['master_id']]],
             [
                 'type'=>'select_curt_master',
                 'operator_id'=> auth()->user()->id,
@@ -548,7 +550,7 @@ class AdminController extends Controller
             $curt->update([
                 'guid_id' =>  $valid['guid_id']
             ]);
-            $curt->user->save_log( ['admin'],
+            $curt->user->save_log( ['admin','list'=>[ $valid['master_id']]],
             [
                 'type'=>'select_curt_guid',
                 'operator_id'=>  $valid['guid_id'],

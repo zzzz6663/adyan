@@ -33,7 +33,10 @@ class Plan extends Model
         'confirm_master',//               تایید طرح توسط استاد
         'type',//  نوع که به اصلی و غیر اصلی
         'side',//اگر یک باشد یعنی دانشجو میتوانید ویرایش بزند و اگر یک باشد
-        'note'//  یادداشت
+        'note',//  یادداشت
+        'concepts',// مفاهیم
+        'goals',//اهداف
+        'history',//پیشینه
     ];
     public function master(){
         return $this->belongsTo(User::class,'master_id');

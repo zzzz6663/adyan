@@ -181,7 +181,24 @@
                                                     rows="3">{{old('source',$plan->source)}}</textarea>
                                             </div>
                                         </div>
-
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.concepts')}}    </label>
+                                                <textarea class="form-control" name="concepts" rows="3">{{old('concepts',$plan->concepts)}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.goals')}}    </label>
+                                                <textarea class="form-control" name="goals" rows="3">{{old('goals',$plan->goals)}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.history')}}    </label>
+                                                <textarea class="form-control" name="history" rows="3">{{old('history',$plan->history)}}</textarea>
+                                            </div>
+                                        </div>
 
 
                                     </div>
@@ -307,6 +324,30 @@
                                                         </span>
                                                         <span class="cont">
                                                             {{$p->source}}
+                                                        </span>
+                                                    <p>
+                                                    <p>
+                                                        <span class="ti">
+                                                            {{__('sentences.source')}}
+                                                        </span>
+                                                        <span class="cont">
+                                                            {{$p->concepts}}
+                                                        </span>
+                                                    <p>
+                                                    <p>
+                                                        <span class="ti">
+                                                            {{__('sentences.source')}}
+                                                        </span>
+                                                        <span class="cont">
+                                                            {{$p->goals}}
+                                                        </span>
+                                                    <p>
+                                                    <p>
+                                                        <span class="ti">
+                                                            {{__('sentences.source')}}
+                                                        </span>
+                                                        <span class="cont">
+                                                            {{$p->history}}
                                                         </span>
                                                     <p>
                                                         @if ($p->info_master)

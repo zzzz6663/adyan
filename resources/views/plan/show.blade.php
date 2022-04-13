@@ -704,6 +704,93 @@
                                                 @endforeach
                                             </div>
                                         </div>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.concepts')}}
+                                                </label>
+                                                <h2>
+                                                    {{$main_plan->concepts}}
+                                                </h2>
+
+                                                <textarea name="concepts"
+                                                    class="form-control {{old('concepts')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('concepts')}}</textarea>
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->concepts)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->concepts}}
+                                                </li>
+                                                @endif
+
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.goals')}}
+                                                </label>
+                                                <h2>
+                                                    {{$main_plan->goals}}
+                                                </h2>
+
+                                                <textarea name="goals"
+                                                    class="form-control {{old('goals')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('goals')}}</textarea>
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->goals)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->goals}}
+                                                </li>
+                                                @endif
+
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.history')}}
+                                                </label>
+                                                <h2>
+                                                    {{$main_plan->history}}
+                                                </h2>
+
+                                                <textarea name="history"
+                                                    class="form-control {{old('history')?'':'hide'}} inp" id="title"
+                                                    cols="30" rows="6">{{old('history')}}</textarea>
+                                                <span
+                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                @foreach ($all_plans as $plan)
+                                                @if ( $plan->history)
+                                                <li>
+                                                    ({{$plan->group->admin()->name}}
+                                                    {{$plan->group->admin()->family}})
+                                                    ({{
+                                                    Morilog\Jalali\Jalalian::forge($plan->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$plan->history}}
+                                                </li>
+                                                @endif
+
+                                                @endforeach
+                                            </div>
+                                        </div>
 
                                         @if (!$main_plan->user->primary_plan()->guid_id)
                                         @role('master')

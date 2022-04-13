@@ -69,6 +69,9 @@ class PlanController extends Controller
             'structure' => 'required',
             'method' => 'required',
             'source' => 'required',
+            'concepts' =>'required|max:1500',
+            'goals' =>'required|max:1500',
+            'history' =>'required|max:1500',
             'report' => 'required|max:2048',
         ]);
 
@@ -108,7 +111,7 @@ class PlanController extends Controller
             $plan ->update([
                 'guid_id'=> $user->curt()->guid_id
             ]);
-            $user->save_log( ['admin','list'=>[ $user->id]],
+            $user->save_log( ['admin','list'=>[ $user->id,$data['master_id']]],
             [
                 'type'=>'select_plan_guid',
                 'operator_id'=>  $user->curt()->guid_id,
@@ -129,14 +132,14 @@ class PlanController extends Controller
 
         if($user->curt() && $user->curt()->subject){
                // ارسال گزارش برای استاد راهنما و ادمین گروه
-        $user->save_log(['expert','admin','list'=>[$user->curt()->subject->group->admin()->id,   $data['master_id']]],
+        $user->save_log(['expert','admin','list'=>[   $data['master_id']]],
             [
                 'type'=>'submit_plan',
                 'plan_id'=>$plan->id,
             ],true);
         $user->curt()->subject->group->admin()->save_duty( ['list'=>[ $data['master_id']]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
         }else{
-            $user->save_log(['expert','admin','list'=>[$user->curt()->group->admin()->id,   $user->curt()->master_id]],
+            $user->save_log(['expert','admin','list'=>[  $user->curt()->master_id]],
             [
                 'type'=>'submit_plan',
                 'plan_id'=>$plan->id,
@@ -198,7 +201,10 @@ class PlanController extends Controller
             'theory' => 'required',
             'structure' => 'required',
             'method' => 'required',
-            'source' => 'required',
+            'concepts' =>'required|max:1500',
+            'goals' =>'required|max:1500',
+            'history' =>'required|max:1500',
+            'history' =>'required'
         ]);
 
         $user=auth()->user();
@@ -226,14 +232,14 @@ class PlanController extends Controller
 
             if($user->curt()->subject){
                 // ارسال گزارش برای استاد راهنما و ادمین گروه
-         $user->save_log([ 'admin','list'=>[$user->curt()->subject->group->admin()->id,  $plan->master_id]],
+         $user->save_log([ 'admin','list'=>[  $plan->master_id]],
              [
                  'type'=>'submit_plan',
                  'plan_id'=>$plan->id,
              ],true);
          $user->curt()->subject->group->admin()->save_duty( ['list'=>[$user->curt()->subject->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
          }else{
-             $user->save_log([ 'admin','list'=>[$user->curt()->group->admin()->id,   $user->curt()->master_id]],
+             $user->save_log([ 'admin','list'=>[  $user->curt()->master_id]],
              [
                  'type'=>'submit_plan',
                  'plan_id'=>$plan->id,

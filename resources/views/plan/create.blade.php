@@ -162,7 +162,25 @@
                                                 <textarea class="form-control" name="source" rows="3">{{old('source')}}</textarea>
                                             </div>
                                         </div>
-                           
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.concepts')}}    </label>
+                                                <textarea class="form-control" name="concepts" rows="3">{{old('concepts')}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.goals')}}    </label>
+                                                <textarea class="form-control" name="goals" rows="3">{{old('goals')}}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-6">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>     {{__('sentences.history')}}    </label>
+                                                <textarea class="form-control" name="history" rows="3">{{old('history')}}</textarea>
+                                            </div>
+                                        </div>
+
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.report_plan')}}    </label>

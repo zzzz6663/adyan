@@ -66,7 +66,7 @@ class SubjectController extends Controller
         $data['admin_id']= $admin->id;
         $subject = Subject::create($data);
         $subject->tags()->attach($data['tags']);
-        $user->save_log(['admin'],
+        $user->save_log(['admin','list'=>[$group->id]],
 
         [
             'type' => 'create_subject',

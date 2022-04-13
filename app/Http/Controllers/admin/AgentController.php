@@ -289,7 +289,7 @@ class AgentController extends Controller
                 'necessity' => 'nullable',
                 'innovation' => 'nullable',
                 'master_id' =>'required_if:status,in:firn,accept_with_guid_with_plan',
-                'guid_id' =>'required_if:status,in:firn,accept_with_guid_with_plan',
+                'guid_id' =>'nullable',
                 'group_id' => 'required_if:status,in:firn,accept_with_guid_without_plan,accept_with_guid_with_plan,verify_by_group,accept_without_guid,faild',
                 'status' => 'required',
                 // 'fail_reason' => 'required_if:status,=,faild|max:1500',
@@ -341,7 +341,7 @@ class AgentController extends Controller
                             'operator_id'=>auth()->user()->id,
                             'curt_id' =>$curt->id
                         ],true);
-                        $curt->user->save_log(['admin', 'expert'],
+                        $curt->user->save_log(['admin'],
                         [
                             'type'=>'edit_curt_by_student',
                             'operator_id'=> auth()->user()->id,
@@ -444,19 +444,22 @@ class AgentController extends Controller
 
             $data = $request->validate([
                 'title' => 'required',
-                'tags' => 'required',
-                'en_title' => 'required',
-                'en_tags' => 'required',
-                'necessity' => 'required',
-                'problem' => 'required',
-                'question' => 'required',
-                'sub_question' => 'required',
-                'hypo' => 'required',
-                'theory' => 'required',
-                'structure' => 'required',
-                'method' => 'required',
-                'source' => 'required',
-                'report' => 'required|max:2048',
+                'tags' => 'nullable',
+                'en_title' => 'nullable',
+                'en_tags' => 'nullable',
+                'necessity' => 'nullable',
+                'problem' => 'nullable',
+                'question' => 'nullable',
+                'sub_question' => 'nullable',
+                'hypo' => 'nullable',
+                'theory' => 'nullable',
+                'structure' => 'nullable',
+                'method' => 'nullable',
+                'source' => 'nullable',
+                'concepts' =>'nullable|max:1500',
+                'goals' =>'nullable|max:1500',
+                'history' =>'nullable|max:1500',
+                'report' => 'nullable|max:2048',
                 'state' => 'required',
             ]);
 
@@ -464,16 +467,21 @@ class AgentController extends Controller
             $data['confirm_master']='1';
             $data['group_id']=$curt->group_id;
             $data['master_id']=$curt->master_id;
-            $data['tags']=implode('_',$data['tags']);
-            $data['en_tags']=implode('_',$data['en_tags']);
-
-            if(!$data['state']){
-                $data['status']='review_plan_by_student';
-                $data['side']='1';
-            }else{
-                $data['status']='accept';
-                $data['side']='0';
+            if(  isset($data['tags'])){
+                $data['tags']=implode('_',$data['tags']);
             }
+            if(  isset($data['tags'])){
+                $data['en_tags']=implode('_',$data['en_tags']);
+            }
+
+
+            // if(!$data['state']){
+            //     $data['status']='review_plan_by_student';
+            //     $data['side']='1';
+            // }else{
+            //     $data['status']='accept';
+            //     $data['side']='0';
+            // }
             $data['user_id']=$curt->user->id;
             $data['type']='primary';
 
