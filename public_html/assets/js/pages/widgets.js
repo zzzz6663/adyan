@@ -1221,19 +1221,21 @@ var KTWidgets = function() {
     }
 
     var _initChartsWidget4 = function() {
-        var element = document.getElementById("kt_charts_widget_4_chart");
-
+        var element = document.getElementById("amamr1");
+        if (!element) {
+            return;
+        }
+        var amar=element.getAttribute('data-amar')
+        amar=  JSON.parse(amar)
+        console.log( amar)
         if (!element) {
             return;
         }
 
         var options = {
             series: [{
-                name: 'سود خالص',
-                data: [60, 50, 80, 40, 100, 60]
-            }, {
-                name: 'درآمد',
-                data: [70, 60, 110, 40, 50, 70]
+                name: '  تعداد',
+                data: amar
             }],
             chart: {
                 type: 'area',
@@ -1257,7 +1259,7 @@ var KTWidgets = function() {
                 curve: 'smooth'
             },
             xaxis: {
-                categories: ['فوریه', 'مارچ', 'آپریل', 'می', 'ژوئن', 'جولای'],
+                categories: ['اجمالی', 'تفصیلی', 'مصوب'],
                 axisBorder: {
                     show: false,
                 },
@@ -1326,7 +1328,7 @@ var KTWidgets = function() {
                 },
                 y: {
                     formatter: function(val) {
-                        return "$" + val + " هزار"
+                        return "عدد" + val
                     }
                 }
             },
@@ -1352,48 +1354,45 @@ var KTWidgets = function() {
     }
 
     var _initChartsWidget5 = function() {
-        var element = document.getElementById("kt_charts_widget_5_chart");
-
+        var element = document.getElementById("amamr2");
+        if (!element) {
+            return;
+        }
+        var amar=element.getAttribute('data-amar')
+        amar=  JSON.parse(amar)
+        console.log( amar)
         if (!element) {
             return;
         }
 
         var options = {
             series: [{
-                name: 'سود خالص',
-                data: [40, 50, 65, 70, 50, 30]
-            }, {
-                name: 'درآمد',
-                data: [-30, -40, -55, -60, -40, -20]
+                name: '  تعداد',
+                data: amar
             }],
             chart: {
-                type: 'bar',
-                stacked: true,
+                type: 'area',
                 height: 350,
                 toolbar: {
                     show: false
                 }
             },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: ['12%'],
-                    endingShape: 'rounded'
-                },
-            },
+            plotOptions: {},
             legend: {
                 show: false
             },
             dataLabels: {
                 enabled: false
             },
+            fill: {
+                type: 'solid',
+                opacity: 1
+            },
             stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
+                curve: 'smooth'
             },
             xaxis: {
-                categories: ['فوریه', 'مارچ', 'آپریل', 'می', 'ژوئن', 'جولای'],
+                categories: ['اجمالی', 'تفصیلی', 'مصوب'],
                 axisBorder: {
                     show: false,
                 },
@@ -1406,11 +1405,26 @@ var KTWidgets = function() {
                         fontSize: '12px',
                         fontFamily: KTApp.getSettings()['font-family']
                     }
+                },
+                crosshairs: {
+                    position: 'front',
+                    stroke: {
+                        color: KTApp.getSettings()['colors']['theme']['light']['success'],
+                        width: 1,
+                        dashArray: 3
+                    }
+                },
+                tooltip: {
+                    enabled: true,
+                    formatter: undefined,
+                    offsetY: 0,
+                    style: {
+                        fontSize: '12px',
+                        fontFamily: KTApp.getSettings()['font-family']
+                    }
                 }
             },
             yaxis: {
-                min: -80,
-                max: 80,
                 labels: {
                     style: {
                         colors: KTApp.getSettings()['colors']['gray']['gray-500'],
@@ -1418,9 +1432,6 @@ var KTWidgets = function() {
                         fontFamily: KTApp.getSettings()['font-family']
                     }
                 }
-            },
-            fill: {
-                opacity: 1
             },
             states: {
                 normal: {
@@ -1450,11 +1461,11 @@ var KTWidgets = function() {
                 },
                 y: {
                     formatter: function(val) {
-                        return "$" + val + " هزار"
+                        return "عدد" + val
                     }
                 }
             },
-            colors: [KTApp.getSettings()['colors']['theme']['base']['info'], KTApp.getSettings()['colors']['theme']['base']['primary']],
+            colors: [KTApp.getSettings()['colors']['theme']['base']['success'], KTApp.getSettings()['colors']['theme']['base']['warning']],
             grid: {
                 borderColor: KTApp.getSettings()['colors']['gray']['gray-200'],
                 strokeDashArray: 4,
@@ -1463,6 +1474,11 @@ var KTWidgets = function() {
                         show: true
                     }
                 }
+            },
+            markers: {
+                colors: [KTApp.getSettings()['colors']['theme']['light']['success'], KTApp.getSettings()['colors']['theme']['light']['warning']],
+                strokeColor: [KTApp.getSettings()['colors']['theme']['light']['success'], KTApp.getSettings()['colors']['theme']['light']['warning']],
+                strokeWidth: 3
             }
         };
 

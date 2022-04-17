@@ -23,7 +23,7 @@
                         </div>
                         <div class="card-toolbar">
 
-
+                            @role('master')
                             <!--begin::دکمه-->
                             <a href="{{ route('subject.create') }}" class="btn btn-primary font-weight-bolder">
                                 <span class="svg-icon svg-icon-md">
@@ -42,6 +42,7 @@
                                 </span> {{ __('sentences.new_subject') }}
                             </a>
                             <!--end::دکمه-->
+                            @endrole
                         </div>
                     </div>
                     <div class="card-body">

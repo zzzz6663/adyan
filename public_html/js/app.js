@@ -2257,6 +2257,13 @@ window.onload = function () {
     };
     var res = lara_ajax('/admin/similar_curt/', str); // $('#similar_tags').html(res.body);
   });
+  $("form").bind("keypress", function (e) {
+    if (e.keyCode == 13) {
+      $("#btnSearch").attr('value'); //add more buttons here
+
+      return false;
+    }
+  });
 
   function lara_ajax(url, str) {
     var jqXHR = $.ajax(url, {

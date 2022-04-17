@@ -168,4 +168,14 @@ class SubjectController extends Controller
     {
         //
     }
+    public function all_subjects (Request $request){
+        $user=auth()->user();
+        $subjects=Subject::query();
+        if ($request->search){
+            $search=$request->search;
+            $subjects->where('name','LIKE',"%{$search}%");
+        }
+        $subjects=  $subjects->latest()->paginate(10);
+        return view('admin.subject.all',compact(['subjects']));
+    }
 }

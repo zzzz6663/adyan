@@ -273,6 +273,9 @@ class HomeController extends Controller
     public  function  register5(Request $request)
     {
         $user = auth()->user();
+        if($user->level=='admin'){
+            return redirect()->route('agent.index');
+        }
         if ($request->isMethod('post')) {
             $data = $request->validate([
                 'password' => 'required|confirmed',
@@ -311,7 +314,7 @@ class HomeController extends Controller
             alert()->success(__('alert.a53'));
             return redirect()->route('user.register2');
         }
-        $logs = $user->logs()->latest()->get();
+        $logs = $user->logs()->latest()->take(10)->get();
         $duties = $user->duties()->where('time',null)->latest()->get();
         return view('home.note', compact(['user', 'logs', 'duties']));
     }

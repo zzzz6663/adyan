@@ -6,6 +6,9 @@
 @php($footer = true)
 
 
+@section('script')
+<script src="/assets/js/pages/custom/login/login-general.js?v=7.0.6"></script>
+@endsection
 @section('main')
     <div class="d-flex flex-column flex-root">
         <!--begin::Login-->
@@ -276,8 +279,8 @@
                 <!--begin::Content footer-->
                 <div class="d-flex justify-content-lg-start justify-content-center align-items-end py-7 py-lg-0">
                     <a href="#" class="text-primary font-weight-bolder font-size-h5">مقررات</a>
-                    <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">برنامه ها</a>
-                    <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">تماس با ما</a>
+                    <a href="{{route('news.list')}}" class="text-primary ml-10 font-weight-bolder font-size-h5">  اخبار</a>
+                    {{-- <a href="#" class="text-primary ml-10 font-weight-bolder font-size-h5">    ما</a> --}}
                 </div>
                 <!--end::Content footer-->
             </div>

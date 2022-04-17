@@ -25,6 +25,8 @@ Route::group(['middleware' => ['check_language']], function () {
     Route::get('/logout','HomeController@logout')->name('logout') ;
     Route::post('/forget_password','HomeController@forget_password')->name('forget.password') ;
     Route::get('/lang','HomeController@lang')->name('lang') ;
+    Route::get('/news_list','admin\NewsController@news_list')->name('news.list');
+    Route::get('/single_news/{news}','admin\NewsController@single_news')->name('single.list');
 
 });
 
@@ -39,6 +41,7 @@ Route::group(['middleware' => ['role:super-admin']], function () {
 
 Route::middleware(['auth','check_language'])->group(function(){
     Route::any('/note','HomeController@note')->name('user.note') ;
+    Route::any('/edit_profile/{user}','admin\AgentController@edit_profile')->name('user.edit.profile') ;
 });
 
 Route::middleware(['auth','role:student|admin','check_language'])->group(function(){
@@ -53,6 +56,8 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
     Route:: post('/select_curt','StudentController@select_curt')->name('student.select.curt') ;
     Route:: post('/subject_list','StudentController@subject_list')->name('student.subject.list') ;
     Route:: post('/quiz_result','StudentController@quiz_result')->name('student.quiz.result') ;
+    Route:: get('/my_thesis','StudentController@my_thesis')->name('student.my.thesis') ;
+
     Route::resource('curt', 'CurtController');
     Route::resource('plan', 'PlanController');
 });
@@ -76,6 +81,9 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
 Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(function(){
     Route::get('/similar_tags','AdminController@similar_tags')->name('admin.similar.tags');
     Route::get('/curt','AdminController@curt')->name('admin.curt');
+    Route::get('/my_mission','AdminController@my_mission')->name('admin.my.mission')->middleware(['role:master']);
+    Route::get('/group_mission/{group?}','AdminController@group_mission')->name('admin.group.mission')->middleware(['role:expert']);
+
     Route::get('/show_curt/{curt}/{duty?}','AdminController@show_curt')->name('admin.show.curt');
     Route::get('/show_plan/{plan}/{duty?}','AdminController@show_plan')->name('admin.show.plan');
     Route::get('/see_profile_before_verify_student/{user}/{duty}','AdminController@see_profile_before_verify_student')->middleware(['role:expert'])->name('admin.see.profile.verify.student');
@@ -92,8 +100,12 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::any('/basic_info2/{curt?}','AgentController@basic_info2')->middleware(['role:admin'])->name('admin.basic.info2');
     Route::get('/masters','AgentController@masters')->middleware(['role:admin|student'])->name('agent.masters');
     Route::get('/profile/{user}','AgentController@profile')->name('agent.profile');
+    Route::get('/statement','AgentController@statement')->middleware(['role:master'])->name('agent.statement');
+    Route::get('/statement_pdf/{curt}','AgentController@statement_pdf')->middleware(['role:master'])->name('agent.statement.pdf');
+    Route::get('/public_show/{user}','AgentController@public_show')->name('agent.public.show');
     Route::resource('agent', 'AgentController')->middleware(['role:admin']);
     Route::resource('group', 'GroupController')->middleware(['role:admin']);
+    Route::resource('news', 'NewsController')->middleware(['role:admin|expert']);
     //
     Route::post('default_quiz', 'QuizController@default_quiz')->middleware(['role:admin'])->name('admin.default.quiz');
     Route::resource('quiz', 'QuizController')->middleware(['role:expert|admin']);
@@ -103,6 +115,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::post('session_confirm/{session}', 'SessionController@session_confirm')->middleware(['role:master'])->name('session.confirm');
     Route::get('all_session', 'SessionController@all_session')->middleware(['role:admin|master'])->name('admin.all.session');
     Route::get('session/result/{session}', 'SessionController@result')->middleware(['role:admin|master'])->name('admin.session.result');
+    Route::get('all_subjects', 'SubjectController@all_subjects')->middleware(['role:expert|master'])->name('admin.all.subject');
     Route::resource('tag', 'TagController')->middleware(['role:expert|admin']);
 });
 

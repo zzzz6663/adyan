@@ -50,6 +50,7 @@ class User extends Authenticatable
         'direct',//     روش ثبت نام  که استاد که اگر یک باشد یعنی کاربر خودشثبتنام کرده و اگر صفر باشد یعنی توسط مدیرثبت نام شده
         'complete',// کامل شدن ثبت نام
         'last_select_object_time',//زمان اخرین بازدید لیست موضوعات مصوب
+        'defend',// دفاع کرده یا نکرده
     ];
 
     // register ثبت نام
@@ -221,6 +222,10 @@ class User extends Authenticatable
     public function surveys()
     {
         return $this->belongsToMany(Survey::class)->withPivot(['time','info']);
+    }
+    public function newses()
+    {
+        return $this->hasMany(News::class);
     }
 
 

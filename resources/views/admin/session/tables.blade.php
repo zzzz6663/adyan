@@ -66,10 +66,18 @@
                         </td>
                         @if($show_actions)
                         <td class="datatable-cell text-center">
-                            <a class="btn btn-outline-primary"
-                                href="{{ route('admin.show.curt', $curt->id) }}">مشاهده</a>
+                            @if ($curt->side)
+                            <span class="text  text-success">
+                                {{ __('sentences.verified') }}
+                            </span>
+                        @else
+                        <a class="btn btn-outline-primary"
+                        href="{{ route('admin.show.curt', $curt->id) }}">{{__('sentences.verify')}}</a>
+                        @endif
+
                         </td>
                         @endif
+
                     </tr>
                 @endforeach
 
@@ -164,7 +172,7 @@
                                         {{ $subject->user->family }}
                                     </span>
                                    </a>
-                            
+
                             </span>
                         </td>
                         <td class="datatable-cell text-center">

@@ -176,7 +176,7 @@ class StudentController extends Controller
         }
         $quiz_result = 0;
 
-        if ($correct >= 12) {
+        if ($correct >= 2) {
             $user->quizzes()->wherePivot('number', $request->number)->update(['result' => 1]);
             $quiz_result = 1;
             $duty = $user->duties()->whereType('student_go_quiz')->latest()->first();
@@ -192,5 +192,16 @@ class StudentController extends Controller
         return view('student.result_quiz', compact(['correct', 'total_question', 'quiz_result']));
         // $res=$user->questions()->where('question_id','10')->wherePivot('number',$request->number)->update(['user_answer'=>1]);
 
+    }
+    public function my_thesis(Request $request)
+    {
+        $user=auth()->user();
+        $logs=$user->logs()->latest()->get();
+        $main_curt = $user->curt();
+        $all_curts = $user->curts()->whereType('secondary')->latest()->get();
+        $main_plan = $user->plan()->whereType('primary')->first();
+        $all_plans = $user->plans()->whereType('secondary')->latest()->get();
+        return view('admin.agent.show',compact(['user','logs','main_curt','all_curts','main_plan','all_plans']));
+        // return view('student.my_thesis',compact(['user']));
     }
 }

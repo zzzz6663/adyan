@@ -60,7 +60,7 @@
 
 
 
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 @if ($group)
                                                 <input type="text" hidden value="{{$group}}" name="group_id">
@@ -78,7 +78,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{ __('sentences.select_curt') }}
@@ -91,7 +91,8 @@
                                                  (
                                                      {{$curt->user->name}}
                                                      {{$curt->user->family}}
-
+                                                     -
+                                                     {{$curt->user->code}}
                                                  )
 
                                                 </option>
@@ -101,7 +102,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{ __('sentences.select_subject') }}
@@ -124,7 +125,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{ __('sentences.select_plan') }}

@@ -253,7 +253,7 @@
 
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            {{ __('sentences.email') }}
+                                            {{ __('sentences.code') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
@@ -382,16 +382,14 @@
 
 
 
-                                    <td class="datatable-cell text-center"><span>{{$user->email}} </span></td>
+                                    <td class="datatable-cell text-center"><span>{{$user->code}} </span></td>
                                     <td class="datatable-cell text-center">
                                         <span>{{Morilog\Jalali\Jalalian::forge($user->created_at)->format('Y-m-d')}}
                                         </span>
                                     </td>
                                     <td class="datatable-cell text-center">
-                                        @if ($user->level !='student')
                                         <a class="btn btn-outline-primary"
                                             href="{{route('agent.edit',$user->id)}}">{{__('sentences.edit')}} </a>
-                                        @endif
                                         @if ($user->level=='student' &&$user->verify==0)
                                         {{-- <a class="btn btn-outline-success" href="{{route('admin.verify.student',$user->id)}}">اکتیو</a> --}}
                                         @endif

@@ -9,6 +9,7 @@ use App\Models\User;
 use NumberFormatter;
 use App\Mail\UserMessage;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
 
@@ -209,6 +210,15 @@ class AgentController extends Controller
         $all_plans = $user->plans()->whereType('secondary')->latest()->get();
         return view('admin.agent.show',compact(['user','logs','main_curt','all_curts','main_plan','all_plans']));
     }
+    public function public_show(User $user)
+    {
+        $logs=$user->logs()->latest()->get();
+        $main_curt = $user->curt();
+        $all_curts = $user->curts()->whereType('secondary')->latest()->get();
+        $main_plan = $user->plan()->whereType('primary')->first();
+        $all_plans = $user->plans()->whereType('secondary')->latest()->get();
+        return view('admin.agent.show',compact(['user','logs','main_curt','all_curts','main_plan','all_plans']));
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -219,6 +229,9 @@ class AgentController extends Controller
     public function edit(User $agent)
     {
         $user=$agent;
+        if($user->level=='student'){
+            return redirect()->route('user.edit.profile',$user->id);
+        }
         return view('admin.agent.edit' ,compact(['user']));
     }
 
@@ -456,9 +469,9 @@ class AgentController extends Controller
                 'structure' => 'nullable',
                 'method' => 'nullable',
                 'source' => 'nullable',
-                'concepts' =>'nullable|max:1500',
+                'concepts' =>'nullable|max:5000',
                 'goals' =>'nullable|max:1500',
-                'history' =>'nullable|max:1500',
+                'history' =>'nullable|max:5000',
                 'report' => 'nullable|max:2048',
                 'state' => 'required',
             ]);
@@ -581,4 +594,83 @@ class AgentController extends Controller
         return view('admin.agent.profile',compact(['user','logs','main_curt','all_curts','main_plan','all_plans']));
     }
 
+    public function edit_profile(Request $request ,User $user)
+    {
+        $curt_user=auth()->user();
+        if(  $curt_user->id != $user->id && $curt_user->level != 'admin'){
+            alert()->error(__('alert.a56'));
+            return back();
+
+
+        }else{
+
+            if ( $request->isMethod('post')) {
+                if($user->level == 'expert' || $user->level == 'master'){
+                    $data = $request->validate([
+                        'avatar' => 'nullable',
+                        'name' => 'required',
+                        'family' => 'required',
+                        'email' => 'nullable|unique:users,email,'.$user->id,
+                        'password' => 'required|min:6',
+                        'group' => 'nullable',
+                        'course' => 'required',
+                        'level' => 'nullable',
+                        'expert' => 'nullable',
+                    ]);
+                    if($request->expert){
+                        $data['expert'] = implode('_', $data['expert']);
+                       }
+
+                }
+                if($user->level == 'student'){
+                    $data=$request->validate([
+                        'avatar' => Rule::requiredIf(function () use ($user) {
+                            return !$user->avatar();
+                        }),
+                        'name' => 'required',
+                        'family' => 'required',
+                        'email' => 'required|unique:users,email,'.$user->id,
+                        'group' => 'required',
+                        'whatsapp'=>'required',
+                        'type_job'=>'nullable',
+                        'semat_job'=>'required',
+                        'job'=>'required',
+                        'org'=>'nullable',
+                        'country_id'=>'required',
+                        'city'=>'required',
+                        'province'=>'required',
+                        'master_univer'=>'required',
+                        'master_course'=>'required',
+                        'password'=>'required|min:6',
+                        'defend'=>'nullable',
+                    ]);
+
+                }
+
+                if ($request->hasFile('avatar')) {
+                    $image = $request->file('avatar');
+                    $name_img = 'avatar_' . $user->id . '.' . $image->getClientOriginalExtension();
+                    $image->move(public_path('/media/avatar/'), $name_img);
+                    $data['avatar'] = $name_img;
+                }
+                $user->update($data);
+                alert()->success(__('alert.a7'));
+                if($curt_user->level=='admin'){
+                    return redirect()->route('agent.index');
+                }
+                return redirect()->route('user.note');
+
+            }
+        }
+        return view('admin.agent.edit_profile' ,compact(['user']));
+    }
+    public  function statement(){
+        $user=auth()->user();
+        $curts=Curt::where('guid_id',$user->id)->orWhere('master_id',$user->id)->latest()->paginate(10);
+        return view('admin.agent.statement' ,compact(['user','curts']));
+    }
+    public  function statement_pdf ( Curt $curt){
+        $user=auth()->user();
+        return view('admin.agent.statement_pdf' ,compact(['user','curt']));
+    }
 }

@@ -156,6 +156,17 @@
                                                   {{__('sentences.define_guid_title')}}
                                                     @endrole
                                                     @break
+                                                    @case('verify_plan')
+                                                    @role('master')
+                                                  {{__('sentences.verify_plan')}}
+                                                    @endrole
+                                                    @break
+
+                                                    @case('verify_plan')
+                                                    @role('master')
+                                                  {{__('sentences.verify_plan_by_master')}}
+                                                    @endrole
+                                                    @break
 
 
 
@@ -191,7 +202,7 @@
                                                     data-toggle="view">
 
 
-                                                        {{$duty->type}}
+                                                        {{-- {{$duty->type}} --}}
                                                     @switch( $duty->type)
 
                                                     @case('register')
@@ -213,8 +224,8 @@
                                                     @role('student')
 
                                                     <a class="btn btn-primary" href="{{route('student.per.quiz')}}">
-                                                        {{__('sentences.participating_in_a_test')}}
-
+                                                        {{-- {{__('sentences.participating_in_a_test')}} --}}
+                                                        {{__('sentences.action')}}
                                                          </a>
                                                             @if (!$user->check_quiz_pass() && $user->quizzes()->count()>0)
 
@@ -236,7 +247,7 @@
                                                     @role('expert')
                                                     <a class="btn btn-primary" href="{{route('admin.show.curt',$duty->curt->id)}}">
                                                         {{__('sentences.verify_curt')}}
-                                                        {{$duty->curt->title}}
+                                                        {{-- {{$duty->curt->title}} --}}
                                                      </a>
                                                     @endrole
                                                     @break
@@ -270,7 +281,7 @@
                                                     @case('review_curt_by_master')
                                                     @role('master')
                                                     <a class="btn btn-primary" href="{{route('session.create')}}">
-                                                        (    {{__('sentences.review_curt_by_master_duty')}})
+                                                        {{-- (    {{__('sentences.review_curt_by_master_duty')}}) --}}
                                                         {{__('sentences.create_session')}}
                                                     </a>
                                                     @endrole
@@ -280,7 +291,7 @@
                                                     @case('verify_subject')
                                                     @role('master')
                                                    <a class="btn btn-primary" href="{{route('session.create',['group'=>$duty->group->id])}}">
-                                                        (    {{__('sentences.verify_subject')}})
+                                                        {{-- (    {{__('sentences.verify_subject')}}) --}}
                                                         {{__('sentences.create_session')}}
                                                     </a>
                                                     @endrole
@@ -297,17 +308,17 @@
                                                     @case('verify_plan')
                                                     @role('master')
                                                    <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}">
-                                                        (    {{__('sentences.verify_plan')}})
+                                                        {{-- (    {{__('sentences.verify_plan')}}) --}}
                                                         {{__('sentences.create_session')}}
                                                     </a>
                                                     @endrole
                                                     @break
                                                     @case('verify_plan_by_master')
                                                     @role('master')
-                                                   {{-- <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}">
-                                                        (    {{__('sentences.verify_plan_by_master')}})
+                                                   <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}">
+                                                        {{-- (    {{__('sentences.verify_plan_by_master')}}) --}}
                                                         {{__('sentences.create_session')}}
-                                                    </a> --}}
+                                                    </a>
                                                     <a class="btn btn-outline-primary"
                                                     href="{{ route('admin.show.plan',[ $duty->plan->id]) }}">
                                                     {{ __('sentences.verify') }} </a>
@@ -317,7 +328,8 @@
                                                     @case('edit_plan_by_student')
                                                     @role('student')
                                                     <a class="btn btn-primary" href="{{route('plan.edit',['plan'=>$duty->plan->id])}}">
-                                                        {{__('sentences.edit_plan_by_student_duty')}}
+                                                        {{-- {{__('sentences.edit_plan_by_student_duty')}} --}}
+                                                        {{__('sentences.action')}}
                                                     </a>
                                                     @endrole
                                                     @break
@@ -524,7 +536,7 @@
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
                                                             <div class="mr-2">
-                                                                {{$log->type}}
+                                                                {{-- {{$log->type}} --}}
                                                                 @switch($log->type)
                                                                 @case('register')
                                                                 <span class="">

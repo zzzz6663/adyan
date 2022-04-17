@@ -122,6 +122,14 @@
                                     </span>
                                 </div>
                                 @endrole
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <span class="font-weight-bold mr-2">
+                                        {{ __('sentences.defend_status') }} :</span>
+                                    <span class="text-muted">
+                                        {{ $user->defend=='1'?             __('sentences.defended')  :'' }}
+                                        {{ $user->defend=='0'?              __('sentences.undefended') :'' }}
+                                    </span>
+                                </div>
 
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
@@ -428,7 +436,7 @@
 
 
                                                 </div>
-
+                                                @role('admin|master')
                                                 <!--begin::تایم لاین-->
                                                 <div class="timeline timeline-3">
                                                     <div class="timeline-items">
@@ -814,6 +822,7 @@
                                                         @endforeach
                                                     </div>
                                                 </div>
+                                                @endrole
                                                 <!--end::تایم لاین-->
                                             </div>
                                         </div>
@@ -823,7 +832,7 @@
                                         @if ($user->level == 'master')
                                         <!--begin::Tab Content-->
                                         <div class="tab-pane" id="groups" role="tabpanel">
-
+                                            @role('admin|master')
                                             <!--begin: جدول داده ها-->
                                             <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
                                                 id="kt_datatable" style="">
@@ -907,12 +916,13 @@
 
                                             </div>
                                             <!--end: جدول داده ها-->
-
+                                            @endrole
                                         </div>
                                         <!--end::Tab Content-->
 
                                         <div class="tab-pane" id="sessions" role="tabpanel">
                                             <!--begin: جدول داده ها-->
+                                            @role('admin|master')
                                             <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
                                                 id="kt_datatable" style="">
                                                 <table class="datatable-table" style="display: block;">
@@ -1005,11 +1015,13 @@
 
                                             </div>
                                             <!--end: جدول داده ها-->
+                                            @endrole
                                         </div>
 
 
 
                                         <div class="tab-pane" id="subjects" role="tabpanel">
+                                            @role('admin|master')
                                             <!--begin: جدول داده ها-->
                                             <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
                                                 id="kt_datatable" style="">
@@ -1128,10 +1140,12 @@
 
                                             </div>
                                             <!--end: جدول داده ها-->
+                                            @endrole
                                         </div>
 
                                         <div class="tab-pane" id="surveys" role="tabpanel">
                                             <!--begin: جدول داده ها-->
+                                            @role('admin|master')
                                             <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
                                                 id="kt_datatable" style="">
                                                 <table class="datatable-table" style="display: block;">
@@ -1221,6 +1235,7 @@
 
                                             </div>
                                             <!--end: جدول داده ها-->
+                                            @endrole
                                         </div>
 
                                         <div class="tab-pane" id="mycurts" role="tabpanel">

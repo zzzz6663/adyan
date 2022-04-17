@@ -16,7 +16,7 @@
                         @include('sections.error')
 
 
-                        <form class="form" action="{{route('admin.define.guid',$curt->id)}}" id="kt_form"
+                        <form class="form" action="{{route('news.store')}}" id="kt_form"
                             method="post" >
                             @csrf
                             @method('post')
@@ -24,42 +24,48 @@
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
                                         <h1>
-                                            {{__('sentences.select_guid')}}
+                                            {{__('sentences.new_news_form')}}
 
                                         </h1>
-                                        <ul>
-                                            <li>
-                                                <span class="title">  {{__('sentences.student')}} :</span>
-                                                <span class="content">
-                                                    {{$curt->user->name}}
-                                                    {{$curt->user->family}}
-                                                </span>
-                                            </li>
-                                            <li>
-                                                <span class="title">  {{__('sentences.title')}} :</span>
-                                                <span class="content">
-                                                    {{$curt->title}}
-                                                </span>
-                                            </li>
-                                        </ul>
                                             <br>
                                             <br>
                                     <!--begin::ویزارد گام 1-->
                                     <div class="row">
+                                        <div class="col-xl-6">
+                                            <div class="form-news fv-plugins-icon-container">
+                                                <label>  {{__('sentences.title')}}  </label>
+                                                <input type="text" value="{{old('title')}}" class="form-control" name="title"
+                                                    placeholder="   {{__('sentences.title')}} " >
+                                                <span class="form-text text-muted">
+                                                    {{__('sentences.enter_title')}}
+                                                </span>
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                        </div>
 
                                         <div class="col-xl-6">
-                                            <div class="form-group fv-plugins-icon-container">
+                                            <div class="form-news fv-plugins-icon-container">
                                                 <label>
-                                                    {{__('sentences.suggested_master')}}
-                                                </label>
-                                                <select name="guid_id"  id="ostad"  class="form-control  select2">
-                                                    <option value="">  {{__('sentences.select_one')}} </option>
-                                                    @foreach (App\Models\User::where('level','master')->get() as $master )
-                                                   <option {{$master->id ==old('guid_id',[])?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
-                                                    @endforeach
-                                                    {{--  <option {{in_array('new' ,old('ostad_id',[]))?'selected':''}} value="new">استاد جدید</option>  --}}
+                                                    {{__('sentences.show')}}
 
+                                                </label>
+                                                <select name="show" class="form-control  "id="">
+                                                    <option value="">     {{__('sentences.select_one')}}</option>
+                                                    <option {{old('show')=='1'?'selected':''}} value="1"> {{__('sentences.show')}}</option>
+                                                    <option {{old('show')=='0'?'selected':''}} value="0"> {{__('sentences.hide')}}</option>
                                                 </select>
+
+                                                <div class="fv-plugins-message-container"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-xl-12">
+                                            <div class="form-news fv-plugins-icon-container">
+                                                <label>
+                                                    {{__('sentences.content')}}
+
+                                                </label>
+                                                <textarea name="content" class="form-control  "id="" cols="30" rows="10">{{old('content')}}</textarea>
+
 
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
@@ -69,7 +75,9 @@
 
 
 
+
                                     </div>
+
 
                                     <!--begin::ویزارد اقدامات-->
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
@@ -81,10 +89,9 @@
                                             </button>
                                         </div>  --}}
                                         <div>
-                                            <input type="submit" value="    {{__('sentences.save')}}    "
+                                            <input type="submit" value="            {{__('sentences.save')}}   "
                                                 class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('agent.index')}}">  {{__('sentences.back')}} </a>
-                                                <a class="btn btn-primary font-weight-bold text-uppercase px-9 py-4" href="{{route('agent.profile',$curt->user->id)}}">  {{__('sentences.see_profile')}} </a>
+                                                <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4" href="{{route('news.index')}}">          {{__('sentences.back')}}</a>
 
 
                                         </div>

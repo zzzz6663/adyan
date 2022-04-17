@@ -328,7 +328,7 @@
                                                     <p>
                                                     <p>
                                                         <span class="ti">
-                                                            {{__('sentences.source')}}
+                                                            {{__('sentences.concepts')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$p->concepts}}
@@ -336,7 +336,7 @@
                                                     <p>
                                                     <p>
                                                         <span class="ti">
-                                                            {{__('sentences.source')}}
+                                                            {{__('sentences.goals')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$p->goals}}
@@ -344,7 +344,7 @@
                                                     <p>
                                                     <p>
                                                         <span class="ti">
-                                                            {{__('sentences.source')}}
+                                                            {{__('sentences.history')}}
                                                         </span>
                                                         <span class="cont">
                                                             {{$p->history}}

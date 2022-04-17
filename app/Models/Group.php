@@ -20,6 +20,14 @@ class Group extends Model
     {
         return $this->hasMany(Curt::class);
     }
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
+    }
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
     public function admin()
     {
         return User::find($this->user_id);

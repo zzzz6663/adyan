@@ -61,6 +61,25 @@
                                         <a href="#"
                                             class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
                                             <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
+                                                <!--begin::Svg Icon | path:assets/media/svg/icons/ارتباطات/Mail-notification.svg--><svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
+                                                    height="24px" viewBox="0 0 24 24" version="1.1">
+                                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                                                        <rect x="0" y="0" width="24" height="24"></rect>
+                                                        <path
+                                                            d="M21,12.0829584 C20.6747915,12.0283988 20.3407122,12 20,12 C16.6862915,12 14,14.6862915 14,18 C14,18.3407122 14.0283988,18.6747915 14.0829584,19 L5,19 C3.8954305,19 3,18.1045695 3,17 L3,8 C3,6.8954305 3.8954305,6 5,6 L19,6 C20.1045695,6 21,6.8954305 21,8 L21,12.0829584 Z M18.1444251,7.83964668 L12,11.1481833 L5.85557487,7.83964668 C5.4908718,7.6432681 5.03602525,7.77972206 4.83964668,8.14442513 C4.6432681,8.5091282 4.77972206,8.96397475 5.14442513,9.16035332 L11.6444251,12.6603533 C11.8664074,12.7798822 12.1335926,12.7798822 12.3555749,12.6603533 L18.8555749,9.16035332 C19.2202779,8.96397475 19.3567319,8.5091282 19.1603533,8.14442513 C18.9639747,7.77972206 18.5091282,7.6432681 18.1444251,7.83964668 Z"
+                                                            fill="#000000"></path>
+                                                        <circle fill="#000000" opacity="0.3" cx="19.5" cy="17.5"
+                                                            r="2.5"></circle>
+                                                    </g>
+                                                </svg>
+                                                <!--end::Svg Icon-->
+                                            </span> {{$main_curt->user->coe}}
+                                        </a>
+                                        <a href="#"
+                                            class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
+                                            <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
                                                 <!--begin::Svg Icon | path:assets/media/svg/icons/عمومی/Lock.svg--><svg
                                                     xmlns="http://www.w3.org/2000/svg"
                                                     xmlns:xlink="http://www.w3.org/1999/xlink" width="24px"
@@ -111,11 +130,15 @@
                             <div class="d-flex align-items-center flex-wrap justify-content-between">
 
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
-                                    {{$main_curt->problem}}
+                                    {{__('sentences.guid')}}:
+                                    {{$main_curt->guid_id ?$main_curt->guid->name.' '.$main_curt->guid->family:''}}
                                 </div>
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
+                                    {{__('sentences.master_guid')}}:
+                                    {{$main_curt->master_id ?$main_curt->master->name.' '.$main_curt->master->family:''}}
+                                </div>
 
-
+                                <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
                                     @foreach ($main_curt->tags as $tag )
                                     <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
                                         {{$tag->tag }}
@@ -135,7 +158,16 @@
                                             </span>
                                         </div>
                                         <div class="">
-                                            <div class="font-weight-bold mb-2">     {{__('sentences.deliver_at')}}</div>
+                                            <div class="font-weight-bold mb-2">     {{__('sentences.last_group_review')}}</div>
+                                            <span
+                                                class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
+                                                {{
+                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at)->addDays(10))->format('Y-m-d')
+                                                }}
+                                            </span>
+                                        </div>
+                                        <div class="">
+                                            <div class="font-weight-bold mb-2">     {{__('sentences.last_edit_student')}}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
                                                 {{
@@ -144,20 +176,37 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="flex-grow-1 flex-shrink-0 w-150px w-xl-300px mt-4 mt-sm-0">
-                                        <span class="font-weight-bold"> {{__('sentences.status')}}
-                                            {{ __('arr.'.$main_curt->status)}}
 
-                                        </span>
-                                        <div class="progress progress-xs mt-2 mb-2">
-                                            <div class="progress-bar bg-success" role="progressbar" style="width: 63%;"
-                                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <span class="font-weight-bolder text-dark">78%</span>
-                                    </div>
                                 </div>
                             </div>
                             <!--end: Content-->
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h5>
+                                        {{__('sentences.fail_reason')}}
+                                    </h5>
+                                    <p>
+                                        {{$main_curt->fail_reason}}
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h5>
+                                        {{__('sentences.history')}}
+                                    </h5>
+                                    <p>
+                                        {{$main_curt->history}}
+                                    </p>
+                                </div>
+                                <div class="col-lg-6">
+                                    <h5>
+                                        {{__('sentences.note')}}
+                                    </h5>
+                                    <p>
+                                        {{$main_curt->note}}
+                                    </p>
+                                </div>
+
+                            </div>
                         </div>
                         <!--end: اطلاعات-->
                     </div>
@@ -561,7 +610,7 @@
                                                     </label>
                                                     <select name="master_id" id="ostad" class="form-control  select2">
                                                         <option value="">{{__('sentences.select_one')}} </option>
-                                                        @foreach (App\Models\User::where('level','master')->get() as $master
+                                                        @foreach ($masters as $master
                                                         )
                                                         <option value="{{$master->id}}">{{$master->name}}
                                                             {{$master->family}}</option>
@@ -577,7 +626,7 @@
 
 
                                         <div class="col-xl-12
-                                        @hasrole('expert')
+                                        @hasrole('expert|master')
                                         @else
                                         height0
 
@@ -586,7 +635,7 @@
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>       {{__('sentences.tags')}}    </label>
-                                                <select name="tags[]" id="tags" class="form-control select2" multiple="multiple">
+                                                <select name="tags[]" id="tags" class="form-control select2_tag" multiple="multiple">
                                                     <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
                                                     @foreach (App\Models\Tag::all() as $tag)
                                                     <option {{in_array($tag->id ,old('tags',$main_curt->tags()->pluck('id')->toArray()))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>

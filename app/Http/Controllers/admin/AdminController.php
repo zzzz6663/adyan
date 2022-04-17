@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
 use App\Models\Log;
+use App\Models\Tag;
 use App\Models\Curt;
 use App\Models\Duty;
 use App\Models\Plan;
@@ -92,9 +93,12 @@ class AdminController extends Controller
         $main_curt = $curt;
         $all_curts = $curt->user->curts()->whereType('secondary')->latest()->get();
 
+      $masters= User::where('level','master')->orWhereHas('master_curts',function($query){
+        $query->whereType('primary')->where('Status','!=','accept');
+      })->get();
+    //   dd($masters);
 
-
-        return view('curt.show', compact(['main_curt', 'all_curts', 'session']));
+        return view('curt.show', compact(['main_curt', 'all_curts', 'session','masters']));
     }
 
     public function similar_curt(Request $request )
@@ -434,7 +438,7 @@ class AdminController extends Controller
 
         $valid = $request->validate([
             'title' => 'nullable',
-      'tags' => 'required|array|between:1,4',
+      'tags' => 'required|array|between:1,12',
             'problem' => 'nullable',
             'question' => 'nullable',
             'necessity' => 'nullable',
@@ -444,6 +448,14 @@ class AdminController extends Controller
             'note' => 'nullable|max:3500',
             'status' => 'required',
         ]);
+        foreach($valid['tags'] as $key=>$val) {
+            $tag=Tag::find($val);
+            if( !$tag){
+                $user= auth()->user();
+               $ta= $user->tags()->create(['tag'=>$val]);
+               $valid['tags'][$key]=$ta->id;
+            }
+        }
         $curt->tags()->sync($valid['tags']);
         //  $valid['status']='progress';
         $valid['user_id'] = $curt->user_id;
@@ -596,5 +608,27 @@ class AdminController extends Controller
             return redirect()->route('user.note');
         }
         return view('curt.define_guid' ,compact(['curt']));
+    }
+
+    public function my_mission(){
+        $user=auth()->user();
+        $curts=$user->master_curts()->whereType('primary')->whereSide('0')->latest()->get();
+        $plans=$user->master_plans()->whereType('primary')->whereSide('0')->latest()->get();
+        $subjects=$user->subjects()->wherestatus(null)->latest()->get();
+        return view('admin.master.my_mission' ,compact(['user','curts','plans','subjects']));
+    }
+    public function group_mission(Request $request){
+        $user=auth()->user();
+        $curts=null;
+        $plans=null;
+        $group=null;
+        if($request->group_id){
+            $group= Group::find($request->group_id);
+            $plans=$group->plans()->whereStatus('accept')->whereType('primary')->latest()->get();
+            $curts=$group->curts()->whereStatus('accept')->whereType('primary')->latest()->get();
+            $subjects=$group->subjects()->whereStatus('1')->latest()->get();
+        }
+
+        return view('admin.group.group_mission' ,compact(['user','group','curts','plans','subjects']));
     }
 }
