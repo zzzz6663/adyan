@@ -5,7 +5,7 @@ return [
     'create_account' => '   ایجاد یک حساب کاربری  ',
     'email' => ' ایمیل    ',
     'password' => '   رمز عبور  ',
-    'forget_password' => '  رمز بور خود را فراموش کرده اید    ',
+    'forget_password' => '  رمز عبور خود را فراموش کرده اید    ',
     'login' => ' ورود    ',
     'hi' => '   سلام  ',
     'dashboard' => '    داشبورد ',

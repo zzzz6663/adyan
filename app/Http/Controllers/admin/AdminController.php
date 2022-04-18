@@ -394,15 +394,13 @@ class AdminController extends Controller
 
         }
 
-
-
+        $duty = $plan->group->admin()->duties()->where('plan_id', $plan->id)->whereIn('type',['verify_plan_by_master','verify_plan'])->where('time', null)->latest()->first();
+        if ( $duty) {
+            $duty->update([
+                'time' => Carbon::now()
+            ]);
+        }
         if ($request->session_id) {
-            $duty = $plan->group->admin()->duties()->where('plan_id', $plan->id)->whereType('verify_plan')->where('time', null)->latest()->first();
-            if ( $duty) {
-                $duty->update([
-                    'time' => Carbon::now()
-                ]);
-            }
             alert()->success(__('alert.a42'));
             return redirect()->route('session.show',$request->session_id);
         }
@@ -523,7 +521,7 @@ class AdminController extends Controller
                 'operator_id'=>auth()->user()->id,
                 'curt_id' =>$curt->id
             ],true);
-            $curt->user->save_log(['admin', 'expert'],
+            $curt->user->save_log(['admin', 'expert', 'group'],
             [
                 'type'=>'edit_curt_by_student',
                 'operator_id'=> auth()->user()->id,
@@ -572,14 +570,14 @@ class AdminController extends Controller
         }
 
 
-
+        $duty = $user->duties()->where('curt_id', $curt->id)->whereType('review_curt_by_master')->where('time', null)->latest()->first();
+        if ($user->level == 'master' && $duty) {
+            $duty->update([
+                'time' => Carbon::now()
+            ]);
+        }
         if ($request->session_id) {
-            $duty = $user->duties()->where('curt_id', $curt->id)->whereType('review_curt_by_master')->where('time', null)->latest()->first();
-            if ($user->level == 'master' && $duty) {
-                $duty->update([
-                    'time' => Carbon::now()
-                ]);
-            }
+
             alert()->success(__('alert.a24'));
 
             return redirect()->route('session.show',$request->session_id);
