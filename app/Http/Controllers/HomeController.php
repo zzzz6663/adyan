@@ -315,7 +315,7 @@ class HomeController extends Controller
             return redirect()->route('user.register2');
         }
         $logs = $user->logs()->latest()->take(10)->get();
-        $duties = $user->duties()->where('time',null)->latest()->get();
+        $duties = $user->duties()->whereHas('plan',function($query){$query->whereSide('0'); })->where('time',null)->latest()->get();
         return view('home.note', compact(['user', 'logs', 'duties']));
     }
     public  function  import()

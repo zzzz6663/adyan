@@ -24,7 +24,7 @@
     </div>
     <!--end::Brand-->
 
-    <div class="text-center mb-10">
+    <div class="text-center  ">
         <div class="symbol symbol-60 symbol-circle symbol-xl-90">
             <a href="{{route('agent.profile',auth()->user()->id)}}">
                 <div class="symbol-label" style="background-image:url('{{auth()->user()->avatar()}}')"></div>

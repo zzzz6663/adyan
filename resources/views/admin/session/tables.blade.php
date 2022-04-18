@@ -28,6 +28,11 @@
                             {{ __('sentences.master') }}
                         </span>
                     </th>
+                    <th class="datatable-cell datatable-cell-sort text-center">
+                        <span>
+                            {{ __('sentences.status') }}
+                        </span>
+                    </th>
 
                     <th class="datatable-cell datatable-cell-sort text-center">
                         <span>
@@ -61,9 +66,14 @@
                             </span>
                         </td>
                         <td class="datatable-cell text-center">
+                            <span>{{ $curt->status=='accept'?           __('sentences.accept'):   __('sentences.reject') }}
+                            </span>
+                        </td>
+                        <td class="datatable-cell text-center">
                             <span>{{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('Y-m-d') }}
                             </span>
                         </td>
+
                         @if($show_actions)
                         <td class="datatable-cell text-center">
                             @if ($curt->side)

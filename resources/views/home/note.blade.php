@@ -168,6 +168,12 @@
                                                     @endrole
                                                     @break
 
+                                                    @case('verify_plan_by_master')
+                                                    @role('master')
+                                                  {{__('sentences.verify_plan_by_master')}}
+                                                    @endrole
+                                                    @break
+
 
 
 
@@ -202,7 +208,7 @@
                                                     data-toggle="view">
 
 
-                                                        {{-- {{$duty->type}} --}}
+                                                        {{$duty->type}}
                                                     @switch( $duty->type)
 
                                                     @case('register')
@@ -315,10 +321,10 @@
                                                     @break
                                                     @case('verify_plan_by_master')
                                                     @role('master')
-                                                   <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}">
+                                                   {{-- <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}"> --}}
                                                         {{-- (    {{__('sentences.verify_plan_by_master')}}) --}}
-                                                        {{__('sentences.create_session')}}
-                                                    </a>
+                                                        {{-- {{__('sentences.create_session')}} --}}
+                                                    {{-- </a> --}}
                                                     <a class="btn btn-outline-primary"
                                                     href="{{ route('admin.show.plan',[ $duty->plan->id]) }}">
                                                     {{ __('sentences.verify') }} </a>

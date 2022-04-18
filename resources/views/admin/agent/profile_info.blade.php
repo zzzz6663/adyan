@@ -4,9 +4,9 @@
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
         <div class=" container ">
-            <div class="d-flex flex-row">
+            <div class="row">
                 <!--begin::Aside-->
-                <div class="flex-row-auto offcanvas-mobile w-300px w-xl-350px" id="kt_profile_aside">
+                <div class="col-lg-12" id="kt_profile_aside">
                     <!--begin::Card-->
                     <div class="card card-custom gutter-b">
                         <!--begin::Body-->
@@ -192,7 +192,7 @@
                 <!--end::Aside-->
 
                 <!--begin::Content-->
-                <div class="flex-row-fluid ml-lg-8">
+                <div class="col-lg-12">
 
                     <div class="row">
 

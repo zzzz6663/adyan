@@ -1222,6 +1222,7 @@ var KTWidgets = function() {
 
     var _initChartsWidget4 = function() {
         var element = document.getElementById("amamr1");
+        console.log("12")
         if (!element) {
             return;
         }

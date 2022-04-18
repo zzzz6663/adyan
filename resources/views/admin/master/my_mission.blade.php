@@ -9,14 +9,12 @@
         <div class=" container ">
             <div class="card card-custom">
 
-
-
                 <div class="col-xxl-12 order-2 order-xxl-1">
                     <!--begin::پیشرفت Table Widget 2-->
                     <div class="card card-custom card-stretch gutter-b">
                         <!--begin::Header-->
                         <div class="card-header border-0 pt-5">
-                            <h3 class="card-title align-items-start flex-column">
+                            <h3 class="card-title align-items-start flex-column mt-14">
                                 <span class="card-label font-weight-bolder text-dark"> {{ __('sentences.my_curt') }}  </span>
                                 <span class="text-muted mt-3 font-weight-bold font-size-sm"> </span>
                             </h3>
@@ -54,6 +52,16 @@
                                          </th>
                                          <th class="datatable-cell datatable-cell-sort text-center">
                                              <span>
+                                                 {{ __('sentences.status') }}
+                                             </span>
+                                         </th>
+                                         <th class="datatable-cell datatable-cell-sort text-center">
+                                             <span>
+                                                 {{ __('sentences.role') }}
+                                             </span>
+                                         </th>
+                                         <th class="datatable-cell datatable-cell-sort text-center">
+                                             <span>
                                                  {{ __('sentences.last_change_student_date') }}
 
                                              </span>
@@ -67,7 +75,10 @@
                                      </tr>
                                  </thead>
                                  <tbody class="datatable-body" style="">
-                                     @foreach ($user->master_curts()->whereType('primary')->get() as $mastercrut)
+                                     {{-- @foreach ($user->master_curts()->whereType('primary')->get() as $mastercrut) --}}
+                                     @foreach (App\Models\Curt::where('master_id',$user->id)->orWhereHas('group',function($query) use ($user){
+                                        $query->where('user_id',$user->id);
+                                    })->whereType('primary')->get() as $mastercrut)
                                      <tr class="datatable-row" style="left: 0px;">
                                          <td class="datatable-cell text-center">
                                              <span>{{ $loop->iteration }} </span>
@@ -82,12 +93,19 @@
                                               </span>
                                          </td>
                                          <td class="datatable-cell text-center">
+                                            <span>{{ $mastercrut->status=='accept'?           __('sentences.accept'):   __('sentences.reject') }}
+                                            </span>
+                                        </td>
+                                         <td class="datatable-cell text-center">
+                                            <span>{{ $mastercrut->master_id==$user->id?   __('sentences.master_guid'):   __('sentences.group_master') }}
+                                            </span>
+                                        </td>
+                                         <td class="datatable-cell text-center">
                                              <span>
                                                  @if ($last_curt=$mastercrut->user->curts()->latest()->first())
 
                                                  {{Morilog\Jalali\Jalalian::forge($last_curt->created_at)->format('Y-m-d')}}
                                              @endif
-
                                              </span>
                                          </td>
 
@@ -153,6 +171,16 @@
                                             </th>
                                             <th class="datatable-cell datatable-cell-sort text-center">
                                                 <span>
+                                                    {{ __('sentences.status') }}
+                                                </span>
+                                            </th>
+                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                <span>
+                                                    {{ __('sentences.role') }}
+                                                </span>
+                                            </th>
+                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                <span>
                                                     {{ __('sentences.last_change_student_date') }}
 
                                                 </span>
@@ -167,7 +195,9 @@
                                         </tr>
                                     </thead>
                                     <tbody class="datatable-body" style="">
-                                        @foreach ($user->master_plans()->whereType('primary')->get() as $masterplan)
+                                        @foreach (App\Models\Plan::where('master_id',$user->id)->orWhereHas('group',function($query) use ($user){
+                                            $query->where('user_id',$user->id);
+                                        })->whereType('primary')->get() as $masterplan)
                                         <tr class="datatable-row" style="left: 0px;">
                                             <td class="datatable-cell text-center">
                                                 <span>{{ $loop->iteration }} </span>
@@ -180,6 +210,14 @@
                                                     {{ $masterplan->user->name }}
                                                     {{ $masterplan->user->family }}
                                                  </span>
+                                            </td>
+                                            <td class="datatable-cell text-center">
+                                                <span>{{ $masterplan->status=='accept'?           __('sentences.accept'):   __('sentences.reject') }}
+                                                </span>
+                                            </td>
+                                            <td class="datatable-cell text-center">
+                                                <span>{{ $masterplan->master_id==$user->id?   __('sentences.master_guid'):   __('sentences.group_master') }}
+                                                </span>
                                             </td>
                                             <td class="datatable-cell text-center">
                                                 <span>
@@ -237,7 +275,8 @@
 
                     <!--begin::Body-->
                     <div class="card-body">
-                        <div id="amamr1" data-amar="{{json_encode([$curts->count(),$plans->count(),$subjects->count()])}}" ></div>
+                        {{-- <div id="amamr1" data-amar="{{json_encode([$curts->count(),$plans->count(),$subjects->count()])}}" ></div> --}}
+                        <div id="amamr1" data-amar="[{{json_encode([$curts->count(),$plans->count(),$subjects->count()])}}]" ></div>
                     </div>
                     <!--end::Body-->
                 </div>

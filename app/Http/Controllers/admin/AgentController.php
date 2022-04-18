@@ -626,23 +626,24 @@ class AgentController extends Controller
                 }
                 if($user->level == 'student'){
                     $data=$request->validate([
-                        'avatar' => Rule::requiredIf(function () use ($user) {
-                            return !$user->avatar();
-                        }),
+                        // 'avatar' => Rule::requiredIf(function () use ($user) {
+                        //     return !$user->avatar();
+                        // }),
+                        'avatar' => 'nullable',
                         'name' => 'required',
                         'family' => 'required',
-                        'email' => 'required|unique:users,email,'.$user->id,
-                        'group' => 'required',
-                        'whatsapp'=>'required',
+                        'email' => 'nullable|unique:users,email,'.$user->id,
+                        'group' => 'nullable',
+                        'whatsapp'=>'nullable',
                         'type_job'=>'nullable',
-                        'semat_job'=>'required',
-                        'job'=>'required',
+                        'semat_job'=>'nullable',
+                        'job'=>'nullable',
                         'org'=>'nullable',
-                        'country_id'=>'required',
-                        'city'=>'required',
-                        'province'=>'required',
-                        'master_univer'=>'required',
-                        'master_course'=>'required',
+                        'country_id'=>'nullable',
+                        'city'=>'nullable',
+                        'province'=>'nullable',
+                        'master_univer'=>'nullable',
+                        'master_course'=>'nullable',
                         'password'=>'required|min:6',
                         'defend'=>'nullable',
                     ]);
@@ -668,7 +669,9 @@ class AgentController extends Controller
     }
     public  function statement(){
         $user=auth()->user();
-        $curts=Curt::where('guid_id',$user->id)->orWhere('master_id',$user->id)->latest()->paginate(10);
+        $curts=Curt::where('guid_id',$user->id)->orWhere('master_id',$user->id)->whereHas('user',function ($query){
+            $query->where('defend','1');
+        })->latest()->paginate(10);
         return view('admin.agent.statement' ,compact(['user','curts']));
     }
     public  function statement_pdf ( Curt $curt){
