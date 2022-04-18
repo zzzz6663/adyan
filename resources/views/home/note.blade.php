@@ -208,7 +208,7 @@
                                                     data-toggle="view">
 
 
-                                                        {{$duty->type}}
+                                                        {{-- {{$duty->type}} --}}
                                                     @switch( $duty->type)
 
                                                     @case('register')
