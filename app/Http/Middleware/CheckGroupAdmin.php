@@ -17,6 +17,9 @@ class CheckGroupAdmin
     public function handle(Request $request, Closure $next)
     {
         $user=$request->user();
+        if($user->level=='admin'){
+            return $next($request);
+        }
         if ( !$user->is_group_admin()){
             alert()->error(__('alert.a57')) ;
             return  redirect(route('user.note'));
