@@ -14,7 +14,7 @@
                         <!--begin: Pic-->
                         <div class="flex-shrink-0 mr-7 mt-lg-0 mt-3">
                             <div class="symbol symbol-50 symbol-lg-120">
-                                <img alt="Pic" src="{{$main_curt->user->avatar()}}">
+                                <img alt="Pic" src="{{$user->avatar()}}">
                             </div>
 
                             <div class="symbol symbol-50 symbol-lg-120 symbol-primary d-none">
@@ -31,8 +31,8 @@
                                     <!--begin::نام-->
                                     <a href="#"
                                         class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
-                                        {{$main_curt->user->name}}
-                                        {{$main_curt->user->family}}
+                                        {{$user->name}}
+                                        {{$user->family}}
                                         <i class="flaticon2-correct text-success icon-md ml-2"></i>
                                     </a>
                                     <!--end::نام-->
@@ -56,7 +56,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span> {{$main_curt->user->email}}
+                                            </span> {{$user->email}}
                                         </a>
                                         <a href="#"
                                             class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
@@ -75,7 +75,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span> {{$main_curt->user->coe}}
+                                            </span> {{$user->code}}
                                         </a>
                                         <a href="#"
                                             class="text-muted text-hover-primary font-weight-bold mr-lg-8 mr-5 mb-lg-0 mb-2">
@@ -95,7 +95,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span> {{__('arr.'.$main_curt->user->semat_job)}}
+                                            </span> {{__('arr.'.$user->semat_job)}}
                                         </a>
                                         <a href="#" class="text-muted text-hover-primary font-weight-bold">
                                             <span class="svg-icon svg-icon-md svg-icon-gray-500 mr-1">
@@ -111,7 +111,7 @@
                                                     </g>
                                                 </svg>
                                                 <!--end::Svg Icon-->
-                                            </span> {{$main_curt->user->province}}
+                                            </span> {{$user->province}}
                                         </a>
                                     </div>
                                     <!--end::مخاطب-->
@@ -126,25 +126,25 @@
                             <!--end: Title-->
 
                             <!--begin: Content-->
-                            <h3>{{$main_curt->title}}</h3>
+                            <h3>{{$user->curt()->title}}</h3>
                             <div class="d-flex align-items-center flex-wrap justify-content-between">
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
                                     {{__('sentences.master_guid')}}:
-                                    {{$main_curt->master_id ?$main_curt->master()->name.' '.$main_curt->master()->family:''}}
+                                    {{$user->curt()->master_id ?$user->curt()->master()->name.' '.$user->curt()->master()->family:''}}
                                 </div>
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
                                     {{__('sentences.group')}}:
-                                    {{$main_curt->group_id ?$main_curt->group->name:''}}
+                                    {{$user->curt()->group_id ?$user->curt()->group->name:''}}
                                 </div>
 
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
                                     {{__('sentences.guid')}}:
-                                    {{$main_curt->guid_id ?$main_curt->guid->name.' '.$main_curt->guid->family:''}}
+                                    {{$user->curt()->guid_id ?$user->curt()->guid->name.' '.$user->curt()->guid->family:''}}
                                 </div>
 
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
                                     {{__('sentences.tags')}}:
-                                    @foreach ($main_curt->tags as $tag )
+                                    @foreach ($user->curt()->tags as $tag )
                                     <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
                                         {{$tag->tag }}
                                     </span>
@@ -158,7 +158,7 @@
                                             <span
                                                 class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">
                                                 {{
-                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at))->format('Y-m-d')
+                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($user->curt()->created_at))->format('Y-m-d')
                                                 }}
                                             </span>
                                         </div>
@@ -166,8 +166,8 @@
                                             <div class="font-weight-bold mb-2">     {{__('sentences.last_group_review')}}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
-                                            @if ($main_curt->last_group_review())
-                                            {{$main_curt->last_group_review()}}
+                                            @if ($user->curt()->last_group_review())
+                                            {{$user->curt()->last_group_review()}}
                                             @endif
 
                                             </span>
@@ -176,8 +176,8 @@
                                             <div class="font-weight-bold mb-2">     {{__('sentences.last_edit_student')}}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
-                                                @if ($main_curt->last_edit_student())
-                                                {{$main_curt->last_edit_student()}}
+                                                @if ($user->curt()->last_edit_student())
+                                                {{$user->curt()->last_edit_student()}}
                                                 @endif
                                             </span>
                                         </div>
@@ -187,13 +187,13 @@
                             </div>
                             <!--end: Content-->
                             <div class="row">
-                                @if ($main_curt->history)
+                                @if ($user->curt()->history)
                                 <div class="col-lg-6">
                                     <h5>
                                         {{__('sentences.history_more')}}
                                     </h5>
                                     <p style="background:#f5f5f5">
-                                        {{$main_curt->history}}
+                                        {{$user->curt()->history}}
                                     </p>
                                 </div>
                                 @endif
@@ -202,16 +202,16 @@
                                         {{__('sentences.special_note')}}
                                     </h5>
                                     <p style="background:#f5f5f5">
-                                        {{$main_curt->note}}
+                                        {{$user->curt()->note}}
                                     </p>
                                 </div> --}}
-                                @if ($main_curt->fail_reason)
+                                @if ($user->curt()->fail_reason)
                                 <div class="col-lg-6">
                                     <h5>
                                         {{__('sentences.fail_reason')}}
                                     </h5>
                                     <p style="background:#f5f5f5">
-                                        {{$main_curt->fail_reason}}
+                                        {{$user->curt()->fail_reason}}
                                     </p>
                                 </div>
                                 @endif
@@ -343,23 +343,13 @@
                         @include('sections.error')
 
 
-                        <form class="form" action="{{route('admin.curt.submit' ,$main_curt->id)}}" id="kt_form"
+                        <form class="form" action="{{route('admin.curt.submit' ,$user->curt()->id)}}" id="kt_form"
                             method="post">
                             @csrf
                             @method('post')
                             <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
                                 <div class="col-xl-12 col-xxl-7">
-                                    <!--begin::ویزارد Form-->
-                                    {{-- <h1>
-                                        {{__('sentences.show_curt')}}
 
-                                        {{$main_curt->title}}
-                                    </h1> --}}
-                                    <br>
-                                    @if ($session)
-                                            <input type="text" hidden value="{{$session}}" name="session_id">
-                                    @endif
-                                    <br>
                                     <!--begin::ویزارد گام 1-->
                                     <div class="row">
                                         <div class="col-xl-12 mb-2 par">
@@ -369,7 +359,7 @@
 
                                                 </label>
                                                  <h4 class="mt-3 mb-6 prf" style=" ">
-                                                    {{$main_curt->title}}
+                                                    {{$user->curt()->title}}
                                                 </h4>
                                                 <textarea name="title" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
@@ -388,7 +378,9 @@
                                                             {{$curt->title}}
                                                             </li>
                                                        @endif
-                                                       @endforeach
+
+
+                                                       @endforeachث
                                                    </ul>
                                             </div>
                                         </div>
@@ -399,15 +391,11 @@
                                                     {{__('sentences.tags')}}
                                                 </label>
                                                  <h6 class="mt-3 mb-6 prf" style=" ">
-                                                    @foreach ($main_curt->tags as $tag )
+                                                    @foreach ($user->curt()->tags as $tag )
                                                     {{$tag->tag }} -
                                                     @endforeach
                                                 </h6>
-                                                <textarea name="tag" class="form-control hide inp" id="title" cols="30"
-                                                    rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                        {{__('sentences.insert_note')}}
-                                                        </span>
+
                                                      <ul>
                                                        @foreach ($all_curts as  $curt)
                                                           @if ( $curt->tag)
@@ -430,13 +418,9 @@
                                                     {{__('sentences.problem')}}
                                                 </label>
                                                  <h6 class="mt-3 mb-6 prf" style=" ">
-                                                    {{$main_curt->problem}}
+                                                    {{$user->curt()->problem}}
                                                 </h6>
-                                                <textarea name="problem" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                        {{__('sentences.insert_note')}}
-                                                        </span>
+
                                                     <ul>
                                                         @foreach ($all_curts as  $curt)
                                                            @if ( $curt->problem)
@@ -459,26 +443,22 @@
                                                     {{__('sentences.question')}}
                                                 </label>
                                                  <h6 class="mt-3 mb-6 prf" style=" ">
-                                                    {{$main_curt->question}}
+                                                    {{$user->curt()->question}}
                                                 </h6>
-                                                <textarea name="question" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                        {{__('sentences.insert_note')}}
-                                                        </span>
-                                                        <ul>
-                                                            @foreach ($all_curts as  $curt)
-                                                            @if ( $curt->question)
-                                                            <li>
-                                                             ({{$curt->operator_curts()->name}}
-                                                             {{$curt->operator_curts()->family}})
-                                                             ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
-                                                             <br>
-                                                             {{$curt->question}}
-                                                             </li>
-                                                            @endif
-                                                        @endforeach
-                                                        </ul>
+
+                                                   <ul>
+                                                    @foreach ($all_curts as  $curt)
+                                                    @if ( $curt->question)
+                                                    <li>
+                                                     ({{$curt->operator_curts()->name}}
+                                                     {{$curt->operator_curts()->family}})
+                                                     ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                     <br>
+                                                     {{$curt->question}}
+                                                     </li>
+                                                    @endif
+                                                @endforeach
+                                                   </ul>
                                             </div>
                                         </div>
                                         <div class="col-xl-12 mb-2 par">
@@ -487,26 +467,22 @@
                                                     {{__('sentences.necessity')}}
                                                 </label>
                                                  <h6 class="mt-3 mb-6 prf" style=" ">
-                                                    {{$main_curt->necessity}}
+                                                    {{$user->curt()->necessity}}
                                                 </h6>
-                                                <textarea name="necessity" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                        {{__('sentences.insert_note')}}
-                                                        </span>
-                                                        <ul>
-                                                            @foreach ($all_curts as  $curt)
-                                                            @if ( $curt->necessity)
-                                                            <li>
-                                                             ({{$curt->operator_curts()->name}}
-                                                             {{$curt->operator_curts()->family}})
-                                                             ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
-                                                             <br>
-                                                             {{$curt->necessity}}
-                                                             </li>
-                                                            @endif
-                                                        @endforeach
-                                                        </ul>
+                                               <ul>
+                                                @foreach ($all_curts as  $curt)
+                                                    @if ( $curt->necessity)
+                                                    <li>
+                                                    ({{$curt->operator_curts()->name}}
+                                                    {{$curt->operator_curts()->family}})
+                                                    ({{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('d-m-Y')}})
+                                                    <br>
+                                                    {{$curt->necessity}}
+                                                    </li>
+                                                    @endif
+                                                @endforeach
+                                               </ul>
+
                                             </div>
                                         </div>
                                         <div class="col-xl-12 mb-2 par">
@@ -515,15 +491,10 @@
                                                     {{__('sentences.innovation')}}
                                                 </label>
                                                  <h6 class="mt-3 mb-6 prf" style=" ">
-                                                    {{$main_curt->innovation}}
+                                                    {{$user->curt()->innovation}}
                                                 </h6>
 
-                                                <textarea name="innovation" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                        {{__('sentences.insert_note')}}
-                                                        </span>
-                                                  <ul>
+                                                 <ul>
                                                     @foreach ($all_curts as  $curt)
                                                     @if ( $curt->innovation)
                                                     <li>
@@ -534,8 +505,9 @@
                                                      {{$curt->innovation}}
                                                      </li>
                                                     @endif
+
                                                 @endforeach
-                                                  </ul>
+                                                 </ul>
                                             </div>
                                         </div>
 
@@ -546,11 +518,6 @@
                                                     {{__('sentences.snote')}}
                                                 </label>
 
-                                                <textarea name="note" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                        {{__('sentences.insert_note')}}
-                                                        </span>
                                                   <ul>
                                                     @foreach ($all_curts as  $curt)
                                                     @if ( $curt->note)
@@ -566,188 +533,8 @@
                                                   </ul>
                                             </div>
                                         </div>
-
-
-                                            @if (!$main_curt->master_id)
-                                            @role('master')
-                                            <div class="col-xl-6  bg-light ">
-                                                <div class="form-group fv-plugins-icon-container">
-                                                    <label>
-
-                                                        {{__('sentences.select_final_master')}}
-
-                                                    </label>
-                                                    <select name="master_id" id="ostad" class="form-control  select2">
-                                                        <option value="">{{__('sentences.select_one')}} </option>
-                                                        @foreach ($masters as $master
-                                                        )
-                                                        <option value="{{$master->id}}">{{$master->name}}
-                                                            {{$master->family}}</option>
-                                                        @endforeach
-                                                    </select>
-
-
-                                                </div>
-                                            </div>
-                                            @endrole
-                                            @endif
-
-
-
-                                            @if (!$main_curt->guid_id)
-                                            @role('master')
-                                            <div class="col-xl-6  bg-light ">
-                                                <div class="form-group fv-plugins-icon-container">
-                                                    <label>
-                                                        {{__('sentences.select_guid_master')}}
-                                                    </label>
-                                                    <select name="guid_id" id="" class="form-control  select2">
-                                                        <option value="">{{__('sentences.select_one')}} </option>
-                                                        @foreach (App\Models\User::where('level','master')->get() as $master
-                                                        )
-                                                        <option  {{old('guid_id')==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}}
-                                                            {{$master->family}}</option>
-                                                        @endforeach
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            @endrole
-                                            @endif
-
-
-                                        <div class="col-xl-12  bg-light
-                                        @hasrole('expert|master')
-                                        @else
-                                        height0
-
-                                        @endhasrole
-                                        ">
-                                            <!--begin::ورودی-->
-                                            <div class="form-group fv-plugins-icon-container">
-                                                <label>       {{__('sentences.tags')}}    </label>
-                                                <select name="tags[]" id="tags" class="form-control select2_tag" multiple="multiple">
-                                                    <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
-                                                    @foreach (App\Models\Tag::all() as $tag)
-                                                    <option {{in_array($tag->id ,old('tags',$main_curt->tags()->pluck('id')->toArray()))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                            <!--end::ورودی-->
-                                        </div>
-
-
-
-
-                                        @if(!$main_curt->group_id)
-
-                                        @role('expert')
-                                        <div class="col-xl-12">
-                                            <div class="form-group fv-plugins-icon-container">
-                                                <label>
-
-                                                    {{__('sentences.select_final_group')}}
-
-
-
-                                                </label>
-                                                <select name="group_id" id="ostad" class="form-control  ">
-                                                    <option value="">           {{__('sentences.select_one')}} </option>
-                                                    @foreach (App\Models\Group::all() as $group
-                                                    )
-                                                    <option {{old('group_id')==$group->id?'selected':''}} value="{{$group->id}}">
-                                                        {{__('sentences.group')}}
-                                                        {{$group->name}}
-                                                      (
-                                                        {{__('sentences.manager')}}:
-                                                          {{$group->admin()->name}}
-                                                          {{$group->admin()->family}}
-                                                      )
-                                                    </option>
-                                                    @endforeach
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                        @endrole
-                                        @endif
-
-
-                                        <div class="col-xl-12  bg-success   par">
-                                            <div class="form-group fv-plugins-icon-container">
-                                                <label>
-
-                                                    {{__('sentences.final_result')}}
-                                                </label>
-                                                <select class="form-control" name="status" id="">
-                                                    <option value="">   {{__('sentences.select_one')}}</option>
-                                                    <option {{old('status')=='reject' ?'selected':''}} value="reject">
-
-                                                        {{__('sentences.should_edit_cuert')}}
-                                                        </option>
-
-                                                    <option {{old('status')=='faild' ?'selected':''}} value="faild">
-                                                        {{__('sentences.reject_curt')}}
-                                                      </option>
-
-                                                        @role('master')
-                                                        <option {{old('status')=='accept' ?'selected':''}} value="accept">
-                                                            {{__('sentences.accept_curt')}}
-                                                         </option>
-                                                            @endrole
-
-                                                        @role('expert')
-                                                        <option {{old('pass_to_group')=='accept' ?'selected':''}} value="pass_to_group">
-                                                            {{__('sentences.pass_to_group')}}
-                                                         </option>
-                                                            @endrole
-                                                </select>
-
-                                            </div>
-                                        </div>
-
-
-
-
-
-
-
                                     </div>
 
-                                    <div class="co-xl-12">
-                                        <div id="similar_tags"></div>
-                                    </div>
-                                    <!--begin::ویزارد اقدامات-->
-                                    <div class="d-flex justify-content-between border-top mt-5 pt-10">
-                                        {{-- <div>
-                                            <button type="button"
-                                                class="btn btn-light-primary font-weight-bold text-uppercase px-9 py-4"
-                                                data-wizard-type="action-prev">
-
-                                                {{__('sentences.confirm')}
-                                            </button>
-                                        </div> --}}
-                                        <div>
-                                            @role('expert')
-                                            @if ($main_curt->group_id)
-                                            <p>
-                                                {{__('sentences.cant_comment')}}
-
-                                            </p>
-                                            @else
-                                            <input type="submit" value="       {{__('sentences.save')}}   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                            @endif
-                                            @endrole
-
-                                            @role('master')
-                                            <input type="submit" value="       {{__('sentences.save')}}   " class="btn btn-success font-weight-bold text-uppercase px-9 py-4">
-                                            @endrole
-                                            {{-- <a class="btn btn-danger font-weight-bold text-uppercase px-9 py-4"
-                                                href="{{route('admin.curt')}}">برکشت</a> --}}
-
-
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 

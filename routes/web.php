@@ -89,6 +89,8 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::get('/group_mission/{group?}','AdminController@group_mission')->name('admin.group.mission')->middleware(['role:expert|master','admin_group']);
 
 
+    Route::get('/curt_detail/{user}','AdminController@curt_detail')->name('admin.curt.detail');
+    Route::get('/plan_detail/{user}','AdminController@plan_detail')->name('admin.plan.detail');
     Route::get('/show_curt/{curt}/{duty?}','AdminController@show_curt')->name('admin.show.curt');
     Route::get('/show_plan/{plan}/{duty?}','AdminController@show_plan')->name('admin.show.plan');
     Route::get('/see_profile_before_verify_student/{user}/{duty}','AdminController@see_profile_before_verify_student')->middleware(['role:expert'])->name('admin.see.profile.verify.student');

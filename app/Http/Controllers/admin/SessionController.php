@@ -91,7 +91,7 @@ class SessionController extends Controller
         }
         if(isset($data['plans'])){
             $session->plans()->attach($data['plans']);
-            $session->plans()->attach($data['plans']);
+            // $session->plans()->attach($data['plans']);
             $first_plan=Plan::find($data['plans'][0]);
             if($first_plan){
                 $session->update(['group_id'=>$first_plan->group->id]);

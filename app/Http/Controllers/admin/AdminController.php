@@ -25,6 +25,35 @@ class AdminController extends Controller
         return redirect()->route('agent.all');
         return view('admin.index');
     }
+    public function curt_detail(User $user)
+    {
+        if($user->level != 'student'){
+            alert()->error(__('alert.a58'));
+            return back();
+        }
+        $main_curt=$user->curt();
+        if(!$main_curt ){
+            alert()->error(__('alert.59'));
+            return back();
+        }
+        $all_curts = $user->curts()->whereType('secondary')->latest()->get();
+        return view('curt.curt_detail',compact(['user','all_curts']));
+    }
+    public function plan_detail(User $user)
+    {
+        if($user->level != 'student'){
+            alert()->error(__('alert.a58'));
+            return back();
+        }
+
+        $main_plan=$user->primary_plan();
+        if(!$main_plan ){
+            alert()->error(__('alert.a60'));
+            return back();
+        }
+        $all_plans = $user->plans()->whereType('secondary')->latest()->get();
+        return view('plan.plan_detail',compact(['user','all_plans','main_plan']));
+    }
 
     public function similar(Request $request)
     {
