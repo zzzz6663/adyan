@@ -217,8 +217,8 @@
                                                     data-toggle="view">
 
 
-                                                        {{$duty->type}}
-                                                        {{$duty->id}}
+                                                        {{-- {{$duty->type}} --}}
+                                                         {{-- {{$duty->id}} --}}
                                                     @switch( $duty->type)
 
                                                     @case('register')
@@ -549,7 +549,7 @@
                                                         <div
                                                             class="d-flex align-items-center justify-content-between mb-3">
                                                             <div class="mr-2">
-                                                                {{$log->type}}
+                                                                {{-- {{$log->type}} --}}
 
                                                                 @switch($log->type)
                                                                 @case('register')

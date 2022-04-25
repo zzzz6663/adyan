@@ -79,7 +79,7 @@
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>       {{__('sentences.tags')}}    </label>
                                                 <select name="tags[]" id="" class="form-control select2_tag" multiple="multiple">
-                                                    <option disabled="disabled" value="">{{__('sentences.select_one')}}</option>
+                                                    {{-- <option disabled="disabled" value="">{{__('sentences.select_one')}}</option> --}}
                                                     @foreach (App\Models\Tag::all() as $tag)
                                                     <option {{in_array($tag->id ,old('tags',[]))?'selected':''}} value="{{$tag->id}}">{{$tag->tag}}</option>
 

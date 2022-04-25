@@ -441,7 +441,7 @@ class AdminController extends Controller
         }
 
         $valid = $request->validate([
-            'title' => 'nullable',
+            'title' => 'nullable|max:500',
             'tags' => 'required|array|between:1,12',
             'problem' => 'nullable',
             'question' => 'nullable',

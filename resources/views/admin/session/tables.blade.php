@@ -86,7 +86,7 @@
 
                         </td>
                         <td class="datatable-cell text-center">
-                            <span>{{ $curt->status=='accept'?           __('sentences.accept'):   __('sentences.reject') }}
+                            <span>{{       __('arr.'.$curt->status) }}
                             </span>
                         </td>
                         <td class="datatable-cell text-center">

@@ -163,7 +163,7 @@
                                 <tr class="datatable-row" style="left: 0px;">
                                     <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$user->name}} </span></td>
-                                    <td class="datatable-cell text-center"><span>{{$user->family}} {{$user->level}} </span></td>
+                                    <td class="datatable-cell text-center"><span>{{$user->family}} </span></td>
                                     <td class="datatable-cell text-center"><span>
                                         @role('admin')
                                         {{$user->mobile}}
