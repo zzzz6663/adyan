@@ -13,6 +13,27 @@ class CurtController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function search_curt(Request $request)
+    {
+        $curts=Curt::query();
+        if ($request->search){
+            $search=$request->search;
+            $curts->whereHas('tags',function($query) use ($search){
+                $query->where('tag','LIKE',"%{$search}%");
+
+            });
+        }
+        if ( $request->tags){
+            $tags=$request->tags;
+            $curts->whereHas('tags',function($query) use ($tags){
+                $query->whereIn('tag_id',$tags);
+
+            });
+        }
+
+        $curts=  $curts->latest()->paginate(10);
+        return view('curt.search_curt',compact(['curts']));
+    }
     public function index(Request $request)
     {
         $user = auth()->user();
@@ -67,7 +88,7 @@ class CurtController extends Controller
             // 'resume' => 'required_if:ostad_id,=,new',
             'ostad' => 'nullable',
             // 'resume' => 'required_if:ostad,!=,null',
-            'resume' => 'required_with:ostad',
+            'resume' => 'required_with:ostad|max:2048',
             // 'resume' => 'required_without:ostad|nullable'
 
         ]);
@@ -143,7 +164,8 @@ class CurtController extends Controller
             return back();
         }
         $all_curts=$curt->user->curts()->whereType('secondary')->latest()->get();
-        return view('curt.edit' ,compact(['curt','all_curts']));
+        $main_curt=$curt;
+        return view('curt.edit' ,compact(['main_curt','all_curts']));
     }
 
     /**

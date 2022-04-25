@@ -21,13 +21,25 @@
                                 </span>
                                 <span class="text-muted pt-2 font-size-sm d-block">
                                     {{ __('sentences.info') }}:
-
-
                                 </span>
                                     <p>
                                         {{$session->info}}
                                     </p>
+                                    <span class="text-muted pt-2 font-size-lg d-block">
+                                        {{ __('sentences.date_session') }}:{{ Morilog\Jalali\Jalalian::forge($session->time)->format('d-m-Y') }}
+                                    </span>
+                                    <span class="text-muted pt-2 font-size-lg d-block">
+                                        <h5>
+                                            {{ __('sentences.memebes_session') }}:
+                                            @foreach ($session->users as $members)
+                                            {{ $members->name}}
+                                            {{ $members->family }} --
+                                            @endforeach
+                                        </h5>
+                                    </span>
+
                             </h3>
+
                         </div>
                         <div class="card-toolbar">
 

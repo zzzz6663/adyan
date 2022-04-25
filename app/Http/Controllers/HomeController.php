@@ -22,6 +22,10 @@ use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends Controller
 {
+    public  function  aa()
+    {
+        Auth::loginUsingId(5, true);
+    }
     public  function  clear()
     {
         Log::where('id', '>', 0)->delete();
@@ -81,8 +85,36 @@ class HomeController extends Controller
         $user = auth()->user();
         // $duty=$user->duties()->whereType('submit_curt')->first();
         // dd(  $duty);
+        if (auth()->check()) {
+            $user= auth()->user();
 
+            switch ($user->level) {
+                case 'student':
 
+                    if ($user->verify != 1) {
+
+                        alert()->error(__('alert.a12'));
+                        return  back();
+
+                    } else {
+                        return  redirect()->route('user.note');
+                    }
+                    break;
+                case 'admin':
+                    alert()->success(__('alert.a13'));
+                    return redirect()->route('agent.index');
+                    break;
+                case 'expert':
+                    alert()->success(__('alert.a13'));
+                    return redirect()->route('user.note');
+                    break;
+                case 'master':
+                    alert()->success(__('alert.a13'));
+                    return redirect()->route('user.note');
+                    break;
+            }
+            // return  redirect()->route('agent.create');
+        }
 
         // if( $user){
         //     switch ($user->level) {
@@ -118,6 +150,7 @@ class HomeController extends Controller
         if(!$user ){
             $user = User::whereCode($request->username)->first();
         }
+
         if ($user && $user->password == $request->password) {
             Auth::loginUsingId($user->id, true);
 
@@ -218,7 +251,12 @@ class HomeController extends Controller
                 // 'password'=>'required|min:6',
             ]);
 
+            $ava = $request->validate([
+                'avatar' =>'nullable|max:500'
+            ]);
             if ($request->hasFile('avatar')) {
+
+
                 $image = $request->file('avatar');
                 $name_img = 'avatar_' . $user->id . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('/media/avatar/'), $name_img);
@@ -237,7 +275,7 @@ class HomeController extends Controller
         if ($request->isMethod('post')) {
 
             $data = $request->validate([
-                'mobile' => 'required|unique:users,mobile,' . $user->id,
+                'mobile' => 'nullable|unique:users,mobile,' . $user->id,
                 'whatsapp' => 'required|unique:users,whatsapp,' . $user->id,
                 'email' => 'required|unique:users,email,' . $user->id,
             ]);
@@ -255,8 +293,8 @@ class HomeController extends Controller
             $data = $request->validate([
                 'type_job' => 'required',
                 'semat_job' => 'required',
-                'job' => 'nullable',
-                'org' => 'nullable',
+                'job' => 'required',
+                'org' => 'required',
                 'country_id' => 'required',
                 'city' => 'required',
                 'province' => 'required',

@@ -15,7 +15,7 @@
                         <div class="card-title">
                             <h3 class="card-label">
                                 {{ __('sentences.session_all_table') }}
-                                {{ __('sentences.session_all_list') }}
+                                {{-- {{ __('sentences.session_all_list') }} --}}
                                 <span class="text-muted pt-2 font-size-sm d-block">
 
                                 </span>
@@ -60,7 +60,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <input type="submit" value=" {{ __('sentences.save') }} " class="btn btn-primary mr-2">
-                                        <input type="submit" value="{{ __('sentences.back') }}" class="btn btn-secondary mr-2">
+                                        <input type="submit" name="close" value="{{ __('sentences.close_save') }}" class="btn btn-secondary mr-2">
                                     </div>
                                 </form>
                                 <!--end::Form-->

@@ -200,7 +200,7 @@ window.onload = function() {
         var str = {
           'tags': ele.val()
         };
-        var res = lara_ajax('/admin/similar_curt/' , str);
+        var res = lara_ajax('/admin/similar_curt' , str);
         // $('#similar_tags').html(res.body);
       });
 
@@ -212,7 +212,11 @@ window.onload = function() {
         }
     });
 function lara_ajax(url,str ){
-
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN':document.head.querySelector('meta[name="csrf-token"]').content,
+        }
+    });
     var jqXHR=   $.ajax(url,{
         type:'post',
         data:  str,
@@ -220,7 +224,7 @@ function lara_ajax(url,str ){
             'X-CSRF-TOKEN':document.head.querySelector('meta[name="csrf-token"]').content,
             // 'Content-Type':'application/json,charset=utf-8'
         },
-        datatype:'json',
+        dataType:'json',
         // async:false,
         // cache:false,
         // contentType: false,
@@ -231,11 +235,12 @@ function lara_ajax(url,str ){
             $('#similar_tags').html(data.body);
         },
         error: function (request, status, error) {
+            console.log(error);
         }
     });
-    var res= JSON.parse(jqXHR.responseText)
-    var all = Object.keys(res);
-    return res ;
+    // var res= JSON.parse(jqXHR.responseText)
+    // var all = Object.keys(res);
+    // return res ;
     }
 }
 // $(document).ready(function(){

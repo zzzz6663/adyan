@@ -31,7 +31,7 @@
                                             <br>
                                     <!--begin::ویزارد گام 1-->
                                     <div class="row">
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>    {{__('sentences.title')}}  </label>
                                                 <input type="text"
@@ -44,7 +44,7 @@
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>       {{__('sentences.tags')}}    </label>
@@ -70,7 +70,7 @@
                                             <!--end::ورودی-->
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>    {{__('sentences.en_title')}}  </label>
                                                 <input type="text" value="{{old('en_title')}}" class="form-control" name="en_title"
@@ -81,7 +81,7 @@
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <!--begin::ورودی-->
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>       {{__('sentences.en_tags')}}    </label>
@@ -107,81 +107,81 @@
                                             <!--end::ورودی-->
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>    {{__('sentences.necessity')}}         </label>
                                                 <textarea class="form-control"  name="necessity" rows="3">{{old('necessity')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>    {{__('sentences.problem')}}     </label>
                                                 <textarea class="form-control"  name="problem" rows="3">{{old('problem')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.question')}}  </label>
                                                 <textarea class="form-control"  name="question" rows="3">{{old('question')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.sub_question')}}  </label>
                                                 <textarea class="form-control"  name="sub_question" rows="3">{{old('sub_question')}}</textarea>
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.hypo')}}    </label>
                                                 <textarea class="form-control" name="hypo" rows="3">{{old('hypo')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.theory')}}    </label>
                                                 <textarea class="form-control" name="theory" rows="3">{{old('theory')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.structure')}}    </label>
                                                 <textarea class="form-control" name="structure" rows="3">{{old('structure')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.method')}}    </label>
                                                 <textarea class="form-control" name="method" rows="3">{{old('method')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.source')}}    </label>
                                                 <textarea class="form-control" name="source" rows="3">{{old('source')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.concepts')}}    </label>
                                                 <textarea class="form-control" name="concepts" rows="3">{{old('concepts')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.goals')}}    </label>
                                                 <textarea class="form-control" name="goals" rows="3">{{old('goals')}}</textarea>
                                             </div>
                                         </div>
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.history')}}    </label>
                                                 <textarea class="form-control" name="history" rows="3">{{old('history')}}</textarea>
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-6">
+                                        <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>     {{__('sentences.report_plan')}}    </label>
                                                 <input type="file"  class="form-control" name="report" id="report_plan">

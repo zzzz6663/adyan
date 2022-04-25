@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/admin_login','HomeController@admin_login')->name('admin.login');
 
 Route::group(['middleware' => ['check_language']], function () {
+    Route::get('/aa','HomeController@aa')->name('home.aa') ;
     Route::get('/clear','HomeController@clear')->name('home.clear') ;
     Route::get('/','HomeController@index')->name('login') ;
     Route::post('/signin','HomeController@signin')->name('user.signin') ;
@@ -44,6 +45,9 @@ Route::middleware(['auth','check_language'])->group(function(){
     Route::any('/edit_profile/{user}','admin\AgentController@edit_profile')->name('user.edit.profile') ;
 });
 
+Route::middleware(['auth','role:master','check_language'])->group(function(){
+    Route::get('/search_curt','CurtController@search_curt')->name('search.curt')->middleware(['role:master','admin_group']);;
+});
 Route::middleware(['auth','role:student|admin','check_language'])->group(function(){
     Route::any('/register2','HomeController@register2')->name('user.register2') ;
     Route::any('/register3','HomeController@register3')->name('user.register3') ;
@@ -79,16 +83,17 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
 
 
 Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(function(){
-    Route::get('/similar_tags','AdminController@similar_tags')->name('admin.similar.tags');
+    Route::any('/similar_tags','AdminController@similar_tags')->name('admin.similar.tags');
     Route::get('/curt','AdminController@curt')->name('admin.curt');
     Route::get('/my_mission','AdminController@my_mission')->name('admin.my.mission')->middleware(['role:master']);
-    Route::get('/group_mission/{group?}','AdminController@group_mission')->name('admin.group.mission')->middleware(['role:expert']);
+    Route::get('/group_mission/{group?}','AdminController@group_mission')->name('admin.group.mission')->middleware(['role:expert|master','admin_group']);
+
 
     Route::get('/show_curt/{curt}/{duty?}','AdminController@show_curt')->name('admin.show.curt');
     Route::get('/show_plan/{plan}/{duty?}','AdminController@show_plan')->name('admin.show.plan');
     Route::get('/see_profile_before_verify_student/{user}/{duty}','AdminController@see_profile_before_verify_student')->middleware(['role:expert'])->name('admin.see.profile.verify.student');
     Route::post('/verify_student/{user}/{duty}','AdminController@verify_student')->middleware(['role:expert'])->name('admin.verify.student');
-    Route::any('/similar_curt','AdminController@similar_curt')->middleware(['role:master|expert'])->name('admin.similar.curt');
+    Route::post('/similar_curt','AdminController@similar_curt')->name('admin.similar.curt');
     Route::post('/admin_curt_submit/{curt}','AdminController@admin_curt_submit')->middleware(['role:expert|master'])->name('admin.curt.submit');
     Route::post('/admin_plan_submit/{plan}','AdminController@admin_plan_submit')->middleware(['role:expert|master'])->name('admin.plan.submit');
     Route::post('/admin_plan_confirm/{plan}','AdminController@admin_plan_confirm')->middleware(['role:master'])->name('admin.plan.confirm');
@@ -98,7 +103,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::any('/define_guid/{curt}','AdminController@define_guid')->middleware(['role:master'])->name('admin.define.guid');
     Route::any('/basic_info1','AgentController@basic_info1')->middleware(['role:admin'])->name('admin.basic.info1');
     Route::any('/basic_info2/{curt?}','AgentController@basic_info2')->middleware(['role:admin'])->name('admin.basic.info2');
-    Route::get('/masters','AgentController@masters')->middleware(['role:admin|student'])->name('agent.masters');
+    Route::get('/masters','AgentController@masters')->middleware(['role:admin|master|expert','admin_group'])->name('agent.masters');
     Route::get('/profile/{user}','AgentController@profile')->name('agent.profile');
     Route::get('/statement','AgentController@statement')->middleware(['role:master'])->name('agent.statement');
     Route::get('/statement_pdf/{curt}','AgentController@statement_pdf')->middleware(['role:master'])->name('agent.statement.pdf');
@@ -110,18 +115,18 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::post('default_quiz', 'QuizController@default_quiz')->middleware(['role:admin'])->name('admin.default.quiz');
     Route::resource('quiz', 'QuizController')->middleware(['role:expert|admin']);
     Route::resource('quiz.question', 'QuestionController')->middleware(['role:expert|admin']);
-    Route::resource('survey', 'SurveyController')->middleware(['role:master|admin']);
+    Route::resource('survey', 'SurveyController')->middleware(['role:master|admin','admin_group']);
     Route::get('session_confirm_show/{session}', 'SessionController@session_confirm_show')->middleware(['role:master'])->name('session.confirm.show');
     Route::post('session_confirm/{session}', 'SessionController@session_confirm')->middleware(['role:master'])->name('session.confirm');
     Route::get('all_session', 'SessionController@all_session')->middleware(['role:admin|master'])->name('admin.all.session');
     Route::get('session/result/{session}', 'SessionController@result')->middleware(['role:admin|master'])->name('admin.session.result');
-    Route::get('all_subjects', 'SubjectController@all_subjects')->middleware(['role:expert|master'])->name('admin.all.subject');
+    Route::get('all_subjects', 'SubjectController@all_subjects')->middleware(['role:expert|master','admin_group'])->name('admin.all.subject');
     Route::resource('tag', 'TagController')->middleware(['role:expert|admin']);
 });
 
 Route::prefix('master')->namespace('admin')->middleware([ 'auth'])->group(function(){
     Route::get('/groups','MasterController@groups')->name('master.groups')->middleware(['role:master']);
-    Route::resource('session', 'SessionController')->middleware(['role:master|admin']);
+    Route::resource('session', 'SessionController')->middleware(['role:master|admin','admin_group']);
     Route::resource('subject', 'SubjectController')->middleware(['role:master']);
 
 });

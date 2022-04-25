@@ -18,7 +18,7 @@
                             </div>
 
                             <div class="symbol symbol-50 symbol-lg-120 symbol-primary d-none">
-                                <span class="font-size-h3 symbol-label font-weight-boldest">JMddddddddddd</span>
+                                <span class="font-size-h3 symbol-label font-weight-boldest"></span>
                             </div>
                         </div>
                         <!--end: Pic-->
@@ -128,17 +128,22 @@
                             <!--begin: Content-->
                             <h3>{{$main_curt->title}}</h3>
                             <div class="d-flex align-items-center flex-wrap justify-content-between">
+                                <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
+                                    {{__('sentences.master_guid')}}:
+                                    {{$main_curt->master_id ?$main_curt->master()->name.' '.$main_curt->master()->family:''}}
+                                </div>
+                                <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
+                                    {{__('sentences.group')}}:
+                                    {{$main_curt->group_id ?$main_curt->group->name:''}}
+                                </div>
 
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
                                     {{__('sentences.guid')}}:
                                     {{$main_curt->guid_id ?$main_curt->guid->name.' '.$main_curt->guid->family:''}}
                                 </div>
-                                <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
-                                    {{__('sentences.master_guid')}}:
-                                    {{$main_curt->master_id ?$main_curt->master->name.' '.$main_curt->master->family:''}}
-                                </div>
 
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
+                                    {{__('sentences.tags')}}:
                                     @foreach ($main_curt->tags as $tag )
                                     <span class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
                                         {{$tag->tag }}
@@ -153,7 +158,7 @@
                                             <span
                                                 class="btn btn-sm btn-text btn-light-primary text-uppercase font-weight-bold">
                                                 {{
-                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at)->addDays(0))->format('Y-m-d')
+                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at))->format('Y-m-d')
                                                 }}
                                             </span>
                                         </div>
@@ -161,18 +166,19 @@
                                             <div class="font-weight-bold mb-2">     {{__('sentences.last_group_review')}}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
-                                                {{
-                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at)->addDays(10))->format('Y-m-d')
-                                                }}
+                                            @if ($main_curt->last_group_review())
+                                            {{$main_curt->last_group_review()}}
+                                            @endif
+
                                             </span>
                                         </div>
                                         <div class="">
                                             <div class="font-weight-bold mb-2">     {{__('sentences.last_edit_student')}}</div>
                                             <span
                                                 class="btn btn-sm btn-text btn-light-danger text-uppercase font-weight-bold">
-                                                {{
-                                                Morilog\Jalali\Jalalian::forge(Carbon\Carbon::parse($main_curt->created_at)->addDays(10))->format('Y-m-d')
-                                                }}
+                                                @if ($main_curt->last_edit_student())
+                                                {{$main_curt->last_edit_student()}}
+                                                @endif
                                             </span>
                                         </div>
                                     </div>
@@ -181,30 +187,34 @@
                             </div>
                             <!--end: Content-->
                             <div class="row">
+                                @if ($main_curt->history)
+                                <div class="col-lg-6">
+                                    <h5>
+                                        {{__('sentences.history_more')}}
+                                    </h5>
+                                    <p style="background:#f5f5f5">
+                                        {{$main_curt->history}}
+                                    </p>
+                                </div>
+                                @endif
+                                {{-- <div class="col-lg-6">
+                                    <h5>
+                                        {{__('sentences.special_note')}}
+                                    </h5>
+                                    <p style="background:#f5f5f5">
+                                        {{$main_curt->note}}
+                                    </p>
+                                </div> --}}
+                                @if ($main_curt->fail_reason)
                                 <div class="col-lg-6">
                                     <h5>
                                         {{__('sentences.fail_reason')}}
                                     </h5>
-                                    <p>
+                                    <p style="background:#f5f5f5">
                                         {{$main_curt->fail_reason}}
                                     </p>
                                 </div>
-                                <div class="col-lg-6">
-                                    <h5>
-                                        {{__('sentences.history')}}
-                                    </h5>
-                                    <p>
-                                        {{$main_curt->history}}
-                                    </p>
-                                </div>
-                                <div class="col-lg-6">
-                                    <h5>
-                                        {{__('sentences.note')}}
-                                    </h5>
-                                    <p>
-                                        {{$main_curt->note}}
-                                    </p>
-                                </div>
+                                @endif
 
                             </div>
                         </div>
@@ -340,11 +350,11 @@
                             <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
                                 <div class="col-xl-12 col-xxl-7">
                                     <!--begin::ویزارد Form-->
-                                    <h1>
+                                    {{-- <h1>
                                         {{__('sentences.show_curt')}}
 
                                         {{$main_curt->title}}
-                                    </h1>
+                                    </h1> --}}
                                     <br>
                                     @if ($session)
                                             <input type="text" hidden value="{{$session}}" name="session_id">
@@ -352,15 +362,15 @@
                                     <br>
                                     <!--begin::ویزارد گام 1-->
                                     <div class="row">
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-12 mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.title')}}
 
                                                 </label>
-                                                <h2>
+                                                 <h4 class="mt-3 mb-6" style="background:#f5f5f5; line-height:1.5em; justify-content: center;">
                                                     {{$main_curt->title}}
-                                                </h2>
+                                                </h4>
                                                 <textarea name="title" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
                                                     <span class="show btn btn-success font-weight-bolder font-size-sm">
@@ -385,17 +395,16 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-12 mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.tags')}}
-
                                                 </label>
-                                                <h2>
+                                                 <h6 class="mt-3 mb-6" style="background:#f5f5f5; line-height:1.5em; justify-content: center;">
                                                     @foreach ($main_curt->tags as $tag )
                                                     {{$tag->tag }} -
                                                     @endforeach
-                                                </h2>
+                                                </h6>
                                                 <textarea name="tag" class="form-control hide inp" id="title" cols="30"
                                                     rows="6"></textarea>
                                                     <span class="show btn btn-success font-weight-bolder font-size-sm">
@@ -417,14 +426,14 @@
                                                    </ul>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-12 mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.problem')}}
                                                 </label>
-                                                <h2>
+                                                 <h6 class="mt-3 mb-6" style="background:#f5f5f5; line-height:1.5em; justify-content: center;">
                                                     {{$main_curt->problem}}
-                                                </h2>
+                                                </h6>
                                                 <textarea name="problem" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
                                                     <span class="show btn btn-success font-weight-bolder font-size-sm">
@@ -446,14 +455,14 @@
                                                     </ul>
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-12 mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.question')}}
                                                 </label>
-                                                <h2>
+                                                 <h6 class="mt-3 mb-6" style="background:#f5f5f5; line-height:1.5em; justify-content: center;">
                                                     {{$main_curt->question}}
-                                                </h2>
+                                                </h6>
                                                 <textarea name="question" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
                                                     <span class="show btn btn-success font-weight-bolder font-size-sm">
@@ -473,14 +482,14 @@
                                                    @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-12 mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.necessity')}}
                                                 </label>
-                                                <h2>
+                                                 <h6 class="mt-3 mb-6" style="background:#f5f5f5; line-height:1.5em; justify-content: center;">
                                                     {{$main_curt->necessity}}
-                                                </h2>
+                                                </h6>
                                                 <textarea name="necessity" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
                                                     <span class="show btn btn-success font-weight-bolder font-size-sm">
@@ -500,14 +509,14 @@
                                                    @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-12 mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.innovation')}}
                                                 </label>
-                                                <h2>
+                                                 <h6 class="mt-3 mb-6" style="background:#f5f5f5; line-height:1.5em; justify-content: center;">
                                                     {{$main_curt->innovation}}
-                                                </h2>
+                                                </h6>
 
                                                 <textarea name="innovation" class="form-control hide inp" id="title"
                                                     cols="30" rows="6"></textarea>
@@ -528,7 +537,9 @@
                                                    @endforeach
                                             </div>
                                         </div>
-                                        <div class="col-xl-12 par">
+
+
+                                        <div class="col-xl-12   bg-light  mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
                                                     {{__('sentences.snote')}}
@@ -550,58 +561,15 @@
                                                      {{$curt->note}}
                                                      </li>
                                                     @endif
-                                                @endforeach
+                                                     @endforeach
                                                   </ul>
                                             </div>
                                         </div>
-                                        @if (!$main_curt->guid_id)
-                                            @role('master')
-                                            <div class="col-xl-12">
-                                                <div class="form-group fv-plugins-icon-container">
-                                                    <label>
-                                                        {{__('sentences.select_guid_master')}}
-                                                    </label>
-                                                    <select name="guid_id" id="" class="form-control  select2">
-                                                        <option value="">{{__('sentences.select_one')}} </option>
-                                                        @foreach (App\Models\User::where('level','master')->get() as $master
-                                                        )
-                                                        <option  {{old('guid_id')==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}}
-                                                            {{$master->family}}</option>
-                                                        @endforeach
-                                                    </select>
-
-                                                </div>
-                                            </div>
-                                            @endrole
-                                        @endif
-                                        @if (!$main_curt->master_id)
-                                        <div class="col-xl-12 par">
-                                            <div class="form-group fv-plugins-icon-container">
-                                                <label>
-                                                    @if ($main_curt->ostad())
-
-                                                    {{__('sentences.suggested_master_list')}}
-                                                    {{$main_curt->ostad()->name}}
-                                                    {{$main_curt->ostad()->family}}
-
-                                                    @endif
-                                                    <br>
-                                                    @if ($main_curt->ostad)
-                                                    {{__('sentences.suggested_master_out_list')}}
-                                                        {{$main_curt->ostad}}
-
-                                                        <a target="_blank" href="{{$main_curt->resume()}}" class="btn btn-danger">   {{__('sentences.download_resume')}}  </a>
-
-                                                    @endif
 
 
-                                                </label>
-
-                                            </div>
-                                        </div>
                                             @if (!$main_curt->master_id)
                                             @role('master')
-                                            <div class="col-xl-12">
+                                            <div class="col-xl-6  bg-light ">
                                                 <div class="form-group fv-plugins-icon-container">
                                                     <label>
 
@@ -622,10 +590,32 @@
                                             </div>
                                             @endrole
                                             @endif
-                                        @endif
 
 
-                                        <div class="col-xl-12
+
+                                            @if (!$main_curt->guid_id)
+                                            @role('master')
+                                            <div class="col-xl-6  bg-light ">
+                                                <div class="form-group fv-plugins-icon-container">
+                                                    <label>
+                                                        {{__('sentences.select_guid_master')}}
+                                                    </label>
+                                                    <select name="guid_id" id="" class="form-control  select2">
+                                                        <option value="">{{__('sentences.select_one')}} </option>
+                                                        @foreach (App\Models\User::where('level','master')->get() as $master
+                                                        )
+                                                        <option  {{old('guid_id')==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}}
+                                                            {{$master->family}}</option>
+                                                        @endforeach
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            @endrole
+                                            @endif
+
+
+                                        <div class="col-xl-12  bg-light
                                         @hasrole('expert|master')
                                         @else
                                         height0
@@ -644,9 +634,7 @@
                                             </div>
                                             <!--end::ورودی-->
                                         </div>
-                                        <div class="co-xl-12">
-                                            <div id="similar_tags"></div>
-                                        </div>
+
 
 
 
@@ -684,7 +672,7 @@
                                         @endif
 
 
-                                        <div class="col-xl-12 par">
+                                        <div class="col-xl-12  bg-success   par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
 
@@ -706,6 +694,12 @@
                                                             {{__('sentences.accept_curt')}}
                                                          </option>
                                                             @endrole
+
+                                                        @role('expert')
+                                                        <option {{old('pass_to_group')=='accept' ?'selected':''}} value="pass_to_group">
+                                                            {{__('sentences.pass_to_group')}}
+                                                         </option>
+                                                            @endrole
                                                 </select>
 
                                             </div>
@@ -719,7 +713,9 @@
 
                                     </div>
 
-
+                                    <div class="co-xl-12">
+                                        <div id="similar_tags"></div>
+                                    </div>
                                     <!--begin::ویزارد اقدامات-->
                                     <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                         {{-- <div>

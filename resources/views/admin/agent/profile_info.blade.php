@@ -19,14 +19,8 @@
                                     class="symbol text-center mb-10 symbol-60 symbol-xxl-100 mr-5 align-self-start align-self-xxl-center">
                                     <div class="symbol-label" style="background-image:url('{{ $user->avatar() }}')">
                                     </div>
-                                    @if ($user->level=='student')
 
-                                    <h4 class="font-weight-bold my-2">
-                                        {{ __('sentences.last_status' ) }}
-                                                    :
-                                        {{ __('sentences.' . $user->status) }}
-                                    </h4>
-                                    @endif
+
 
                                     <i class="symbol-badge bg-success"></i>
                                 </div>
@@ -50,6 +44,14 @@
                             <!--end::User-->
 
                             <!--begin::مخاطب-->
+                            @if ($user->level=='student')
+
+                            <h4  class="font-weight-bold my-2 bg-success">
+                                {{ __('sentences.last_status' ) }}
+                                            :
+                                {{ __('sentences.' . $user->status) }}
+                            </h4>
+                            @endif
                             <div class="pt-8 pb-6">
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
@@ -64,6 +66,7 @@
                                         {{ $user->mobile }}
                                     </span>
                                 </div>
+
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
                                         {{ __('sentences.code') }} :</span>
@@ -71,6 +74,7 @@
                                         {{ $user->code }}
                                     </span>
                                 </div>
+                                @if ($user->level =='student')
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
                                         {{ __('sentences.group') }} :</span>
@@ -113,7 +117,7 @@
                                         {{ $user->org }}
                                     </span>
                                 </div>
-                                @role('srudent')
+                                @if ($user->country)
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
                                         {{ __('sentences.country') }} :</span>
@@ -121,7 +125,8 @@
                                         {{ $user->country->fa_name }}
                                     </span>
                                 </div>
-                                @endrole
+                                @endif
+
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
                                         {{ __('sentences.defend_status') }} :</span>
@@ -130,7 +135,6 @@
                                         {{ $user->defend=='0'?              __('sentences.undefended') :'' }}
                                     </span>
                                 </div>
-
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
                                         {{ __('sentences.province') }} :</span>
@@ -159,6 +163,11 @@
                                         {{ $user->master_course }}
                                     </span>
                                 </div>
+                                @endif
+
+
+                                @if ($user->level !='student')
+
                                 <div class="d-flex align-items-center justify-content-between mb-2">
                                     <span class="font-weight-bold mr-2">
                                         {{ __('sentences.expert_abi') }} :</span>
@@ -173,6 +182,7 @@
                                         {{ $user->course }}
                                     </span>
                                 </div>
+                                @endif
 
 
                             </div>
@@ -662,7 +672,7 @@
 
                                                                 </div>
                                                                 <p class="p-0">
-                                                                    @switch($log->type)
+                                                                    {{-- @switch($log->type)
                                                                     @case('register')
                                                                     {{ __('sentences.register_student_logs', ['name' =>
                                                                     $log->student()->name . ' ' .
@@ -815,7 +825,7 @@
 
                                                                     @break
                                                                     @default
-                                                                    @endswitch
+                                                                    @endswitch --}}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -870,7 +880,6 @@
 
                                                                 </span>
                                                             </th>
-
                                                         </tr>
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
@@ -1264,7 +1273,24 @@
                                                             </th>
                                                             <th class="datatable-cell datatable-cell-sort text-center">
                                                                 <span>
-                                                                    {{ __('sentences.last_change_student_date') }}
+                                                                    {{ __('sentences.master_guid') }}
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.guid') }}
+                                                                </span>
+                                                            </th>
+
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.down_date') }}
+
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.defend_status') }}
 
                                                                 </span>
                                                             </th>
@@ -1278,13 +1304,15 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
-                                                        @foreach ($user->master_curts()->whereType('primary')->get() as $mastercrut)
+                                                        @foreach (App\Models\Curt::whereType('primary')->where('master_id',$user->id)->orWhere('guid_id',$user->id)->get() as $mastercrut)
                                                         <tr class="datatable-row" style="left: 0px;">
                                                             <td class="datatable-cell text-center">
                                                                 <span>{{ $loop->iteration }} </span>
                                                             </td>
                                                             <td class="datatable-cell text-center">
-                                                                <span>{{ $mastercrut->title }} </span>
+                                                                <span>
+                                                                    {{ $mastercrut->title }}
+                                                                 </span>
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>
@@ -1294,21 +1322,40 @@
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>
-                                                                    @if ($last_curt=$mastercrut->user->curts()->latest()->first())
+                                                                    @if ($mastercrut->master_id)
+                                                                    {{ $mastercrut->master()->name }}
+                                                                    {{ $mastercrut->master()->family }}
+                                                                    @endif
 
-                                                                    {{Morilog\Jalali\Jalalian::forge($last_curt->created_at)->format('Y-m-d')}}
-                                                                @endif
-
-                                                                </span>
+                                                                 </span>
                                                             </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>
+                                                                    @if ($mastercrut->guid_id)
+                                                                    {{ $mastercrut->guid->name }}
+                                                                    {{ $mastercrut->guid->family }}
+                                                                    @endif
 
+                                                                 </span>
+                                                            </td>
 
                                                             <td class="datatable-cell text-center">
-                                                                <span>{{
-                                                                    Morilog\Jalali\Jalalian::forge($mastercrut->created_at)->format('Y-m-d')
-                                                                    }}
+                                                                <span>
+                                                                    @if ($mastercrut->down)
+                                                                    {{
+                                                                        Morilog\Jalali\Jalalian::forge($mastercrut->down)->format('Y-m-d')
+                                                                        }}
+                                                                    @endif
+
                                                                 </span>
                                                             </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>
+                                                                    {{ $mastercrut->user->defend=='1'?             __('sentences.defended')  : __('sentences.undefended') }}
+                                                                </span>
+                                                            </td>
+
+
                                                             <td class="datatable-cell text-center">
                                                                 {{-- <a class="btn btn-outline-primary"
                                                                     href="{{ route('survey.show', $mastercrut->id) }}">مشاهده</a> --}}
@@ -1351,7 +1398,23 @@
                                                             </th>
                                                             <th class="datatable-cell datatable-cell-sort text-center">
                                                                 <span>
-                                                                    {{ __('sentences.last_change_student_date') }}
+                                                                    {{ __('sentences.master_guid') }}
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.guid') }}
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.down_date') }}
+
+                                                                </span>
+                                                            </th>
+                                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                                <span>
+                                                                    {{ __('sentences.defend_status') }}
 
                                                                 </span>
                                                             </th>
@@ -1365,7 +1428,9 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
-                                                        @foreach ($user->master_plans()->whereType('primary')->get() as $masterplan)
+                                                        @foreach (App\Models\Plan::whereType('primary')->where('master_id',$user->id)->orWhere('guid_id',$user->id)->get() as $masterplan)
+
+                                                        {{-- @foreach ($user->master_plans()->whereType('primary')->get() as $masterplan) --}}
                                                         <tr class="datatable-row" style="left: 0px;">
                                                             <td class="datatable-cell text-center">
                                                                 <span>{{ $loop->iteration }} </span>
@@ -1381,21 +1446,41 @@
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>
-                                                                    @if ($last_plan=$masterplan->user->plans()->latest()->first())
+                                                                    @if ($masterplan->master_id)
+                                                                    {{ $masterplan->master->name }}
+                                                                    {{ $masterplan->master->family }}
+                                                                    @endif
 
-                                                                    {{Morilog\Jalali\Jalalian::forge($last_plan->created_at)->format('Y-m-d')}}
-                                                                @endif
+                                                                 </span>
+                                                            </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>
+                                                                    @if ($masterplan->guid_id)
+                                                                    {{ $masterplan->guid->name }}
+                                                                    {{ $masterplan->guid->name }}
+                                                                    {{ $masterplan->guid->family }}
+                                                                    @endif
 
-                                                                </span>
+                                                                 </span>
                                                             </td>
 
 
                                                             <td class="datatable-cell text-center">
-                                                                <span>{{
-                                                                    Morilog\Jalali\Jalalian::forge($masterplan->created_at)->format('Y-m-d')
-                                                                    }}
+                                                                <span>  @if ($mastercrut->down)
+                                                                    {{
+                                                                        Morilog\Jalali\Jalalian::forge($mastercrut->down)->format('Y-m-d')
+                                                                        }}
+                                                                        @endif
                                                                 </span>
                                                             </td>
+                                                            <td class="datatable-cell text-center">
+                                                                <span>
+                                                                    {{ $masterplan->user->defend=='1'?             __('sentences.defended')  : __('sentences.undefended') }}
+
+
+                                                                </span>
+                                                            </td>
+
                                                             <td class="datatable-cell text-center">
                                                                 {{-- <a class="btn btn-outline-primary"
                                                                     href="{{ route('survey.show', $mastercrut->id) }}">مشاهده</a> --}}

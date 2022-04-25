@@ -25,7 +25,12 @@
                     </th>
                     <th class="datatable-cell datatable-cell-sort text-center">
                         <span>
-                            {{ __('sentences.master') }}
+                            {{ __('sentences.master_guid') }}
+                        </span>
+                    </th>
+                    <th class="datatable-cell datatable-cell-sort text-center">
+                        <span>
+                            {{ __('sentences.guid') }}
                         </span>
                     </th>
                     <th class="datatable-cell datatable-cell-sort text-center">
@@ -36,7 +41,7 @@
 
                     <th class="datatable-cell datatable-cell-sort text-center">
                         <span>
-                            {{ __('sentences.created_at') }}
+                            {{ __('sentences.edit_last_date') }}
                         </span>
                     </th>
                     <th class="datatable-cell datatable-cell-sort text-center">
@@ -62,15 +67,33 @@
                            </a>
                         </td>
 
-                        <td class="datatable-cell text-center"><span>{{ __('arr.' . $curt->level) }}
-                            </span>
+                        <td class="datatable-cell text-center">
+                            @if ($curt->master_id)
+                            <span>
+                                {{ $curt->master()->name }}
+                                {{ $curt->master()->family }}
+                                </span>
+                            @endif
+
+                        </td>
+                        <td class="datatable-cell text-center">
+                            @if ($curt->guid_id)
+                            <span>
+                                {{ $curt->guid->name }}
+                                {{ $curt->guid->family }}
+                                </span>
+                            @endif
+
                         </td>
                         <td class="datatable-cell text-center">
                             <span>{{ $curt->status=='accept'?           __('sentences.accept'):   __('sentences.reject') }}
                             </span>
                         </td>
                         <td class="datatable-cell text-center">
-                            <span>{{ Morilog\Jalali\Jalalian::forge($curt->created_at)->format('Y-m-d') }}
+                            <span>
+                                @if ($curt->last_edit_student())
+                                    {{ $curt->last_edit_student()}}
+                                @endif
                             </span>
                         </td>
 
@@ -147,7 +170,7 @@
                     </th>
                     <th class="datatable-cell datatable-cell-sort text-center">
                         <span>
-                            {{ __('sentences.created_at') }}
+                            {{ __('sentences.edit_last_date') }}
                         </span>
                     </th>
 
@@ -176,13 +199,14 @@
                             </span></td>
                         <td class="datatable-cell text-center">
                             <span>
+                                @if ($subject->user_id)
                                 <a href="{{route('agent.profile',$subject->user->id)}}">
                                     <span>
                                         {{ $subject->user->name }}
                                         {{ $subject->user->family }}
                                     </span>
                                    </a>
-
+                                   @endif
                             </span>
                         </td>
                         <td class="datatable-cell text-center">
@@ -210,7 +234,7 @@
                             </span>
                         </td>
                         <td class="datatable-cell text-center">
-                            <span>{{ Morilog\Jalali\Jalalian::forge($subject->created_at)->format('Y-m-d') }}
+                            <span>{{ Morilog\Jalali\Jalalian::forge($subject->updated_at)->format('Y-m-d') }}
                             </span>
                         </td>
                         @if($show_actions)
@@ -279,7 +303,7 @@
 
                     <th class="datatable-cell datatable-cell-sort text-center">
                         <span>
-                            {{ __('sentences.created_at') }}
+                            {{ __('sentences.edit_last_date') }}
                         </span>
                     </th>
 
@@ -321,7 +345,10 @@
                         </td>
 
                         <td class="datatable-cell text-center">
-                            <span>{{ Morilog\Jalali\Jalalian::forge($plan->plan)->format('Y-m-d') }}
+                            <span>
+                                @if ($plan->last_edit_student())
+                                    {{ $plan->last_edit_student()}}
+                                @endif
                             </span>
                         </td>
                         @if($show_actions)

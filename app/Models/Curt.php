@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Morilog\Jalali\Jalalian;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Curt extends Model
 {
@@ -30,8 +31,10 @@ class Curt extends Model
         'status',//وضعیت مرحله پایان نامه
         'subject_id',//      کلید موضوع مصوب
         'fail_reason',//          دلیل رد طرح در موقع ورود اطلاعات اولیه
+        'down',//تاریخ تایید
        'history',//ااطلاعات گذشته
        'note'//  یادداشت
+
     ];
     public function user()
     {
@@ -52,6 +55,10 @@ class Curt extends Model
     public function operator_curts()
     {
         return $this->belongsTo(User::class,'operator_id')->first();
+    }
+    public function operator()
+    {
+        return $this->belongsTo(User::class,'operator_id');
     }
 
     public function duties()
@@ -79,6 +86,24 @@ class Curt extends Model
     {
         return $this->belongsToMany(Survey::class);
     }
+    public function last_group_review()
+    {
+        if ($this->group && $last_curt=$this->user->curts()->where('operator_id',$this->group->admin()->id)->latest()->first()){
+            return   Jalalian::forge($last_curt->created_at)->format('Y-m-d');
+          }
+        return false;
+
+    }
+    public function last_edit_student()
+    {
+
+        if ($last_curt=$this->user->curts()->latest()->first()){
+            return   Jalalian::forge($last_curt->created_at)->format('Y-m-d');
+          }
+        return false;
+
+    }
+
     public function  resume(){
         if($this->resume){
             return  asset('/media/curt/'.$this->resume);

@@ -92,16 +92,17 @@
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
+                                            {{ __('sentences.master_guid') }}
+                                        </span>
+                                    </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
                                             {{ __('sentences.guid') }}
                                         </span>
                                     </th>
 
 
-                                    <th class="datatable-cell datatable-cell-sort text-center">
-                                        <span>
-                                            {{ __('sentences.master_guid') }}
-                                        </span>
-                                    </th>
+
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.group') }}
@@ -109,7 +110,7 @@
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            {{ __('sentences.created_at') }}
+                                            {{ __('sentences.down_date') }}
                                         </span>
                                     </th>
 
@@ -127,8 +128,14 @@
                                 <tr class="datatable-row" style="left: 0px;">
                                     <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
                                     <td class="datatable-cell text-center"><span>
-                                        {{$curt->user->name}}
-                                        {{$curt->user->family}}
+
+                                        <a href="{{route('agent.profile',$curt->user->id)}}">
+                                            <span>
+                                                {{$curt->user->name}}
+                                                {{$curt->user->family}}
+                                            </span>
+                                           </a>
+
                                     </span></td>
 
                                     <td class="datatable-cell text-center"><span>{{$curt->title}} </span></td>
@@ -160,7 +167,12 @@
 
 
                                     <td class="datatable-cell text-center">
-                                        <span>{{Morilog\Jalali\Jalalian::forge($curt->created_at)->format('Y-m-d')}}
+                                        <span>
+                                            @if ($curt->down)
+                                            {{
+                                                Morilog\Jalali\Jalalian::forge($curt->down)->format('Y-m-d')
+                                                }}
+                                            @endif
                                         </span>
                                     </td>
                                     <td class="datatable-cell text-center">

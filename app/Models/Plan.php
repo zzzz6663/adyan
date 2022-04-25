@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Morilog\Jalali\Jalalian;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Plan extends Model
 {
@@ -37,6 +38,7 @@ class Plan extends Model
         'concepts',// مفاهیم
         'goals',//اهداف
         'history',//پیشینه
+        'down',//تاریخ تایید
     ];
     public function master(){
         return $this->belongsTo(User::class,'master_id');
@@ -74,4 +76,20 @@ class Plan extends Model
     {
         return $this->belongsToMany(Survey::class);
     }
+
+    public function last_group_review()
+    {
+        // if ($this->group && $last_plan=$this->user->plans()->where('operator_id',$this->group->admin()->id)->latest()->first()){
+        //     return   Jalalian::forge($last_plan->created_at)->format('Y-m-d');
+        //   }
+        return false;
+    }
+    public function last_edit_student()
+    {
+        if ($last_plan=$this->user->plans()->latest()->first()){
+            return   Jalalian::forge($last_plan->created_at)->format('Y-m-d');
+          }
+        return false;
+    }
+
 }

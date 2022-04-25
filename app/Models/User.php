@@ -151,18 +151,25 @@ class User extends Authenticatable
     public function master_curts(){
         return $this->hasMany(Curt::class,'master_id');
     }
+    public function curt_master_not_defend_count(){
+        return $this->master_curts()->whereType('primary')->whereHas('user',function($query){
+            $query->whereDefend('0');
+        })->count();
+    }
+
     public function curt_master_count(){
         return $this->master_curts()->whereType('primary')->count();
     }
-    public function plan_master_count(){
-        return $this->master_plans()->whereType('primary')->count();
+    public function curt_guid_not_defend_count(){
+        return $this->guid_curts()->whereType('primary')->whereHas('user',function($query){
+            $query->whereDefend('0');
+        })->count();
     }
+
     public function curt_guid_count(){
         return $this->guid_curts()->whereType('primary')->count();
     }
-    public function plan_guid_count(){
-        return $this->guid_plans()->whereType('primary')->count();
-    }
+
     public function groups()
     {
         return $this->belongsToMany(Group::class);
@@ -335,6 +342,12 @@ class User extends Authenticatable
             return false;
         }
        return  Carbon::now()->diffInDays(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time))>=20??false;
+    }
+    public function is_group_admin (){
+        if($count=Group::where('user_id',$this->id)->count()){
+            return true;
+        }
+        return false;
     }
 
 

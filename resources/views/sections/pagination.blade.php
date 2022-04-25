@@ -1,4 +1,4 @@
- 
+
 
 
 @if ($paginator->lastPage() > 1)

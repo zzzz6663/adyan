@@ -29,9 +29,9 @@ class SubjectController extends Controller
         $subjects=  $subjects->where('master_id',$user->id)->orWhere('old_master_id',$user->id)->latest()->paginate(10);
        }else{
         $subjects=  $subjects->latest()->paginate(10);
-
        }
-        return view('admin.subject.all',compact(['subjects']));
+       $show_chart=true;
+        return view('admin.subject.all',compact(['subjects','show_chart']));
     }
 
     /**

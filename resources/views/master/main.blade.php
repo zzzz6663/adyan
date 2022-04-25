@@ -230,8 +230,8 @@
 <!--end::Page Scripts-->  --}}
 @yield('script')
 
-{{--  <script src="assets/js/pages/custom/login/login-general.js?v=7.0.6"></script>  --}}
-{{--  <scridpt type="text/javascript" src="/js/jquery-2.2.0.min.js"></scridpt>  --}}
+   <script src="assets/js/pages/custom/login/login-general.js?v=7.0.6"></script>
+  <script type="text/javascript" src="/js/jquery-2.2.0.min.js"></script>
 
 
 <script type="text/javascript" src="/js/persian-date.min.js"></script>
@@ -243,7 +243,7 @@
 <script type="text/javascript" src="/js/app.js"></script>
 
 
-<script type="text/javascript" src="/home/js/jquery-2.2.0.min.js"></script>
+{{-- <script type="text/javascript" src="/home/js/jquery-2.2.0.min.js"></script> --}}
 <script type="text/javascript" src="/home/js/persianDatepicker.min.js"></script>
 <script type="text/javascript" src="/home/js/persian-date.min.js"></script>
 <script type="text/javascript" src="/home/js/persian-datepicker.min.js"></script>

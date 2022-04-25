@@ -44,6 +44,8 @@
                                 <form action="{{route('session.confirm',['session'=>$session->id])}}" method="POST">
                                     @csrf
                                     @method('post')
+                                    @if (!isset($hide_note))
+
                                     <div class="card-body">
 
                                         <div class="form-group">
@@ -58,6 +60,8 @@
 
 
                                     </div>
+                                    @endif
+
 
                                     <div class="card-footer">
                                         <input type="submit" name="confirm" value=" {{ __('sentences.confirm') }} " class="btn btn-primary mr-2">

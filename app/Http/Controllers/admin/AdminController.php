@@ -25,6 +25,7 @@ class AdminController extends Controller
         return redirect()->route('agent.all');
         return view('admin.index');
     }
+
     public function similar(Request $request)
     {
         $tags= [ ];
@@ -46,7 +47,7 @@ class AdminController extends Controller
 
                 }
             }
-        })->get();
+        })->whereStatus('accept')->get();
 
         return response()->json([
             'body' => view('curt.similar_tags', compact(['similar_curt' ,'similar_subjects']))->render(),
@@ -104,6 +105,11 @@ class AdminController extends Controller
     public function similar_curt(Request $request )
     {
 
+        // return response()->json([
+        //     'body' => $request->all(),
+        //     'tags'=>$request->tags,
+        //     'sss'=>1222222221
+        // ]);
         $tags=$request->tags;
 
 
@@ -391,7 +397,7 @@ class AdminController extends Controller
             ]
             ,true );
             $plan->user->update_status('booklet');
-
+            $plan->update(['status'=>'accept', 'down' => Carbon::now()]);
         }
 
         $duty = $plan->group->admin()->duties()->where('plan_id', $plan->id)->whereIn('type',['verify_plan_by_master','verify_plan'])->where('time', null)->latest()->first();
@@ -436,7 +442,7 @@ class AdminController extends Controller
 
         $valid = $request->validate([
             'title' => 'nullable',
-      'tags' => 'required|array|between:1,12',
+            'tags' => 'required|array|between:1,12',
             'problem' => 'nullable',
             'question' => 'nullable',
             'necessity' => 'nullable',
@@ -463,11 +469,7 @@ class AdminController extends Controller
         $new_curt = Curt::create($valid);
 
 
-        $curt->update([
-            'status' => 'edit_curt_by_student',
-            'side' => '1',
 
-        ]);
 
         if($user->level == 'expert' && !$curt->group_id){
             $data = $request->validate([
@@ -486,7 +488,7 @@ class AdminController extends Controller
             ], true);
             $ar = array();
             // //اگر طرح در سمت دانشجو نبود یعنی تسکی باید برای مدیر گروه تعریف شود
-            if (!$curt->side) {
+            if ($curt->side || $valid['status']=='pass_to_group') {
                 $ar = ['list'=>[$admin->id]];
             }
             $curt->user->save_duty($ar,
@@ -513,35 +515,60 @@ class AdminController extends Controller
             }
         }
 
-        // ثبت لاگ
-        if ($valid['status'] != 'accept') {
-            $curt->user->save_duty( [],
-            [
-                'type' =>'edit_curt_by_student',
-                'operator_id'=>auth()->user()->id,
-                'curt_id' =>$curt->id
-            ],true);
-            $curt->user->save_log(['admin', 'expert', 'group'],
-            [
-                'type'=>'edit_curt_by_student',
-                'operator_id'=> auth()->user()->id,
-                'curt_id' =>$curt->id
-            ]
-            , true);
 
-        } else {
-            $curt->user->save_log(['admin', 'expert', 'group'],
-            [
-                'type'=>'accept_curt',
-                'operator_id'=> auth()->user()->id,
-                'curt_id' =>$curt->id,
+              // ثبت لاگ
+              switch ($valid['status']){
+                case 'pass_to_group':
+                    $curt->update([
+                        'status' => 'review_curt_by_master',
+                        'side' => '0',
+                    ]);
+                    break;
+                case 'accept':
+                    $curt->update([
+                        'status' => 'edit_curt_by_student',
+                        'side' => '1',
+                        'down' => Carbon::now()
 
-            ]
-            ,true );
+                    ]);
+                    $curt->user->save_log(['admin', 'expert', 'group'],
+                    [
+                        'type'=>'accept_curt',
+                        'operator_id'=> auth()->user()->id,
+                        'curt_id' =>$curt->id,
 
-            $curt->user->save_duty( [],['type'=>'submit_plan'], true);
-            $curt->user->update_status('plan');
-        }
+                    ]
+                    ,true );
+
+                    $curt->user->save_duty( [],['type'=>'submit_plan'], true);
+                    $curt->user->update_status('plan');
+                    $curt->update(['status'=>'accept']);
+                    break;
+                case 'faild':
+                case 'reject':
+                    $curt->update([
+                        'status' => 'edit_curt_by_student',
+                        'side' => '1',
+
+                    ]);
+                    $curt->user->save_duty( [],
+                    [
+                        'type' =>'edit_curt_by_student',
+                        'operator_id'=>auth()->user()->id,
+                        'curt_id' =>$curt->id
+                    ],true);
+                    $curt->user->save_log(['admin', 'expert', 'group'],
+                    [
+                        'type'=>'edit_curt_by_student',
+                        'operator_id'=> auth()->user()->id,
+                        'curt_id' =>$curt->id
+                    ]
+                    , true);
+                    break;
+
+            }
+
+
 
 
         if (isset($valid['master_id'])) {
@@ -576,6 +603,17 @@ class AdminController extends Controller
                 'time' => Carbon::now()
             ]);
         }
+
+        $duty = $user->duties()->where('curt_id', $curt->id)->whereType('verify_curt')->where('time', null)->latest()->first();
+        if ($user->level == 'expert' && $duty) {
+            $duty->update([
+                'time' => Carbon::now()
+            ]);
+        }
+
+
+
+
         if ($request->session_id) {
 
             alert()->success(__('alert.a24'));
@@ -620,11 +658,12 @@ class AdminController extends Controller
         $curts=null;
         $plans=null;
         $group=null;
+        $subjects=null;
         if($request->group_id){
             $group= Group::find($request->group_id);
-            $plans=$group->plans()->whereStatus('accept')->whereType('primary')->latest()->get();
-            $curts=$group->curts()->whereStatus('accept')->whereType('primary')->latest()->get();
-            $subjects=$group->subjects()->whereStatus('1')->latest()->get();
+            $plans=$group->plans()->where('status','!=','accept')->whereType('primary')->latest()->get();
+            $curts=$group->curts()->where('status','!=','accept')->whereType('primary')->latest()->get();
+            $subjects=$group->subjects()->whereStatus(null)->latest()->get();
         }
 
         return view('admin.group.group_mission' ,compact(['user','group','curts','plans','subjects']));

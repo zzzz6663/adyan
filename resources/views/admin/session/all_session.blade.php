@@ -64,6 +64,12 @@
                                             <th class="datatable-cell datatable-cell-sort text-center">
                                                 <span>
 
+                                                    {{ __('sentences.status') }}
+                                                </span>
+                                            </th>
+                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                <span>
+
                                                     {{ __('sentences.created_at') }}
                                                 </span>
                                             </th>
@@ -114,6 +120,11 @@
 
                                                 </span></td>
                                             <td class="datatable-cell text-center">
+                                                <span>
+                                                    {{$usersession->status?__('sentences.closed'):__('sentences.opend')}}
+                                                </span>
+                                            </td>
+                                            <td class="datatable-cell text-center">
                                                 <span>{{
                                                     Morilog\Jalali\Jalalian::forge($usersession->created_at)->format('Y-m-d')
                                                     }}
@@ -121,7 +132,16 @@
                                             </td>
                                             <td>
                                                 <a class="btn btn-outline-primary"
-                                                    href="{{ route('admin.session.result', $usersession->id) }}">مشاهده</a>
+                                                    href="{{ route('admin.session.result', $usersession->id) }}">{{__('sentences.show')}}</a>
+                                                    @if (!$usersession->status)
+                                                        @if (auth()->user()->is_group_admin())
+                                                        <a class="btn btn-outline-success"
+                                                        href="{{ route('session.show', [$usersession->id,'ready_to_close'=>true]) }}">{{__('sentences.edit')}}</a>
+
+                                                        @endif
+
+                                                    @endif
+
                                             </td>
 
                                         </tr>

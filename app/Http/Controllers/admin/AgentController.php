@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 
+use Carbon\Carbon;
 use App\Models\Tag;
 use App\Models\Curt;
 use App\Models\Plan;
@@ -26,6 +27,8 @@ class AgentController extends Controller
         // $use=User::Find(65);
         // Mail::to($use)->send(new UserMessage('دیل رد '));
         $users=user::query();
+        $users->whereLevel('master');
+
         if ($request->search){
         //  $users->whereHas('colores',function ($query) use ($request){
         //         $search=$request->search;
@@ -46,10 +49,12 @@ class AgentController extends Controller
         //         ->OrWhere('family','LIKE',"%{$search}%");
         //     });
             $search=$request->search;
-            $users->orWhere('name','LIKE',"%{$search}%")
+            $users->where(function ($query) use ($search){
+                $query->  orWhere('name','LIKE',"%{$search}%")
             ->orWhere('family','LIKE',"%{$search}%")
             ->orWhere('mobile','LIKE',"%{$search}%")
             ->orWhere('code','LIKE',"%{$search}%");
+            });
         //  $users->where(function($query) use ($request){
         //     $search=$request->search;
         //            $query->where('code','LIKE',"%{$search}%");
@@ -63,7 +68,6 @@ class AgentController extends Controller
             $to=$user->convert_date($request->to);
             $users->where('created_at','<=',$to);
         }
-        $users->whereLevel('master');
         // $users->where('id','>',758);
 
         $users=  $users->latest()->paginate(10);
@@ -344,7 +348,7 @@ class AgentController extends Controller
 
 
             $curt->tags()->attach($data['tags']);
-            $curt->user->update_status('plan');
+            // $curt->user->update_status('plan');
 
                 // ثبت لاگ
                 switch($data['status']){
@@ -411,6 +415,7 @@ class AgentController extends Controller
                             'type'=>'accept_curt',
                             'operator_id'=> auth()->user()->id,
                             'curt_id' =>$curt->id,
+                            'down' => Carbon::now()
 
                         ]
                         ,true );
@@ -434,7 +439,8 @@ class AgentController extends Controller
                             'type'=>'accept_without_guid',
                             'operator_id'=> auth()->user()->id,
                             'curt_id' =>$curt->id,
-                            'group_id' =>$data['group_id']
+                            'group_id' =>$data['group_id'],
+                            'down' => Carbon::now()
                         ]
                         ,true );
                         $curt->group->admin()->save_duty( [],[
@@ -555,6 +561,7 @@ class AgentController extends Controller
                         'plan_id' =>$plan->id
                     ]
                     ,true );
+                    $plan->update([ 'down' => Carbon::now()]);
                     $plan->user->update_status('booklet');
                     alert()->success('طرح با موفقیت ساخته شد ');
                     return redirect()->route('admin.basic.info1');
@@ -670,8 +677,8 @@ class AgentController extends Controller
     public  function statement(){
         $user=auth()->user();
         $curts=Curt::where('guid_id',$user->id)->orWhere('master_id',$user->id)->whereHas('user',function ($query){
-            $query->where('defend','1');
-        })->latest()->paginate(10);
+            $query->where('defend','0');
+        })->whereType('primary')->latest()->paginate(10);
         return view('admin.agent.statement' ,compact(['user','curts']));
     }
     public  function statement_pdf ( Curt $curt){

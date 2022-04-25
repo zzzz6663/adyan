@@ -1227,7 +1227,9 @@ var KTWidgets = function() {
             return;
         }
         var amar=element.getAttribute('data-amar')
+        var title=element.getAttribute('data-title')
         amar=  JSON.parse(amar)
+        title=  JSON.parse(title)
         console.log( amar)
         if (!element) {
             return;
@@ -1260,7 +1262,7 @@ var KTWidgets = function() {
                 curve: 'smooth'
             },
             xaxis: {
-                categories: ['اجمالی', 'تفصیلی', 'مصوب'],
+                categories: title,
                 axisBorder: {
                     show: false,
                 },

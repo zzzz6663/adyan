@@ -226,8 +226,6 @@ class PlanController extends Controller
             ]);
         }
 
-
-
         if($plan->confirm_master){
 
             if($user->curt()->subject){

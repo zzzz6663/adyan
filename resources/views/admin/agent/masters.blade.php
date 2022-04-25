@@ -14,10 +14,10 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            {{ __('sentences.users_table') }}
-                             <span class="text-muted pt-2 font-size-sm d-block">
-                                {{ __('sentences.users_list') }}
-                            </span>
+                            {{ __('sentences.master_list') }}
+                             {{-- <span class="text-muted pt-2 font-size-sm d-block">
+                                {{ __('sentences.master_list') }}
+                            </span> --}}
                         </h3>
                     </div>
                     <div class="card-toolbar">
@@ -119,11 +119,11 @@
                                     </th>
 
 
-                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                    {{-- <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.email') }}
                                         </span>
-                                    </th>
+                                    </th> --}}
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.curt_master_count') }}
@@ -131,7 +131,7 @@
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            {{ __('sentences.plan_master_count') }}
+                                            {{ __('sentences.all_master_curt_count') }}
                                         </span>
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
@@ -141,14 +141,15 @@
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            {{ __('sentences.plan_guid_count') }}
+                                            {{ __('sentences.all_guid_curt_count') }}
                                         </span>
                                     </th>
-                                    <th class="datatable-cell datatable-cell-sort text-center">
+
+                                    {{-- <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.created_at') }}
                                         </span>
-                                    </th>
+                                    </th> --}}
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
                                             {{ __('sentences.action') }}
@@ -162,18 +163,19 @@
                                 <tr class="datatable-row" style="left: 0px;">
                                     <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$user->name}} </span></td>
-                                    <td class="datatable-cell text-center"><span>{{$user->family}} </span></td>
+                                    <td class="datatable-cell text-center"><span>{{$user->family}} {{$user->level}} </span></td>
                                     <td class="datatable-cell text-center"><span>
                                         @role('admin')
                                         {{$user->mobile}}
                                         @endrole
                                     </span></td>
 
-                                    <td class="datatable-cell text-center"><span>{{$user->email}} </span></td>
+                                    {{-- <td class="datatable-cell text-center"><span>{{$user->email}} </span></td> --}}
+                                    <td class="datatable-cell text-center"><span>{{$user->curt_master_not_defend_count()}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$user->curt_master_count()}} </span></td>
-                                    <td class="datatable-cell text-center"><span>{{$user->plan_master_count()}} </span></td>
+
+                                    <td class="datatable-cell text-center"><span>{{$user->curt_guid_not_defend_count()}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$user->curt_guid_count()}} </span></td>
-                                    <td class="datatable-cell text-center"><span>{{$user->plan_guid_count()}} </span></td>
 
 
 
@@ -181,10 +183,11 @@
 
 
 
-                                    <td class="datatable-cell text-center">
+
+                                    {{-- <td class="datatable-cell text-center">
                                         <span>{{Morilog\Jalali\Jalalian::forge($user->created_at)->format('Y-m-d')}}
                                         </span>
-                                    </td>
+                                    </td> --}}
                                     <td class="datatable-cell text-center">
                                         @role('admin')
 

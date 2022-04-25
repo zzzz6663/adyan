@@ -40,8 +40,9 @@ class SessionController extends Controller
         $group=$request->group??null;
         $plan=$request->plan??null;
         $user=auth()->user();
+        // $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
-        $subjects=Subject::whereStatus(null)->get();
+        $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $plans=Plan::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
 
         return view('admin.session.create',compact(['user','curts','subjects','group','plans']));
@@ -67,18 +68,34 @@ class SessionController extends Controller
 
         $data['time']=$this->convert_date($data['time']);
         $data['user_id']=auth()->user()->id;
+        if($request->  close){
+            $data['status']='1';
+           }
         $session = Session::create($data);
         if(isset($data['users'])){
             $session->users()->attach($data['users']);
         }
         if(isset($data['curts'])){
             $session->curts()->attach($data['curts']);
+            $first_curt=Curt::find($data['curts'][0]);
+            if($first_curt){
+                $session->update(['group_id'=>$first_curt->group->id]);
+            }
         }
         if(isset($data['subjects'])){
             $session->subjects()->attach($data['subjects']);
+            $first_subject=Subject::find($data['subjects'][0]);
+            if($first_subject){
+                $session->update(['group_id'=>$first_subject->group->id]);
+            }
         }
         if(isset($data['plans'])){
             $session->plans()->attach($data['plans']);
+            $session->plans()->attach($data['plans']);
+            $first_plan=Plan::find($data['plans'][0]);
+            if($first_plan){
+                $session->update(['group_id'=>$first_plan->group->id]);
+            }
         }
 
         foreach ($data['users'] as $key => $val){
@@ -103,7 +120,8 @@ class SessionController extends Controller
     {
         session()->forget('session',$session->id);
        session()->put('session',$session->id);
-        return view('admin.session.show' ,compact(['session']));
+       $ready_to_close=$request->ready_to_close;
+        return view('admin.session.show' ,compact(['session','ready_to_close']));
     }
 
     /**
@@ -112,9 +130,9 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,Session $session)
     {
-        //
+
     }
 
     /**
@@ -128,6 +146,9 @@ class SessionController extends Controller
     {
        $data=$request->validate(['info'=>'nullable']);
        $data['time']=Carbon::now();
+       if($request->  close){
+        $data['status']='1';
+       }
        $session->update($data);
        alert()->success(__('alert.a38'));
 
@@ -153,7 +174,7 @@ class SessionController extends Controller
     public function session_confirm(Request $request,Session $session)
     {
         $user= auth()->user();
-        $duty= $user->duties()->whereType('confirm_session')->first();
+        $duty= $user->duties()->where('session_id',$session->id)->whereType('confirm_session')->first();
         $duty->update([
             'time'=>Carbon::now()
         ]);
@@ -169,7 +190,8 @@ class SessionController extends Controller
     public function session_confirm_show(Session $session)
     {
         $user= auth()->user();
-    return view('admin.session.confirm_show',compact(['user','session']));
+$hide_note=true;
+    return view('admin.session.confirm_show',compact(['user','session','hide_note']));
     }
     public function convert_date( $from){
         $date=explode('-',$from);
