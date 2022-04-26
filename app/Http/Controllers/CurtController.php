@@ -115,9 +115,6 @@ class CurtController extends Controller
                 'resume'=>$data['resume']
             ]);
         }
-        $user->update([
-            'status'=>'curt'
-        ]);
 
 
         // ثبت لاگ
@@ -227,7 +224,7 @@ class CurtController extends Controller
         ],false);
 
 
-
+        $user->update_status('curt');
         alert()->success(__('alert.a7'));
         return redirect()->route('user.note');
     }

@@ -196,30 +196,30 @@
                 </tr>
             </thead>
             <tbody class="datatable-body" style="">
-                @foreach ($similar_curt as $subject)
+                @foreach ($similar_curt as $tag)
                     <tr class="datatable-row" style="left: 0px;">
                         <td class="datatable-cell text-center"><span>{{ $loop->iteration }} </span>
                         </td>
-                        <td class="datatable-cell text-center"><span>{{ $subject->title }} </span></td>
+                        <td class="datatable-cell text-center"><span>{{ $tag->title }} </span></td>
                         <td class="datatable-cell text-center"><span>
-                                @if ($subject->admin_id)
-                                    {{ $subject->admin->name }}
-                                    {{ $subject->admin->family }}
+                                @if ($tag->admin_id)
+                                    {{ $tag->admin->name }}
+                                    {{ $tag->admin->family }}
                                 @endif
 
                             </span></td>
                         <td class="datatable-cell text-center">
                             <span>
 
-                                @if ($subject->user)
-                                    {{ $subject->user->name }}
-                                    {{ $subject->user->family }}
+                                @if ($tag->user)
+                                    {{ $tag->user->name }}
+                                    {{ $tag->user->family }}
                                 @endif
                             </span>
                         </td>
                         <td class="datatable-cell text-center">
                             <span>
-                                @switch($subject->status)
+                                @switch($tag->status)
                                     @case(null)
                                     {{ __('sentences.in_progress') }}
                                         @break
@@ -236,21 +236,21 @@
                         </td>
                         <td class="datatable-cell text-center">
                             <span>
-                                {{$subject->info}}
+                                {{$tag->info}}
                             </span>
                         </td>
                         <td class="datatable-cell text-center">
                             <span>
-                                {{implode(', ', $subject->tags()->pluck('tag')->toArray())}}
+                                {{implode(', ', $tag->tags()->pluck('tag')->toArray())}}
                             </span>
                         </td>
                         <td class="datatable-cell text-center">
-                            <span>{{ Morilog\Jalali\Jalalian::forge($subject->created_at)->format('Y-m-d') }}
+                            <span>{{ Morilog\Jalali\Jalalian::forge($tag->created_at)->format('Y-m-d') }}
                             </span>
                         </td>
                         <td class="datatable-cell text-center">
                             {{-- <a class="btn btn-outline-primary"
-                        href="{{route('subject.edit',$subject->id)}}">ویرایش</a> --}}
+                        href="{{route('tag.edit',$tag->id)}}">ویرایش</a> --}}
                         </td>
                     </tr>
                 @endforeach

@@ -348,7 +348,7 @@
                             @csrf
                             @method('post')
                             <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
-                                <div class="col-xl-12 col-xxl-7">
+                                <div class="col-xl-12">
                                     <!--begin::ویزارد Form-->
                                     {{-- <h1>
                                         {{__('sentences.show_curt')}}

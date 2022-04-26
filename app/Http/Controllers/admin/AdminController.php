@@ -152,16 +152,33 @@ class AdminController extends Controller
             //     }
             // }
         })->take(10)->get();
-        $similar_curt = Curt::whereHas('tags',function($query)  use($tags){
-            // $query->where('id',$tags[0]);
-            $query->whereIn('id', $tags);
-            // if(sizeof($tags)>1){
-            //     for($i=1;$i<sizeof($tags);$i++){
-            //         $query->orWhere('id',$tags[$i]);
+        // $similar_curt = Curt::whereHas('tags',function($query)  use($tags){
+        //     // $query->where('id',$tags[0]);
+        //     $query->whereIn('id', $tags);
+        //     // if(sizeof($tags)>1){
+        //     //     for($i=1;$i<sizeof($tags);$i++){
+        //     //         $query->orWhere('id',$tags[$i]);
 
-            //     }
-            // }
-        })->take(10)->get();
+        //     //     }
+        //     // }
+        // })->take(10)->get();
+        $similar_curt = Curt::whereType('primary')    ->withCount('tags')->orderBy('tags_count', 'desc')
+
+
+        ->whereHas('tags',function($query)  use($tags){
+            // $query->where('id',$tags[0]);
+            // $query->whereIn('id', $tags);
+            if(sizeof($tags)>1){
+                for($i=1;$i<sizeof($tags);$i++){
+                    $query->orWhere('id',$tags[$i]);
+
+                }
+            }
+        })
+
+
+
+        ->take(10)->get();
         return response()->json([
             'body' => view('curt.similar_tags', compact(['similar_subjects','similar_curt' ]))->render(),
         ]);
