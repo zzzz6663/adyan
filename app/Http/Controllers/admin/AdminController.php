@@ -352,7 +352,7 @@ class AdminController extends Controller
                 ]
                 ,true );
                 $plan->group->admin()->save_duty( ['list'=>[ $plan->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
-                $plan->update(['sidebar'=>'0']);
+                $plan->update(['side'=>'0']);
             }
 
 

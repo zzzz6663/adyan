@@ -29,7 +29,9 @@
                             <div class="d-flex align-items-center justify-content-between flex-wrap">
                                 <div class="mr-3">
                                     <!--begin::نام-->
-                                    <a href="#"
+
+
+                                    <a href="{{route('agent.public.show',$main_plan->user->id)}}"
                                         class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
                                         {{$main_plan->user->name}}
                                         {{$main_plan->user->family}}
@@ -186,38 +188,7 @@
 
                                 </div>
                             </div>
-                                <!--end: Content-->
-                            <div class="row">
-                                @if ($main_plan->history)
-                                <div class="col-lg-6">
-                                    <h5>
-                                        {{__('sentences.history_more')}}
-                                    </h5>
-                                    <p style="background:#f5f5f5">
-                                        {{$main_plan->history}}
-                                    </p>
-                                </div>
-                                @endif
-                                {{-- <div class="col-lg-6">
-                                    <h5>
-                                        {{__('sentences.special_note')}}
-                                    </h5>
-                                    <p style="background:#f5f5f5">
-                                        {{$main_plan->note}}
-                                    </p>
-                                </div> --}}
-                                @if ($main_plan->fail_reason)
-                                <div class="col-lg-6">
-                                    <h5>
-                                        {{__('sentences.fail_reason')}}
-                                    </h5>
-                                    <p style="background:#f5f5f5">
-                                        {{$main_plan->fail_reason}}
-                                    </p>
-                                </div>
-                                @endif
 
-                            </div>
                         </div>
                         <!--end: اطلاعات-->
                     </div>

@@ -106,6 +106,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::any('/basic_info1','AgentController@basic_info1')->middleware(['role:admin'])->name('admin.basic.info1');
     Route::any('/basic_info2/{curt?}','AgentController@basic_info2')->middleware(['role:admin'])->name('admin.basic.info2');
     Route::get('/masters','AgentController@masters')->middleware(['role:admin|master|expert','admin_group'])->name('agent.masters');
+    Route::get('/students','AgentController@students')->middleware(['role:expert|master','admin_group'])->name('agent.students');
     Route::get('/profile/{user}','AgentController@profile')->name('agent.profile');
     Route::get('/statement','AgentController@statement')->middleware(['role:master'])->name('agent.statement');
     Route::get('/statement_pdf/{curt}','AgentController@statement_pdf')->middleware(['role:master'])->name('agent.statement.pdf');

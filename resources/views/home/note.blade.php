@@ -326,7 +326,7 @@
                                                     @case('verify_plan')
                                                     @role('master')
                                                    <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}">
-                                                        {{-- (    {{__('sentences.verify_plan')}}) --}}
+                                                   {{$duty->plan->id}}
                                                         {{__('sentences.create_session')}}
                                                     </a>
                                                     @endrole
@@ -811,7 +811,7 @@
                                                             @break
                                                             @case('confirm_plan')
                                                             <span class=" ">
-                                                                {{__('sentences.confirm_plan _log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->operator()->name.' '.$log->operator()->family ])}}
+                                                                {{__('sentences.confirm_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->operator()->name.' '.$log->operator()->family ])}}
                                                             </span>
                                                             @break
                                                             @case('accept_plan')

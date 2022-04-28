@@ -29,25 +29,8 @@ class AgentController extends Controller
         $users=user::query();
         $users->whereLevel('master');
 
-        if ($request->search){
-        //  $users->whereHas('colores',function ($query) use ($request){
-        //         $search=$request->search;
-        //         $query->where('name','LIKE',"%{$search}%");
-        //     });
-        //  $users->whereHas('product',function ($query) use ($request){
-        //         $search=$request->search;
-        //         $query->where('name','LIKE',"%{$search}%");
-        //     });
-        //  $users->whereHas('versions',function ($query) use ($request){
-        //         $search=$request->search;
-        //         $query->where('name','LIKE',"%{$search}%");
-        //     });
 
-        //  $users->whereHas('operators',function ($query) use ($request){
-        //         $search=$request->search;
-        //         $query->where('name','LIKE',"%{$search}%")
-        //         ->OrWhere('family','LIKE',"%{$search}%");
-        //     });
+        if ($request->search){
             $search=$request->search;
             $users->where(function ($query) use ($search){
                 $query->  orWhere('name','LIKE',"%{$search}%")
@@ -55,10 +38,6 @@ class AgentController extends Controller
             ->orWhere('mobile','LIKE',"%{$search}%")
             ->orWhere('code','LIKE',"%{$search}%");
             });
-        //  $users->where(function($query) use ($request){
-        //     $search=$request->search;
-        //            $query->where('code','LIKE',"%{$search}%");
-        //    });
         }
         if($request->from){
             $from=$user->convert_date($request->from);
@@ -68,14 +47,37 @@ class AgentController extends Controller
             $to=$user->convert_date($request->to);
             $users->where('created_at','<=',$to);
         }
-        // $users->where('id','>',758);
-
         $users=  $users->latest()->paginate(10);
-        // foreach($users as $user){
-        //     $user->update(['level'=>'master']);
-        //     $user->assignRole('master');
-        // }
         return view('admin.agent.masters',compact(['users']));
+    }
+    public function students(Request $request)
+    {
+        $user=auth()->user();
+        // $use=User::Find(65);
+        // Mail::to($use)->send(new UserMessage('دیل رد '));
+        $users=user::query();
+        $users->whereLevel('student');
+
+
+        if ($request->search){
+            $search=$request->search;
+            $users->where(function ($query) use ($search){
+                $query->  orWhere('name','LIKE',"%{$search}%")
+            ->orWhere('family','LIKE',"%{$search}%")
+            ->orWhere('mobile','LIKE',"%{$search}%")
+            ->orWhere('code','LIKE',"%{$search}%");
+            });
+        }
+        if($request->from){
+            $from=$user->convert_date($request->from);
+            $users->where('created_at','>=',$from);
+        }
+        if($request->to){
+            $to=$user->convert_date($request->to);
+            $users->where('created_at','<=',$to);
+        }
+        $users=  $users->latest()->paginate(10);
+        return view('admin.agent.students',compact(['users']));
     }
     public function index(Request $request)
     {

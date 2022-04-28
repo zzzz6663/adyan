@@ -31,8 +31,11 @@
                                     <!--begin::نام-->
                                     <a href="#"
                                         class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
-                                        {{$main_curt->user->name}}
+
+                                        <a class="btn btn-success" href="{{route('agent.public.show',$main_curt->user->id)}}">
+                                            {{$main_curt->user->name}}
                                         {{$main_curt->user->family}}
+                                    </a>
                                         <i class="flaticon2-correct text-success icon-md ml-2"></i>
                                     </a>
                                     <!--end::نام-->

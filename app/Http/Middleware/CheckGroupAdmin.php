@@ -17,7 +17,7 @@ class CheckGroupAdmin
     public function handle(Request $request, Closure $next)
     {
         $user=$request->user();
-        if($user->level=='admin'){
+        if($user->level=='admin'||$user->level=='expert'){
             return $next($request);
         }
         if ( !$user->is_group_admin()){
