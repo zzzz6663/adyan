@@ -110,7 +110,7 @@
                                                 <select name="subjects[]"   multiple class="form-control  select2">
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($subjects as $subject )
-                                                   <option {{in_array($subject->id ,old('subjectss',[]))?'selected':''}} value="{{$subject->id}}">
+                                                   <option {{in_array($subject->id ,old('subjects',[]))?'selected':''}} value="{{$subject->id}}">
                                                     {{$subject->title}}
                                                  (
                                                      {{$subject->master->name}}

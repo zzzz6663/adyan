@@ -157,15 +157,17 @@
                                                   {{__('sentences.define_guid_title',['student'=>$duty->curt->user->name.' '.$duty->curt->user->family,'code'=>$duty->curt->user->code])}}
                                                     @endrole
                                                     @break
-                                                    @case('verify_plan')
+                                                    {{-- @case('verify_plan')
                                                     @role('master')
                                                   {{__('sentences.verify_plan')}}
                                                     @endrole
-                                                    @break
+                                                    @break --}}
 
                                                     @case('verify_plan')
                                                     @role('master')
                                                   {{__('sentences.verify_plan_by_master')}}
+                                                  {{-- {{$duty->plan->user->id}}
+                                                  {{$duty->plan->user->name}} --}}
                                                     @endrole
                                                     @break
 
@@ -218,7 +220,7 @@
 
 
                                                         {{-- {{$duty->type}} --}}
-                                                         {{-- {{$duty->id}} --}}
+                                                       {{-- {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}} --}}
                                                     @switch( $duty->type)
 
                                                     @case('register')
@@ -360,9 +362,11 @@
 
                                                     @case('confirm_session')
                                                     @role('master')
+                                                    @if($duty->session)
                                                      <a class="btn btn-primary" href="{{route('session.confirm.show',[$duty->session->id])}}">
                                                         {{__('sentences.confirm_session')}}
                                                     </a>
+                                                    @endif
                                                     @endrole
                                                     @break
 

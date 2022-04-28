@@ -329,10 +329,89 @@
 
 
 
+            @if ($user->curt()->subject)
+            <div class="card-body pt-0 pb-3">
+                <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
+                    id="kt_datatable" style="">
+                    <table class="datatable-table" style="display: block;">
+                        <thead class="datatable-head">
+                            <tr class="datatable-row" style="left: 0px;">
+
+                                <th class="datatable-cell datatable-cell-sort text-center">
+                                    <span>
+                                        {{ __('sentences.id') }}
+                                    </span>
+                                </th>
+                                <th class="datatable-cell datatable-cell-sort text-center">
+                                    <span>
+                                        {{ __('sentences.title') }}
+
+                                    </span>
+                                </th>
+                                <th class="datatable-cell datatable-cell-sort text-center">
+                                    <span>
+                                        {{ __('sentences.master') }}
+
+                                    </span>
+                                </th>
+                                <th class="datatable-cell datatable-cell-sort text-center">
+                                    <span>
+                                        {{ __('sentences.group') }}
+
+                                    </span>
+                                </th>
+
+                                <th class="datatable-cell datatable-cell-sort text-center">
+                                    <span>
+                                        {{ __('sentences.info') }}
+                                    </span>
+                                </th>
+                                <th class="datatable-cell datatable-cell-sort text-center">
+                                    <span>
+                                        {{ __('sentences.created_at') }}
+
+                                    </span>
+                                </th>
 
 
 
-            @role('expert|admin|master')
+                            </tr>
+                        </thead>
+                        <tbody class="datatable-body" style="">
+
+                            <tr class="datatable-row" style="left: 0px;">
+                                <td class="datatable-cell text-center"><span>1 </span>
+                                </td>
+                                <td class="datatable-cell text-center">
+                                    <span>{{$user->curt()->subject->title}} </span></td>
+                                <td class="datatable-cell text-center"><span>
+                                        {{$user->curt()->subject->master->name}}
+                                    </span></td>
+                                <td class="datatable-cell text-center"><span>
+                                        {{$user->curt()->subject->group->name}} </span>
+                                </td>
+                                <td class="datatable-cell text-center"><span>
+                                        {{$user->curt()->subject->info}} </span>
+                                </td>
+
+                                <td class="datatable-cell text-center">
+                                    <span>{{Morilog\Jalali\Jalalian::forge($user->curt()->subject->time)->format('Y-m-d')}}
+                                    </span>
+                                </td>
+
+                            </tr>
+
+
+
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+            @else
 
             <div class="card card-custom">
                 <div class="card-body p-0">
@@ -361,11 +440,7 @@
                                                  <h4 class="mt-3 mb-6 prf" style=" ">
                                                     {{$user->curt()->title}}
                                                 </h4>
-                                                <textarea name="title" class="form-control hide inp" id="title"
-                                                    cols="30" rows="6"></textarea>
-                                                    <span class="show btn btn-success font-weight-bolder font-size-sm">
-                                                        {{__('sentences.insert_note')}}
-                                                        </span>
+
                                                    <ul>
                                                        @foreach ($all_curts as  $curt)
                                                           @if ( $curt->title)
@@ -380,8 +455,8 @@
                                                        @endif
 
 
-                                                       @endforeachث
-                                                   </ul>
+                                                       @endforeach
+                                                                                                       </ul>
                                             </div>
                                         </div>
 
@@ -547,7 +622,7 @@
                 </div>
                 <!--end::ویزارد Body-->
             </div>
-            @endrole
+            @endif
             <br>
             <br>
             <br>

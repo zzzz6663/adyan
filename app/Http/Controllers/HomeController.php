@@ -6,6 +6,7 @@ use App\Models\Log;
 use App\Models\Code;
 use App\Models\Curt;
 use App\Models\Duty;
+use App\Models\Plan;
 use App\Models\User;
 use App\Mail\VerifyEmail;
 use Illuminate\View\View;
@@ -25,6 +26,11 @@ class HomeController extends Controller
     public  function  aa()
     {
         Auth::loginUsingId(5, true);
+
+        $plan=Plan::find(87);
+        $plans=Plan::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',[8])->get();
+        dd( $plans);
+
     }
     public  function  clear()
     {

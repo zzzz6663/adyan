@@ -121,6 +121,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::get('session_confirm_show/{session}', 'SessionController@session_confirm_show')->middleware(['role:master'])->name('session.confirm.show');
     Route::post('session_confirm/{session}', 'SessionController@session_confirm')->middleware(['role:master'])->name('session.confirm');
     Route::get('all_session', 'SessionController@all_session')->middleware(['role:admin|master'])->name('admin.all.session');
+    Route::post('update2/{session}', 'SessionController@update2')->middleware(['role:master'])->name('admin.session.update2');
     Route::get('session/result/{session}', 'SessionController@result')->middleware(['role:admin|master'])->name('admin.session.result');
     Route::get('all_subjects', 'SubjectController@all_subjects')->middleware(['role:expert|master','admin_group'])->name('admin.all.subject');
     Route::resource('tag', 'TagController')->middleware(['role:expert|admin']);
