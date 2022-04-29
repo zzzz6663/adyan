@@ -74,8 +74,7 @@ display:none !important;
     </head>
     <!--end::Head-->
     {{-- <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable" cz-shortcut-listen="true"><body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable" cz-shortcut-listen="true"> --}}
-    <body id="kt_body" style=" " cl
-    ass="{{Route::currentRouteName()=='login'?'':'aside-fixed header-fixed '}}  quick-panel-right demo-panel-right offcanvas-right  subheader-enabled" cz-shortcut-listen="true">
+    <body id="kt_body" style=" " class="{{Route::currentRouteName()=='login'?'':'aside-fixed header-fixed '}}  quick-panel-right demo-panel-right offcanvas-right  subheader-enabled" cz-shortcut-listen="true">
         <div class="d-flex flex-column flex-root mt-20">
             <div class="d-flex flex-row flex-column-fluid page">
                 @includeWhen( empty($side),'sections.sidebar')
@@ -153,6 +152,52 @@ display:none !important;
 
 
 
+
+<!--end::Global Config-->
+
+<!--begin::Global تم Bundle(used by all pages)-->
+
+<script src="/assets/plugins/global/plugins.bundle.js?v=7.0.6"></script>
+<script src="/assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.6"></script>
+<script src="/assets/js/scripts.bundle.js?v=7.0.6"></script>
+ <script src="/assets/js/pages/widgets.js?v=7.0.6"></script>
+<!--end::Global تم Bundle-->
+{{-- <script src="/assets/js/pages/custom/login/login-general.js?v=7.0.6"></script> --}}
+{{--  <!--begin::Page Vendors(used by this page)-->
+<script src="/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js?v=7.0.6"></script>
+<!--end::Page Vendors-->  --}}
+
+{{--  <!--begin::Page Scripts(used by this page)-->
+<script src="/assets/js/pages/widgets.js?v=7.0.6"></script>
+<!--end::Page Scripts-->  --}}
+@yield('script')
+
+   {{-- <script src="assets/js/pages/custom/login/login-general.js?v=7.0.6"></script> --}}
+  {{-- <script type="text/javascript" src="/js/jquery-2.2.0.min.js"></script> --}}
+
+
+<script type="text/javascript" src="/js/persian-date.min.js"></script>
+<script type="text/javascript" src="/js/persian-datepicker.min.js"></script>
+<script type="text/javascript" src="/js/select2.full.min.js"></script>
+<script type="text/javascript" src="/js/iziToast.min.js"></script>
+<script type="text/javascript" src="/js/croppie.js"></script>
+<script type="text/javascript" src="/js/fun.js"></script>
+<script type="text/javascript" src="/js/app.js"></script>
+
+
+<script type="text/javascript" src="/home/js/jquery-2.2.0.min.js"></script>
+<script type="text/javascript" src="/home/js/persianDatepicker.min.js"></script>
+<script type="text/javascript" src="/home/js/persian-date.min.js"></script>
+<script type="text/javascript" src="/home/js/persian-datepicker.min.js"></script>
+{{--  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JT7Q3JNZJ8"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-JT7Q3JNZJ8');
+</script>  --}}
 <script>var HOST_URL  = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";</script>
 <!--begin::Global Config(global config for global JS scripts)-->
 <script>
@@ -215,52 +260,6 @@ display:none !important;
 "font-family": "Poppins"
 };
 </script>
-<!--end::Global Config-->
-
-<!--begin::Global تم Bundle(used by all pages)-->
-
-<script src="/assets/plugins/global/plugins.bundle.js?v=7.0.6"></script>
-<script src="/assets/plugins/custom/prismjs/prismjs.bundle.js?v=7.0.6"></script>
-<script src="/assets/js/scripts.bundle.js?v=7.0.6"></script>
- <script src="/assets/js/pages/widgets.js?v=7.0.6"></script>
-<!--end::Global تم Bundle-->
-{{-- <script src="/assets/js/pages/custom/login/login-general.js?v=7.0.6"></script> --}}
-{{--  <!--begin::Page Vendors(used by this page)-->
-<script src="/assets/plugins/custom/fullcalendar/fullcalendar.bundle.js?v=7.0.6"></script>
-<!--end::Page Vendors-->  --}}
-
-{{--  <!--begin::Page Scripts(used by this page)-->
-<script src="/assets/js/pages/widgets.js?v=7.0.6"></script>
-<!--end::Page Scripts-->  --}}
-@yield('script')
-
-   <script src="assets/js/pages/custom/login/login-general.js?v=7.0.6"></script>
-  {{-- <script type="text/javascript" src="/js/jquery-2.2.0.min.js"></script> --}}
-
-
-<script type="text/javascript" src="/js/persian-date.min.js"></script>
-<script type="text/javascript" src="/js/persian-datepicker.min.js"></script>
-<script type="text/javascript" src="/js/select2.full.min.js"></script>
-<script type="text/javascript" src="/js/iziToast.min.js"></script>
-<script type="text/javascript" src="/js/croppie.js"></script>
-<script type="text/javascript" src="/js/fun.js"></script>
-<script type="text/javascript" src="/js/app.js"></script>
-
-
-<script type="text/javascript" src="/home/js/jquery-2.2.0.min.js"></script>
-<script type="text/javascript" src="/home/js/persianDatepicker.min.js"></script>
-<script type="text/javascript" src="/home/js/persian-date.min.js"></script>
-<script type="text/javascript" src="/home/js/persian-datepicker.min.js"></script>
-{{--  <!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-JT7Q3JNZJ8"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'G-JT7Q3JNZJ8');
-</script>  --}}
-
 </body>
 @include('sweet::alert')
 </html>

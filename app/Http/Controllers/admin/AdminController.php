@@ -343,7 +343,7 @@ class AdminController extends Controller
                 ]
                 , true);
             } else {
-                $plan->user->save_log(['admin', 'list'=>[$plan->master_id]],
+                $plan->user->save_log(['admin','group'],
                 [
                     'type'=>'confirm_plan',
                     'group_id'=> $plan->group_id,
@@ -354,15 +354,8 @@ class AdminController extends Controller
                 $plan->group->admin()->save_duty( ['list'=>[ $plan->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
                 $plan->update(['side'=>'0']);
             }
-
-
-
-
             alert()->success(__('alert.a15'));
             return redirect()->route('user.note');
-
-
-
     }
     public function admin_plan_submit(Plan $plan, Request $request)
     {

@@ -99,6 +99,17 @@ window.onload = function() {
             });
         }
 
+        $('body').on('click', '#kt_login_forgot', function () {
+            console.log(12);
+            $('.login-signin').hide(400);
+            $('.login-forgot').show(400);
+          });
+          $('body').on('click', '#kt_login_forgot_cancel', function () {
+            console.log(12);
+            $('.login-signin').show(400);
+            $('.login-forgot').hide(400);
+          });
+
         $('body').on('click', '.show', function() {
 
           $(this).closest('.par').find('.inp').removeClass('hide');

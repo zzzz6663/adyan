@@ -127,7 +127,7 @@
                                 <div class="d-flex justify-content-between mt-n5">
                                     <label class="font-size-h6 font-weight-bolder text-dark pt-5"> {{ __('sentences.password') }}  </label>
 
-                                    <a href="javascript:;"
+                                    <a href="#"
                                         class="text-primary font-size-h6 font-weight-bolder text-hover-primary pt-5"
                                         id="kt_login_forgot">
                                         {{ __('sentences.forget_password') }}
@@ -255,7 +255,7 @@
                             <!--begin::Form group-->
                             <div class="form-group fv-plugins-icon-container">
                                 <input class="form-control form-control-solid h-auto py-7 px-6 rounded-lg font-size-h6"
-                                    type="email" placeholder="پست الکترونیک" name="email" autocomplete="off">
+                                    type="email" placeholder="پست الکترونیک" name="email_forget" autocomplete="off">
                                 <div class="fv-plugins-message-container"></div>
                             </div>
                             <!--end::Form group-->
