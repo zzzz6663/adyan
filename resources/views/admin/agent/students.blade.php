@@ -92,7 +92,7 @@
                                     </th>
                                     <th class="datatable-cell datatable-cell-sort text-center">
                                         <span>
-                                            {{ __('sentences.mobile') }}
+                                            {{ __('sentences.code') }}
                                         </span>
                                     </th>
 
@@ -124,9 +124,7 @@
                                     <td class="datatable-cell text-center"><span>{{$user->name}} </span></td>
                                     <td class="datatable-cell text-center"><span>{{$user->family}} </span></td>
                                     <td class="datatable-cell text-center"><span>
-                                        @role('admin')
-                                        {{$user->mobile}}
-                                        @endrole
+                                        {{$user->code}}
                                     </span></td>
 
 

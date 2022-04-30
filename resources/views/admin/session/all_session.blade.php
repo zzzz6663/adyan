@@ -138,7 +138,6 @@
                                                         @if (auth()->user()->is_group_admin())
                                                         <a class="btn btn-outline-success"
                                                         href="{{ route('session.show', [$usersession->id,'ready_to_close'=>true]) }}">{{__('sentences.result')}}</a>
-
                                                         <a class="btn btn-outline-info"
                                                         href="{{ route('session.edit', $usersession->id) }}">{{__('sentences.edit')}}</a>
                                                         @endif
