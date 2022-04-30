@@ -4,6 +4,7 @@ namespace App\Http\Controllers\admin;
 
 use Carbon\Carbon;
 use App\Models\Curt;
+use App\Models\Duty;
 use App\Models\Plan;
 use App\Models\User;
 use NumberFormatter;
@@ -110,7 +111,6 @@ class SessionController extends Controller
     }
     public function update2(Request $request,Session $session)
     {
-        dd($session);
         $data = $request->validate([
             'name' => 'required',
             'users' => 'required',
@@ -124,42 +124,57 @@ class SessionController extends Controller
         $data['time']=$this->convert_date($data['time']);
         $data['user_id']=auth()->user()->id;
 
-        if(isset($data['users'])){
-            $session->users()->attach($data['users']);
-        }
+
         if(isset($data['curts'])){
-            $session->curts()->attach($data['curts']);
+            $session->curts()->sync($data['curts']);
             $first_curt=Curt::find($data['curts'][0]);
             if($first_curt){
                 $session->update(['group_id'=>$first_curt->group->id]);
             }
         }
         if(isset($data['subjects'])){
-            $session->subjects()->attach($data['subjects']);
+            $session->subjects()->sync($data['subjects']);
             $first_subject=Subject::find($data['subjects'][0]);
             if($first_subject){
                 $session->update(['group_id'=>$first_subject->group->id]);
             }
         }
         if(isset($data['plans'])){
-            $session->plans()->attach($data['plans']);
+            $session->plans()->sync($data['plans']);
             // $session->plans()->attach($data['plans']);
             $first_plan=Plan::find($data['plans'][0]);
             if($first_plan){
                 $session->update(['group_id'=>$first_plan->group->id]);
             }
         }
+        $old_users=$session->users()->pluck('id')->toArray();
 
-        foreach ($data['users'] as $key => $val){
-            $master=User::find($val);
-            $master->save_duty( [],['type'=>'confirm_session','session_id'=>$session->id],true);
+
+
+        // $result=array_diff($data['users'],$old_users);
+        if(count($old_users)>count($data['users'])){
+            $result=array_diff($old_users,$data['users']);
+        }else{
+            $result=array_diff($data['users'],$old_users);
         }
 
+        foreach ($result as $key => $val){
+            $duty= Duty::whereType('confirm_session')->where('session_id',$session->id);
+            if(  $duty){
+             $duty->delete();
+            }else{
+             $master=User::find($val);
+             $master->save_duty( [],['type'=>'confirm_session','session_id'=>$session->id],true);
+            }
+        }
+        if(isset($data['users'])){
+            $session->users()->sync($data['users']);
+        }
         alert()->success(__('alert.a33'));
 
         $session ->update($data);
 
-        return redirect()->route('session.show',$session->id);
+        return redirect()->route('admin.all.session');
 
     }
 
@@ -190,9 +205,13 @@ class SessionController extends Controller
         $plan=$request->plan??null;
         $user=auth()->user();
         // $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
-        $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
-        $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
-        $plans=Plan::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
+        $curts=$session->curts;
+        $subjects=$session->subjects;
+        $plans=$session->plans;
+
+        // $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
+        // $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
+        // $plans=Plan::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
 
         return view('admin.session.edit',compact(['user','curts','subjects','group','plans','session']));
 

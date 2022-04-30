@@ -29,6 +29,10 @@
         .disnone{
 display:none !important;
         }
+        /* remove X from locked tag */
+.locked-tag .select2-selection__choice__remove{
+  display: none!important;
+}
       </style>
 
     <!--begin::Head-->

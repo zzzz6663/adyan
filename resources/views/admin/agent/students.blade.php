@@ -128,7 +128,7 @@
                                         {{$user->mobile}}
                                         @endrole
                                     </span></td>
- 
+
 
 
 
@@ -149,7 +149,8 @@
                                         @endif
                                         @endrole
                                         <a class="btn btn-success"
-                                        href="{{route('agent.public.show',$user->id)}}">{{__('sentences.more')}} </a>
+                                        href="{{route('agent.public.show',$user->id)}}">{{__('sentences.more')}}
+                                     </a>
                                     </td>
                                 </tr>
 

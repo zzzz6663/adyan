@@ -2162,7 +2162,22 @@ window.onload = function () {
     }
 
     if ($('.select2').length) {
-      $('.select2').select2();
+      $('.select2').select2({
+        placeholder: 'Select an option',
+        templateSelection: function templateSelection(tag, container) {
+          // here we are finding option element of tag and
+          // if it has property 'locked' we will add class 'locked-tag'
+          // to be able to style element in select
+          var $option = $('.select2 option[value="' + tag.id + '"]');
+
+          if ($option.attr('locked')) {
+            $(container).addClass('locked-tag');
+            tag.locked = true;
+          }
+
+          return tag.text;
+        }
+      });
     }
 
     if ($('.select2_tag').length) {

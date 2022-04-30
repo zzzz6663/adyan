@@ -31,7 +31,7 @@ class CurtController extends Controller
             });
         }
 
-        $curts=  $curts->latest()->paginate(10);
+        $curts=  $curts->whereType('primary')->latest()->paginate(10);
         return view('curt.search_curt',compact(['curts']));
     }
     public function index(Request $request)

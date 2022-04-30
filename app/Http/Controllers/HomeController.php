@@ -69,7 +69,7 @@ class HomeController extends Controller
     public  function  forget_password(Request $request)
     {
 
-        $valid = $request->validate([ 
+        $valid = $request->validate([
             'email_forget' => 'required'
         ]);
         $user = User::whereEmail($request->email_forget)->first();
@@ -156,7 +156,7 @@ class HomeController extends Controller
         $user = User::whereEmail($request->username)->first();
         if(!$user ){
             $user = User::whereCode($request->username)->first();
-        }
+        } 
 
         if ($user && $user->password == $request->password) {
             Auth::loginUsingId($user->id, true);

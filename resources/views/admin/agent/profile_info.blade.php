@@ -28,7 +28,9 @@
                                     <a href="#" class="font-weight-bold font-size-h5 text-dark-75 text-hover-primary">
                                         {{ $user->name }}
                                         {{ $user->family }}
-                                        {{ $user->password }}
+                                        @role('admin')
+                                           {{ $user->password }}
+                                        @endrole
                                     </a>
                                     <div class="text-muted">
                                         {{ __('sentences.' . $user->level) }}
@@ -1352,8 +1354,12 @@
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>
-                                                                    {{ $mastercrut->user->name }}
+
+                                                                    <a class=""
+                                                                    href="{{route('agent.public.show',$mastercrut->user->id)}}">
+                                                                          {{ $mastercrut->user->name }}
                                                                     {{ $mastercrut->user->family }}
+                                                                 </a>
                                                                  </span>
                                                             </td>
                                                             <td class="datatable-cell text-center">
@@ -1476,8 +1482,12 @@
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>
-                                                                    {{ $masterplan->user->name }}
-                                                                    {{ $masterplan->user->family }}
+
+                                                                    <a class=""
+                                                                    href="{{route('agent.public.show',$mastercrut->user->id)}}">
+                                                                          {{ $mastercrut->user->name }}
+                                                                    {{ $mastercrut->user->family }}
+                                                                 </a>
                                                                  </span>
                                                             </td>
                                                             <td class="datatable-cell text-center">
