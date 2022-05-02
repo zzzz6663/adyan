@@ -788,13 +788,13 @@
 
                                                             @case('submit_plan')
                                                             <span class=" ">
-                                                                {{__('sentences.submit_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name])}}
+                                                                {{__('sentences.submit_plan_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name])}}
                                                             </span>
                                                             @break
                                                             @case('submit_plan_master')
                                                             <span class=" ">
                                                                 @if($log->plan->master)
-                                                                {{__('sentences.submit_plan_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->plan->master->name.' '.$log->plan->master->family])}}
+                                                                {{__('sentences.submit_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->plan->master->name.' '.$log->plan->master->family])}}
                                                                 @endif
                                                             </span>
                                                             @break

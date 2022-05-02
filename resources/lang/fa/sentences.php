@@ -308,8 +308,9 @@ return [
     'method'=>'روش اجرای پژوهش
     ',
     'source'=>'منابع مورد استفاده در طرح تفصیلی ',
-    'submit_plan_log'=>'دانشجو :student طرح  تفصیلی  خود را به گروه  :group ارسال نمود',
-    'submit_plan_master_log'=>'دانشجو :student طرح  تفصیلی  خود را به استادراهنما  :master ارسال نمود',
+    'submit_plan_master_log'=>'دانشجو :student طرح  تفصیلی  خود را به گروه  :group ارسال نمود',
+
+    'submit_plan_log'=>'دانشجو :student طرح  تفصیلی  خود را به استادراهنما  :master ارسال نمود',
     'verify_plan'=>'بررسی طرح تفصیلی ',
     'verify_plan_by_master'=>'بررسی طرح تفصیلی توسط استاد راهنما',
     'select_plan'=>'انتخاب طرح تفصیلی ',
