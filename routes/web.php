@@ -82,7 +82,7 @@ Route::middleware(['auth','role:student|admin','check_language'])->group(functio
 
 
 
-Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(function(){
+Route::prefix('admin')->namespace('admin')->middleware([ 'auth','check_language'])->group(function(){
     Route::any('/similar_tags','AdminController@similar_tags')->name('admin.similar.tags');
     Route::get('/curt','AdminController@curt')->name('admin.curt');
     Route::get('/my_mission','AdminController@my_mission')->name('admin.my.mission')->middleware(['role:master']);
@@ -128,7 +128,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth'])->group(functio
     Route::resource('tag', 'TagController')->middleware(['role:expert|admin']);
 });
 
-Route::prefix('master')->namespace('admin')->middleware([ 'auth'])->group(function(){
+Route::prefix('master')->namespace('admin')->middleware([ 'auth','check_language'])->group(function(){
     Route::get('/groups','MasterController@groups')->name('master.groups')->middleware(['role:master']);
     Route::resource('session', 'SessionController')->middleware(['role:master|admin','admin_group']);
     Route::resource('subject', 'SubjectController')->middleware(['role:master']);

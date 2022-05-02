@@ -373,7 +373,7 @@ class HomeController extends Controller
     public  function  lang(Request $request)
     {
         session()->put('locale', $request->lang);
-
+        alert()->success('language changed');
         return redirect()->back();
     }
 }

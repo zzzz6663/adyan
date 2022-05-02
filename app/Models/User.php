@@ -271,7 +271,7 @@ class User extends Authenticatable
             $users_for_duty[]=$this->id;
            }
 
-           if(in_array('group',$levels) && $options['curt_id']){
+           if(in_array('group',$levels) && isset( $options['curt_id'])){
             $curt= Curt::find( $options['curt_id']);
             $admin_group=$curt->group->admin();
              $users_for_duty[]= $admin_group->id;
@@ -310,7 +310,7 @@ class User extends Authenticatable
        if($add && !in_array($this->id,$users_for_log)){
         $users_for_log[]=$this->id;
        }
-       if(in_array('group',$levels) && $options['curt_id']){
+       if(in_array('group',$levels) && isset( $options['curt_id'])){
        $curt= Curt::find($options['curt_id']);
        $admin_group=$curt->group->admin();
         $users_for_log[]= $admin_group->id;
