@@ -56,14 +56,18 @@
                                 <h3 class="font-weight-bolder text-dark font-size-h4 font-size-h1-lg">
 
                                 </h3>
-                                <div class="dropdown" hidden style="display: inline-block">
+                                <div class="dropdown"  style="display: inline-block">
                                     <!--begin::Toggle-->
                                     <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px"
                                         aria-expanded="false">
                                         <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
-                                            <img class="h-20px w-20px rounded-sm"
+                                                @if (session('locale')=='ar')
+                                                 <img class="h-20px w-20px rounded-sm" src="/assets/media/svg/flags/020-iraq.svg" alt="">
 
-                                              src="/assets/media/svg/flags/136-iran.svg" alt="">
+                                                @else
+                                            <img class="h-20px w-20px rounded-sm" src="/assets/media/svg/flags/136-iran.svg" alt="">
+
+                                                @endif
                                         </div>
                                     </div>
                                     <!--end::Toggle-->
@@ -74,8 +78,8 @@
                                         <!--begin::Nav-->
                                         <ul class="navi navi-hover py-4">
                                             <!--begin::Item-->
-                                            <li class="navi-item">
-                                                <a href="{{route('lang',['lang'=>'en'])}}" class="navi-link">
+                                            <li class="navi-item {{session('locale')=='ar' ? 'active' :''}}">
+                                                <a href="{{route('lang',['lang'=>'ar'])}}" class="navi-link">
                                                     <span class="symbol symbol-20 mr-3">
                                                         <img src="/assets/media/svg/flags/020-iraq.svg" alt="">
                                                     </span>
@@ -83,9 +87,8 @@
                                                 </a>
                                             </li>
                                             <!--end::Item-->
-
                                             <!--begin::Item-->
-                                            <li class="navi-item active">
+                                            <li class="navi-item {{(session('locale')?? config('app.locale'))=='fa' ? 'active' :''}}">
                                                 <a href="{{route('lang',['lang'=>'fa'])}}" class="navi-link">
                                                     <span class="symbol symbol-20 mr-3">
                                                         <img src="/assets/media/svg/flags/136-iran.svg" alt="">

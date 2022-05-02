@@ -156,7 +156,7 @@ class HomeController extends Controller
         $user = User::whereEmail($request->username)->first();
         if(!$user ){
             $user = User::whereCode($request->username)->first();
-        } 
+        }
 
         if ($user && $user->password == $request->password) {
             Auth::loginUsingId($user->id, true);
@@ -373,6 +373,7 @@ class HomeController extends Controller
     public  function  lang(Request $request)
     {
         session()->put('locale', $request->lang);
+
         return redirect()->back();
     }
 }

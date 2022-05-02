@@ -17,7 +17,53 @@
         <!--begin::Topbar-->
         <div class="topbar">
 
+            <div class="dropdown"  style="display: inline-block">
+                <!--begin::Toggle-->
+                <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px"
+                    aria-expanded="false">
+                    <div class="btn btn-icon btn-clean btn-dropdown btn-lg mr-1">
+                            @if (session('locale')=='ar')
+                             <img class="h-20px w-20px rounded-sm" src="/assets/media/svg/flags/020-iraq.svg" alt="">
 
+                            @else
+                        <img class="h-20px w-20px rounded-sm" src="/assets/media/svg/flags/136-iran.svg" alt="">
+
+                            @endif
+                    </div>
+                </div>
+                <!--end::Toggle-->
+
+                <!--begin::دراپ دان-->
+                <div class="dropdown-menu p-0 m-0 dropdown-menu-anim-up dropdown-menu-sm dropdown-menu-right"
+                    style="">
+                    <!--begin::Nav-->
+                    <ul class="navi navi-hover py-4">
+                        <!--begin::Item-->
+                        <li class="navi-item {{session('locale')=='ar' ? 'active' :''}}">
+                            <a href="{{route('lang',['lang'=>'ar'])}}" class="navi-link">
+                                <span class="symbol symbol-20 mr-3">
+                                    <img src="/assets/media/svg/flags/020-iraq.svg" alt="">
+                                </span>
+                                <span class="navi-text">عراق</span>
+                            </a>
+                        </li>
+                        <!--end::Item-->
+                        <!--begin::Item-->
+                        <li class="navi-item {{(session('locale')?? config('app.locale'))=='fa' ? 'active' :''}}">
+                            <a href="{{route('lang',['lang'=>'fa'])}}" class="navi-link">
+                                <span class="symbol symbol-20 mr-3">
+                                    <img src="/assets/media/svg/flags/136-iran.svg" alt="">
+                                </span>
+                                <span class="navi-text">ایران</span>
+                            </a>
+                        </li>
+                        <!--end::Item-->
+
+                    </ul>
+                    <!--end::Nav-->
+                </div>
+                <!--end::دراپ دان-->
+            </div>
             <!--begin::اعلان ها-->
             <div class="dropdown">
                 <!--begin::Toggle-->

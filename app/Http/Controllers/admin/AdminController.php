@@ -339,7 +339,8 @@ class AdminController extends Controller
                 $plan->user->save_log(['admin'],
                 [
                     'type'=>'edit_plan_by_student_from_master',
-                    'plan_id' =>$plan->id
+                    'plan_id' =>$plan->id,
+                    'operator_id'=> $plan->master_id,
                 ]
                 , true);
             } else {

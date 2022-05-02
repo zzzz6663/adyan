@@ -362,7 +362,7 @@
                     </a>
                 </li>
                 @endrole
-                @role('master')
+                @role('master|expert')
                 <li class="menu-item  menu-item-submenu {{Route::current()->getName()=='admin.all.session'?'menu-item-open':''}}" aria-haspopup="true" data-menu-toggle="hover">
                     <a href="{{route('admin.all.session')}}" class="menu-link menu-toggle"><span class="svg-icon menu-icon">
                             <!--begin::Svg Icon | path:assets/media/svg/icons/layout/layout-4-blocks.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

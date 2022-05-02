@@ -35,7 +35,8 @@
                                     <div class="text-muted">
                                         {{ __('sentences.' . $user->level) }}
                                     </div>
-                                    @if ($user->curt())
+                                    @role('admin')
+                                    {{-- @if ($user->curt())
                                     <div class="text-muted">
                                         وضعیت طرح اجمالی:
                                         <span class=" text-{{ $user->curt()->side?'success':'danger'}} ">{{ $user->curt()->side?'دانشجو':'غیر دانشجو'}}</span>
@@ -46,7 +47,8 @@
                                         وضعیت طرح تفصیلی:
                                         <span class=" text-{{ $user->plan->side?'success':'danger'}} ">{{ $user->plan->side?'دانشجو':'غیر دانشجو'}}</span>
                                      </div>
-                                    @endif
+                                    @endif --}}
+                                    @endrole
 
                                     {{-- <div class="mt-2">
                                         <a href="#"

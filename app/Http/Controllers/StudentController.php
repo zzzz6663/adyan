@@ -152,7 +152,7 @@ class StudentController extends Controller
             // ایجاد کلید واحد  برای هر آزمون
             $number = $user->quizzes()->count() + 1;
             $user->quizzes()->attach(array($quiz->id => ['time' => Carbon::now(), 'number' => $number]));
-            $questions = $quiz->questions()->inRandomOrder()->limit(20)->get();
+            $questions = $quiz->questions()->inRandomOrder()->limit(15)->get();
             $user->questions()->attach($questions->pluck('id')->toArray(), ['number' => $number, 'quiz_id' => $quiz->id]);
             return view('student.quiz', compact(['questions', 'number', 'quiz']));
         }
@@ -176,7 +176,7 @@ class StudentController extends Controller
         }
         $quiz_result = 0;
 
-        if ($correct >= 2) {
+        if ($correct >= 10) {
             $user->quizzes()->wherePivot('number', $request->number)->update(['result' => 1]);
             $quiz_result = 1;
             $duty = $user->duties()->whereType('student_go_quiz')->latest()->first();

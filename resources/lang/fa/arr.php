@@ -4,7 +4,7 @@ return [
     'free' => ' آزاد',
     'none' => 'هیچکدام ',
     'manager' => 'مدیر گروه ',
-    'expert' => 'کارشناس ',
+    'expert' => 'ناظر ',
     'admin' => ' ادمین',
     'student' => ' دانشجو',
     'master' => ' استاد',
