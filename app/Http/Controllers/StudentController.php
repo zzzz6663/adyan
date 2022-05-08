@@ -149,6 +149,9 @@ class StudentController extends Controller
         if ($request->isMethod('post')) {
             $user = auth()->user();
             $quiz = Quiz::where('def','1')->first();
+            if( ! $quiz){
+                alert()->error(__('alert.a61'));
+            }
             // ایجاد کلید واحد  برای هر آزمون
             $number = $user->quizzes()->count() + 1;
             $user->quizzes()->attach(array($quiz->id => ['time' => Carbon::now(), 'number' => $number]));

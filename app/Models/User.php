@@ -331,7 +331,7 @@ class User extends Authenticatable
     }
     public function persian_latest_falid_quiz()
     {
-       return Jalalian::forge(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time)->addDays(21))->format('d-m-Y');
+       return Jalalian::forge(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time)->addDays(5))->format('d-m-Y');
     }
     public function check_go_quiz()
     {

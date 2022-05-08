@@ -481,6 +481,7 @@
                                                         @break
 
                                                         @case('verify')
+
                                                         <img alt="Pic" src="{{$log->operator()->avatar()}}">
                                                         @break
 

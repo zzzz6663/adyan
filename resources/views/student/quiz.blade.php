@@ -15,7 +15,8 @@
                             <!--begin::Header-->
                             <div class="card-header border-0">
                                 <h3 id="quiz_p" class="card-title font-weight-bolder text-dark">  زمان </h3>
-                                <div id="progressBar" data-time="{{$questions->count()*5}}">
+
+                                <div id="progressBar" data-time="{{$questions->count()*$quiz->duration}}">
                                     <div class="bar"></div>
                                   </div>
 

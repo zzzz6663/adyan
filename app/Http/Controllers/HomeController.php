@@ -26,10 +26,6 @@ class HomeController extends Controller
     public  function  aa()
     {
         Auth::loginUsingId(5, true);
-        $user = auth()->user();
-        $plan=Plan::find(87);
-        $plans=Plan::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',[8])->get();
-        dd(  $user);
 
     }
     public  function  clear()
