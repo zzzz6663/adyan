@@ -4,6 +4,19 @@
   justify-content: center;
 }
 
+@media (max-width: 600px) {
+  .bob {
+    border-top: 12px solid #e1e2f6;
+  }
+}
+.wizard-step.red i, .wizard-step.red h3 {
+  color: #ff9136 !important;
+}
+.wizard-step.red svg g[fill] * {
+  color: #b5b5c3 !important;
+  fill: #b5b5c3 !important;
+}
+
 #progressBar {
   width: 400px;
   margin: 10px auto;

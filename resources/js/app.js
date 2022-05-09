@@ -114,6 +114,15 @@ window.onload = function() {
             });
         }
 
+        var a= $('.wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').length
+        console.log(a)
+        console.log(122222222)
+        $('.wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').eq(a-1).addClass('red');
+
+
+
+
+
         $('body').on('click', '#kt_login_forgot', function () {
             console.log(12);
             $('.login-signin').hide(400);

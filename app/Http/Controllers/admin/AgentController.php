@@ -106,7 +106,8 @@ class AgentController extends Controller
             $users->orWhere('name','LIKE',"%{$search}%")
             ->orWhere('family','LIKE',"%{$search}%")
             ->orWhere('mobile','LIKE',"%{$search}%")
-            ->orWhere('code','LIKE',"%{$search}%");
+            ->orWhere('code','LIKE',"%{$search}%")
+            ->orWhere('id','LIKE',"%{$search}%");
         //  $users->where(function($query) use ($request){
         //     $search=$request->search;
         //            $query->where('code','LIKE',"%{$search}%");

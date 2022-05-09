@@ -9,7 +9,10 @@
             <div id="kt_header_menu"
                 class="header-menu header-menu-mobile  header-menu-layout-default ">
 
+<!--begin::دراپ دان-->
             </div>
+              <!--end::Toggle-->
+
             <!--end::Header Menu-->
         </div>
         <!--end::Header Menu Wrapper-->
@@ -17,7 +20,22 @@
         <!--begin::Topbar-->
         <div class="topbar">
 
-            <div class="dropdown"  style="display: inline-block">
+            <div class="dropdown"  >
+                <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px" aria-expanded="false">
+                    <div class="btn btn-icon btn-active-light-primary w-30px h-30px w-md-40px h-md-40px active" id="kt_aside_mobile_toggle">
+                        <!--begin::Svg Icon | path: icons/duotune/abstract/abs015.svg-->
+                        <span class="svg-icon svg-icon-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="currentColor"></path>
+                                <path opacity="0.3" d="M21 14H3C2.4 14 2 13.6 2 13V11C2 10.4 2.4 10 3 10H21C21.6 10 22 10.4 22 11V13C22 13.6 21.6 14 21 14ZM22 20V18C22 17.4 21.6 17 21 17H3C2.4 17 2 17.4 2 18V20C2 20.6 2.4 21 3 21H21C21.6 21 22 20.6 22 20Z" fill="currentColor"></path>
+                            </svg>
+                        </span>
+                        <!--end::Svg Icon-->
+                    </div>
+                </div>
+
+            </div>
+            <div class="dropdown"  >
                 <!--begin::Toggle-->
                 <div class="topbar-item" data-toggle="dropdown" data-offset="10px,0px"
                     aria-expanded="false">
@@ -31,9 +49,7 @@
                             @endif
                     </div>
                 </div>
-                <!--end::Toggle-->
 
-                <!--begin::دراپ دان-->
                 <div class="dropdown-menu p-0 m-0 dropdown-menu-anim-up dropdown-menu-sm dropdown-menu-right"
                     style="">
                     <!--begin::Nav-->
@@ -224,15 +240,15 @@
 
             <!--begin::User-->
             <div class="topbar-item">
-                <div class="btn btn-icon btn-icon-mobile w-auto btn-clean d-flex align-items-center btn-lg px-2"
+                <div class="btn btn-icon  w-auto btn-clean d-flex align-items-center btn-lg px-2"
                     id="kt_quick_user_toggle">
                     <span
-                        class="text-muted font-weight-bold font-size-base d-none d-md-inline mr-1">
+                        class="text-muted font-weight-bold font-size-base d-md-inline mr-1">
                         {{ __('sentences.hi') }}
                     </span>
                         @auth
                         <span
-                        class="text-dark-50 font-weight-bolder font-size-base d-none d-md-inline mr-3">
+                        class="text-dark-50 font-weight-bolder font-size-base e d-md-inline mr-3">
                         {{auth()->user()->name}}
                         {{auth()->user()->family}}
                     </span>

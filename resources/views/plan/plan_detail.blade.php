@@ -311,22 +311,12 @@
                     <div class="wizard wizard-1" id="kt_wizard_v1" data-wizard-state="step-first"
                         data-wizard-clickable="false">
 
-                        @include('sections.error')
-
-                        @if (($main_plan->master_id==auth()->user()->id))
-                        <form class="form" action="{{route('admin.plan.confirm' ,$main_plan->id)}}" id="kt_form" method="post">
-                        @else
-                        <form class="form" action="{{route('admin.plan.submit' ,$main_plan->id)}}" id="kt_form" method="post">
-
-                        @endif
-                            @csrf
-                            @method('post')
                             <div class="row justify-content-center my-10 px-8 my-lg-15 px-lg-10">
                                 <div class="col-xl-12 col-xxl-12">
 
                                     <br>
                                     <!--begin::ویزارد گام 1-->
-                                    <div class="row">
+                                    {{-- <div class="row">
                                         <div class="col-xl-12 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
@@ -785,14 +775,244 @@
                                         @endrole
 
 
-                                    </div>
+                                    </div> --}}
+                                    <ul class="history">
+                                        @foreach ($all_plans as $p)
+                                        <li>
+                                            @if ($p->status)
+                                            {{__('sentences.group')}}
+                                            {{$p->group->name}}
+                                            @else
+                                            {{__('sentences.master_name')}}
+                                            {{$main_plan->master->name}}
+                                            {{$main_plan->master->family}}
+                                            @endif
 
+                                            ({{Morilog\Jalali\Jalalian::forge($p->created_at)->format('d-m-Y')}})
+                                            @if ($p->title)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.title')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->title}}
+                                                </span>
+                                            </p>
+                                            @endif
+                                            @if ($p->en_title)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.en_title')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->en_title}}
+                                                </span>
+                                            </p>
+
+                                            @endif
+
+
+
+                                            @if ($p->tags)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.tags')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->tags}}
+                                                </span>
+                                            </p>
+                                            @endif
+
+                                            @if ($p->en_tags)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.en_tags')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->en_tags}}
+                                                </span>
+                                            </p>
+                                            @endif
+
+                                            @if ($p->problem)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.problem')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->problem}}
+                                                </span>
+                                            </p>
+                                            @endif
+
+                                            @if ($p->sub_question)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.sub_question')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->sub_question}}
+                                                </span>
+                                            </p>
+                                            @endif
+
+
+
+                                            @if ($p->question)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.question')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->question}}
+                                                </span>
+                                            </p>
+                                            @endif
+
+
+                                            @if ($p->necessity)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.necessity')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->necessity}}
+
+                                                </span>
+                                            </p>
+
+                                            @endif
+
+
+                                            @if ($p->hypo)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.hypo')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->hypo}}
+                                                </span>
+                                            <p>
+
+                                            @endif
+
+                                            @if ($p->theory)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.theory')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->theory}}
+                                                </span>
+                                            <p>
+
+                                            @endif
+
+                                            @if ($p->structure)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.structure')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->structure}}
+                                                </span>
+                                            <p>
+                                            @endif
+
+
+                                            @if ($p->method)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.method')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->method}}
+                                                </span>
+                                            <p>
+                                            @endif
+
+
+                                            @if ($p->source)
+
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.source')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->source}}
+                                                </span>
+                                            <p>
+                                            @endif
+
+
+                                            @if ($p->concepts)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.concepts')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->concepts}}
+                                                </span>
+                                            <p>
+                                            @endif
+
+
+
+                                            @if ($p->goals)
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.goals')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->goals}}
+                                                </span>
+                                            <p>
+                                            @endif
+
+
+                                            @if ($p->history)
+
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.history')}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->history}}
+                                                </span>
+                                            <p>
+
+                                            @endif
+
+
+
+
+
+
+
+                                                @if ($p->info_master)
+
+                                            <p>
+                                                <span class="ti">
+                                                    {{__('sentences.info_master')}}
+                                                    {{$p->master->name}}
+                                                    {{$p->master->family}}
+                                                </span>
+                                                <span class="cont">
+                                                    {{$p->info_master}}
+                                                </span>
+                                            <p>
+                                                @endif
+
+
+                                        </li>
+                                        @endforeach
+                                    </ul>
 
                                 </div>
                             </div>
 
                             <!--end::ویزارد اقدامات-->
-                        </form>
 
 
                         <!--end::ویزارد Form-->

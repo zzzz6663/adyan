@@ -7,6 +7,7 @@ use App\Models\Code;
 use App\Models\Curt;
 use App\Models\Duty;
 use App\Models\Plan;
+use App\Models\Quiz;
 use App\Models\User;
 use App\Mail\VerifyEmail;
 use Illuminate\View\View;
@@ -348,12 +349,22 @@ class HomeController extends Controller
 
     public  function  note(Request $request)
     {
-
-         $ddd=Plan::where('type','primary')->where('confirm_master','1')->where('status','!=','accepted')->whereHas('duty',function($query){
-            $query->where('type','verify_plan_by_master');
+        // $q=Quiz::find(11);
+        // $quiz= $q->users()->get();
+            // foreach  ($quiz as $qu){
+            //     $qu->duties()->delete();
+            //     $qu->logs()->whereType('pass_quiz')->delete();
+            //     $qu->save_duty( [],['type'=>'student_go_quiz'], true);
+            // }
+         $ddd=Plan::where('type','primary')->where('confirm_master','1')->whereHas('duty',function($query){
         })->get();
-        dd( $ddd);
+        $dd=Plan::where('type','primary')->get();
+       foreach  ($dd as $user){
+           dump($user->status);
+       }
+    //    dd($dd->count());
         // session()->put('locale', 'en');
+
 
         $user = auth()->user();
         // dd( $user ->duties);
