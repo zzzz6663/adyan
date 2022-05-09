@@ -539,6 +539,7 @@ class AgentController extends Controller
             // faild_without_guid
             switch($data['state']){
                 case 'faild':
+
                     $plan->user->save_duty( [],
                     [
                         'type' =>'edit_plan_by_student',
@@ -552,6 +553,7 @@ class AgentController extends Controller
                         'plan_id' =>$plan->id
                     ]
                     , true);
+                    $plan->update([ 'confirm_master'=>'0']);
                     alert()->success('طرح با موفقیت ساخته شد ');
                     return redirect()->route('admin.basic.info1');
                     break;
@@ -564,6 +566,7 @@ class AgentController extends Controller
                     ]
                     ,true );
                     $plan->update([ 'down' => Carbon::now()]);
+
                     $plan->user->update_status('booklet');
                     alert()->success('طرح با موفقیت ساخته شد ');
                     return redirect()->route('admin.basic.info1');
@@ -578,7 +581,7 @@ class AgentController extends Controller
                     ]
                     ,true );
                     $plan->user->save_duty( ['list'=>[ $plan->master->id]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
-
+                    $plan->update([ 'confirm_master'=>'0']);
                     alert()->success('طرح با موفقیت ساخته شد ');
                     return redirect()->route('admin.basic.info1');
                     break;

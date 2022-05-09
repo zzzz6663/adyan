@@ -137,14 +137,14 @@ class PlanController extends Controller
                 'type'=>'submit_plan',
                 'plan_id'=>$plan->id,
             ],true);
-        $user->curt()->subject->group->admin()->save_duty( ['list'=>[ $data['master_id']]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
+        $user->curt()->subject->group->admin()->save_duty( ['list'=>[ $data['master_id']]],['type'=>'confirm_plan_by_master','plan_id'=>$plan->id],false);
         }else{
             $user->save_log(['expert','admin','list'=>[  $user->curt()->master_id]],
             [
                 'type'=>'submit_plan',
                 'plan_id'=>$plan->id,
             ],true);
-        $user->curt()->group->admin()->save_duty( ['list'=>[ $data['master_id']]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
+        $user->curt()->group->admin()->save_duty( ['list'=>[ $data['master_id']]],['type'=>'confirm_plan_by_master','plan_id'=>$plan->id],false);
 
         }
 
@@ -232,14 +232,14 @@ class PlanController extends Controller
                 // ارسال گزارش برای استاد راهنما و ادمین گروه
          $user->save_log([ 'admin','list'=>[  $plan->master_id]],
              [
-                 'type'=>'submit_plan',
+                 'type'=>'submit_plan_to_group',
                  'plan_id'=>$plan->id,
              ],true);
          $user->curt()->subject->group->admin()->save_duty( ['list'=>[$user->curt()->subject->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
          }else{
              $user->save_log([ 'admin','list'=>[  $user->curt()->master_id]],
              [
-                 'type'=>'submit_plan',
+                 'type'=>'submit_plan_to_group',
                  'plan_id'=>$plan->id,
              ],true);
          $user->curt()->group->admin()->save_duty( ['list'=>[$user->curt()->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
@@ -252,7 +252,7 @@ class PlanController extends Controller
                 'plan_id'=>$plan->id,
                 'operator_id'=>$plan->master_id,
             ],true);
-            $plan->group->admin()->save_duty( ['list'=>[ $plan->master_id]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
+            $plan->group->admin()->save_duty( ['list'=>[ $plan->master_id]],['type'=>'confirm_plan_by_master','plan_id'=>$plan->id],false);
         }
 
 

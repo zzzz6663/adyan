@@ -70,6 +70,12 @@
                                             <th class="datatable-cell datatable-cell-sort text-center">
                                                 <span>
 
+                                                    {{ __('sentences.session_date') }}
+                                                </span>
+                                            </th>
+                                            <th class="datatable-cell datatable-cell-sort text-center">
+                                                <span>
+
                                                     {{ __('sentences.created_at') }}
                                                 </span>
                                             </th>
@@ -122,6 +128,12 @@
                                             <td class="datatable-cell text-center">
                                                 <span>
                                                     {{$usersession->status?__('sentences.closed'):__('sentences.opend')}}
+                                                </span>
+                                            </td>
+                                            <td class="datatable-cell text-center">
+                                                <span>{{
+                                                    Morilog\Jalali\Jalalian::forge($usersession->time)->format('Y-m-d')
+                                                    }}
                                                 </span>
                                             </td>
                                             <td class="datatable-cell text-center">

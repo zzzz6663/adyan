@@ -586,7 +586,7 @@
                                             </div>
                                         </div>
 
-
+                                        @role('admin|master|expert')
                                         <div class="col-xl-12   bg-light  mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
@@ -608,6 +608,7 @@
                                                   </ul>
                                             </div>
                                         </div>
+                                        @endrole
                                     </div>
 
                                 </div>

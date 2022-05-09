@@ -468,7 +468,7 @@
 
 
                                                 </div>
-                                                @role('admin|master')
+                                                @role('admin|master|student')
                                                 <!--begin::تایم لاین-->
                                                 <div class="timeline timeline-3">
                                                     <div class="timeline-items">
@@ -1695,21 +1695,11 @@
                                             </th>
                                             <th class="datatable-cell datatable-cell-sort text-center">
                                                 <span>
-                                                    {{ __('sentences.question_count') }}
+                                                    {{ __('sentences.status') }}
 
                                                 </span>
                                             </th>
-                                            <th class="datatable-cell datatable-cell-sort text-center">
-                                                <span>
-                                                    {{ __('sentences.question_duration') }}
 
-                                                </span>
-                                            </th>
-                                            <th class="datatable-cell datatable-cell-sort text-center">
-                                                <span>
-                                                    {{ __('sentences.quiz_show_status') }}
-                                                </span>
-                                            </th>
                                             <th class="datatable-cell datatable-cell-sort text-center">
                                                 <span>
                                                     {{ __('sentences.created_at') }}
@@ -1727,12 +1717,12 @@
                                             <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span>
                                             </td>
                                             <td class="datatable-cell text-center"><span>{{$quiz->title}} </span></td>
-                                            <td class="datatable-cell text-center"><span>
+                                            {{-- <td class="datatable-cell text-center"><span>
                                                     {{ $user->questions()->wherePivot('number',
                                                     $quiz->pivot->number)->wherePivot('quiz_id', $quiz->id)->count()}}
                                                 </span></td>
                                             <td class="datatable-cell text-center"><span>{{$quiz->duration}} </span>
-                                            </td>
+                                            </td> --}}
                                             <td class="datatable-cell text-center"><span
                                                     class="text-{{$quiz->pivot->result=='1'?'success':'danger'}}">{{$quiz->pivot->result=='1'?
                                                     __('sentences.passed') : __('sentences.action') }} </span></td>

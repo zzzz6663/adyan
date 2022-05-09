@@ -37,7 +37,6 @@
                                                             {{$loop->iteration}}-
                                                         {{ $question->question }}
 
-                                                    {{$question->answer}}
                                                     </label>
                                                     <div class="radio-">
                                                         <input type="text" hidden name="quiz_id" value="{{$quiz->id}}">

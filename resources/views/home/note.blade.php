@@ -121,9 +121,8 @@
                                                     @case('review_curt_by_master')
                                                     @role('master')
 
-                                                  {{__('sentences.review_curt_by_master')}}
-                                                  {{$duty->student()->name}}
-                                                  {{$duty->student()->family}}
+                                                  {{__('sentences.review_curt_by_master_duty_l',['student'=>$duty->student()->name.' '.$duty->student()->family,'group'=>$duty->curt->group->name])}}
+
                                                     @endrole
                                                     @break
 
@@ -165,7 +164,7 @@
 
                                                     @case('verify_plan')
                                                     @role('master')
-                                                  {{__('sentences.verify_plan_by_master')}}
+                                                  {{__('sentences.verify_plan_duty_title',['student'=>$duty->plan->user->name.' '.$duty->plan->user->family])}}
                                                   {{-- {{$duty->plan->user->id}}
                                                   {{$duty->plan->user->name}} --}}
                                                     @endrole
@@ -173,15 +172,21 @@
 
                                                     @case('verify_plan_by_master')
                                                     @role('master')
-
                                                     {{__('sentences.verify_plan_by_master_duty',['student'=>$duty->plan->user->name.' '.$duty->plan->user->family,'code'=>$duty->plan->user->code])}}
-
                                                     @endrole
                                                     @break
 
                                                     @case('verify_subject')
                                                     @role('master')
                                                   {{__('sentences.verify_subject_duty',['master'=>$duty->subject->master->name.' '.$duty->subject->master->family])}}
+                                                    @endrole
+                                                    @break
+
+
+                                                    @case('confirm_plan_by_master')
+                                                    @role('master')
+
+                                                  {{__('sentences.confirm_plan_by_master_duty_title',['student'=>$duty->plan->user->name.' '.$duty->plan->user->family])}}
                                                     @endrole
                                                     @break
 
@@ -219,7 +224,7 @@
                                                     data-toggle="view">
 
 
-                                                        {{-- {{$duty->type}} --}}
+                                                        {{$duty->type}}
                                                        {{-- {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}} --}}
                                                     @switch( $duty->type)
 
@@ -326,12 +331,21 @@
                                                     @case('verify_plan')
                                                     @role('master')
                                                    <a class="btn btn-primary" href="{{route('session.create',['plan'=>$duty->plan->id])}}">
-                                                   {{$duty->plan->id}}
                                                         {{__('sentences.create_session')}}
                                                     </a>
                                                     @endrole
                                                     @break
                                                     @case('verify_plan_by_master')
+                                                    @role('master')
+                                                   @if (!$duty->time)
+                                                   <a class="btn btn-outline-primary"
+                                                   href="{{ route('admin.show.plan',[ $duty->plan->id]) }}">
+                                                   {{ __('sentences.verify') }} </a>
+                                                   @endif
+
+                                                    @endrole
+                                                    @break
+                                                    @case('confirm_plan_by_master')
                                                     @role('master')
 
                                                     <a class="btn btn-outline-primary"
@@ -457,9 +471,13 @@
                                         <div class="timeline timeline-3">
                                             <div class="timeline-items">
                                                 @foreach ($logs as $log )
+                                                {{$log->type}}
+
                                                 <div class="timeline-item">
                                                     <div class="timeline-media">
                                                         @switch($log->type)
+
+
                                                         @case('register')
                                                         <img alt="Pic" src="{{$log->student()->avatar()}}">
                                                         @break
@@ -542,7 +560,12 @@
                                                         <img alt="Pic" src="{{$log->student()->avatar()}}">
                                                         @break
 
-
+                                                        @case('submit_plan_to_group')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
+                                                        @case('faild_plan_confirm_guid')
+                                                        <img alt="Pic" src="{{$log->student()->avatar()}}">
+                                                        @break
                                                         @default
 
                                                         @endswitch
@@ -660,6 +683,16 @@
                                                                 @break
 
 
+                                                                @case('submit_plan_to_group')
+                                                                {{__('sentences.submit_plan_to_group_title')}}
+                                                                @break
+
+
+                                                                @case('faild_plan_confirm_guid')
+                                                                {{__('sentences.faild_plan_confirm_guid_title')}}
+                                                                @break
+
+
 
 
                                                                 @default
@@ -721,7 +754,7 @@
 
                                                             @case('select_curt_master')
                                                             <span class=" ">
-                                                          {{__('sentences.select_curt_master_for_curt',['master'=>$log->curt->master()->name.' '.$log->curt->master()->family,'group'=>$log->curt->group->name])}}
+                                                          {{__('sentences.select_curt_master_for_curt',['student'=>$log->curt->user->name.' '.$log->curt->user->family,'master'=>$log->curt->master()->name.' '.$log->curt->master()->family,'group'=>$log->curt->group->name])}}
                                                             </span>
                                                             @break
                                                             @case('select_plan_guid')
@@ -788,7 +821,7 @@
 
                                                             @case('submit_plan')
                                                             <span class=" ">
-                                                                {{__('sentences.submit_plan_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name])}}
+                                                                {{__('sentences.submit_plan_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->plan->master->name.' '.$log->plan->master->family])}}
                                                             </span>
                                                             @break
                                                             @case('submit_plan_master')
@@ -811,7 +844,7 @@
                                                             @break
                                                             @case('confirm_plan')
                                                             <span class=" ">
-                                                                {{__('sentences.confirm_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->operator()->name.' '.$log->operator()->family ])}}
+                                                                {{__('sentences.confirm_plan_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->operator()->name.' '.$log->operator()->family ,'group'=>$log->plan->group->name  ])}}
                                                             </span>
                                                             @break
                                                             @case('accept_plan')
@@ -832,6 +865,18 @@
                                                             @case('pass_curt_to_group')
                                                             <span class=" ">
                                                                 {{__('sentences.pass_curt_to_group_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->curt->group->name])}}
+                                                            </span>
+                                                            @break
+
+                                                            @case('submit_plan_to_group')
+                                                            <span class=" ">
+                                                                {{__('sentences.submit_plan_to_group_content',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->plan->group->name])}}
+                                                            </span>
+                                                            @break
+
+                                                            @case('faild_plan_confirm_guid')
+                                                            <span class=" ">
+                                                                {{__('sentences.faild_plan_confirm_guid_content',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->plan->master->name.' '.$log->plan->master->family])}}
                                                             </span>
                                                             @break
 

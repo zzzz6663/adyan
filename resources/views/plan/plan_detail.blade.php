@@ -186,38 +186,7 @@
 
                                 </div>
                             </div>
-                                <!--end: Content-->
-                            <div class="row">
-                                @if ($main_plan->history)
-                                <div class="col-lg-6">
-                                    <h5>
-                                        {{__('sentences.history_more')}}
-                                    </h5>
-                                    <p style="background:#f5f5f5">
-                                        {{$main_plan->history}}
-                                    </p>
-                                </div>
-                                @endif
-                                {{-- <div class="col-lg-6">
-                                    <h5>
-                                        {{__('sentences.special_note')}}
-                                    </h5>
-                                    <p style="background:#f5f5f5">
-                                        {{$main_plan->note}}
-                                    </p>
-                                </div> --}}
-                                @if ($main_plan->fail_reason)
-                                <div class="col-lg-6">
-                                    <h5>
-                                        {{__('sentences.fail_reason')}}
-                                    </h5>
-                                    <p style="background:#f5f5f5">
-                                        {{$main_plan->fail_reason}}
-                                    </p>
-                                </div>
-                                @endif
 
-                            </div>
                         </div>
                         <!--end: اطلاعات-->
                     </div>
@@ -334,7 +303,7 @@
 
 
 
-            @role('expert|admin|master')
+            @role('expert|admin|master|student')
 
             <div class="card card-custom">
                 <div class="card-body p-0">
@@ -791,7 +760,7 @@
                                                     href="{{$main_plan->report()}}">{{__('sentences.download_report')}}</a>
                                             </div>
                                         </div>
-
+                                        @role('admin|master|expert')
                                         <div class="col-xl-12  bg-light  mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
@@ -813,6 +782,7 @@
                                                    </ul>
                                             </div>
                                         </div>
+                                        @endrole
 
 
                                     </div>

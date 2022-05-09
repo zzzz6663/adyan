@@ -313,7 +313,7 @@ class AdminController extends Controller
             'confirm_master' =>'required',
             'info_master' =>'required_if:confirm_master,=,0',
         ]);
-        $duty = $plan->master->duties()->where('plan_id', $plan->id)->whereType('verify_plan_by_master')->where('time', null)->latest()->first();
+        $duty = $plan->master->duties()->where('plan_id', $plan->id)->whereIn('type',['confirm_plan_by_master','verify_plan_by_master'])->where('time', null)->latest()->first();
         if ( $duty) {
             $duty->update([
                 'time' => Carbon::now()
@@ -336,15 +336,16 @@ class AdminController extends Controller
                     'group_id'=>$plan->group_id,
                     'plan_id' =>$plan->id
                 ],true);
-                $plan->user->save_log(['admin'],
+                $plan->user->save_log(['admin','list'=>[$plan->master_id]],
                 [
                     'type'=>'edit_plan_by_student_from_master',
                     'plan_id' =>$plan->id,
                     'operator_id'=> $plan->master_id,
                 ]
                 , true);
+
             } else {
-                $plan->user->save_log(['admin','group'],
+                $plan->user->save_log(['admin','group' ,'list'=>[$plan->master_id,$plan->group->admin()->id]],
                 [
                     'type'=>'confirm_plan',
                     'group_id'=> $plan->group_id,
@@ -353,7 +354,7 @@ class AdminController extends Controller
                 ]
                 ,true );
                 $plan->group->admin()->save_duty( ['list'=>[ $plan->group->admin()->id]],['type'=>'verify_plan','plan_id'=>$plan->id],false);
-                $plan->update(['side'=>'0']);
+                $plan->update(['side'=>'0' ,'confirm_master'=>'1']);
             }
             alert()->success(__('alert.a15'));
             return redirect()->route('user.note');
@@ -678,8 +679,19 @@ class AdminController extends Controller
                 'time' =>Carbon::now()
             ]);
             $data=$request->validate([
-                'guid_id'=>'required'
+                'master_id'=>'required'
             ]);
+
+
+            $curt->user->save_log( ['admin','group','list'=>[$data['master_id']]],
+            [
+                'type'=>'select_curt_master',
+                'operator_id'=> auth()->user()->id,
+                'curt_id' =>$curt->id,
+            ]
+            , true);
+            $curt->user->save_duty( [],['type'=>'submit_plan'], true);
+            $curt->user->update_status('plan');
             $curt->update($data);
             return redirect()->route('user.note');
         }

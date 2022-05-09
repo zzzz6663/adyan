@@ -348,9 +348,15 @@ class HomeController extends Controller
 
     public  function  note(Request $request)
     {
-        session()->put('locale', 'en');
+
+         $ddd=Plan::where('type','primary')->where('confirm_master','1')->where('status','!=','accepted')->whereHas('duty',function($query){
+            $query->where('type','verify_plan_by_master');
+        })->get();
+        dd( $ddd);
+        // session()->put('locale', 'en');
 
         $user = auth()->user();
+        // dd( $user ->duties);
         if($user ->level =='student' && $user->complete ==0 ){
             alert()->success(__('alert.a53'));
             return redirect()->route('user.register2');

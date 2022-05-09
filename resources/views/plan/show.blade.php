@@ -315,11 +315,10 @@
 
                         @include('sections.error')
 
-                        @if (($main_plan->master_id==auth()->user()->id))
+                        @if (($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1') && $main_plan->confirm_master !='1' )
                         <form class="form" action="{{route('admin.plan.confirm' ,$main_plan->id)}}" id="kt_form" method="post">
                         @else
                         <form class="form" action="{{route('admin.plan.submit' ,$main_plan->id)}}" id="kt_form" method="post">
-
                         @endif
                             @csrf
                             @method('post')
@@ -350,7 +349,8 @@
                                                 <textarea name="title"
                                                     class="form-control {{old('title')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6"> {{old('title')}}</textarea>
-                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
+                                                    {{-- && $main_plan->confirm_master !='1' --}}
+                                                <span class="{{($main_plan->master_id==auth()->user()->id  )?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
 
                                                     {{__('sentences.add_info')}}
                                                 </span>
@@ -382,7 +382,7 @@
                                                 <textarea name="en_title"
                                                     class="form-control  {{old('en_tags')?'':'hide'}} inp" id="en_title"
                                                     cols="30" rows="6">{{old('en_title')}}</textarea>
-                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
+                                                <span class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
 
                                                     {{__('sentences.add_info')}}
                                                 </span>
@@ -417,7 +417,7 @@
                                                 </h6>
                                                 <textarea name="tags" class="form-control {{old('tags')?'':'hide'}} inp"
                                                     id="title" cols="30" rows="6">{{old('tags')}}</textarea>
-                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
+                                                <span class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
                                                 </span>
                                                 <ul>
@@ -451,7 +451,7 @@
                                                 <textarea name="en_tags"
                                                     class="form-control  {{old('en_tags')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('en_tags')}}</textarea>
-                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
+                                                <span class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
                                                 </span>
                                                 <ul>
@@ -481,7 +481,7 @@
                                                 <textarea name="problem"
                                                     class="form-control {{old('problem')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('problem')}}</textarea>
-                                                <span class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
+                                                <span class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">
                                                     {{__('sentences.add_info')}}
                                                 </span>
                                                 <ul>
@@ -512,7 +512,7 @@
                                                     class="form-control {{old('necessity')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('necessity')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->necessity)
@@ -542,7 +542,7 @@
                                                     class="form-control {{old('goals')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('goals')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->goals)
@@ -571,7 +571,7 @@
                                                     class="form-control {{old('question')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('question')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->question)
@@ -602,7 +602,7 @@
                                                     class="form-control {{old('sub_question')?'':'hide'}} inp"
                                                     id="title" cols="30" rows="6">{{old('sub_question')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->sub_question)
@@ -631,7 +631,7 @@
                                                 <textarea name="hypo" class="form-control {{old('hypo')?'':'hide'}} inp"
                                                     id="title" cols="30" rows="6">{{old('hypo')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->hypo)
@@ -662,7 +662,7 @@
                                                     class="form-control {{old('method')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('method')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                <ul>
                                                 @foreach ($all_plans as $plan)
                                                 @if ( $plan->method)
@@ -692,7 +692,7 @@
                                                     class="form-control {{old('concepts')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('concepts')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                <ul>
                                                 @foreach ($all_plans as $plan)
                                                 @if ( $plan->concepts)
@@ -722,7 +722,7 @@
                                                     class="form-control {{old('theory')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('theory')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->theory)
@@ -754,7 +754,7 @@
                                                     class="form-control {{old('history')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('history')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->history)
@@ -785,7 +785,7 @@
                                                     class="form-control {{old('structure')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('structure')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->structure)
@@ -816,7 +816,7 @@
                                                     class="form-control {{old('source')?'':'hide'}} inp" id="title"
                                                     cols="30" rows="6">{{old('source')}}</textarea>
                                                 <span
-                                                    class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                    class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                 <ul>
                                                     @foreach ($all_plans as $plan)
                                                 @if ( $plan->source)
@@ -833,9 +833,10 @@
                                                 </ul>
                                             </div>
                                         </div>
-
-                                        @if (!$main_plan->user->primary_plan()->guid_id)
+                                        {{ $main_plan->confirm_master}}
+                                        @if ((!$main_plan->user->primary_plan()->guid_id) && $main_plan->confirm_master=='1' )
                                         @role('master')
+
                                         <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
@@ -873,7 +874,7 @@
                                                     cols="30" rows="6">{{old('note')}}</textarea>
 
                                                   <span
-                                                  class="{{($main_plan->master_id==auth()->user()->id)?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
+                                                  class="{{($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')?'hide':'show'}} btn btn-success font-weight-bolder font-size-sm">{{__('sentences.insert_info')}}</span>
                                                     @foreach ($all_plans as $plan)
                                                     @if ( $plan->note)
                                                     <li>
@@ -888,7 +889,7 @@
                                                     @endforeach
                                             </div>
                                         </div>
-                                        @if ($main_plan->master_id==auth()->user()->id)
+                                        @if ($main_plan->master_id==auth()->user()->id  && $main_plan->confirm_master !='1')
                                         <div class="col-xl-12  bg-light  mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>

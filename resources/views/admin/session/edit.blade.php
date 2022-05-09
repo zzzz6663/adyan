@@ -86,7 +86,7 @@
                                                 <select name="curts[]"   multiple class="form-control  select2">
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($curts as $curt )
-                                                   <option   data-select2-id="{{$curt->id}}" selected locked="{{$curt->side? 'locked':''}}"  {{in_array($curt->id ,old('curts',$session->curts()->pluck('id')->toArray()))?'selected':''}} value="{{$curt->id}}">
+                                                   <option   data-select2-id="{{$curt->id}}"  locked="{{$curt->side? 'locked':''}}"  {{in_array($curt->id ,old('curts',$session->curts()->pluck('id')->toArray()))?'selected':''}} value="{{$curt->id}}">
                                                     {{$curt->title}}
                                                  (
                                                      {{$curt->user->name}}
@@ -110,7 +110,7 @@
                                                 <select name="subjects[]"   multiple class="form-control  select2">
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($subjects as $subject )
-                                                   <option  data-select2-id="{{$subject->id}}" selected locked="{{$subject->time? 'locked':''}}"    {{in_array($subject->id ,old('subjects',$session->subjects()->pluck('id')->toArray()))?'selected':''}} value="{{$subject->id}}">
+                                                   <option  data-select2-id="{{$subject->id}}"  locked="{{$subject->time? 'locked':''}}"    {{in_array($subject->id ,old('subjects',$session->subjects()->pluck('id')->toArray()))?'selected':''}} value="{{$subject->id}}">
                                                     {{$subject->title}}
                                                  (
                                                      {{$subject->master->name}}
@@ -134,7 +134,7 @@
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($plans as $plan )
 
-                                                   <option  data-select2-id="{{$plan->id}}" selected locked="{{$plan->side? 'locked':''}}"   {{in_array($plan->id ,old('plans',$session->plans()->pluck('id')->toArray()))?'selected':''}} value="{{$plan->id}}">
+                                                   <option  data-select2-id="{{$plan->id}}"  locked="{{$plan->side? 'locked':''}}"   {{in_array($plan->id ,old('plans',$session->plans()->pluck('id')->toArray()))?'selected':''}} value="{{$plan->id}}">
                                                     {{$plan->title}}
                                                  (
                                                      {{$plan->user->name}}
