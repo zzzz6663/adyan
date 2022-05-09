@@ -11,7 +11,8 @@
 @endsection
 @section('main')
 
-	<!--begin::Content-->
+<div class="error error-6 d-flex flex-row-fluid bgi-size-cover bgi-position-center" style="background-image: url(/assets/media/error/bg6.jpg);">
+    <!--begin::Content-->
     <div class="d-flex flex-column flex-row-fluid text-center">
         <h1 class="error-title font-weight-boldest text-white mb-12" style="margin-top: 12rem;">متاسفیم !...</h1>
         <p class="display-4 font-weight-bold text-white">
@@ -19,4 +20,6 @@
             ما روی آن کار می کنیم
         </p>
     </div>
+    <!--end::Content-->
+</div>
 @endsection
