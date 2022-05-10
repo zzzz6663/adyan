@@ -90,7 +90,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="datatable-body" style="">
-                                        @foreach ($user->sessions()->latest()->get()
+                                        @foreach ($sessions
                                         as $usersession)
                                         <tr class="datatable-row" style="left: 0px;">
                                             <td class="datatable-cell text-center">

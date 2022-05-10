@@ -275,7 +275,7 @@
                                     <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
                                     <td class="datatable-cell text-center"><span>
                                         {{$user->name}}
-                                        {{$user->status}}
+
 
                                     </span></td>
                                     <td class="datatable-cell text-center"><span>{{$user->family}} </span></td>

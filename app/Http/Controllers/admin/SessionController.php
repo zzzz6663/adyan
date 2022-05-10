@@ -256,6 +256,10 @@ class SessionController extends Controller
     public function all_session()
     {
         $user= auth()->user();
+        $sessions=$user->sessions()->latest()->get();
+        if($user->level=='expert'){
+                $sessions=Session::latest()->get();
+        }
     return view('admin.session.all_session',compact(['user']));
     }
     public function session_confirm(Request $request,Session $session)

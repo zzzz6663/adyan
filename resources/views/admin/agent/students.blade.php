@@ -95,6 +95,11 @@
                                             {{ __('sentences.code') }}
                                         </span>
                                     </th>
+                                    <th class="datatable-cell datatable-cell-sort text-center">
+                                        <span>
+                                            {{ __('sentences.status') }}
+                                        </span>
+                                    </th>
 
 
                                     {{-- <th class="datatable-cell datatable-cell-sort text-center">
@@ -125,6 +130,9 @@
                                     <td class="datatable-cell text-center"><span>{{$user->family}} </span></td>
                                     <td class="datatable-cell text-center"><span>
                                         {{$user->code}}
+                                    </span></td>
+                                    <td class="datatable-cell text-center"><span>
+                                        {{__('sentences.'.$user->status)}}
                                     </span></td>
 
 
