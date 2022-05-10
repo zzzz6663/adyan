@@ -2190,6 +2190,8 @@ window.onload = function () {
     console.log(a);
     console.log(122222222);
     $('.wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').eq(a - 1).addClass('red');
+    console.log(a);
+    $('.wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').eq(a - 1).find('.wizard-icon').addClass('flaticon2-information').removeClass('flaticon2-check-mark');
     $('body').on('click', '#kt_login_forgot', function () {
       console.log(12);
       $('.login-signin').hide(400);

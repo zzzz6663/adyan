@@ -9,6 +9,7 @@ use App\Models\Duty;
 use App\Models\Plan;
 use App\Models\Quiz;
 use App\Models\User;
+use App\Mail\UserMessage;
 use App\Mail\VerifyEmail;
 use Illuminate\View\View;
 use App\Imports\CodesImport;
@@ -92,8 +93,10 @@ class HomeController extends Controller
             'email_forget' => 'required'
         ]);
         $user = User::whereEmail($request->email_forget)->first();
+        $title='رمز عبور شما';
+        $message="رمز عبور شما:".  $user ->password;
         if ($user) {
-            Mail::to($user)->send(new VerifyEmail($user));
+            Mail::to($user)->send(new UserMessage($message,$title));
             alert()->success(__('alert.a10'));
         } else {
             alert()->error(__('alert.a11'));

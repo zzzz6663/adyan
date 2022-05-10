@@ -9,6 +9,11 @@
     border-top: 12px solid #e1e2f6;
   }
 }
+.datatable.datatable-default.datatable-loaded {
+  width: 100%;
+  overflow: auto;
+}
+
 .wizard-step.red i, .wizard-step.red h3 {
   color: #ff9136 !important;
 }

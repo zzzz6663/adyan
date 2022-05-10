@@ -137,7 +137,9 @@ class StudentController extends Controller
 
         if ($user->check_quiz_pass()) {
             alert()->error(__('alert.a34'));
-            return back();
+            return back();@env ('staging')
+
+            @endenv
         }
         if(!$user->check_go_quiz()){
             alert()->error(__('alert.a35'));

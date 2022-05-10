@@ -31,6 +31,7 @@ class UserMessage extends Mailable
     public function build()
     {
         $payam=$this->payam;
+        $title=$this->title;
         return $this->view('email.message' ,compact(['payam','title']))->subject(__('sentences.message'));
     }
 }
