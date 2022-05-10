@@ -303,7 +303,6 @@
 
 
 
-            @role('expert|admin|master|student')
 
             <div class="card card-custom">
                 <div class="card-body p-0">
@@ -1020,7 +1019,6 @@
                 </div>
                 <!--end::ویزارد Body-->
             </div>
-            @endrole
 
 
         </div>
