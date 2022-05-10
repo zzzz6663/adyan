@@ -212,7 +212,7 @@ class AgentController extends Controller
     public function show(User $agent)
     {
         $user=$agent;
-        $logs=$user->logs()->latest()->get();
+        $logs=$user->logs()->latest()->paginate(10, ['*'], 'logs');
         $main_curt = $user->curt();
         $all_curts = $user->curts()->whereType('secondary')->latest()->get();
         $main_plan = $user->plan()->whereType('primary')->first();

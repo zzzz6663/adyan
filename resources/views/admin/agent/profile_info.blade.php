@@ -463,7 +463,10 @@
                                         <div class="tab-pane active" id="logs" role="tabpanel">
                                             <div class="container">
                                                 @include('home.logs')
+                                                {{ $logs->appends(Request::all())->links('sections.pagination') }}
+
                                             </div>
+
                                         </div>
                                         <!--end::Tab Content-->
 

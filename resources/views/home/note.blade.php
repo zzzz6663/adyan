@@ -147,7 +147,9 @@
                                                     @break
                                                     @case('confirm_session')
                                                     @role('master')
-                                                  {{__('sentences.confirm_session_duty',['date'=>Morilog\Jalali\Jalalian::forge($duty->time)->format('d-m-Y')])}}
+                                                    @if ($duty->session)
+                                                    {{__('sentences.confirm_session_duty',['date'=>Morilog\Jalali\Jalalian::forge($duty->session->time)->format('d-m-Y')])}}
+                                                    @endif
                                                     @endrole
                                                     @break
 
@@ -454,7 +456,7 @@
                         </div>
                         <!--end::Card-->
                     </div>
-                    <div class="col-xl-6  pt-xl-0"> 
+                    <div class="col-xl-6  pt-xl-0">
                         <div class="card card-custom gutter-b bob"   >
                             <div class="card-header">
                                 <div class="card-title">
