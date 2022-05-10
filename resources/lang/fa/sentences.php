@@ -497,7 +497,7 @@ return [
 
     'all_subject'=>'همه موضوعات مصوب',
     'pending_log'=>'در انتظار بررسی',
-    'select_plan_guid_for_plan'=>'استاد :master به عنوان  استاد مشاور طرح تفصیلی  :group انتخاب شد ',
+    'select_plan_guid_for_plan'=>'ستاد :master به عنوان استاد مشاور طرح تفصیلی دانشجو :student توسط گروه :group انتخاب شد ',
     'select_curt_guid_for_curt'=>'استاد :master به عنوان  استاد مشاور طرح اجمالی  :group انتخاب شد ',
     'role'=>'نقش',
     'group_master'=>'مدیر گروه',

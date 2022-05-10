@@ -496,7 +496,7 @@ return [
 
     'all_subject'=>'جمیع الموضوعات المقترح',
     'pending_log'=>'قید النظر',
-    'select_plan_guid_for_plan'=>'تم تعیین الاستاذ :master کالمشرف المساعد للخطة التفصیلیة للطالب :student من قبل لجنة :group ',
+    'select_plan_guid_for_plan'=>'تم تعیین الاستاذ :master کالمشرف المساعد للخطة التفصیلیة للطالب :student من قبل لجنة :group',
     'select_curt_guid_for_curt'=>'تم تعیین الاستاذ :master کالمشرف المساعد للاستمارة الاولی للطالب :student من قبل لجنة :group ',
     'role'=>'دور',
     'group_master'=>'مدیر اللجنة',

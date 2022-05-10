@@ -463,10 +463,12 @@
                                         <div class="tab-pane active" id="logs" role="tabpanel">
                                             <div class="container">
                                                 @include('home.logs')
-                                                @if ( $logs)
-                                                {{ $logs->appends(Request::all())->links('sections.pagination') }}
+                                                @if($logs instanceof \Illuminate\Pagination\LengthAwarePaginator )
 
-                                                @endif
+                                        {{$logs->links()}}
+
+                                        @endif
+
 
                                             </div>
 

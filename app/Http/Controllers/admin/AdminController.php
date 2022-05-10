@@ -255,7 +255,7 @@ class AdminController extends Controller
     }
     public function see_profile_before_verify_student(Request $request, User $user, Duty $duty)
     {
-        $logs=$user->logs()->latest()->get();
+        $logs=$user->logs()->latest()->paginate(10, ['*'], 'logs');
         $main_curt = $user->curt();
         $all_curts = $user->curts()->whereType('secondary')->latest()->get();
         $main_plan = $user->plan()->whereType('primary')->first();

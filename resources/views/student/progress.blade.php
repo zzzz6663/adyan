@@ -8,7 +8,7 @@ $circle='flaticon2-information';
 ?>
 
 
-<div class="card-body p-0">
+<div class="card-body p-0" id="prog">
 
     <div class="wizard wizard-1" id="kt_wizard_v1" data-wizard-state="first" data-wizard-clickable="false">
         <div class="wizard-nav border-bottom">

@@ -114,12 +114,12 @@ window.onload = function() {
             });
         }
 
-        var a= $('.wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').length
+        var a= $('#prog .wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').length
         console.log(a)
         console.log(122222222)
-        $('.wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').eq(a-1).addClass('red');
+        $('#prog .wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').eq(a-1).addClass('red');
         console.log(a)
-        $('.wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').eq(a-1).find('.wizard-icon').addClass('flaticon2-information').removeClass('flaticon2-check-mark');
+        $('#prog .wizard.wizard-1 .wizard-nav .wizard-steps .wizard-step[data-wizard-state="current"]').eq(a-1).find('.wizard-icon').addClass('flaticon2-information').removeClass('flaticon2-check-mark');
 
 
 

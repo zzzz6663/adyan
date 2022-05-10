@@ -290,7 +290,7 @@
                         @break
                         @case('select_plan_guid')
                         <span class=" ">
-                      {{__('sentences.select_plan_guid_for_plan',['master'=>$log->plan->guid->name.' '.$log->plan->guid->family,'group'=>$log->plan->group->name])}}
+                      {{__('sentences.select_plan_guid_for_plan',['student'=>$log->curt->user->name.' '.$log->curt->user->family,'master'=>$log->plan->guid->name.' '.$log->plan->guid->family,'group'=>$log->plan->group->name])}}
                         </span>
                         @break
 
