@@ -260,7 +260,7 @@ class SessionController extends Controller
         if($user->level=='expert'){
                 $sessions=Session::latest()->get();
         }
-    return view('admin.session.all_session',compact(['user','sessions ']));
+    return view('admin.session.all_session',compact(['user','sessions']));
     }
     public function session_confirm(Request $request,Session $session)
     {
