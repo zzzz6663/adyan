@@ -134,18 +134,15 @@ class StudentController extends Controller
     {
 
         $user = auth()->user();
-        // if ($user->status != null) {
-        //     alert()->error(__('alert.a39'));
-        //     return back();
-        // }
-        // if ($user->check_quiz_pass()) {
-        //     alert()->error(__('alert.a34'));
-        //     return back();
-        // }
-        // if(!$user->check_go_quiz()){
-        //     alert()->error(__('alert.a35'));
-        //     return back();
-        // }
+
+        if ($user->check_quiz_pass()) {
+            alert()->error(__('alert.a34'));
+            return back();
+        }
+        if(!$user->check_go_quiz()){
+            alert()->error(__('alert.a35'));
+            return back();
+        }
         if ($request->isMethod('post')) {
             $user = auth()->user();
             $quiz = Quiz::where('def','1')->first();

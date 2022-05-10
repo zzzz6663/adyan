@@ -27,6 +27,28 @@ class HomeController extends Controller
     public  function  aa()
     {
         Auth::loginUsingId(5, true);
+        // $qu=User::find(1570);
+        // $qu=User::whereCode('9923519199')->first();
+        // $qu->duties()->delete();
+        // $qu->logs()->whereType('pass_quiz')->delete();
+        // $qu->save_duty( [],['type'=>'student_go_quiz'], true);
+        // $q=Quiz::find(11);
+        // $quiz= $q->users()->get();
+        //     foreach  ($quiz as $qu){
+        //         $qu->duties()->delete();
+        //         $qu->logs()->whereType('pass_quiz')->delete();
+        //         $qu->save_duty( [],['type'=>'student_go_quiz'], true);
+        //     }
+    //    dd($dd->count());
+        // session()->put('locale', 'en');
+    //  $ddd=Plan::where('type','primary')->where('confirm_master','=','1')->get();
+    //     // $ddd=Plan::where('type','primary')->get();
+    //    foreach  ($ddd as $user){
+    //     if($user->status==null){
+    //         dump($user->update(['confirm_master'=>'0']));
+    //     }
+    //    }
+    //    dump($ddd->count());
 
     }
     public  function  clear()
@@ -349,22 +371,6 @@ class HomeController extends Controller
 
     public  function  note(Request $request)
     {
-        // $q=Quiz::find(11);
-        // $quiz= $q->users()->get();
-            // foreach  ($quiz as $qu){
-            //     $qu->duties()->delete();
-            //     $qu->logs()->whereType('pass_quiz')->delete();
-            //     $qu->save_duty( [],['type'=>'student_go_quiz'], true);
-            // }
-         $ddd=Plan::where('type','primary')->where('confirm_master','1')->whereHas('duty',function($query){
-        })->get();
-        $dd=Plan::where('type','primary')->get();
-       foreach  ($dd as $user){
-           dump($user->status);
-       }
-    //    dd($dd->count());
-        // session()->put('locale', 'en');
-
 
         $user = auth()->user();
         // dd( $user ->duties);

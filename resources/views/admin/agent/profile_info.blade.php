@@ -1300,7 +1300,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="datatable-body" style="">
-                                        @foreach ($user->quizzes as $quiz)
+                                        @foreach ($user->quizzes()->latest()->get() as $quiz)
                                         <tr class="datatable-row" style="left: 0px;">
                                             <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span>
                                             </td>
@@ -1315,7 +1315,7 @@
                                                     class="text-{{$quiz->pivot->result=='1'?'success':'danger'}}">{{$quiz->pivot->result=='1'?
                                                     __('sentences.passed') : __('sentences.action') }} </span></td>
                                             <td class="datatable-cell text-center">
-                                                <span>{{Morilog\Jalali\Jalalian::forge($quiz->pivot->time)->format('Y-m-d')}}
+                                                <span>{{Morilog\Jalali\Jalalian::forge($quiz->pivot->time)}}
                                                 </span>
                                             </td>
 
