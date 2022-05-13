@@ -134,7 +134,6 @@ class StudentController extends Controller
     {
 
         $user = auth()->user();
-
         if ($user->check_quiz_pass()) {
             alert()->error(__('alert.a34'));
             return back();

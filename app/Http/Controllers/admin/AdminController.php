@@ -45,7 +45,6 @@ class AdminController extends Controller
             alert()->error(__('alert.a58'));
             return back();
         }
-
         $main_plan=$user->primary_plan();
         if(!$main_plan ){
             alert()->error(__('alert.a60'));
@@ -90,7 +89,7 @@ class AdminController extends Controller
         // $top = Top::with(['articles' => function ($q) {
         //     $q->orderBy('pivot_range', 'asc');
         //   }])->first(); // or get() or whatever
-       $quizzes= DB::table('quiz_user')->where('number','!=',null)->where('time','!=',null)->orderBy('time','asc')->paginate(10);
+       $quizzes= DB::table('quiz_user')->where('number','!=',null)->where('time','!=',null)->orderBy('time','desc')->paginate(10);
         return view('admin.quiz.all_quiz',compact(['quizzes']));
     }
     public function curt(Request $request)
@@ -481,18 +480,36 @@ class AdminController extends Controller
             return back();
         }
 
-        $valid = $request->validate([
-            'title' => 'nullable|max:500',
-            'tags' => 'required|array|between:1,12',
-            'problem' => 'nullable',
-            'question' => 'nullable',
-            'necessity' => 'nullable',
-            'innovation' => 'nullable',
-            'master_id' => 'nullable|exists:users,id',
-            'guid_id' => 'nullable|exists:users,id',
-            'note' => 'nullable|max:3500',
-            'status' => 'required',
-        ]);
+        if($user->level == 'expert'){
+            $valid = $request->validate([
+                'title' => 'nullable|max:500',
+                'tags' => 'required|array|between:1,12',
+                'problem' => 'nullable',
+                'question' => 'nullable',
+                'necessity' => 'nullable',
+                'innovation' => 'nullable',
+                'master_id' => 'null|exists:users,id',
+                'guid_id' => 'nullable|exists:users,id',
+                'note' => 'nullable|max:3500',
+                'status' => 'required',
+            ]);
+        }
+
+        if($user->level  == 'master'){
+            $valid = $request->validate([
+                'title' => 'nullable|max:500',
+                'tags' => 'required|array|between:1,12',
+                'problem' => 'nullable',
+                'question' => 'nullable',
+                'necessity' => 'nullable',
+                'innovation' => 'nullable',
+                'master_id' => 'required_if:status,=,accept',
+                'guid_id' => 'nullable|exists:users,id',
+                'note' => 'nullable|max:3500',
+                'status' => 'required',
+            ]);
+        }
+
         foreach($valid['tags'] as $key=>$val) {
             $tag=Tag::find($val);
             if( !$tag){
@@ -585,6 +602,28 @@ class AdminController extends Controller
                     $curt->user->update_status('plan');
                     $curt->update(['status'=>'accept']);
                     break;
+                case 'accept_without_master':
+                    $curt->update([
+                        'status' => 'accept_without_master',
+                        'side' => '0',
+                    ]);
+
+                    $curt->user->save_log([ 'group'],
+                    [
+                        'type'=>'accept_without_master',
+                        'operator_id'=> auth()->user()->id,
+                        'curt_id' =>$curt->id,
+                    ]
+                    ,true );
+                    $curt->group->admin()->save_duty( [],[
+                        'type'=>'define_guid',
+                        'curt_id' =>$curt->id,
+                        ]
+                    , true);
+
+                 break;
+
+
                 case 'faild':
                 case 'reject':
                     $curt->update([
@@ -681,8 +720,6 @@ class AdminController extends Controller
             $data=$request->validate([
                 'master_id'=>'required'
             ]);
-
-
             $curt->user->save_log( ['admin','group','list'=>[$data['master_id']]],
             [
                 'type'=>'select_curt_master',

@@ -697,6 +697,10 @@
                                                         <option {{old('status')=='accept' ?'selected':''}} value="accept">
                                                             {{__('sentences.accept_curt')}}
                                                          </option>
+
+                                                        <option {{old('status')=='accept_without_master' ?'selected':''}} value="accept_without_master">
+                                                            {{__('sentences.accept_without_master')}}
+                                                         </option>
                                                             @endrole
 
                                                         @role('expert')

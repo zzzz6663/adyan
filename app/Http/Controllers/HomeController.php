@@ -262,9 +262,11 @@ class HomeController extends Controller
         $user = auth()->user();
         if ($request->isMethod('post')) {
             $data = $request->validate([
-                'avatar' => Rule::requiredIf(function () use ($user) {
-                    return !$user->avatar();
-                }),
+                // 'avatar' => Rule::requiredIf(function () use ($user) {
+                //     return !$user->avatar();
+                // }),
+
+                'avatar' => 'nullable',
                 'group' => 'required',
                 // 'whatsapp'=>'required',
                 // 'mobile'=>'required',

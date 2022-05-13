@@ -97,6 +97,9 @@
                     @case('faild_plan_confirm_guid')
                     <img alt="Pic" src="{{$log->student()->avatar()}}">
                     @break
+                    @case('accept_without_master')
+                    <img alt="Pic" src="{{$log->student()->avatar()}}">
+                    @break
                     @default
 
                     @endswitch
@@ -223,6 +226,10 @@
                             {{__('sentences.faild_plan_confirm_guid_title')}}
                             @break
 
+                            @case('accept_without_master')
+                            {{__('sentences.accept_without_master')}}
+                            @break
+
 
 
 
@@ -250,7 +257,7 @@
 
                         @case('verify')
                         <span class=" ">
-                            {{__('sentences.confirm_student_account_by_exprt',['name'=>$log->student()->name.' '.$log->student()->family,'expert'=>$log->operator()->name.' '.$log->operator()->family])}}
+                            {{__('sentences.confirm_student_account_by_exprt',['student'=>$log->student()->name.' '.$log->student()->family,'expert'=>$log->operator()->name.' '.$log->operator()->family])}}
                         </span>
                         @break
 
@@ -290,7 +297,7 @@
                         @break
                         @case('select_plan_guid')
                         <span class=" ">
-                      {{__('sentences.select_plan_guid_for_plan',['student'=>$log->curt->user->name.' '.$log->curt->user->family,'master'=>$log->plan->guid->name.' '.$log->plan->guid->family,'group'=>$log->plan->group->name])}}
+                      {{__('sentences.select_plan_guid_for_plan',['student'=>$log->plan->user->name.' '.$log->plan->user->family,'master'=>$log->plan->guid->name.' '.$log->plan->guid->family,'group'=>$log->plan->group->name])}}
                         </span>
                         @break
 
@@ -408,6 +415,12 @@
                         @case('faild_plan_confirm_guid')
                         <span class=" ">
                             {{__('sentences.faild_plan_confirm_guid_content',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->plan->master->name.' '.$log->plan->master->family])}}
+                        </span>
+                        @break
+
+                        @case('accept_without_master')
+                        <span class=" ">
+                            {{__('sentences.accept_without_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->curt->group->name])}}
                         </span>
                         @break
 

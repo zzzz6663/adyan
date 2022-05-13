@@ -209,7 +209,7 @@ class SessionController extends Controller
         // $curts=$session->curts;
         // $subjects=$session->subjects;
         // $plans=$session->plans;
-        $curts=Curt::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
+        $curts=Curt::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})-> where('status','!=','accept_without_master')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $plans=Plan::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
 

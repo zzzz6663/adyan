@@ -331,7 +331,7 @@ class User extends Authenticatable
     }
     public function persian_latest_falid_quiz()
     {
-       return Jalalian::forge(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time)->addDays(5))->format('d-m-Y');
+       return Jalalian::forge(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time)->addDays(1))->format('d-m-Y');
     }
     public function check_go_quiz()
     {
@@ -341,7 +341,7 @@ class User extends Authenticatable
         if(! $this->quizzes()->whereResult('0')->latest()->first() ){
             return false;
         }
-       return  Carbon::now()->diffInDays(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time))>=20??false;
+       return  Carbon::now()->diffInDays(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time))>=1??false;
     }
     public function is_group_admin (){
         if($count=Group::where('user_id',$this->id)->count()){
