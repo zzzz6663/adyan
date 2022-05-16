@@ -126,7 +126,10 @@
                             <tbody class="datatable-body" style="">
                                 @foreach ($curts as $curt)
                                 <tr class="datatable-row" style="left: 0px;">
-                                    <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
+                                    <td class="datatable-cell text-center"><span>
+                                        {{ $loop->iteration + (($curts->currentPage()-1) *($curts->perPage())) }}
+
+                                    </span></td>
                                     <td class="datatable-cell text-center"><span>
 
                                         <a href="{{route('agent.profile',$curt->user->id)}}">

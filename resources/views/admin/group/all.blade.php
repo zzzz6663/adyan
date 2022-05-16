@@ -90,7 +90,9 @@
                             <tbody class="datatable-body" style="">
                                 @foreach ($groups as $group)
                                 <tr class="datatable-row" style="left: 0px;">
-                                    <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
+                                    <td class="datatable-cell text-center"><span>
+                                        {{ $loop->iteration + (($groups->currentPage()-1) *($groups->perPage())) }}
+                                    </span></td>
                                     <td class="datatable-cell text-center"><span>{{$group->name}} </span></td>
                                     <td class="datatable-cell text-center"><span>
                                         @if ($group->user_id)

@@ -83,7 +83,9 @@
                             <tbody class="datatable-body" style="">
                                 @foreach ($tags as $tag)
                                 <tr class="datatable-row" style="left: 0px;">
-                                    <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
+                                    <td class="datatable-cell text-center"><span>
+                                        {{ $loop->iteration + (($tags->currentPage()-1) *($tags->perPage())) }}
+                                    </span></td>
                                     <td class="datatable-cell text-center"><span>{{$tag->tag}} </span></td>
 
                                     <td class="datatable-cell text-center">
