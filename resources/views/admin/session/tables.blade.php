@@ -99,8 +99,9 @@
 
                         @if($show_actions)
                         <td class="datatable-cell text-center">
-                            @if ($curt->side)
+                            @if ($curt->side || $curt->status =='accept_without_master')
                             <span class="text  text-success">
+                                {{$curt->status}}
                                 {{ __('sentences.verified') }}
                             </span>
                         @else
@@ -291,15 +292,30 @@
                     </th>
                     <th class="datatable-cell datatable-cell-sort text-center">
                         <span>
+                            {{ __('sentences.subject_user') }}
+                        </span>
+                    </th>
+
+                    <th class="datatable-cell datatable-cell-sort text-center">
+                        <span>
                             {{ __('sentences.subject_admin') }}
                         </span>
                     </th>
                     <th class="datatable-cell datatable-cell-sort text-center">
                         <span>
-                            {{ __('sentences.subject_user') }}
+                            {{ __('sentences.master_guid') }}
                         </span>
                     </th>
-
+                    <th class="datatable-cell datatable-cell-sort text-center">
+                        <span>
+                            {{ __('sentences.guid') }}
+                        </span>
+                    </th>
+                    <th class="datatable-cell datatable-cell-sort text-center">
+                        <span>
+                            {{ __('sentences.status') }}
+                        </span>
+                    </th>
 
                     <th class="datatable-cell datatable-cell-sort text-center">
                         <span>
@@ -323,13 +339,6 @@
                         </td>
                         <td class="datatable-cell text-center"><span>{{ $plan->title }} </span>
                         </td>
-                        <td class="datatable-cell text-center"><span>
-
-                                    {{ $plan->group->admin()->name }}
-                                    {{ $plan->group->admin()->family }}
-
-
-                            </span></td>
                         <td class="datatable-cell text-center">
                             <span>
 
@@ -343,7 +352,36 @@
 
                             </span>
                         </td>
+                        <td class="datatable-cell text-center"><span>
 
+                                    {{ $plan->group->admin()->name }}
+                                    {{ $plan->group->admin()->family }}
+
+
+                            </span></td>
+
+                        <td class="datatable-cell text-center">
+                            @if ($plan->master_id)
+                            <span>
+                                {{ $plan->master->name }}
+                                {{ $plan->master->family }}
+                                </span>
+                            @endif
+
+                        </td>
+                        <td class="datatable-cell text-center">
+                            @if ($plan->guid_id)
+                            <span>
+                                {{ $plan->guid->name }}
+                                {{ $plan->guid->family }}
+                                </span>
+                            @endif
+
+                        </td>
+                        <td class="datatable-cell text-center">
+                            <span>{{       __('arr.'.$plan->status) }}
+                            </span>
+                        </td>
                         <td class="datatable-cell text-center">
                             <span>
                                 @if ($plan->last_edit_student())

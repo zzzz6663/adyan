@@ -68,7 +68,7 @@
                                                 <label>
                                                     {{ __('sentences.select_master') }}
                                                 </label>
-                                                <select name="users[]"   multiple class="form-control  select2">
+                                                <select name="users[]"   id="select_master"    multiple class="form-control  select3">
                                                     <option disabled value="">           {{ __('sentences.select_one') }} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option  {{in_array($master->id ,old('masters',$session->masters()->pluck('id')->toArray()))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
@@ -83,10 +83,18 @@
                                                 <label>
                                                     {{ __('sentences.select_curt') }}
                                                 </label>
-                                                <select name="curts[]"   multiple class="form-control  select2">
+                                                <select name="curts[]"  id="select_curt"    multiple class="form-control  select4">
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($curts as $curt )
-                                                   <option   data-select2-id="{{$curt->id}}"  locked="{{$curt->side? 'locked':''}}"  {{in_array($curt->id ,old('curts',$session->curts()->pluck('id')->toArray()))?'selected':''}} value="{{$curt->id}}">
+                                                   <option
+                                                    {{-- data-select2-id="{{$curt->id}}"
+                                                     locked="{{$curt->side || $curt->status=='accept_without_master'? 'locked':''}}" --}}
+                                                      {{-- {{ $curt->side ? ' disabled':''}}
+                                                        {{ $curt->status=='accept_without_master'? ' disabled':''}} --}}
+                                                         {{in_array($curt->id ,old('curts',$session->curts()->pluck('id')->toArray()))?'selected':''}}
+                                                         value="{{$curt->id}}">
+                                                    {{-- {{$curt->status}}
+                                                    {{$curt->id}} --}}
                                                     {{$curt->title}}
                                                  (
                                                      {{$curt->user->name}}
@@ -107,7 +115,7 @@
                                                 <label>
                                                     {{ __('sentences.select_subject') }}
                                                 </label>
-                                                <select name="subjects[]"   multiple class="form-control  select2">
+                                                <select name="subjects[]"  id="select_subject"   multiple class="form-control  select5">
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($subjects as $subject )
                                                    <option  data-select2-id="{{$subject->id}}"  locked="{{$subject->time? 'locked':''}}"    {{in_array($subject->id ,old('subjects',$session->subjects()->pluck('id')->toArray()))?'selected':''}} value="{{$subject->id}}">
@@ -130,11 +138,13 @@
                                                 <label>
                                                     {{ __('sentences.select_plan') }}
                                                 </label>
-                                                <select name="plans[]"   multiple class="form-control  select2">
+                                                <select name="plans[]" id="select_plan"  multiple class="form-control  select6">
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($plans as $plan )
 
-                                                   <option  data-select2-id="{{$plan->id}}"  locked="{{$plan->side? 'locked':''}}"   {{in_array($plan->id ,old('plans',$session->plans()->pluck('id')->toArray()))?'selected':''}} value="{{$plan->id}}">
+                                                   <option   {{in_array($plan->id ,old('plans',$session->plans()->pluck('id')->toArray()))?'selected':''}} value="{{$plan->id}}">
+                                                    {{-- {{$plan->id}}
+                                                    {{$plan->status}} --}}
                                                     {{$plan->title}}
                                                  (
                                                      {{$plan->user->name}}

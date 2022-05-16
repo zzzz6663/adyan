@@ -202,6 +202,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Duty::class,'operator_id');
     }
+    public function master_sessions()
+    {
+        return $this->hasMany(Session::class);
+    }
     public function session()
     {
         return $this->hasOne(Session::class);
@@ -331,17 +335,19 @@ class User extends Authenticatable
     }
     public function persian_latest_falid_quiz()
     {
-       return Jalalian::forge(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time)->addDays(1))->format('d-m-Y');
+       return Jalalian::forge(Carbon::parse($this ->quizzes()->wherePivot('result','0')->orderBy('pivot_time', 'desc')->first()->pivot->time)->addDays(1))->format('d-m-Y H:i:s');
     }
     public function check_go_quiz()
     {
-        if( $this->quizzes()->whereResult('0')->count()==0){
-            return true;
-        }
-        if(! $this->quizzes()->whereResult('0')->latest()->first() ){
+        // if( $this->quizzes()->wherePivot('result','0')->count()==0){
+        //     return true;
+        // }
+        if(! $this->quizzes()->wherePivot('result','0')->orderBy('pivot_time', 'desc')->first()){
             return false;
         }
-       return  Carbon::now()->diffInDays(Carbon::parse($this->quizzes()->whereResult('0')->latest()->first()->time))>=1??false;
+            // dd(Carbon::parse($this->quizzes()->wherePivot('result','0')->orderBy('pivot_time', 'desc')->first()->pivot->time));
+            // dd( Carbon::now());
+       return  Carbon::now()->diffInDays(Carbon::parse($this->quizzes()->wherePivot('result','0')->orderBy('pivot_time', 'desc')->first()->pivot->time))>=1??false;
     }
     public function is_group_admin (){
         if($count=Group::where('user_id',$this->id)->count()){

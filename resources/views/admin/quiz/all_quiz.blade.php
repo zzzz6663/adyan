@@ -83,7 +83,9 @@
                                         ?>
 
                                         <tr class="datatable-row" style="left: 0px;">
-                                            <td class="datatable-cell text-center"><span>{{ $loop->iteration }} </span>
+                                            <td class="datatable-cell text-center"><span> 
+                                                {{ $loop->iteration + (($quizzes->currentPage()-1) *($quizzes->perPage())) }}
+                                            </span>
                                             </td>
                                             <td class="datatable-cell text-center"><span>
                                                     {{ $student->name}}

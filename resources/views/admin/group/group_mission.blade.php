@@ -76,7 +76,7 @@
                                      @foreach ($my_curt_waits=$group->curts()->whereType('primary')->whereSide('0')->paginate(10, ['*'], 'my_curt_wait') as $mastercrut)
                                      <tr class="datatable-row" style="left: 0px;">
                                          <td class="datatable-cell text-center">
-                                             <span>{{ $loop->iteration }} </span>
+                                             <span>{{ $loop->iteration + (($my_curt_waits->currentPage()-1) *($my_curt_waits->perPage())) }} </span>
                                          </td>
                                          <td class="datatable-cell text-center">
                                              <span>{{ $mastercrut->title }} </span>
@@ -191,7 +191,7 @@
                                      @foreach ($my_curt_alls=$group->curts()->whereType('primary')->whereType('primary')->paginate(10, ['*'], 'my_curt_all') as $mastercrut)
                                      <tr class="datatable-row" style="left: 0px;">
                                          <td class="datatable-cell text-center">
-                                             <span>{{ $loop->iteration }} </span>
+                                             <span>{{ $loop->iteration + (($my_curt_alls->currentPage()-1) *($my_curt_alls->perPage())) }} </span>
                                          </td>
                                          <td class="datatable-cell text-center">
                                              <span>{{ $mastercrut->title }} </span>
@@ -302,7 +302,7 @@
 
                                         <tr class="datatable-row" style="left: 0px;">
                                             <td class="datatable-cell text-center">
-                                                <span>{{ $loop->iteration }} </span>
+                                                <span>{{ $loop->iteration + (($my_plan_waits->currentPage()-1) *($my_plan_waits->perPage())) }}</span>
                                             </td>
                                             <td class="datatable-cell text-center">
                                                 <span>{{ $masterplan->title }} </span>
@@ -412,7 +412,7 @@
 
                                         <tr class="datatable-row" style="left: 0px;">
                                             <td class="datatable-cell text-center">
-                                                <span>{{ $loop->iteration }} </span>
+                                                <span>{{ $loop->iteration + (($my_plan_alls->currentPage()-1) *($my_plan_alls->perPage())) }} </span>
                                             </td>
                                             <td class="datatable-cell text-center">
                                                 <span>{{ $masterplan->title }} </span>
@@ -543,7 +543,7 @@
                                         $my_subject_waits=$group->subjects()->whereStatus(null)->latest()->paginate(10, ['*'], 'my_subject_wait')
                                         as $subject)
                                             <tr class="datatable-row" style="left: 0px;">
-                                                <td class="datatable-cell text-center"><span>{{ $loop->iteration }} </span>
+                                                <td class="datatable-cell text-center"><span>{{ $loop->iteration + (($my_subject_waits->currentPage()-1) *($my_subject_waits->perPage())) }}</span>
                                                 </td>
                                                 <td class="datatable-cell text-center"><span>{{ $subject->title }} </span></td>
                                                 <td class="datatable-cell text-center"><span>
@@ -703,7 +703,7 @@
                                         $my_subject_alls= $group->subjects()->latest()->paginate(10, ['*'], 'my_subject_all')
                                         as $subject)
                                             <tr class="datatable-row" style="left: 0px;">
-                                                <td class="datatable-cell text-center"><span>{{ $loop->iteration }} </span>
+                                                <td class="datatable-cell text-center"><span>{{ $loop->iteration + (($my_subject_alls->currentPage()-1) *($my_subject_alls->perPage())) }}</span>
                                                 </td>
                                                 <td class="datatable-cell text-center"><span>{{ $subject->title }} </span></td>
                                                 <td class="datatable-cell text-center"><span>

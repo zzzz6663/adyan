@@ -106,7 +106,41 @@ window.onload = function() {
                     return tag.text;
                  },
                }
-            );
+            )
+
+            // .on("select2:unselecting", function(e)
+            // {
+            //     $(this).data('state', 'unselected');
+            //             }).on("select2:opening", function(e) {
+            //                 // if ($(this).data('state') === 'unselected') {
+            //                 //     $(this).removeData('state');
+            //                 //     return false;
+            //                 // }
+            //                 if ($(this).attr('data-locked') ) {
+            //                         console.log('81111')
+            //                 }
+            //             });
+        }
+
+        if($('.select2_normal').length){
+            $('.select2_normal').select2({
+            });
+        }
+        if($('.select3').length){
+            $('.select3').select2({
+            });
+        }
+        if($('.select4').length){
+            $('.select4').select2({
+            });
+        }
+        if($('.select5').length){
+            $('.select5').select2({
+            });
+        }
+        if($('.select6').length){
+            $('.select6').select2({
+            });
         }
         if($('.select2_tag').length){
             $('.select2_tag').select2({

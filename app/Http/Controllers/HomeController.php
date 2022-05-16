@@ -378,7 +378,10 @@ class HomeController extends Controller
     {
 
         $user = auth()->user();
-        // dd( $user ->duties);
+
+    //    foreach ($user ->quizzes()->orderBy('pivot_time', 'desc')->get() as $quiz){
+    //     dump($quiz->pivot->time);
+    //    }
         if($user ->level =='student' && $user->complete ==0 ){
             alert()->success(__('alert.a53'));
             return redirect()->route('user.register2');
@@ -391,8 +394,8 @@ class HomeController extends Controller
     public  function  import()
     {
 
-        Excel::import(new MastersImport, public_path('/masters1.xlsx'));
-        return view('home.index');
+        Excel::import(new MastersImport, public_path('/payan.xlsx'));
+        // return view('home.index');
     }
     public  function  lang(Request $request)
     {

@@ -67,10 +67,10 @@
                                      </tr>
                                  </thead>
                                  <tbody class="datatable-body" style="">
-                                     @foreach ($user->master_curts()->whereType('primary')->get() as $mastercrut)
+                                     @foreach ($ums=$user->master_curts()->whereType('primary')->get() as $mastercrut)
                                      <tr class="datatable-row" style="left: 0px;">
                                          <td class="datatable-cell text-center">
-                                             <span>{{ $loop->iteration }} </span>
+                                             <span>{{ $loop->iteration + (($ums->currentPage()-1) *($ums->perPage())) }}</span>
                                          </td>
                                          <td class="datatable-cell text-center">
                                              <span>{{ $mastercrut->title }} </span>
@@ -167,10 +167,10 @@
                                         </tr>
                                     </thead>
                                     <tbody class="datatable-body" style="">
-                                        @foreach ($user->master_plans()->whereType('primary')->get() as $masterplan)
+                                        @foreach ($upm=$user->master_plans()->whereType('primary')->get() as $masterplan)
                                         <tr class="datatable-row" style="left: 0px;">
                                             <td class="datatable-cell text-center">
-                                                <span>{{ $loop->iteration }} </span>
+                                                <span>{{ $loop->iteration + (($upm->currentPage()-1) *($upm->perPage())) }}</span>
                                             </td>
                                             <td class="datatable-cell text-center">
                                                 <span>{{ $masterplan->title }} </span>

@@ -22,7 +22,7 @@ return [
     'verify_by_group' => '   بررسی توسط گروه   ',
     'reject' => '     رد شده ',
     'accept_without_master' => '  تایید بدون استاد راهنما   ',
-    '' => '     ',
+    'review_plan_by_group' => '  بررسی توسط گروه   ',
     '' => '     ',
     '' => '     ',
     '' => '     ',

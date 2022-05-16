@@ -42,7 +42,7 @@ class SessionController extends Controller
         $plan=$request->plan??null;
         $user=auth()->user();
         // $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
-        $curts=Curt::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
+        $curts=Curt::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})-> where('status','!=','accept_without_master')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $plans=Plan::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
 
@@ -123,25 +123,33 @@ class SessionController extends Controller
         ]);
 
         $data['time']=$this->convert_date($data['time']);
-        $data['user_id']=auth()->user()->id;
-
-
         if(isset($data['curts'])){
+            $old= $session->curts()->where(function($query){
+                $query ->where('side','1')->orWhere('status','accept_without_master');
+            })->pluck('id')->toArray();
             $session->curts()->sync($data['curts']);
+            $session->curts()->syncWithoutDetaching($old);
             $first_curt=Curt::find($data['curts'][0]);
             if($first_curt){
                 $session->update(['group_id'=>$first_curt->group->id]);
             }
         }
         if(isset($data['subjects'])){
+
+            $old= $session->subjects() ->where('status','!=',null)->pluck('id')->toArray();
             $session->subjects()->sync($data['subjects']);
+            $session->subjects()->syncWithoutDetaching($old);
             $first_subject=Subject::find($data['subjects'][0]);
             if($first_subject){
                 $session->update(['group_id'=>$first_subject->group->id]);
             }
         }
         if(isset($data['plans'])){
+            $old= $session->plans()->where(function($query){
+                $query ->where('side','1');
+            })->pluck('id')->toArray();
             $session->plans()->sync($data['plans']);
+            $session->plans()->syncWithoutDetaching($old);
             // $session->plans()->attach($data['plans']);
             $first_plan=Plan::find($data['plans'][0]);
             if($first_plan){
@@ -209,11 +217,13 @@ class SessionController extends Controller
         // $curts=$session->curts;
         // $subjects=$session->subjects;
         // $plans=$session->plans;
-        $curts=Curt::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})-> where('status','!=','accept_without_master')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
+        $curts=Curt::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->latest()->get();
+        $curts=$curts->merge($session->curts);
+
         $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
+        $subjects=$subjects->merge($session->subjects);
         $plans=Plan::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
-
-
+        $plans=$plans->merge($session->plans);
         // $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         // $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         // $plans=Plan::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
@@ -256,7 +266,7 @@ class SessionController extends Controller
     public function all_session()
     {
         $user= auth()->user();
-        $sessions=$user->sessions()->latest()->get();
+        $sessions=$user->master_sessions()->latest()->get();
         if($user->level=='expert'){
                 $sessions=Session::latest()->get();
         }

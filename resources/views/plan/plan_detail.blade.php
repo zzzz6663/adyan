@@ -136,6 +136,16 @@
                                     {{__('sentences.group')}}:
                                     {{$main_plan->group_id ?$main_plan->group->name:''}}
                                 </div>
+                                <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
+                                    {{__('sentences.curt_title')}}:
+                                    @if ($old_curt=$main_plan->user->curt())
+                                        @if ($old_curt->subject_id)
+                                        {{$old_curt->subject->title}}
+                                            @else
+                                            {{$old_curt->title}}
+                                        @endif
+                                    @endif
+                                </div>
 
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
                                     {{__('sentences.guid')}}:

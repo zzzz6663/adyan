@@ -546,6 +546,36 @@
                                         <div class="col-xl-12   bg-light  mb-2 par">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
+                                                 {{__('sentences.suggested_master')}}
+
+                                                </label>
+                                                @if ($main_curt->ostad_id)
+                                                <p>
+                                                    {{__('sentences.suggested_master_list')}}:
+                                                    {{$main_curt->ostad_a->name}}
+                                                    {{$main_curt->ostad_a->family}}
+                                                </p>
+                                                @endif
+                                                @if ($main_curt->ostad)
+                                                <p>
+                                                    {{__('sentences.suggested_master_list')}}:
+                                                    {{$main_curt->ostad}}
+                                                </p>
+                                                @endif
+                                                @if ($main_curt->resume)
+                                                <p>
+                                                   <a href="{{assrt('/media/curt/'.$main_curt->resume)}}" target="_blank">   {{__('sentences.download_resume')}}:</a>
+                                                </p>
+                                                @endif
+
+                                                </p>
+
+                                            </div>
+                                        </div>
+
+                                        <div class="col-xl-12   bg-light  mb-2 par">
+                                            <div class="form-group fv-plugins-icon-container">
+                                                <label>
                                                     {{__('sentences.snote')}}
                                                 </label>
 
@@ -593,6 +623,8 @@
                                                 </div>
                                             </div>
                                             @endrole
+                                            @else
+                                            <input type="text" hidden value="{{$main_curt->master_id}}" name="master_id">
                                             @endif
 
 

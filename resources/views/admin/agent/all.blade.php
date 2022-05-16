@@ -272,7 +272,9 @@
                             <tbody class="datatable-body" style="">
                                 @foreach ($users as $user)
                                 <tr class="datatable-row" style="left: 0px;">
-                                    <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
+                                    <td class="datatable-cell text-center">
+                                      <span>{{ $loop->iteration + (($users->currentPage()-1) *($users->perPage())) }} </span>
+                                    </td>
                                     <td class="datatable-cell text-center"><span>
                                         {{$user->name}}
 

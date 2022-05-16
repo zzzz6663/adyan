@@ -254,7 +254,7 @@
                                                          </a>
                                                             @if (!$user->check_quiz_pass() && $user->quizzes()->count()>0)
 
-                                                            {{__('sentences.day_remain_to_quiz', ['time'=> $user->e() ])}}
+                                                            {{__('sentences.day_remain_to_quiz', ['time'=> $user->persian_latest_falid_quiz() ])}}
                                                             @endif
                                                     @endrole
                                                     @break

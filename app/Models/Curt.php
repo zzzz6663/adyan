@@ -74,9 +74,9 @@ class Curt extends Model
     {
         return $this->belongsToMany(Session::class);
     }
-    public function ostad()
+    public function ostad_a()
     {
-        return $this->belongsTo(User::class,'ostad_id')->first();
+        return $this->belongsTo(User::class,'ostad_id');
     }
     public function tags()
     {

@@ -15,29 +15,42 @@ class MastersImport implements ToModel
     */
     public function model(array $row)
     {
-
-    $user=User::whereCode($row[2])->orWhere('mobile',$row[3])->first();
-        if( $user){
-            $user->assignRole('master');
-        }else{
-            $data =[
-                'name' =>$row[0],
-                'family' =>$row[1],
-                'code' =>$row[2],
-                'mobile' =>$row[3],
-                'email' =>$row[4],
-                'password' =>$row[5],
-                'group' =>null,
-                'course' =>$row[6],
-                'level' =>$row[7],
-                'expert' =>$row[8],
-            ];
-
-            $mastr = User::create($data);
-            $mastr->assignRole('master');
-            dump($mastr);
-
+        $user=User::whereCode($row[0])->first();
+        if($user){
+            // dump($row[0]);
+            // dump($user->defend);
+            dump($user->update(['defend'=>'1']));
         }
+
+    // $user=User::whereCode($row[2])->orWhere('mobile',$row[3])->first();
+    //     if( $user){
+    //         $user->assignRole('master');
+    //     }else{
+    //         $data =[
+    //             'name' =>$row[0],
+    //             'family' =>$row[1],
+    //             'code' =>$row[2],
+    //             'mobile' =>$row[3],
+    //             'email' =>$row[4],
+    //             'password' =>$row[5],
+    //             'group' =>null,
+    //             'course' =>$row[6],
+    //             'level' =>$row[7],
+    //             'expert' =>$row[8],
+    //         ];
+
+    //         $mastr = User::create($data);
+    //         $mastr->assignRole('master');
+    //         dump($mastr);
+
+    //     }
+
+
+
+
+
+
+
         // return new Code([
         //     'name'=>$row[0],
         //     'family'=>$row[1],

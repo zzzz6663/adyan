@@ -87,6 +87,7 @@
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($curts as $curt )
                                                    <option {{in_array($curt->id ,old('curts',[]))?'selected':''}} value="{{$curt->id}}">
+                                                    {{$curt->status}}
                                                     {{$curt->title}}
                                                  (
                                                      {{$curt->user->name}}

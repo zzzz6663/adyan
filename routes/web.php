@@ -43,6 +43,8 @@ Route::group(['middleware' => ['role:super-admin']], function () {
 Route::middleware(['auth','check_language'])->group(function(){
     Route::any('/note','HomeController@note')->name('user.note') ;
     Route::any('/edit_profile/{user}','admin\AgentController@edit_profile')->name('user.edit.profile') ;
+    Route::resource('shift', 'ShiftController');
+
 });
 
 Route::middleware(['auth','role:master','check_language'])->group(function(){

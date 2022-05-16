@@ -90,7 +90,7 @@ class PlanController extends Controller
         $data['en_tags']=implode('_',$data['en_tags']);
 
         $data['status']='review_plan_by_group';
-        $data['user_id']=$user->id;
+        $data['user_id']=$user->id;ث
         $data['type']='primary';
         $data['side']='0';
 

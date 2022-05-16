@@ -90,6 +90,7 @@ class AdminController extends Controller
         //     $q->orderBy('pivot_range', 'asc');
         //   }])->first(); // or get() or whatever
        $quizzes= DB::table('quiz_user')->where('number','!=',null)->where('time','!=',null)->orderBy('time','desc')->paginate(10);
+
         return view('admin.quiz.all_quiz',compact(['quizzes']));
     }
     public function curt(Request $request)
@@ -110,6 +111,10 @@ class AdminController extends Controller
     }
     public function show_curt(Request $request, Curt $curt, Duty $duty)
     {
+        if( $curt->side || $curt->status=='accept_without_master'){
+            alert()->error(__('alert.a39'));
+            return back();
+        }
         $session= session()->get('session');
 
         //  ثبت اپراتور و زمان در وظیفه
@@ -396,9 +401,12 @@ class AdminController extends Controller
         $data['master_id']=$plan->master_id;
         $data['group_id']=$plan->group_id;
         $data['type']='secondary';
-        Plan::create($data);
+        // Plan::create($data);
         $user=auth()->user();
         if(isset($data['guid_id'])){
+             if($plan->user->curt()){
+                $plan->user->curt()->update(['guid_id'=>$data['guid_id']]);
+             }
             $plan->update(['guid_id'=>$data['guid_id']]);
             $plan->user->save_log( ['admin','list'=>[ $user->id ,$data['guid_id'] ]],
             [
@@ -713,10 +721,11 @@ class AdminController extends Controller
     public function define_guid(Request $request, Curt $curt){
 
         if ( $request->isMethod('post')) {
-            $duty=Duty::where('curt_id', $curt->id)->whereType('define_guid')->latest()->first();
+            $duty=Duty::where('curt_id', $curt->id)->whereType('define_guid')->where('time',null)->latest()->first();
             $duty->update([
                 'time' =>Carbon::now()
             ]);
+
             $data=$request->validate([
                 'master_id'=>'required'
             ]);
@@ -730,6 +739,7 @@ class AdminController extends Controller
             $curt->user->save_duty( [],['type'=>'submit_plan'], true);
             $curt->user->update_status('plan');
             $curt->update($data);
+           alert()->success(__('alert.a54'));
             return redirect()->route('user.note');
         }
         return view('curt.define_guid' ,compact(['curt']));

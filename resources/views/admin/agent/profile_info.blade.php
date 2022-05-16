@@ -464,12 +464,12 @@
                                             <div class="container">
                                                 @include('home.logs')
                                                 @if($logs instanceof \Illuminate\Pagination\LengthAwarePaginator )
-
-                                        {{$logs->links()}}
-
-                                        @endif
-
-
+                                                <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded">
+                                                <div class="pagi">
+                                                {{$logs->links('sections.pagination')}}
+                                                </div>
+                                                </div>
+                                                @endif
                                             </div>
 
                                         </div>
@@ -520,11 +520,11 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
-                                                        @foreach ($user->groups()->latest()->get()
+                                                        @foreach ($gusers=$user->groups()->latest()->get()
                                                         as $usergroup)
                                                         <tr class="datatable-row" style="left: 0px;">
                                                             <td class="datatable-cell text-center">
-                                                                <span>{{ $loop->iteration }} </span>
+                                                                <span>{{ $loop->iteration  }}</span>
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>{{ $usergroup->name }} </span>
@@ -615,11 +615,11 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
-                                                        @foreach ($user->sessions()->latest()->get()
+                                                        @foreach ($usessions=$user->sessions()->latest()->get()
                                                         as $usersession)
                                                         <tr class="datatable-row" style="left: 0px;">
                                                             <td class="datatable-cell text-center">
-                                                                <span>{{ $loop->iteration }} </span>
+                                                                <span>{{ $loop->iteration   }}</span>
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>{{ $usersession->name }} </span>
@@ -717,11 +717,11 @@
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
 
-                                                        @foreach ($user->master_subjects()->latest()->get()
+                                                        @foreach ($usubjects=$user->master_subjects()->latest()->get()
                                                         as $usersubject)
                                                         <tr class="datatable-row" style="left: 0px;">
                                                             <td class="datatable-cell text-center">
-                                                                <span>{{ $loop->iteration }} </span>
+                                                                <span>{{ $loop->iteration  }} </span>
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>{{ $usersubject->title }} </span>
@@ -837,7 +837,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
-                                                        @foreach ($user->surveys as $usersurvey)
+                                                        @foreach ($usurveys=$user->surveys as $usersurvey)
                                                         <tr class="datatable-row" style="left: 0px;">
                                                             <td class="datatable-cell text-center">
                                                                 <span>{{ $loop->iteration }} </span>
@@ -941,7 +941,7 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
-                                                        @foreach (App\Models\Curt::whereType('primary')->where('master_id',$user->id)->orWhere('guid_id',$user->id)->get() as $mastercrut)
+                                                        @foreach ($ucuets=App\Models\Curt::whereType('primary')->where('master_id',$user->id)->orWhere('guid_id',$user->id)->get() as $mastercrut)
                                                         <tr class="datatable-row" style="left: 0px;">
                                                             <td class="datatable-cell text-center">
                                                                 <span>{{ $loop->iteration }} </span>
@@ -1069,12 +1069,12 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody class="datatable-body" style="">
-                                                        @foreach (App\Models\Plan::whereType('primary')->where('master_id',$user->id)->orWhere('guid_id',$user->id)->get() as $masterplan)
+                                                        @foreach ($uplans=App\Models\Plan::whereType('primary')->where('master_id',$user->id)->orWhere('guid_id',$user->id)->get() as $masterplan)
 
                                                         {{-- @foreach ($user->master_plans()->whereType('primary')->get() as $masterplan) --}}
                                                         <tr class="datatable-row" style="left: 0px;">
                                                             <td class="datatable-cell text-center">
-                                                                <span>{{ $loop->iteration }} </span>
+                                                                <span>{{ $loop->iteration  }} </span>
                                                             </td>
                                                             <td class="datatable-cell text-center">
                                                                 <span>{{ $masterplan->title }} </span>
