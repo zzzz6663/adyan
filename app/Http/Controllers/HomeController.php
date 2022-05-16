@@ -30,7 +30,8 @@ class HomeController extends Controller
         // Auth::loginUsingId(5, true);
         // $qu=User::find(1570);
         $qu=User::whereCode('9923519292')->first();
-
+        $qu->save_duty( [],['type'=>'submit_plan'], true);
+        $qu->update_status('plan');
         dd($qu);
         // $qu->duties()->delete();
         // $qu->logs()->whereType('pass_quiz')->delete();
