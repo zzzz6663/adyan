@@ -27,9 +27,11 @@ class HomeController extends Controller
 {
     public  function  aa()
     {
-        Auth::loginUsingId(5, true);
+        // Auth::loginUsingId(5, true);
         // $qu=User::find(1570);
-        // $qu=User::whereCode('9923519199')->first();
+        $qu=User::whereCode('9923519292')->first();
+
+        dd($qu);
         // $qu->duties()->delete();
         // $qu->logs()->whereType('pass_quiz')->delete();
         // $qu->save_duty( [],['type'=>'student_go_quiz'], true);

@@ -101,7 +101,6 @@
                         <td class="datatable-cell text-center">
                             @if ($curt->side || $curt->status =='accept_without_master')
                             <span class="text  text-success">
-                                {{$curt->status}}
                                 {{ __('sentences.verified') }}
                             </span>
                         @else
