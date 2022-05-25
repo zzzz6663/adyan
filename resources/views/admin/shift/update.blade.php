@@ -25,10 +25,6 @@
                                 </h1>
                                 <br>
                                 <br>
-                                <form class="form" action="{{ route('shift.update',$shift->id) }}" id="kt_form"
-                                    method="post">
-                                    @csrf
-                                    @method('patch')
                                 <!--begin::ویزارد گام 1-->
                                 <div class="row">
 
@@ -79,67 +75,13 @@
                                             </span>
                                         </div>
                                     </div>
-                                    @role('master')
-
-                                    @if ($shift->change_master)
-                                    <div class="col-xl-4">
-                                        <div class="form-group fv-plugins-icon-container">
-                                            <label>
-                                                {{__('sentences.select_final_master')}}
-                                            </label>
-                                            <select name="master_id" id="master_id" class="form-control  select2">
-                                                <option value="">{{__('sentences.select_one')}} </option>
-                                                @foreach ($masters as $master)
-                                                <option value="{{$master->id}}">{{$master->name}}
-                                                    {{$master->family}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    @endif
-
-                                    @if ($shift->change_guid)
-                                    <div class="col-xl-4">
-                                        <div class="form-group fv-plugins-icon-container">
-                                            <label>
-                                                {{__('sentences.select_final_master')}}
-                                            </label>
-                                            <select name="guid_id" id="guid_id" class="form-control  select2">
-                                                <option value="">{{__('sentences.select_one')}} </option>
-                                                @foreach ($masters as $master)
-                                                <option value="{{$master->id}}">{{$master->name}}
-                                                    {{$master->family}}</option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    {{-- @if ($shift->change_title)
-                                    {{__('sentences.change_title')}} -
-                                    @endif --}}
-                                    @if ($shift->change_group)
-                                    <div class="col-xl-4">
-                                        <div class="form-group fv-plugins-icon-container">
-                                            <label>
-                                                {{__('sentences.select_group')}}
-                                            </label>
-                                            <select name="group_id" id="group_id" class="form-control  select2">
-                                                <option value="">{{__('sentences.select_one')}} </option>
-                                                @foreach ($groups as $group)
-                                                <option value="{{$group->id}}">{{$group->name}}
-                                                    ({{$group->admin()->name}}
-                                                    {{$group->admin()->family}})
-                                                  </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @endrole
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
-
+                                        <form class="form" action="{{ route('shift.update',$shift->id) }}" id="kt_form"
+                                            method="post">
+                                            @csrf
+                                            @method('patch')
                                             <!--begin::ویزارد اقدامات-->
                                             <div class="d-flex justify-content-between border-top mt-5 pt-10">
                                                 <div>
@@ -151,10 +93,9 @@
                                                         href="{{ route('user.note') }}"> {{ __('sentences.back') }}</a>
                                                 </div>
                                             </div>
+                                        </form>
                                     </div>
                                 </div>
-                            </form>
-
                             </div>
                         </div>
 

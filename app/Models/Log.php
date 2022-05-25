@@ -19,6 +19,7 @@ class Log extends Model
         'subject_id',// کلید موضوغ
         'plan_id',// کلید طرح تفضیلی
         'survey_id',//  ای دی نظرسنجی
+        'shift_id',//  ای دی امور اداری
 
     ]
     ;
@@ -62,5 +63,9 @@ class Log extends Model
      public function session()
      {
          return $this->belongsTo(Session::class);
+     }
+     public function shift()
+     {
+         return $this->belongsTo(Shift::class);
      }
 }

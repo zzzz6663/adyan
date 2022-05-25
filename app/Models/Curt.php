@@ -63,7 +63,7 @@ class Curt extends Model
 
     public function duties()
     {
-        return $this->hasMany(Curt::class);
+        return $this->hasMany(Duty::class);
     }
 
     public function subject()
@@ -72,7 +72,7 @@ class Curt extends Model
     }
     public function sessions()
     {
-        return $this->belongsToMany(Session::class);
+        return $this->belongsToMany(Session::class)->withPivot(['status','guid_id','master_id','title','down']);
     }
     public function ostad_a()
     {

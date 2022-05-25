@@ -35,9 +35,14 @@ class PlanController extends Controller
     {
 
         $user=auth()->user();
+        if( $user->curt()){
+            if( !$user->curt()->master_id){
+                alert()->error(__('alert.a64'));
+                return back();
+            }
+        }
         if($user->plan()->whereType('primary')->count()>0){
-
-
+            $user->duties()->whereType('submit_plan')->whereNull('time')->delete();
             alert()->error(__('alert.a1'));
             return back();
         }
@@ -76,6 +81,10 @@ class PlanController extends Controller
         ]);
 
         $user=auth()->user();
+        if( $user->primary_plan()){
+            alert()->error(__('alert.a66'));
+            return back();
+        }
 
         if($user->curt() && $user->curt()->subject){
            // اگر موضوع طرح اجمالی انتخابی بود
@@ -208,6 +217,7 @@ class PlanController extends Controller
         ]);
 
         $user=auth()->user();
+
 
 
         $data['tags']=implode('_',$data['tags']);

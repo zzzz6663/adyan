@@ -21,10 +21,13 @@ class CreateShiftsTable extends Migration
             $table->string('change_group')->nullable()->default('0');
             $table->string('change_master')->nullable()->default('0');
             $table->string('change_guid')->nullable()->default('0');
+            $table->string('change_title')->nullable()->default('0');
             $table->string('status')->nullable()->default('create');
             $table->string('confirm_expert')->nullable()->default('0');
             $table->string('confirm_master')->nullable()->default('0');
             $table->text('request')->nullable();
+            $table->unsignedBigInteger('oldtitle')->nullable();
+            $table->unsignedBigInteger('newtitle')->nullable();
             $table->unsignedBigInteger('oldgroup_id')->nullable();
             $table->unsignedBigInteger('newgroup_id')->nullable();
             $table->unsignedBigInteger('oldmaster_id')->nullable();

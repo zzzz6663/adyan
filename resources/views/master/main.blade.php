@@ -39,6 +39,12 @@ display:none !important;
   }
 }
       </style>
+      <script>
+           window.history.pushState(null, "", window.location.href);
+            window.onpopstate = function() {
+                window.history.pushState(null, "", window.location.href);
+            };
+      </script>
 
     <!--begin::Head-->
  <base href="">

@@ -81,7 +81,7 @@
                                         <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    {{ __('sentences.select_curt') }}
+                                                    {{ __('sentences.select_curt') }} (ترتیب قدیم به جدید)
                                                 </label>
                                                 <select name="curts[]"  id="select_curt"    multiple class="form-control  select4">
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
@@ -136,7 +136,7 @@
                                         <div class="col-xl-12">
                                             <div class="form-group fv-plugins-icon-container">
                                                 <label>
-                                                    {{ __('sentences.select_plan') }}
+                                                    {{ __('sentences.select_plan') }} (ترتیب قدیم به جدید)
                                                 </label>
                                                 <select name="plans[]" id="select_plan"  multiple class="form-control  select6">
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
@@ -149,6 +149,8 @@
                                                  (
                                                      {{$plan->user->name}}
                                                      {{$plan->user->family}}
+                                                     -
+                                                     {{$plan->user->code}}
 
                                                  )
 

@@ -31,7 +31,7 @@ class Session extends Model
     }
     public function curts()
     {
-        return $this->belongsToMany(Curt::class);
+        return $this->belongsToMany(Curt::class)->withPivot(['status','guid_id','master_id','title','down']);
     }
     public function subjects()
     {
@@ -43,7 +43,7 @@ class Session extends Model
     }
     public function plans()
     {
-        return $this->belongsToMany(Plan::class);
+        return $this->belongsToMany(Plan::class)->withPivot(['status','guid_id','master_id','title','down']);
     }
     public function duties()
     {

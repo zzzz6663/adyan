@@ -212,6 +212,8 @@ class AgentController extends Controller
     public function show(User $agent)
     {
         $user=$agent;
+
+        // 9923519415
         $logs=$user->logs()->latest()->paginate(10, ['*'], 'logs');
         $main_curt = $user->curt();
         $all_curts = $user->curts()->whereType('secondary')->latest()->get();
@@ -429,6 +431,7 @@ class AgentController extends Controller
                     break;
 
                     case 'accept_with_guid_with_plan':
+
                         alert()->success('کاربر با موفقیت ساخته شد ');
                         $curt->user->update_status('plan');
                         return redirect()->route('admin.basic.info2', [$curt->id]);

@@ -21,6 +21,7 @@ class Duty extends Model
         'curt_id',//  ای دی طرح اجمالی
         'subject_id',//  ای دی طرح موضوع
         'survey_id',//  ای دی نظرسنجی
+        'shift_id',//  ای دی امور اداری
     ];
 
     public function users()
@@ -66,5 +67,9 @@ class Duty extends Model
     public function survey()
     {
         return $this->belongsTo(Survey::class);
+    }
+    public function shift()
+    {
+        return $this->belongsTo(Shift::class);
     }
 }

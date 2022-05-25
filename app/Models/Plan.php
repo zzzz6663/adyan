@@ -50,6 +50,10 @@ class Plan extends Model
     {
         return $this->belongsTo(User::class,'guid_id');
     }
+    public function duties()
+    {
+        return $this->hasMany(Duty::class);
+    }
     public function admin_group(){
         return $this->belongsTo(User::class,'group_id');
     }
@@ -64,7 +68,7 @@ class Plan extends Model
     }
     public function sessions()
     {
-        return $this->belongsToMany(Session::class);
+        return $this->belongsToMany(Session::class)->withPivot(['status','guid_id','master_id','title',]);
     }
     public function  report(){
         if($this->report){

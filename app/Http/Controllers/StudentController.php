@@ -124,10 +124,10 @@ class StudentController extends Controller
     public function per_curt(Request $request)
     {
         $user = auth()->user();
-        if ($user->status != 'quiz') {
-            alert()->error(__('alert.a39'));
-            return back();
-        }
+        // if ($user->status != 'quiz') {
+        //     alert()->error(__('alert.a39'));
+        //     return back();
+        // }
         return view('student.per_curt');
     }
     public function per_quiz(Request $request)
@@ -142,6 +142,7 @@ class StudentController extends Controller
             alert()->error(__('alert.a35'));
             return back();
         }
+
         if ($request->isMethod('post')) {
             $user = auth()->user();
             $quiz = Quiz::where('def','1')->first();

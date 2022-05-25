@@ -59,6 +59,7 @@ class CurtController extends Controller
         $user=auth()->user();
 
         if($user->curt() && $user->curt()->count()>0){
+            $user->duties()->whereType('submit_curt')->whereNull('time')->delete();
             alert()->error(__('alert.a1'));
             return back();
         }
@@ -75,13 +76,13 @@ class CurtController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required',
+            'title' => 'required|max:256',
             // 'tags' => 'required|array|between:1,4',
 
             'problem' => 'required',
             'question' => 'required',
             'necessity' => 'required',
-            'innovation' => 'required',
+            'innovation' => 'required|max:256',
             'ostad_id' => 'nullable',
             // 'ostad' => 'required_if:ostad_id,=,new',
             // 'ostad' => 'required_if:ostad_id,=,new',
@@ -92,8 +93,14 @@ class CurtController extends Controller
             // 'resume' => 'required_without:ostad|nullable'
 
         ]);
-
         $user=auth()->user();
+
+        if( $user->curt()){
+            alert()->error(__('alert.a65'));
+            return back();
+        }
+
+
 
         // $data['tags']=implode('_',$data['tags']);
         // if( isset($data['ostad_id'])){

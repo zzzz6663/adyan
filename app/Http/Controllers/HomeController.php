@@ -28,11 +28,11 @@ class HomeController extends Controller
     public  function  aa()
     {
         // Auth::loginUsingId(5, true);
-        // $qu=User::find(1570);
-        $qu=User::whereCode('9923519292')->first();
-        $qu->save_duty( [],['type'=>'submit_plan'], true);
-        $qu->update_status('plan');
+        $qu=User::find(1512);
+        // $qu=User::whereCode('991351930')->first()->get();
         dd($qu);
+        // $qu->save_duty( [],['type'=>'submit_plan'], true);
+        // $qu->update_status('plan');
         // $qu->duties()->delete();
         // $qu->logs()->whereType('pass_quiz')->delete();
         // $qu->save_duty( [],['type'=>'student_go_quiz'], true);
@@ -352,7 +352,7 @@ class HomeController extends Controller
             $data = $request->validate([
                 'password' => 'required|confirmed',
             ]);
-            if ($user->complete == 0 && $user->direct=='1' ) {
+            if ($user->complete == 0 && $user->direct=='1'  && !$user->curt()) {
                 $user->save_log(['admin', 'expert'],['type'=>'register'] , true);
                 $user->save_duty(['admin', 'expert'],['type'=>'register'] );
             }

@@ -33,7 +33,7 @@ class AdminController extends Controller
         }
         $main_curt=$user->curt();
         if(!$main_curt ){
-            alert()->error(__('alert.59'));
+            alert()->error(__('alert.a59'));
             return back();
         }
         $all_curts = $user->curts()->whereType('secondary')->latest()->get();
@@ -47,9 +47,11 @@ class AdminController extends Controller
         }
         $main_plan=$user->primary_plan();
         if(!$main_plan ){
+
             alert()->error(__('alert.a60'));
             return back();
         }
+
         $all_plans = $user->plans()->whereType('secondary')->latest()->get();
         return view('plan.plan_detail',compact(['user','all_plans','main_plan']));
     }
@@ -401,7 +403,7 @@ class AdminController extends Controller
         $data['master_id']=$plan->master_id;
         $data['group_id']=$plan->group_id;
         $data['type']='secondary';
-        // Plan::create($data);
+        Plan::create($data);
         $user=auth()->user();
         if(isset($data['guid_id'])){
              if($plan->user->curt()){
@@ -455,6 +457,15 @@ class AdminController extends Controller
             ]);
         }
         if ($request->session_id) {
+             // ذخببره به عنوان صورت جلسه
+        $plan->sessions()->updateExistingPivot($request->session_id,
+        [
+            'title'=>  $plan->title,
+            'status'=>  $plan->status,
+            'guid_id'=>  $plan->guid_id,
+            'master_id'=>  $plan->master_id,
+            'down'=>  Carbon::now(),
+       ], false);
             alert()->success(__('alert.a42'));
             return redirect()->route('session.show',$request->session_id);
         }
@@ -474,10 +485,8 @@ class AdminController extends Controller
         // ثبت پایان وظیفه
 
         if ($user->level == 'expert' && $user->operator_curts()->where('user_id',$curt->user->id)->count() > 0) {
-
             alert()->error(__('alert.a21'));
             return back();
-
         }
         if ($curt->side == 1) {
             alert()->error(__('alert.a22'));
@@ -496,7 +505,7 @@ class AdminController extends Controller
                 'question' => 'nullable',
                 'necessity' => 'nullable',
                 'innovation' => 'nullable',
-                'master_id' => 'null|exists:users,id',
+                'master_id' => 'nullable|exists:users,id',
                 'guid_id' => 'nullable|exists:users,id',
                 'note' => 'nullable|max:3500',
                 'status' => 'required',
@@ -572,7 +581,7 @@ class AdminController extends Controller
 
 
         if ($user->level == 'expert') {
-            $duty = Duty::whereType('verify_curt')->where('curt_id', $curt->id)->first();
+            $duty = Duty::whereType('verify_curt')->where('curt_id', $curt->id)->whereNull('time')->first();
             if ($duty) {
                 $duty->update([
                     'operator_id' => auth()->user()->id,
@@ -592,7 +601,8 @@ class AdminController extends Controller
                     break;
                 case 'accept':
                     $curt->update([
-                        'status' => 'edit_curt_by_student',
+                        // 'status' => 'edit_curt_by_student',
+                        'status' => 'accept',
                         'side' => '1',
                         'down' => Carbon::now()
 
@@ -635,7 +645,8 @@ class AdminController extends Controller
                 case 'faild':
                 case 'reject':
                     $curt->update([
-                        'status' => 'edit_curt_by_student',
+                        'status' => $valid['status'],
+                        // 'status' => 'edit_curt_by_student',
                         'side' => '1',
 
                     ]);
@@ -699,8 +710,15 @@ class AdminController extends Controller
             ]);
         }
 
-
-
+        // ذخببره به عنوان صورت جلسه
+        $curt->sessions()->updateExistingPivot($request->session_id,
+         [
+             'title'=>  $curt->title,
+             'status'=>  $curt->status,
+             'guid_id'=>  $curt->guid_id,
+             'master_id'=>  $curt->master_id,
+             'down'=> Carbon::now(),
+        ]);
 
         if ($request->session_id) {
 

@@ -1084,8 +1084,8 @@
 
                                                                     <a class=""
                                                                     href="{{route('agent.public.show',$mastercrut->user->id)}}">
-                                                                          {{ $mastercrut->user->name }}
-                                                                    {{ $mastercrut->user->family }}
+                                                                          {{ $masterplan->user->name }}
+                                                                    {{ $masterplan->user->family }}
                                                                  </a>
                                                                  </span>
                                                             </td>
@@ -1346,7 +1346,157 @@
                     <!--end::پیشرفت Table Widget 8-->
 
 
+      <!--begin::پیشرفت Table Widget 8-->
+      <div class="card card-custom gutter-b">
+        <!--begin::Header-->
+        <div class="card-header border-0 py-5">
+            <h3 class="card-title align-items-start flex-column">
+                <span class="card-label font-weight-bolder text-dark">{{__('sentences.shift_table')}}
+                </span>
+                <span class="text-muted mt-3 font-weight-bold font-size-sm">
+                    {{__('sentences.all_shift')}}</span>
+            </h3>
 
+        </div>
+        <!--end::Header-->
+
+        <!--begin::Body-->
+        <div class="card-body pt-0 pb-3">
+            <!--begin: جدول داده ها-->
+                        <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
+                            id="kt_datatable" style="">
+                            <table class="datatable-table">
+                                <thead class="datatable-head">
+                                    <tr class="datatable-row" style="left: 0px;">
+
+                                        <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
+                                                {{ __('sentences.id') }}
+                                            </span>
+                                        </th>
+                                        {{-- <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
+                                                {{ __('sentences.student') }}
+                                            </span>
+                                        </th> --}}
+                                        <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
+                                                {{ __('sentences.request_type') }}
+                                            </span>
+                                        </th>
+
+                                        <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
+                                                {{ __('sentences.confirm_master') }}
+                                            </span>
+                                        </th>
+                                        <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
+                                                {{ __('sentences.confirm_expert') }}
+                                            </span>
+                                        </th>
+
+                                        <th class="datatable-cell datatable-cell-sort text-center">
+                                            <span>
+                                                {{ __('sentences.created_at') }}
+                                            </span>
+                                        </th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="datatable-body" style="">
+                                    @foreach ($shifts=$user->shifts as $shift)
+                                        <tr class="datatable-row" style="left: 0px;">
+                                            <td class="datatable-cell text-center"><span>
+                                                    {{ $loop->iteration  }}
+
+                                                </span></td>
+                                            {{-- <td class="datatable-cell text-center"><span>
+
+                                            <a href="{{route('agent.profile',$curt->user->id)}}">
+                                                <span>
+                                                    {{$shift->user->name}}
+                                                    {{$shift->user->family}}
+                                                </span>
+                                               </a>
+
+                                        </span></td> --}}
+
+                                        <td class="datatable-cell text-center"><span>
+
+
+                                        @if ($shift->change_master)
+                                            {{__('sentences.change_master')}}  -
+                                        @endif
+                                        @if ($shift->change_title)
+                                        {{__('sentences.change_title')}} -
+                                        @endif
+                                        @if ($shift->change_guid)
+                                        {{__('sentences.change_guid')}}-
+                                        @endif
+                                        @if ($shift->change_group)
+                                        {{__('sentences.change_group')}}-
+                                        @endif
+
+                                        </span></td>
+
+                                            <td class="datatable-cell text-center">
+                                                <span>
+                                                    @switch($shift->confirm_master)
+                                                        @case(null)
+                                                        {{ __('sentences.in_progress')}}
+                                                            @break
+                                                        @case(0)
+                                                        {{ __('sentences.failed')}}
+                                                            @break
+                                                        @case(1)
+                                                        {{ __('sentences.confirmed')}}
+                                                            @break
+
+                                                        @default
+                                                    @endswitch
+                                                </span>
+                                            </td>
+                                            <td class="datatable-cell text-center">
+                                                <span>
+                                                    @switch($shift->confirm_expert)
+                                                    @case(null)
+                                                    {{ __('sentences.in_progress')}}
+                                                        @break
+                                                    @case(0)
+                                                    {{ __('sentences.failed')}}
+                                                        @break
+                                                    @case(1)
+                                                    {{ __('sentences.confirmed')}}
+                                                        @break
+
+                                                    @default
+                                                @endswitch
+                                                </span>
+                                            </td>
+
+
+                                            <td class="datatable-cell text-center">
+                                                <span>
+                                                        {{ Morilog\Jalali\Jalalian::forge($shift->created_at)->format('Y-m-d') }}
+                                                </span>
+                                            </td>
+
+                                        </tr>
+                                    @endforeach
+
+
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <!--end: جدول داده ها-->
+        </div>
+        <!--end::Body-->
+    </div>
+    <!--end::پیشرفت Table Widget 8-->
 
 
 

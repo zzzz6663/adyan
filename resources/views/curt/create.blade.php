@@ -42,7 +42,7 @@
                                                 <div class="fv-plugins-message-container"></div>
                                             </div>
                                         </div>
-                                      
+
 
                                         <div class="col-xl-6">
                                             <div class="form-group fv-plugins-icon-container">
@@ -77,7 +77,7 @@
                                                     {{__('sentences.suggested_master')}}
                                                         <span id="new_ostad" class="btn btn-info font-weight-bolder font-size-sm mr-3">استاد جدید</span>
                                                 </label>
-                                                <select name="ostad_id[]"  id="ostad" multiple class="form-control  select2">
+                                                <select name="ostad_id"  id="ostad"  class="form-control  select2">
                                                     <option value="">  {{__('sentences.select_one')}} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
                                                    <option {{in_array($master->id ,old('ostad_id',[]))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>

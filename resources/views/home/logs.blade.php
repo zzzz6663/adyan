@@ -70,7 +70,7 @@
                     <img alt="Pic" src="{{$log->group->admin()->avatar()}}">
                     @break
                     @case('edit_plan_by_student_from_master')
-                    <img alt="Pic" src="{{$log->operator()->avatar()}}">
+                    <img alt="Pic" src="{{$log->student()->avatar()}}">
                     @break
                     @case('confirm_plan')
                     <img alt="Pic" src="{{$log->operator()->avatar()}}">
@@ -100,6 +100,28 @@
                     @case('accept_without_master')
                     <img alt="Pic" src="{{$log->student()->avatar()}}">
                     @break
+
+                    @case('submit_new_shift')
+                    <img alt="Pic" src="{{$log->student()->avatar()}}">
+                    @break
+
+                    @case('reject_expert_shift')
+                    <img alt="Pic" src="{{$log->shift->expert->avatar()}}">
+                    @break
+
+                    @case('confirm_expert_shift')
+                    <img alt="Pic" src="{{$log->shift->expert->avatar()}}">
+                    @break
+
+                    @case('reject_group_shift')
+                    <img alt="Pic" src="{{$log->student()->avatar()}}">
+                    @break
+                    @case('confirm_group_shift')
+                    <img alt="Pic" src="{{$log->student()->avatar()}}">
+                    @break
+
+
+
                     @default
 
                     @endswitch
@@ -110,7 +132,7 @@
                     <div
                         class="d-flex align-items-center justify-content-between mb-3">
                         <div class="mr-2">
-                            {{-- {{$log->type}} --}}
+                            {{$log->type}}
 
                             @switch($log->type)
                             @case('register')
@@ -228,6 +250,27 @@
 
                             @case('accept_without_master')
                             {{__('sentences.accept_without_master')}}
+                            @break
+                            @case('submit_new_shift')
+                            {{__('sentences.submit_new_shift_log_title')}}
+                            @break
+
+                            @case('reject_expert_shift')
+                            {{__('sentences.reject_expert_shift_title')}}
+                            @break
+
+
+                            @case('confirm_expert_shift')
+                            {{__('sentences.confirm_expert_shift_log_title')}}
+                            @break
+
+                            @case('reject_group_shift')
+                            {{__('sentences.reject_group_shift_title')}}
+                            @break
+
+
+                            @case('confirm_group_shift')
+                            {{__('sentences.confirm_group_shift_log_title')}}
                             @break
 
 
@@ -377,7 +420,7 @@
                         @break
                         @case('edit_plan_by_student_from_master')
                         <span class=" ">
-                            {{__('sentences.edit_plan_by_student_from_master',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->operator()->name.' '.$log->operator()->family ])}}
+                            {{__('sentences.edit_plan_by_student_from_master',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->plan->master->name.' '.$log->plan->master->family ])}}
                         </span>
                         @break
                         @case('confirm_plan')
@@ -423,8 +466,91 @@
                             {{__('sentences.accept_without_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'group'=>$log->curt->group->name])}}
                         </span>
                         @break
+                        @case('reject_expert_shift')
+                        <span class=" ">
+                            {{__('sentences.reject_expert_shift_content',['student'=>$log->shift->user->name.' '.$log->shift->user->family,'expert'=>$log->shift->expert->name.' '.$log->shift->expert->family])}}
+                        </span>
+                        @break
 
 
+
+                        @case('submit_new_shift')
+                        <span class=" ">
+                            @php
+                                $type='';
+                            @endphp
+                            @if ($log->shift->change_master)
+                                @php
+                                    $type.=__('sentences.change_master').'، ';
+                                @endphp
+                            @endif
+                            @if ($log->shift->change_title)
+                                @php
+                                    $type.=__('sentences.change_title').'، ';
+                                @endphp
+                            @endif
+                            @if ($log->shift->change_guid)
+                                @php
+                                    $type.=__('sentences.change_guid').'، ';
+                                @endphp
+                            @endif
+                            @if ($log->shift->change_group)
+                                @php
+                                    $type.=__('sentences.change_group').'، ';
+                                @endphp
+                            @endif
+                            {{__('sentences.submit_new_shift_log_content',['student'=>$log->student()->name.' '.$log->student()->family,'type'=>$type])}}
+
+                        </span>
+                        @break
+
+
+                        @case('confirm_expert_shift')
+                        <span class=" ">
+                            @php
+                            $type='';
+                            if ($log->shift->change_master) {
+                                $type.=__('sentences.change_master').' ';
+                            }
+                            if ($log->shift->change_title) {
+                                $type.=__('sentences.change_title').' ';
+                            }
+                            if ($log->shift->change_guid) {
+                                $type.=__('sentences.change_guid').' ';
+                            }
+                            if ($log->shift->change_group) {
+                                $type.=__('sentences.change_group');
+                            }
+                            @endphp
+                            {{__('sentences.confirm_expert_shift_log_content',['type'=>$type,'student'=>$log->shift->user->name.' '.$log->shift->user->family,'expert'=>$log->shift->expert->name.' '.$log->shift->expert->family,'group'=>App\Models\Group::find($log->shift->old_group_id)?App\Models\Group::find($log->shift->old_group_id)->name:''])}}
+                        </span>
+                        @break
+                        @case('confirm_group_shift')
+                        @php
+                        $type='';
+                        if ($log->shift->change_master) {
+                            $type.=__('sentences.change_master').' ';
+                        }
+                        if ($log->shift->change_title) {
+                            $type.=__('sentences.change_title').' ';
+                        }
+                        if ($log->shift->change_guid) {
+                            $type.=__('sentences.change_guid').' ';
+                        }
+                        if ($log->shift->change_group) {
+                            $type.=__('sentences.change_group');
+                        }
+                        @endphp
+                        <span class=" ">
+                            {{__('sentences.confirm_group_shift_log_content',['type'=>$type,'student'=>$log->shift->user->name.' '.$log->shift->user->family])}}
+                        </span>
+                        @break
+
+                        @case('reject_group_shift')
+                        <span class=" ">
+                            {{__('sentences.reject_group_shift_content',['student'=>$log->shift->user->name.' '.$log->shift->user->family,'group'=>App\Models\Group::find($log->shift->old_group_id)?App\Models\Group::find($log->shift->old_group_id)->name:''])}}
+                        </span>
+                        @break
 
 
 

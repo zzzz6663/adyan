@@ -174,8 +174,11 @@
 
                                                     @case('verify_plan_by_master')
                                                     @role('master')
+                                                    @if ($duty->plan)
                                                     {{__('sentences.verify_plan_by_master_duty',['student'=>$duty->plan->user->name.' '.$duty->plan->user->family,'code'=>$duty->plan->user->code])}}
                                                     @endrole
+                                                    @endif
+
                                                     @break
 
                                                     @case('verify_subject')
@@ -189,6 +192,21 @@
                                                     @role('master')
 
                                                   {{__('sentences.confirm_plan_by_master_duty_title',['student'=>$duty->plan->user->name.' '.$duty->plan->user->family])}}
+                                                    @endrole
+                                                    @break
+
+
+
+                                                    @case('confirm_expert_shift')
+                                                    @role('expert')
+                                                      {{__('sentences.confirm_expert_shift_duty_title',['student'=>$duty->shift->user->name.' '.$duty->shift->user->family,'code'=>$duty->shift->user->code])}}
+                                                    @endrole
+                                                    @break
+
+
+                                                    @case('verify_group_shift')
+                                                    @role('master')
+                                                      {{__('sentences.confirm_expert_shift_duty_title',['student'=>$duty->shift->user->name.' '.$duty->shift->user->family,'code'=>$duty->shift->user->code])}}
                                                     @endrole
                                                     @break
 
@@ -225,8 +243,8 @@
                                                 <div class="font-weight-bolder "
                                                     data-toggle="view">
 
-
-                                                        {{-- {{$duty->type}} --}}
+                                                        {{$duty->type}}
+                                                        {{$duty->id}}
                                                        {{-- {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}} --}}
                                                     @switch( $duty->type)
 
@@ -339,7 +357,7 @@
                                                     @break
                                                     @case('verify_plan_by_master')
                                                     @role('master')
-                                                   @if (!$duty->time)
+                                                   @if (!$duty->time && $duty->plan)
                                                    <a class="btn btn-outline-primary"
                                                    href="{{ route('admin.show.plan',[ $duty->plan->id]) }}">
                                                    {{ __('sentences.verify') }} </a>
@@ -395,6 +413,14 @@
                                                     @endrole
                                                     @break
 
+                                                    @case('verify_group_shift')
+                                                    @case('confirm_expert_shift')
+                                                    @role('expert|master')
+                                                    <a class="btn btn-primary" href="{{route('shift.edit',$duty->shift->id)}}">
+                                                        {{__('sentences.confirm')}}
+                                                    </a>
+                                                    @endrole
+                                                    @break
 
 
 

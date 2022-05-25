@@ -564,7 +564,7 @@
                                                 @endif
                                                 @if ($main_curt->resume)
                                                 <p>
-                                                   <a href="{{assrt('/media/curt/'.$main_curt->resume)}}" target="_blank">   {{__('sentences.download_resume')}}:</a>
+                                                   <a href="{{asset('/media/curt/'.$main_curt->resume)}}" target="_blank">   {{__('sentences.download_resume')}}:</a>
                                                 </p>
                                                 @endif
 

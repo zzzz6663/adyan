@@ -14,128 +14,226 @@
                 <div class="card-header flex-wrap border-0 pt-6 pb-0">
                     <div class="card-title">
                         <h3 class="card-label">
-                            {{__('sentences.news_table')}}
+                            {{__('sentences.shift_table')}}
                              <span class="text-muted pt-2 font-size-sm d-block">
-                                {{__('sentences.news_list')}}
+                                {{__('sentences.shift_list')}}
 
                             </span>
                         </h3>
                     </div>
-                    <div class="card-toolbar">
 
-
-                        <!--begin::دکمه-->
-                        <a href="{{route('news.create')}}" class="btn btn-primary font-weight-bolder">
-                            <span class="svg-icon svg-icon-md">
-                                <!--begin::Svg Icon | path:assets/media/svg/icons/طرح/Flatten.svg--><svg
-                                    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                                        <rect x="0" y="0" width="24" height="24"></rect>
-                                        <circle fill="#000000" cx="9" cy="15" r="6"></circle>
-                                        <path
-                                            d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z"
-                                            fill="#000000" opacity="0.3"></path>
-                                    </g>
-                                </svg>
-                                <!--end::Svg Icon-->
-                            </span>    {{__('sentences.new_news')}}
-                        </a>
-                        <!--end::دکمه-->
-                    </div>
                 </div>
                 <div class="card-body">
+                    <form action="{{route('shift.index')}}" method="get">
+                        @csrf
+                        @method('get')
+                        <div class="mb-12">
+                            <div class="row align-items-center">
+                                <div class="col-lg-12 col-xl-12">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-3 my-2 my-md-0">
+                                            <div class="input-icon">
+                                                <input type="text" name="search" class="form-control"
+                                                    value="{{request('search')}}" placeholder="جستجو..."
+                                                    id="kt_datatable_search_query">
+                                                <span><i class="flaticon2-search-1 text-muted"></i></span>
+                                            </div>
+                                        </div>
 
+                                        {{-- <div class="col-md-3 my-2 my-md-0">
+                                            <div class="d-flex align-items-center">
+                                                <label
+                                                    class="mr-3 mb-4 d-none d-md-block">{{__('sentences.from_date')}}:</label>
+                                                <input type="text" name="from" value="{{request('from')}}"
+                                                    class="form-control persian2"
+                                                    placeholder=" {{__('sentences.from_date')}} ">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3 my-2 my-md-0">
+                                            <div class="d-flex align-items-center">
+                                                <label
+                                                    class="mr-3 mb-4 d-none d-md-block">{{__('sentences.to_date')}}:</label>
+                                                <input type="text" name="to" value="{{request('to')}}"
+                                                    class="form-control persian2"
+                                                    placeholder=" {{__('sentences.to_date')}} ">
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                </div>
 
-                    <!--begin: جدول داده ها-->
-                    <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
-                        id="kt_datatable" style="">
-                        <table class="datatable-table" style="display: block;">
-                            <thead class="datatable-head">
-                                <tr class="datatable-row" style="left: 0px;">
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3 col-xl-4 mt-5 mt-lg-0">
+                                    <input type="submit" value="{{__('sentences.search')}}"
+                                        class="btn btn-light btn btn-light-primary px-6 font-weight-bold">
+                                </div>
+                            </div>
+                        </div>
 
-                                    <th class="datatable-cell datatable-cell-sort text-center">
+                    </form>
+
+                 <!--begin: جدول داده ها-->
+                 <div class="datatable datatable-bordered datatable-head-custom datatable-default datatable-primary datatable-loaded"
+                 id="kt_datatable" style="">
+                 <table class="datatable-table">
+                     <thead class="datatable-head">
+                         <tr class="datatable-row" style="left: 0px;">
+
+                             <th class="datatable-cell datatable-cell-sort text-center">
+                                 <span>
+                                     {{ __('sentences.id') }}
+                                 </span>
+                             </th>
+                             {{-- <th class="datatable-cell datatable-cell-sort text-center">
+                                 <span>
+                                     {{ __('sentences.student') }}
+                                 </span>
+                             </th> --}}
+                             <th class="datatable-cell datatable-cell-sort text-center">
+                                 <span>
+                                     {{ __('sentences.student') }}
+                                 </span>
+                             </th>
+                             <th class="datatable-cell datatable-cell-sort text-center">
+                                 <span>
+                                     {{ __('sentences.request_type') }}
+                                 </span>
+                             </th>
+                             <th class="datatable-cell datatable-cell-sort text-center">
+                                <span>
+                                    {{ __('sentences.confirm_expert') }}
+                                </span>
+                            </th>
+
+                             <th class="datatable-cell datatable-cell-sort text-center">
+                                 <span>
+                                     {{ __('sentences.confirm_master') }}
+                                 </span>
+                             </th>
+
+                             <th class="datatable-cell datatable-cell-sort text-center">
+                                 <span>
+                                     {{ __('sentences.created_at') }}
+                                 </span>
+                             </th>
+
+                         </tr>
+                     </thead>
+                     <tbody class="datatable-body" style="">
+                         @foreach ($shifts as $shift)
+                             <tr class="datatable-row" style="left: 0px;">
+                                 <td class="datatable-cell text-center"><span>
+                                         {{ $loop->iteration  }}
+
+                                     </span></td>
+                                 {{-- <td class="datatable-cell text-center"><span>
+
+                                 <a href="{{route('agent.profile',$curt->user->id)}}">
+                                     <span>
+                                         {{$shift->user->name}}
+                                         {{$shift->user->family}}
+                                     </span>
+                                    </a>
+
+                             </span></td> --}}
+
+                             <td class="datatable-cell text-center">
+
+                                    <a href="{{route('agent.profile',$shift->user->id)}}">
                                         <span>
-                                            {{__('sentences.id')}}
-                                        </span>
-                                    </th>
-                                    <th class="datatable-cell datatable-cell-sort text-center">
-                                        <span>
-                                            {{__('sentences.title')}}
-                                        </span>
-                                    </th>
-                                    <th class="datatable-cell datatable-cell-sort text-center">
-                                        <span>
-                                            {{__('sentences.content')}}
+                                            {{$shift->user->name}}
+                                            {{$shift->user->family}}
+                                               </span>
+                                       </a>
+                                </td>
+                             <td class="datatable-cell text-center"><span>
 
-                                        </span>
-                                    </th>
-                                    <th class="datatable-cell datatable-cell-sort text-center">
 
-                                        <span>
-                                            {{__('sentences.created_at')}}
-
-                                        </span>
-                                    </th>
-                                    <th class="datatable-cell datatable-cell-sort text-center">
-
-                                        <span>
-                                            {{__('sentences.show')}}
-                                        </span>
-                                    </th>
-
-                                    <th class="datatable-cell datatable-cell-sort text-center">
-                                        <span>
-                                            {{__('sentences.action')}}
-
-                                        </span>
-                                    </th>
-
-                                </tr>
-                            </thead>
-                            <tbody class="datatable-body" style="">
-                                @foreach ($newses as $news)
-                                <tr class="datatable-row" style="left: 0px;">
-                                    <td class="datatable-cell text-center"><span>{{$loop->iteration}} </span></td>
-                                    <td class="datatable-cell text-center"><span>{{$news->title}} </span></td>
-                                    {{-- <td class="datatable-cell text-center"><span>
-                                        @if ($news->user_id)
-                                        {{$news->admin()->name}}
-                                        {{$news->admin()->family}}
-
-                                        @endif
-
-                                    </span></td> --}}
-                                    <td class="datatable-cell text-center"><span>
-                                       {{$news->content}}
-
-                                    </span></td>
-                                    <td class="datatable-cell text-center">
-                                        <span>{{Morilog\Jalali\Jalalian::forge($news->created_at)->format('Y-m-d')}}
-                                        </span>
-                                    </td>
-                                    <td class="datatable-cell text-center">
-                                        <span class="text text-{{$news->show?'sentences':'danger'}}">
-                                            {{$news->show?__('sentences.show'):__('sentences.hide')}}
-                                        </span>
-                                    </td>
-                                    <td class="datatable-cell text-center">
-                                        <a class="btn btn-outline-primary"
-                                            href="{{route('news.edit',$news->id)}}">ویرایش</a>
-                                    </td>
-                                </tr>
-
-                                @endforeach
+                             @if ($shift->change_master)
+                                 {{__('sentences.change_master')}}  -
+                             @endif
+                             @if ($shift->change_title)
+                             {{__('sentences.change_title')}} -
+                             @endif
+                             @if ($shift->change_guid)
+                             {{__('sentences.change_guid')}}-
+                             @endif
+                             @if ($shift->change_group)
+                             {{__('sentences.change_group')}}-
+                             @endif
 
 
 
-                            </tbody>
-                        </table>
 
-                            {{ $newses->appends(Request::all())->links('sections.pagination') }}
+                             </span></td>
+                             <td class="datatable-cell text-center">
+                                <span>
+                                    @switch($shift->confirm_expert)
+                                    @case(null)
+                                    {{ __('sentences.in_progress')}}
+                                        @break
+                                    @case(0)
+                                    {{ __('sentences.failed')}}
+                                        @break
+                                    @case(1)
+                                    {{ __('sentences.confirmed')}}
+                                        @break
 
-                    </div>
-                    <!--end: جدول داده ها-->
+                                    @default
+                                @endswitch
+                                @if ($shift->expert)
+                                ---
+                                استاد
+                                {{$shift->expert->name}}
+                                {{$shift->expert->family}}
+                                @endif
+                                </span>
+                            </td>
+
+                                 <td class="datatable-cell text-center">
+                                     <span>
+                                         @switch($shift->confirm_master)
+                                             @case(null)
+                                                 @break
+                                             @case(0)
+                                             {{ __('sentences.failed')}}
+                                                 @break
+                                             @case(1)
+                                             {{ __('sentences.confirmed')}}
+                                                 @break
+
+                                             @default
+                                         @endswitch
+                                         @if ($shift->master)
+                                         ---
+                                         استاد
+                                         {{$shift->master->name}}
+                                         {{$shift->master->family}}
+                                         @endif
+
+                                     </span>
+                                 </td>
+
+
+                                 <td class="datatable-cell text-center">
+                                     <span>
+                                             {{ Morilog\Jalali\Jalalian::forge($shift->created_at)->format('Y-m-d') }}
+                                     </span>
+                                 </td>
+
+                             </tr>
+                         @endforeach
+
+
+
+                     </tbody>
+                 </table>
+                 <div class="pagi">
+                    {{ $shifts->appends(Request::all())->links('sections.pagination') }}
+                </div>
+
+             </div>
+             <!--end: جدول داده ها-->
                 </div>
             </div>
             <!--end::Card-->

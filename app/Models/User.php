@@ -238,6 +238,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(News::class);
     }
+    public function shifts()
+    {
+        return $this->hasMany(Shift::class);
+    }
 
 
 
@@ -339,9 +343,9 @@ class User extends Authenticatable
     }
     public function check_go_quiz()
     {
-        // if( $this->quizzes()->wherePivot('result','0')->count()==0){
-        //     return true;
-        // }
+        if( $this->quizzes()->count()==0){
+            return true;
+        }
         if(! $this->quizzes()->wherePivot('result','0')->orderBy('pivot_time', 'desc')->first()){
             return false;
         }

@@ -247,11 +247,13 @@
                         {{ __('sentences.hi') }}
                     </span>
                         @auth
-                        <span
-                        class="text-dark-50 font-weight-bolder font-size-base e d-md-inline mr-3">
-                        {{auth()->user()->name}}
-                        {{auth()->user()->family}}
-                    </span>
+                        <a href="{{route('agent.profile',auth()->user()->id)}}">
+                            <span
+                            class="text-dark-50 font-weight-bolder font-size-base e d-md-inline mr-3">
+                            {{auth()->user()->name}}
+                            {{auth()->user()->family}}
+                        </span>
+                           </a>
                       @endauth
 
                     {{--  <span class="symbol symbol-lg-35 symbol-25 symbol-light-success">

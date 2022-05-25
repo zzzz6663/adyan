@@ -36,6 +36,7 @@
                                                     <label class="mb-5">
                                                             {{$loop->iteration}}-
                                                         {{ $question->question }}
+                                                        {{ $question->answer }}
 
                                                     </label>
                                                     <div class="radio-">
