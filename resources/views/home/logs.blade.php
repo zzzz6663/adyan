@@ -132,7 +132,7 @@
                     <div
                         class="d-flex align-items-center justify-content-between mb-3">
                         <div class="mr-2">
-                            {{$log->type}}
+                            {{-- {{$log->type}} --}}
 
                             @switch($log->type)
                             @case('register')
@@ -402,7 +402,7 @@
 
                         @case('submit_plan')
                         <span class=" ">
-                            {{__('sentences.submit_plan_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->plan->master->name.' '.$log->plan->master->family])}}
+                            {{__('sentences.submit_plan_master_log',['student'=>$log->student()->name.' '.$log->student()->family,'master'=>$log->plan->master?$log->plan->master->name.' '.$log->plan->master->family:''])}}
                         </span>
                         @break
                         @case('submit_plan_master')

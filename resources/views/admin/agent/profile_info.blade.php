@@ -1427,6 +1427,8 @@
 
                                         @if ($shift->change_master)
                                             {{__('sentences.change_master')}}  -
+                                                قبلی:
+
                                         @endif
                                         @if ($shift->change_title)
                                         {{__('sentences.change_title')}} -

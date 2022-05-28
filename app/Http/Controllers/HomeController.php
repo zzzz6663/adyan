@@ -28,9 +28,15 @@ class HomeController extends Controller
     public  function  aa()
     {
         // Auth::loginUsingId(5, true);
-        $qu=User::find(1512);
-        // $qu=User::whereCode('991351930')->first()->get();
-        dd($qu);
+        // $qu=User::find(1512);
+        // $qu=User::whereCode('9923519421')->first();
+        // $qu=User::whereCode('9923519188')->first();
+        // $qu->save_duty( [],
+        // [
+        //     'type' =>'edit_curt_by_student',
+        //     'operator_id'=>auth()->user()->id,
+        //     'curt_id' =>$qu->curt()->id
+        // ],true);
         // $qu->save_duty( [],['type'=>'submit_plan'], true);
         // $qu->update_status('plan');
         // $qu->duties()->delete();

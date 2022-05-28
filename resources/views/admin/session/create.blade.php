@@ -87,7 +87,8 @@
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($curts as $curt )
                                                    <option {{in_array($curt->id ,old('curts',[]))?'selected':''}} value="{{$curt->id}}">
-                                                    {{$curt->status}}
+                                                    {{-- {{$curt->status}} --}}
+                                                    {{$curt->group_id}}-
                                                     {{$curt->title}}
                                                  (
                                                      {{$curt->user->name}}
@@ -112,6 +113,7 @@
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($subjects as $subject )
                                                    <option {{in_array($subject->id ,old('subjects',[]))?'selected':''}} value="{{$subject->id}}">
+
                                                     {{$subject->title}}
                                                  (
                                                      {{$subject->master->name}}
@@ -135,6 +137,7 @@
                                                     <option disabled value="">  {{ __('sentences.select_one') }}</option>
                                                     @foreach ($plans as $plan )
                                                    <option {{in_array($plan->id ,old('plans',[]))?'selected':''}} value="{{$plan->id}}">
+                                                    {{$plan->group_id}}-
                                                     {{$plan->title}}
                                                  (
                                                      {{$plan->user->name}}

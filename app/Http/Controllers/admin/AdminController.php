@@ -298,9 +298,9 @@ class AdminController extends Controller
             }
           $log=  $user->logs()->where('type','register')->first();
           Mail::to($user)->send(new UserMessage($request->reason,__('sentences.reason_title')));
-                if($log){
-                    $log->delete();
-                }
+            if($log){
+                $log->delete();
+            }
             $user->delete();
             $duty->delete();
 

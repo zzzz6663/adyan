@@ -80,7 +80,7 @@
                                                 <select name="ostad_id"  id="ostad"  class="form-control  select2">
                                                     <option value="">  {{__('sentences.select_one')}} </option>
                                                     @foreach (App\Models\User::where('level','master')->get() as $master )
-                                                   <option {{in_array($master->id ,old('ostad_id',[]))?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
+                                                   <option {{old('ostad_id' )==$master->id?'selected':''}} value="{{$master->id}}">{{$master->name}} {{$master->family}}</option>
                                                     @endforeach
                                                     {{--  <option {{in_array('new' ,old('ostad_id',[]))?'selected':''}} value="new">استاد جدید</option>  --}}
 

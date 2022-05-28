@@ -76,13 +76,13 @@ class CurtController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'title' => 'required|max:256',
+            'title' => 'required|max:500',
             // 'tags' => 'required|array|between:1,4',
 
-            'problem' => 'required',
-            'question' => 'required',
-            'necessity' => 'required',
-            'innovation' => 'required|max:256',
+            'problem' => 'required|max:5000',
+            'question' => 'required|max:5000',
+            'necessity' => 'required|max:5000',
+            'innovation' => 'required|max:5000',
             'ostad_id' => 'nullable',
             // 'ostad' => 'required_if:ostad_id,=,new',
             // 'ostad' => 'required_if:ostad_id,=,new',
@@ -195,12 +195,12 @@ class CurtController extends Controller
        }
 
         $data = $request->validate([
-            'title' => 'required',
-            // 'tags' => 'required',
-            'problem' => 'required',
-            'question' => 'required',
-            'necessity' => 'required',
-            'innovation' => 'required',
+            'title' => 'required|max:500',
+            // 'tags' => 'required|max:5000',
+            'problem' => 'required|max:5000',
+            'question' => 'required|max:5000',
+            'necessity' => 'required|max:5000',
+            'innovation' => 'required|max:5000',
         ]);
 
         // $data['tags']=implode('_',$data['tags']);

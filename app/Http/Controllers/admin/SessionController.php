@@ -44,7 +44,7 @@ class SessionController extends Controller
         // $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         $curts=Curt::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})-> where('status','!=','accept_without_master')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->oldest()->get();
         $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->oldest()->get();
-        $plans=Plan::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->oldest()->get();
+        $plans=Plan::whereType('primary')->where('confirm_master','1')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->oldest()->get();
 
         return view('admin.session.create',compact(['user','curts','subjects','group','plans']));
     }
@@ -225,7 +225,7 @@ class SessionController extends Controller
 
         $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->oldest()->get();
         $subjects=$subjects->merge($session->subjects);
-        $plans=Plan::whereType('primary')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->oldest()->get();
+        $plans=Plan::whereType('primary')->where('confirm_master','1')->where(function ($query){$query->where('status','!=','accept')-> orWhere('status',null);})->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->oldest()->get();
         $plans=$plans->merge($session->plans);
         // $curts=Curt::whereType('primary')->where('status','!=','accept')->where('side','0')->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();
         // $subjects=Subject::whereStatus(null)->whereIn('group_id',$user->groups->pluck('id')->toArray())->get();

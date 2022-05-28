@@ -196,6 +196,9 @@ class PlanController extends Controller
      */
     public function update(Request $request, Plan $plan)
     {
+        if($plan->type=='secondary'){
+            return back();
+        }
 
         $data = $request->validate([
             'title' => 'required',

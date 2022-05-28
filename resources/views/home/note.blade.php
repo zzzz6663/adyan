@@ -121,7 +121,8 @@
                                                     @case('review_curt_by_master')
                                                     @role('master')
 
-                                                  {{__('sentences.review_curt_by_master_duty_l',['student'=>$duty->student()->name.' '.$duty->student()->family,'group'=>$duty->curt->group->name])}}
+                                                  {{-- {{__('sentences.review_curt_by_master_duty_l',['student'=>$duty->student()->name.' '.$duty->student()->family,'group'=>$duty->curt->group->name])}} --}}
+                                                  {{__('sentences.review_curt_by_master_duty_l',['student'=>$duty->student()->name.' '.$duty->student()->family,'group'=>$duty->curt?$duty->curt->group->name:''])}}
 
                                                     @endrole
                                                     @break
@@ -243,8 +244,8 @@
                                                 <div class="font-weight-bolder "
                                                     data-toggle="view">
 
-                                                        {{$duty->type}}
-                                                        {{$duty->id}}
+                                                        {{-- {{$duty->type}}
+                                                        {{$duty->id}} --}}
                                                        {{-- {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}} --}}
                                                     @switch( $duty->type)
 
