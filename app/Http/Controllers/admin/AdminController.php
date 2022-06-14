@@ -297,12 +297,20 @@ class AdminController extends Controller
                 return redirect()->back()->withErrors(['msg' => __('alert.a52')]);
             }
           $log=  $user->logs()->where('type','register')->first();
-          Mail::to($user)->send(new UserMessage($request->reason,__('sentences.reason_title')));
+          try {
+
+            Mail::to($user)->send(new UserMessage($request->reason,__('sentences.reason_title')));
             if($log){
                 $log->delete();
             }
             $user->delete();
             $duty->delete();
+
+
+          } catch (\Exception $e) {
+
+              return $e->getMessage();
+          }
 
             alert()->success(__('alert.a51'));
         }

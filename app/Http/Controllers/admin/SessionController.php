@@ -125,12 +125,13 @@ class SessionController extends Controller
         $data['time']=$this->convert_date($data['time']);
 
         if(isset($data['curts'])){
-            $old_session= $session->curts()->where(function($query){
-                $query ->where('side','1');
-            })->orWherePivot('down','!=', null)->pluck('id')->toArray();
 
+            // $old_session= $session->curts()->where(function($query){
+            //     $query ->where('side','1');
+            // })->orWherePivot('down','!=', null)->pluck('id')->toArray();
+            // dd( $session->curts());
             $session->curts()->sync($data['curts']);
-            $session->curts()->syncWithoutDetaching($old_session);
+            // $session->curts()->syncWithoutDetaching($old_session);
             $first_curt=Curt::find($data['curts'][0]);
             if($first_curt){
                 $session->update(['group_id'=>$first_curt->group->id]);
@@ -148,11 +149,11 @@ class SessionController extends Controller
             }
         }
         if(isset($data['plans'])){
-            $old_plan= $session->plans()->where(function($query){
-                $query ->where('side','1');
-            })->pluck('id')->toArray();
+            // $old_plan= $session->plans()->where(function($query){
+            //     $query ->where('side','1');
+            // })->pluck('id')->toArray();
             $session->plans()->sync($data['plans']);
-            $session->plans()->syncWithoutDetaching($old_plan);
+            // $session->plans()->syncWithoutDetaching($old_plan);
             // $session->plans()->attach($data['plans']);
             $first_plan=Plan::find($data['plans'][0]);
             if($first_plan){

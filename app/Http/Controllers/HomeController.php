@@ -27,15 +27,22 @@ class HomeController extends Controller
 {
     public  function  aa()
     {
-        // Auth::loginUsingId(5, true);
+        Auth::loginUsingId(5, true);
         // $qu=User::find(1512);
         // $qu=User::whereCode('9923519421')->first();
-        // $qu=User::whereCode('9923519188')->first();
+        // $qu=User::whereCode('61922')->first();
+        // $qu=auth()->user();
+        // $qu->save_duty( [],[
+        //     'type'=>'define_guid',
+        //     'curt_id' =>226
+        //     ]
+        // , true);
+
         // $qu->save_duty( [],
         // [
-        //     'type' =>'edit_curt_by_student',
+        //     'type' =>'edit_plan_by_student',
         //     'operator_id'=>auth()->user()->id,
-        //     'curt_id' =>$qu->curt()->id
+        //     'plan_id' =>$qu->primary_plan()->id
         // ],true);
         // $qu->save_duty( [],['type'=>'submit_plan'], true);
         // $qu->update_status('plan');
@@ -317,7 +324,7 @@ class HomeController extends Controller
             $data = $request->validate([
                 'mobile' => 'nullable|unique:users,mobile,' . $user->id,
                 'whatsapp' => 'required|unique:users,whatsapp,' . $user->id,
-                'email' => 'required|unique:users,email,' . $user->id,
+                'email' => 'required|email|unique:users,email,' . $user->id,
             ]);
             $user->update($data);
 

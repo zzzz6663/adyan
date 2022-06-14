@@ -244,8 +244,8 @@
                                                 <div class="font-weight-bolder "
                                                     data-toggle="view">
 
-                                                        {{-- {{$duty->type}}
-                                                        {{$duty->id}} --}}
+                                                        {{-- {{$duty->type}} --}}
+                                                        {{-- {{$duty->id}} --}}
                                                        {{-- {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}} --}}
                                                     @switch( $duty->type)
 

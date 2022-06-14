@@ -138,7 +138,10 @@ class ShiftController extends Controller
             alert()->error(__('alert.a67')) ;
             return redirect()->route('user.note');
         }
-
+        if(!$shift->user->curt()){
+            alert()->error(__('alert.a62')) ;
+            return redirect()->route('user.note');
+        }
         $group=$shift->user->curt()->group;
       if (!$group){
         alert()->error(__('alert.a63')) ;
