@@ -46,6 +46,7 @@ class AdminController extends Controller
             return back();
         }
         $main_plan=$user->primary_plan();
+
         if(!$main_plan ){
 
             alert()->error(__('alert.a60'));
@@ -257,7 +258,7 @@ class AdminController extends Controller
 
 
         alert()->success(__('alert.a19'));
-        return back();
+        return redirect()->route('user.note');
     }
     public function see_profile_before_verify_student(Request $request, User $user, Duty $duty)
     {
@@ -381,19 +382,19 @@ class AdminController extends Controller
         //     return back();
         // }
         $data = $request->validate([
-            'title' =>'nullable',
-            'en_title' =>'nullable',
-            'tags' =>'nullable',
-            'en_tags' =>'nullable',
-            'problem' =>'nullable',
-            'necessity' =>'nullable',
-            'question' =>'nullable',
-            'sub_question' =>'nullable',
-            'hypo' =>'nullable',
-            'theory' =>'nullable',
-            'structure' =>'nullable',
-            'method' =>'nullable',
-            'source' =>'nullable',
+            'title' =>'nullable|max:1500',
+            'en_title' =>'nullable|max:1500',
+            'tags' =>'nullable|max:1500',
+            'en_tags' =>'nullable|max:1500',
+            'problem' =>'nullable|max:1500',
+            'necessity' =>'nullable|max:1500',
+            'question' =>'nullable|max:1500',
+            'sub_question' =>'nullable|max:1500',
+            'hypo' =>'nullable|max:1500',
+            'theory' =>'nullable|max:1500',
+            'structure' =>'nullable|max:1500',
+            'method' =>'nullable|max:1500',
+            'source' =>'nullable|max:1500',
             'concepts' =>'nullable|max:1500',
             'goals' =>'nullable|max:1500',
             'history' =>'nullable|max:1500',
@@ -509,10 +510,10 @@ class AdminController extends Controller
             $valid = $request->validate([
                 'title' => 'nullable|max:500',
                 'tags' => 'required|array|between:1,12',
-                'problem' => 'nullable',
-                'question' => 'nullable',
-                'necessity' => 'nullable',
-                'innovation' => 'nullable',
+                'problem' => 'nullable:max:1000',
+                'question' => 'nullable:max:1000',
+                'necessity' => 'nullable:max:1000',
+                'innovation' => 'nullable:max:1000',
                 'master_id' => 'nullable|exists:users,id',
                 'guid_id' => 'nullable|exists:users,id',
                 'note' => 'nullable|max:3500',
@@ -524,10 +525,10 @@ class AdminController extends Controller
             $valid = $request->validate([
                 'title' => 'nullable|max:500',
                 'tags' => 'required|array|between:1,12',
-                'problem' => 'nullable',
-                'question' => 'nullable',
-                'necessity' => 'nullable',
-                'innovation' => 'nullable',
+                'problem' => 'nullable:max:1000',
+                'question' => 'nullable:max:1000',
+                'necessity' => 'nullable:max:1000',
+                'innovation' => 'nullable:max:1000',
                 'master_id' => 'required_if:status,=,accept',
                 'guid_id' => 'nullable|exists:users,id',
                 'note' => 'nullable|max:3500',

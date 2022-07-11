@@ -1405,7 +1405,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="datatable-body" style="">
-                                    @foreach ($shifts=$user->shifts as $shift)
+                                    @foreach ($shifts=$user->shifts()->latest()->get() as $shift)
                                         <tr class="datatable-row" style="left: 0px;">
                                             <td class="datatable-cell text-center"><span>
                                                     {{ $loop->iteration  }}
@@ -1427,17 +1427,36 @@
 
                                         @if ($shift->change_master)
                                             {{__('sentences.change_master')}}  -
+                                                @if ($old_master=App\Models\User::find($shift->oldmaster_id))
                                                 قبلی:
+
+                                                        {{$old_master->name}}
+                                                        {{$old_master->family}}
+                                                @endif
 
                                         @endif
                                         @if ($shift->change_title)
                                         {{__('sentences.change_title')}} -
+                                         {{$shift->old_title}}
                                         @endif
                                         @if ($shift->change_guid)
                                         {{__('sentences.change_guid')}}-
+
+                                        @if ($old_guid=App\Models\User::find($shift->oldguid_id))
+                                        قبلی:
+
+                                                {{$old_guid->name}}
+                                                {{$old_guid->family}}
+                                        @endif
+
+
                                         @endif
                                         @if ($shift->change_group)
                                         {{__('sentences.change_group')}}-
+                                        @if ($old_group=App\Models\Group::find($shift->oldgroup_id))
+                                        قبلی:
+                                                {{$old_group->name}}
+                                        @endif
                                         @endif
 
                                         </span></td>

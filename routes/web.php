@@ -120,7 +120,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth','check_language'
     Route::post('default_quiz', 'QuizController@default_quiz')->middleware(['role:admin'])->name('admin.default.quiz');
     Route::resource('quiz', 'QuizController')->middleware(['role:expert|admin']);
     Route::resource('quiz.question', 'QuestionController')->middleware(['role:expert|admin']);
-    Route::resource('survey', 'SurveyController')->middleware(['role:master|admin','admin_group']);
+    Route::resource('survey', 'SurveyController')->middleware(['role:master|admin' ]);
     Route::get('session_confirm_show/{session}', 'SessionController@session_confirm_show')->middleware(['role:master'])->name('session.confirm.show');
     Route::post('session_confirm/{session}', 'SessionController@session_confirm')->middleware(['role:master'])->name('session.confirm');
     Route::get('all_session', 'SessionController@all_session')->middleware(['role:admin|master|expert'])->name('admin.all.session');

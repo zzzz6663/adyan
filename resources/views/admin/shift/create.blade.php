@@ -30,7 +30,7 @@
                                         <br>
                                         <!--begin::ویزارد گام 1-->
                                         <div class="row">
-
+                                            @if ($user->curt() && $user->curt()->master_id)
                                             <div class="col-xl-6">
                                                 <div class="form-group">
                                                     {{-- <label>     {{__('sentences.change_master')}}  </label> --}}
@@ -45,6 +45,7 @@
                                                     {{-- <span class="form-text text-muted">می توانید توضیحات در اینجا بنویسید</span> --}}
                                                 </div>
                                             </div>
+                                            @endif
                                             @if ($user->curt() && $user->curt()->group_id)
                                             <div class="col-xl-6">
                                                 <div class="form-group">

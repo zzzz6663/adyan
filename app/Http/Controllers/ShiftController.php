@@ -165,14 +165,14 @@ class ShiftController extends Controller
         ]);
 
         if($request->reject){
-            $user->save_log(['admin', 'expert'],['type'=>'reject_expert_shift','shift_id'=>$shift->id] , true);
+            $shift->user->save_log(['admin', 'expert'],['type'=>'reject_expert_shift','shift_id'=>$shift->id] , true);
             $shift->update([
                 'confirm_expert' =>'0',
                 'down' =>'1',
             ]);
         }
         if($request->accept){
-            $user->save_log(['admin', 'expert'],['type'=>'confirm_expert_shift','shift_id'=>$shift->id] , true);
+            $shift->user->save_log(['admin', 'expert'],['type'=>'confirm_expert_shift','shift_id'=>$shift->id] , true);
             $user->save_duty([ 'group'],['type'=>'verify_group_shift','shift_id'=>$shift->id ,'curt_id'=>$shift->user->curt()->id] );
             $shift->update([
                 'confirm_expert' =>'1',
@@ -197,11 +197,7 @@ class ShiftController extends Controller
             ]);
         }
         if($request->accept){
-            $shift->update([
-                'master_id' =>$user->id,
-                'confirm_master' =>'1',
-                'down' =>'1',
-            ]);
+
 
             if($shift->change_title){
                foreach  ($curt->sessions as $session){
@@ -227,6 +223,11 @@ class ShiftController extends Controller
               }
               $shift->user->save_log(['admin', 'expert'],['type'=>'confirm_group_shift','shift_id'=>$shift->id] , true);
               alert()->success(__('alert.a7')) ;
+              $shift->update([
+                'master_id' =>$user->id,
+                'confirm_master' =>'1',
+                'down' =>'1',
+            ]);
               return redirect()->route('user.note');
             }
 
@@ -248,7 +249,7 @@ class ShiftController extends Controller
                if($request->master_id){
                 if($curt){
                     foreach($curt->duties()->whereNull('time')->whereNotIn('type',['verify_group_shift','confirm_expert_shift'])->get() as $cduty){
-                        if( $cduty->side==0){
+                        if( $cduty->side==0 && $cduty->users->contains($request->master_id)){
                             $cduty->users()->detach($curt->master_id);
                             $cduty->users()->attach($request->master_id);
                         }
@@ -265,7 +266,7 @@ class ShiftController extends Controller
 
                 if($plan){
                     foreach($plan->duties()->whereNull('time')->whereNotIn('type',['verify_group_shift','confirm_expert_shift'])->get() as $pduty){
-                        if( $pduty->side==0){
+                        if( $pduty->side==0  && $pduty->users->contains($request->master_id)){
                             $pduty->users()->detach($plan->master_id);
                             $pduty->users()->attach($request->master_id);
                         }
@@ -281,7 +282,7 @@ class ShiftController extends Controller
                    $new_admin_group=Group::find($request->group_id)->admin();
                 if($curt){
                     foreach($curt->duties()->whereNull('time')->whereNotIn('type',['verify_group_shift','confirm_expert_shift'])->get() as $cduty){
-                        if( $cduty->side==0){
+                        if( $cduty->side==0  && $cduty->users->contains($old_admin_group->id)){
                             $cduty->users()->detach($old_admin_group->id);
                             $cduty->users()->attach($new_admin_group->id);
                         }
@@ -296,7 +297,7 @@ class ShiftController extends Controller
                 }
                 if($plan){
                     foreach($plan->duties()->whereNull('time')->whereNotIn('type',['verify_group_shift','confirm_expert_shift'])->get() as $pduty){
-                        if( $pduty->side==0){
+                        if( $pduty->side==0  && $pduty->users->contains($old_admin_group->id)){
                             $pduty->users()->detach($old_admin_group->id);
                             $pduty->users()->attach($new_admin_group->id);
                         }
@@ -315,6 +316,11 @@ class ShiftController extends Controller
           $shift->update([
               'master_id'=>$user->id
           ]);
+          $shift->update([
+            'master_id' =>$user->id,
+            'confirm_master' =>'1',
+            'down' =>'1',
+        ]);
         }
 
         $duty= $shift->duties()->whereType('verify_group_shift')->first();

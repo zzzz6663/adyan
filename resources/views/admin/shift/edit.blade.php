@@ -85,7 +85,7 @@
                                     <div class="col-xl-4">
                                         <div class="form-group fv-plugins-icon-container">
                                             <label>
-                                                {{__('sentences.select_final_master')}}
+                                                {{__('sentences.change_master')}}
                                             </label>
                                             <select name="master_id" id="master_id" class="form-control  select2">
                                                 <option value="">{{__('sentences.select_one')}} </option>
@@ -102,7 +102,7 @@
                                     <div class="col-xl-4">
                                         <div class="form-group fv-plugins-icon-container">
                                             <label>
-                                                {{__('sentences.select_final_master')}}
+                                                {{__('sentences.change_guid')}}
                                             </label>
                                             <select name="guid_id" id="guid_id" class="form-control  select2">
                                                 <option value="">{{__('sentences.select_one')}} </option>
@@ -121,7 +121,7 @@
                                     <div class="col-xl-4">
                                         <div class="form-group fv-plugins-icon-container">
                                             <label>
-                                                {{__('sentences.select_group')}}
+                                                {{__('sentences.change_group')}}
                                             </label>
                                             <select name="group_id" id="group_id" class="form-control  select2">
                                                 <option value="">{{__('sentences.select_one')}} </option>

@@ -74,9 +74,9 @@ class PlanController extends Controller
             'structure' => 'required',
             'method' => 'required',
             'source' => 'required',
-            'concepts' =>'required|max:1500',
-            'goals' =>'required|max:1500',
-            'history' =>'required|max:1500',
+            'concepts' =>'required|max:5000',
+            'goals' =>'required|max:5000',
+            'history' =>'required|max:5000',
             'report' => 'required|max:2048',
         ]);
 
@@ -213,10 +213,10 @@ class PlanController extends Controller
             'theory' => 'required',
             'structure' => 'required',
             'method' => 'required',
-            'concepts' =>'required|max:1500',
-            'goals' =>'required|max:1500',
-            'history' =>'required|max:1500',
-            'history' =>'required'
+            'concepts' =>'required|max:5000',
+            'goals' =>'required|max:5000',
+            'history' =>'required|max:5000',
+            'report' =>'nullable'
         ]);
 
         $user=auth()->user();

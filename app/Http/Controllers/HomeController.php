@@ -28,13 +28,17 @@ class HomeController extends Controller
     public  function  aa()
     {
         Auth::loginUsingId(5, true);
-        // $qu=User::find(1512);
-        // $qu=User::whereCode('9923519421')->first();
+        $master=User::find(1965);
+        // $plan=Plan::find(143);
+        // $plan->user->save_duty( ['list'=>[ $plan->master->id]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
+        // $plan->user->save_duty( ['list'=>[ $plan->master->id]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
+        // $qu=User::whereCode('991351946')->first();
+        // dump( $qu->primary_plan()->update(["confirm_master" => "1"]));
         // $qu=User::whereCode('61922')->first();
         // $qu=auth()->user();
         // $qu->save_duty( [],[
         //     'type'=>'define_guid',
-        //     'curt_id' =>226
+        //     'curt_id' =>76
         //     ]
         // , true);
 
@@ -70,10 +74,10 @@ class HomeController extends Controller
     }
     public  function  clear()
     {
-        Log::where('id', '>', 0)->delete();
-        Duty::where('id', '>', 0)->delete();
-        Curt::where('id', '>', 0)->delete();
-        alert()->success(__('alert.a8'));
+        // Log::where('id', '>', 0)->delete();
+        // Duty::where('id', '>', 0)->delete();
+        // Curt::where('id', '>', 0)->delete();
+        // alert()->success(__('alert.a8'));
         $exitCode = Artisan::call('optimize');
         return back();
 
@@ -138,10 +142,11 @@ class HomeController extends Controller
 
                     if ($user->verify != 1) {
 
-                        alert()->error(__('alert.a12'));
-                        return  back();
+                        // alert()->error(__('alert.a12'));
+                        // return  back();
 
                     } else {
+
                         return  redirect()->route('user.note');
                     }
                     break;
@@ -201,13 +206,13 @@ class HomeController extends Controller
 
             switch ($user->level) {
                 case 'student':
-
                     if ($user->verify != 1) {
 
                         alert()->error(__('alert.a12'));
-                        return  back();
+
 
                     } else {
+
                         return  redirect()->route('user.note');
                     }
                     break;
@@ -224,11 +229,11 @@ class HomeController extends Controller
                     return redirect()->route('user.note');
                     break;
             }
-            // return  redirect()->route('agent.create');
+            return redirect()->back();
         } else {
 
             alert()->error(__('alert.a16'));
-            return back();
+            return  redirect()->route('login');
         }
     }
 
@@ -237,6 +242,10 @@ class HomeController extends Controller
 
         $user = auth()->user();
         if ($user) {
+            if($user->level == 'student') {
+                $user->assignRole('student');
+                Auth::loginUsingId($user->id, true);
+            }
             return redirect()->route('user.register2');
         }
 
@@ -282,7 +291,7 @@ class HomeController extends Controller
                 //     return !$user->avatar();
                 // }),
 
-                'avatar' => 'nullable',
+                'avatar' => 'required',
                 'group' => 'required',
                 // 'whatsapp'=>'required',
                 // 'mobile'=>'required',
@@ -302,8 +311,6 @@ class HomeController extends Controller
                 'avatar' =>'nullable|max:500'
             ]);
             if ($request->hasFile('avatar')) {
-
-
                 $image = $request->file('avatar');
                 $name_img = 'avatar_' . $user->id . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path('/media/avatar/'), $name_img);

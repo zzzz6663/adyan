@@ -35,13 +35,19 @@ class StudentController extends Controller
                 return back();
             }
             $user->duty()->where('type','verify_curt')->first()->delete();
-            $user->curt()->update(['subject_id'=> $subject->id]);
+            $user->curt()->update([
+                'subject_id'=> $subject->id,
+                'master_id'=> $subject->master_id,
+                'group_id'=> $subject->group_id,
+            ]);
 
         } else {
             Curt::create([
                 'subject_id'=> $subject->id,
                 'user_id'=>$user->id,
                 'type'=>'primary',
+                'master_id'=> $subject->master_id,
+                'group_id'=> $subject->group_id,
             ]);
             $user->duties()->whereType('submit_curt')->first()->update(['subject_id', $subject->id,'time'=>Carbon::now()]);
             //  TODO  طرح تفضیلی
@@ -184,7 +190,10 @@ class StudentController extends Controller
                 $duty->update(['time' => Carbon::now()]);
 
                 $user->save_log(['admin', 'expert'],['type'=>'pass_quiz'] , true);
+                $submit_cuert_duty=$user->duties()->whereType('submit_curt')->first();
+            if(!$submit_cuert_duty){
                 $user->save_duty([],['type'=>'submit_curt'] , true);
+                }
             }
         }
 

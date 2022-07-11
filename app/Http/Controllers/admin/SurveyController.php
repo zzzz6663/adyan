@@ -36,6 +36,10 @@ class SurveyController extends Controller
     public function create()
     {
         $user= auth()->user();
+        if ( !$user->is_group_admin()){
+            alert()->error(__('alert.a57')) ;
+            return  redirect(route('user.note'));
+        }
         return view('admin.survey.create',compact(['user']));
     }
 
@@ -47,6 +51,11 @@ class SurveyController extends Controller
      */
     public function store(Request $request)
     {
+        $user =auth()->user();
+        if ( !$user->is_group_admin()){
+            alert()->error(__('alert.a57')) ;
+            return  redirect(route('user.note'));
+        }
         if($request->plans && $request->curts){
             return back()->withErrors(['message'=>__('sentences.same_curt_plan')]);
         }

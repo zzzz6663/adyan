@@ -126,7 +126,10 @@
                             <!--end: Title-->
 
                             <!--begin: Content-->
-                            <h3>{{$main_plan->title}}</h3>
+                            <h3>{{$main_plan->title}}
+
+
+                            </h3>
                             <div class="d-flex align-items-center flex-wrap justify-content-between">
                                 <div class="flex-grow-1 font-weight-bold text-dark-50 py-5 py-lg-2 mr-5">
                                     {{__('sentences.master_guid')}}:
