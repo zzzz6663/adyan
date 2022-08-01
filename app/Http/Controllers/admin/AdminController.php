@@ -276,7 +276,6 @@ class AdminController extends Controller
 
           // ثبت لاگ
 
-
         if($request->confirm){
             $user->save_log( ['admin', 'expert'],['type'=>'verify','operator_id'=>auth()->user()->id], true );
             $user->save_duty( [],['type'=>'student_go_quiz'], true);
@@ -613,7 +612,8 @@ class AdminController extends Controller
                         // 'status' => 'edit_curt_by_student',
                         'status' => 'accept',
                         'side' => '1',
-                        'down' => Carbon::now()
+                        'down' => Carbon::now(),
+                        'master_id' =>  $valid['master_id']
 
                     ]);
                     $curt->user->save_log(['admin', 'expert', 'group'],
@@ -625,8 +625,16 @@ class AdminController extends Controller
                     ]
                     ,true );
 
-                    $curt->user->save_duty( [],['type'=>'submit_plan'], true);
-                    $curt->user->update_status('plan');
+                    // $curt->user->save_log( ['admin','list'=>[ $valid['master_id']]],
+                    // [
+                    //     'type'=>'select_curt_master',
+                    //     'operator_id'=> auth()->user()->id,
+                    //     'curt_id' =>$curt->id,
+                    // ]
+                    // , true);
+                    $user->save_duty([ 'expert'],['type'=>'check_and_confirm_master_id','curt_id'=>$curt->id] );
+                    // $curt->user->save_duty( [],['type'=>'submit_plan'], true);
+                    // $curt->user->update_status('plan');
                     $curt->update(['status'=>'accept']);
                     break;
                 case 'accept_without_master':
@@ -679,18 +687,7 @@ class AdminController extends Controller
 
 
 
-        if (isset($valid['master_id'])) {
-            $curt->update([
-                'master_id' =>  $valid['master_id']
-            ]);
-            $curt->user->save_log( ['admin','list'=>[ $valid['master_id']]],
-            [
-                'type'=>'select_curt_master',
-                'operator_id'=> auth()->user()->id,
-                'curt_id' =>$curt->id,
-            ]
-            , true);
-        }
+
         if (isset($valid['guid_id'])) {
             $curt->update([
                 'guid_id' =>  $valid['guid_id']
@@ -748,13 +745,19 @@ class AdminController extends Controller
     public function define_guid(Request $request, Curt $curt){
 
         if ( $request->isMethod('post')) {
+
             $duty=Duty::where('curt_id', $curt->id)->whereType('define_guid')->where('time',null)->latest()->first();
-            $duty->update([
-                'time' =>Carbon::now()
-            ]);
+            if(!$duty){
+                alert()->error(__('alert.a67'));
+                return redirect()->route('user.note');
+            }
+
 
             $data=$request->validate([
                 'master_id'=>'required'
+            ]);
+            $duty->update([
+                'time' =>Carbon::now()
             ]);
             $curt->user->save_log( ['admin','group','list'=>[$data['master_id']]],
             [
@@ -763,13 +766,54 @@ class AdminController extends Controller
                 'curt_id' =>$curt->id,
             ]
             , true);
-            $curt->user->save_duty( [],['type'=>'submit_plan'], true);
-            $curt->user->update_status('plan');
+
+           $user= auth()->user();
+            $user->save_duty([ 'expert'],['type'=>'check_and_confirm_master_id','curt_id'=>$curt->id] );
+            // $curt->user->save_duty( [],['type'=>'submit_plan'], true);
+            // $curt->user->update_status('plan');
             $curt->update($data);
            alert()->success(__('alert.a54'));
             return redirect()->route('user.note');
         }
         return view('curt.define_guid' ,compact(['curt']));
+    }
+    public function expert_confirm_master_before_plan(Request $request, Curt $curt){
+
+        if ( $request->isMethod('post')) {
+              $duty=Duty::where('curt_id', $curt->id)->whereType('check_and_confirm_master_id')->where('time',null)->latest()->first();
+              $duty->update([
+                'time' =>Carbon::now()
+            ]);
+
+            if($request->confirm){
+            $curt->user->save_duty( [],['type'=>'submit_plan'], true);
+            $curt->user->update_status('plan');
+            $curt->user->save_log( ['expert','group','list'=>[$curt->user->id,$curt->master()->id]],
+            [
+                'type'=>'expert_confirm_master',
+                'operator_id'=> auth()->user()->id,
+                'curt_id' =>$curt->id,
+            ]
+            , true);
+            }
+            if($request->reject){
+                $curt->group->admin()->save_duty( [],[
+                    'type'=>'define_guid',
+                    'curt_id' =>$curt->id,
+                    ]
+                , true);
+                $curt->user->save_log( ['expert','group','list'=>[$curt->user->id,$curt->master()->id]],
+                [
+                    'type'=>'expert_reject_master',
+                    'operator_id'=> auth()->user()->id,
+                    'curt_id' =>$curt->id,
+                ]
+                , true);
+            }
+           alert()->success(__('alert.a54'));
+            return redirect()->route('user.note');
+        }
+        return view('curt.confirm_master' ,compact(['curt']));
     }
 
     public function my_mission(){

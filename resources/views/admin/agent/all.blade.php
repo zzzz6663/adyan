@@ -378,8 +378,7 @@
                                                  ?>
 
                                             @if ($last_quiz)
-
-                                            {{$last_quiz->pivot->status=='1'?__('sentences.passed'):__('sentences.faild')}}
+                                            {{$last_quiz->pivot->result=='1'?__('sentences.passed'):__('sentences.faild')}}
                                             @endif
                                         </span>
                                     </td>

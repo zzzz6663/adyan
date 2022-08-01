@@ -212,6 +212,13 @@
                                                     @break
 
 
+                                                    @case('check_and_confirm_master_id')
+                                                    @role('expert')
+                                                      {{__('sentences.confirm_master_before_plan_title',['student'=>$duty->curt->user->name.' '.$duty->curt->user->family,'code'=>$duty->curt->user->code,'group'=>$duty->curt?$duty->curt->group->name:''])}}
+                                                    @endrole
+                                                    @break
+
+
 
 
 
@@ -243,8 +250,11 @@
                                                 <!--begin::تاریخtime-->
                                                 <div class="font-weight-bolder "
                                                     data-toggle="view">
-
-                                                        {{-- {{$duty->type}} --}}
+<script>
+    console.log('id'+{{$duty->id}})
+    console.log('type'+"{{$duty->type}}")
+</script>
+                                                        {{-- {{$duty->type}}  --}}
                                                         {{-- {{$duty->id}} --}}
                                                        {{-- {{Morilog\Jalali\Jalalian::forge($duty->created_at)->ago()}} --}}
                                                     @switch( $duty->type)
@@ -292,6 +302,14 @@
                                                     <a class="btn btn-primary" href="{{route('admin.show.curt',$duty->curt->id)}}">
                                                         {{__('sentences.verify_curt')}}
                                                         {{-- {{$duty->curt->title}} --}}
+                                                     </a>
+                                                    @endrole
+                                                    @break
+                                                    @case('check_and_confirm_master_id')
+                                                    @role('expert')
+                                                    <a class="btn btn-primary" href="{{route('admin.expert.confirm.master.before.plan',$duty->curt->id)}}">
+                                                        {{__('sentences.verify_master')}}
+
                                                      </a>
                                                     @endrole
                                                     @break

@@ -3,6 +3,22 @@ require('./bootstrap');
 
 window.onload = function() {
     if (window.jQuery) {
+
+        $('form').submit(function() {
+            setTimeout(
+          function()
+          {
+            $(this).find("button[type='submit']").hide(400)
+          $(this).find("input[type='submit']").hide(400)
+
+        //   $(this).find("button[type='submit']").prop('disabled',true);
+        //   $(this).find("input[type='submit']").prop('disabled',true);
+          }, 1000);
+
+
+        });
+
+
         if ($('#quiz_p').length){
             window.history.pushState(null, "", window.location.href);
             window.onpopstate = function() {

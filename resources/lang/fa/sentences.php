@@ -579,7 +579,13 @@ return [
     'shift_table'=>'جدول درخواست های اداری',
     'shift_list'=>'اینجا لیست اخرین درخواست های اداری میتوانید مشاهده کنید ',
     'student_guid'=>'راهنمای کاربر',
-    ''=>'',
+    'confirm_master_before_plan_title'=>'گروه :group درخواست  بررسی استاد راهنما طرح اجمالی دانشجو :student (:code) قبل از طرح تفضیلی داشته است',
+    'verify_master'=>'بررسی استاد راهنما',
+    'expert_reject_master_title'=>'نتیجه بررسی استاد',
+    'expert_reject_master_content'=>'    ناظر :expert استاد راهنمای طرح اجمالی دانشجو :student (:code) را رد کرد',
+    'expert_confirm_master_title'=>'نتیجه بررسی استاد',
+    'expert_confirm_master_content'=>'    ناظر :expert استاد راهنمای طرح اجمالی دانشجو :student (:code) را تایید کرد',
+   
     ''=>'',
 
 

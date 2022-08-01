@@ -105,6 +105,7 @@ Route::prefix('admin')->namespace('admin')->middleware([ 'auth','check_language'
     Route::post('/save_curt_master/{curt}','AdminController@save_curt_master')->middleware(['role:master'])->name('admin.save.curt.master');
     Route::post('/save_curt_group/{curt}','AdminController@save_curt_group')->middleware(['role:expert'])->name('admin.save.curt.group');
     Route::any('/define_guid/{curt}','AdminController@define_guid')->middleware(['role:master'])->name('admin.define.guid');
+    Route::any('/expert_confirm_master_before_plan/{curt}','AdminController@expert_confirm_master_before_plan')->middleware(['role:expert'])->name('admin.expert.confirm.master.before.plan');
     Route::any('/basic_info1','AgentController@basic_info1')->middleware(['role:admin'])->name('admin.basic.info1');
     Route::any('/basic_info2/{curt?}','AgentController@basic_info2')->middleware(['role:admin'])->name('admin.basic.info2');
     Route::get('/masters','AgentController@masters')->middleware(['role:admin|master|expert','admin_group'])->name('agent.masters');

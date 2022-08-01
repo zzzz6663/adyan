@@ -119,7 +119,13 @@
                     @case('confirm_group_shift')
                     <img alt="Pic" src="{{$log->student()->avatar()}}">
                     @break
+                    @case('expert_reject_master')
+                    <img alt="Pic" src="{{$log->student()->avatar()}}">
+                    @break
 
+                    @case('expert_confirm_master')
+                    <img alt="Pic" src="{{$log->student()->avatar()}}">
+                    @break
 
 
                     @default
@@ -271,6 +277,14 @@
 
                             @case('confirm_group_shift')
                             {{__('sentences.confirm_group_shift_log_title')}}
+                            @break
+
+
+                            @case('expert_reject_master')
+                            {{__('sentences.expert_reject_master_title')}}
+                            @break
+                            @case('expert_confirm_master')
+                            {{__('sentences.expert_confirm_master_title')}}
                             @break
 
 
@@ -469,6 +483,21 @@
                         @case('reject_expert_shift')
                         <span class=" ">
                             {{__('sentences.reject_expert_shift_content',['student'=>$log->shift->user->name.' '.$log->shift->user->family,'expert'=>$log->shift->expert->name.' '.$log->shift->expert->family])}}
+                        </span>
+                        @break
+
+                        @case('expert_reject_master')
+                        <span class=" ">
+                            {{__('sentences.expert_reject_master_content',['student'=>$log->curt->user->name.' '.$log->curt->user->family,
+                            'expert'=>$log->operator()->name.' '.$log->operator()->family,'code'=>$log->curt->user->code
+                            ])}}
+                        </span>
+                        @break
+                        @case('expert_confirm_master')
+                        <span class=" ">
+                            {{__('sentences.expert_confirm_master_content',['student'=>$log->curt->user->name.' '.$log->curt->user->family,
+                            'expert'=>$log->operator()->name.' '.$log->operator()->family,'code'=>$log->curt->user->code
+                            ])}}
                         </span>
                         @break
 

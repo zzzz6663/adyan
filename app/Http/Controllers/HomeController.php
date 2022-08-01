@@ -28,8 +28,14 @@ class HomeController extends Controller
     public  function  aa()
     {
         Auth::loginUsingId(5, true);
-        $master=User::find(1965);
-        // $plan=Plan::find(143);
+        // $master=User::find(1965);
+        // $curt=Curt::find(411);
+        // $curt->group->admin()->save_duty( [],[
+        //     'type'=>'define_guid',
+        //     'curt_id' =>$curt->id,
+        //     ]
+        // , true);
+        $plan=Plan::find(104);
         // $plan->user->save_duty( ['list'=>[ $plan->master->id]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
         // $plan->user->save_duty( ['list'=>[ $plan->master->id]],['type'=>'verify_plan_by_master','plan_id'=>$plan->id],false);
         // $qu=User::whereCode('991351946')->first();

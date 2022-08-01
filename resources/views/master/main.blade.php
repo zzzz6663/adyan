@@ -30,9 +30,9 @@
 display:none !important;
         }
         /* remove X from locked tag */
-.locked-tag .select2-selection__choice__remove{
+/* .locked-tag .select2-selection__choice__remove{
   display: none!important;
-}
+} */
 @media (max-width: 600px) {
   .bob {
     border-top: 12px solid #e1e2f6!important;
@@ -274,6 +274,8 @@ display:none !important;
 },
 "font-family": "Poppins"
 };
+
+
 </script>
 </body>
 @include('sweet::alert')
